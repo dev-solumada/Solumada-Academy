@@ -30,7 +30,7 @@ function verify_mail() {
 }
 //verify m_code
 function verify_code() {
-    var mcode = document.getElementById("mcode");
+    var mcode = document.getElementById("m_code");
     if (mcode.value != "") {
         ec.style.display = "none";
         mcode.removeAttribute("style");
@@ -72,22 +72,15 @@ function verify_all() {
 function add_new_employee() {
     var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;
-    var m_code = document.getElementById("mcode").value;
+    var m_code = document.getElementById("m_code").value;
     var num_agent = document.getElementById("num_agent").value;
     var type_util = document.getElementById("type_util").value;
-    var niveau = document.getElementById("Niveau").value;
-    var heure = document.getElementById("Heure").value;
-    var groupe = document.getElementById("Groupe").value;
-    var cours = document.getElementById("cours").value;
-    sendRequest('/addemp',name,  email, m_code, num_agent, type_util, niveau, heure, groupe, cours);
+    sendRequest('/addemp',name,  email, m_code, num_agent, type_util);
 }
-function sendRequest(url, name, email, m_code, num_agent, type_util, niveau, heure, groupe, cours) {
+function sendRequest(url, name, email, m_code, num_agent, type_util) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
-    // console.log("Niveau == ", niveau);
-    // console.log("Heure == ", heure);
-    // console.log("Groupe == ", groupe);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -101,10 +94,19 @@ function sendRequest(url, name, email, m_code, num_agent, type_util, niveau, heu
                 success.style.display = "block";
                 error.style.display = "none";
                 success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+                resetForm();
             }
         }
     };
-    http.send("name=" + name + "&email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util +  "&niveau=" + niveau + "&heure=" + heure + "&groupe=" + groupe + "&cours=" + cours);
+    http.send("name=" + name + "&email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
+}
+
+function resetForm(){
+    document.getElementById("name").value = '';
+    document.getElementById("email").value = '';
+    document.getElementById("m_code").value = '';
+    document.getElementById("num_agent").value = '';
+    document.getElementById("type_util").value = '';
 }
 
 function test() {

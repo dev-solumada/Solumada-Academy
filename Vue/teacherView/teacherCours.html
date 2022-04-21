@@ -49,63 +49,44 @@
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-
-                    <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
-                    <li>
-                        <a href="/accueilAdmin"> <i class="menu-icon fa fa-home"></i>Home </a>
-                    </li>
-                    <li>
-                        <a href="/listeUser"> <i class="menu-icon fa fa-users"></i>Users </a>
-                    </li>
-
-                    <li class="menu-item-has-children active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li class="dropdown menu-item-has-children">
-                                <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
-                                <ul class="sub-menu children">
-                                    <% listcourOblig.forEach(function(listcourOblig) { %>
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
-                                                href="/listeCours/<%= listcourOblig.name_Cours %>"
-                                                onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
-                                                <%= listcourOblig.name_Cours %>
-                                            </a></li>
-                                        <% }); %>
-                                </ul>
-                            </li>
-
-                            <li class="menuCours">
-                                <i class="fa fa-bookmark-o"></i><a class="obg-item" href="">Optional</a>
-                                <ul class="sub-menu children">
-                                    <% listcourFac.forEach(function(listcourFac) { %>
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
-                                                href="/listeCours/<%= listcourFac.name_Cours %>"
-                                                onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')">
-                                                <%= listcourFac.name_Cours %>
-                                            </a></li>
-                                        <% }); %>
-                                </ul>
-                            </li>
-
-                            <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
-
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/adminGraduation"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
-                    </li>
-                    <li>
-                        <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global View </a>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
+              <ul class="nav navbar-nav">
+                <h3 class="menu-title text-center">MENU</h3>
+                <!-- /.menu-title -->
+                <li>
+                  <a href="/teacherHome">
+                    <i class="menu-icon fa fa-home"></i>Home
+                  </a>
+                </li>
+                <li class="menu-item-has-children active dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="menu-icon fa fa-book"></i>My Cours</a
+                  >
+                  <ul class="sub-menu children dropdown-menu">
+                    <% listcours.forEach(listcours => { %>
+                      <li class="dropdown menu-item-has-children">
+                        <i class="fa fa-bookmark"></i>
+                        <a href="/teacherCours/<%= listcours.name_Cours %>" 
+                          onclick="getdataGP('/getdataGP','<%= listcours.name_Cours %>')"
+                           id="obg-item"><%= listcours.name_Cours%></a>
+                      </li>
+                      
+                    <%});
+                    %>
+                  </ul>
+                </li>
+                <li>
+                  <a href="/teacherGlobalView">
+                    <i class="menu-icon fa fa-eye"></i>Global view
+                  </a>
+                </li>
+              </ul>
+            </div>
         </nav>
     </aside><!-- /#left-panel -->
 
@@ -624,12 +605,10 @@
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <center>
-                                                    <small class="alert-danger" id="error"
-                                                        style="display: none;color:red"></small>
-                                                    <small class="alert-success" id="success"
-                                                        style="display: none;color:green"></small>
-                                                </center>
+                                                <small class="alert alert-danger text-center" role="alert" id="error"
+                                                    style="display: none;color:red"></small>
+                                                <small class="alert alert-success text-center" role="alert" id="success"
+                                                    style="display: none;color:green"></small>
                                             </div>
                                         </div>
                                         <div class="col col-md-3"><label for="groupName"
@@ -964,7 +943,7 @@
     <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="../assets/js/list-groupe.js"></script>
+    <script src="../assets/js/list-groupe-prof.js"></script>
 
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>

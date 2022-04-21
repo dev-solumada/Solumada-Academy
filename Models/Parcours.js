@@ -5,7 +5,9 @@ const Parcours = mongoose.Schema({
     groupe: String,
     heureStart: String,
     heureFin: String,
-    cours: String
+    cours: String,
+    presence: Boolean,
+    user: String
 })
 
 module.exports = mongoose.model('Parcours', Parcours);

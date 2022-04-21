@@ -5,39 +5,39 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Admin | Home</title>
+    <title>Solumada Academy | Teacher - Home</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="apple-touch-icon" href="./assets/basetemplate/images/logo.jpg" />
-    <link rel="shortcut icon" href="./assets/basetemplate/images/logo.jpg" />
+    <link rel="apple-touch-icon" href="../assets/basetemplate/images/logo.jpg" />
+    <link rel="shortcut icon" href="../assets/basetemplate/images/logo.jpg" />
 
     <link
       rel="stylesheet"
-      href="./assets/basetemplate/vendors/bootstrap/dist/css/bootstrap.min.css"
+      href="../assets/basetemplate/vendors/bootstrap/dist/css/bootstrap.min.css"
     />
     <link
       rel="stylesheet"
-      href="./assets/basetemplate/vendors/font-awesome/css/font-awesome.min.css"
+      href="../assets/basetemplate/vendors/font-awesome/css/font-awesome.min.css"
     />
     <link
       rel="stylesheet"
-      href="./assets/basetemplate/vendors/themify-icons/css/themify-icons.css"
+      href="../assets/basetemplate/vendors/themify-icons/css/themify-icons.css"
     />
     <link
       rel="stylesheet"
-      href="./assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css"
+      href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css"
     />
     <link
       rel="stylesheet"
-      href="./assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css"
+      href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css"
     />
     <link
       rel="stylesheet"
-      href="./assets/basetemplate/vendors/jqvmap/dist/jqvmap.min.css"
+      href="../assets/basetemplate/vendors/jqvmap/dist/jqvmap.min.css"
     />
 
-    <link rel="stylesheet" href="./assets/basetemplate/assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/basetemplate/assets/css/style.css" />
 
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800"
@@ -64,10 +64,10 @@
             <i class="fa fa-bars"></i>
           </button>
           <a class="navbar-brand" href="./"
-            ><img src="./assets/basetemplate/images/logo.jpg" alt="Logo"
+            ><img src="../assets/basetemplate/images/logo.jpg" alt="Logo"
           /></a>
           <a class="navbar-brand hidden" href="./"
-            ><img src="./assets/basetemplate/images/logo2.png" alt="Logo"
+            ><img src="../assets/basetemplate/images/logo2.png" alt="Logo"
           /></a>
         </div>
 
@@ -76,16 +76,10 @@
             <h3 class="menu-title text-center">MENU</h3>
             <!-- /.menu-title -->
             <li>
-              <a href="/accueilAdmin">
+              <a href="/teacherHome">
                 <i class="menu-icon fa fa-home"></i>Home
               </a>
             </li>
-            <li>
-              <a href="/listeUser">
-                <i class="menu-icon fa fa-users"></i>Users
-              </a>
-            </li>
-
             <li class="menu-item-has-children active dropdown">
               <a
                 href="#"
@@ -94,51 +88,23 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i class="menu-icon fa fa-book"></i>Cours</a
+                <i class="menu-icon fa fa-book"></i>My Cours</a
               >
               <ul class="sub-menu children dropdown-menu">
-                <li class="dropdown menu-item-has-children">
-                  <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
-                  <ul class="sub-menu children">
-                    <% listcourOblig.forEach(function(listcourOblig) { %>
-                    <li class="sub-menu-item">
-                      <i class="fa fa-arrow-circle-o-right"></i
-                      ><a
-                        href="/listeCours/<%= listcourOblig.name_Cours %>"
-                        onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"
-                      >
-                        <%= listcourOblig.name_Cours %></a
-                      >
-                    </li>
-                    <% }); %>
-                  </ul>
-                </li>
-
-                <li class="menuCours">
-                  <i class="fa fa-bookmark-o"></i
-                  ><a class="obg-item" href="">Optional</a>
-                  <ul class="sub-menu children">
-                    <% listcourFac.forEach(function(listcourFac) { %>
-                    <li class="sub-menu-item">
-                      <i class="fa fa-arrow-circle-o-right"></i
-                      ><a
-                        href="/listeCours/<%= listcourFac.name_Cours %>"
-                        onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"
-                        ><%= listcourFac.name_Cours %></a
-                      >
-                    </li>
-                    <% }); %>
-                  </ul>
-                </li>
-
-                <li class="menuCours">
-                  <i class="fa fa-bookmark"></i
-                  ><a href="/listeCours">All Cours</a>
-                </li>
+                <% cours.forEach(cours => { %>
+                  <li class="dropdown menu-item-has-children">
+                    <i class="fa fa-bookmark"></i>
+                    <a href="/teacherCours/<%= cours.name_Cours %>" 
+                      onclick="getdataGP('/getdataGP','<%= cours.name_Cours %>')"
+                       id="obg-item"><%= cours.name_Cours%></a>
+                  </li>
+                  
+                <%});
+                %>
               </ul>
             </li>
             <li>
-              <a href="/adminGlobalview">
+              <a href="/teacherGlobalView">
                 <i class="menu-icon fa fa-eye"></i>Global view
               </a>
             </li>
@@ -177,7 +143,7 @@
               >
                 <img
                   class="user-avatar rounded-circle"
-                  src="./assets/basetemplate/images/admin.jpg"
+                  src="../assets/basetemplate/images/admin.jpg"
                   alt="User Avatar"
                 />
               </a>
@@ -231,47 +197,20 @@
 
     <!-- Right Panel -->
 
-    <script src="./assets/js/list-groupe.js"></script>
-    <script src="./assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="./assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
-    <script src="./assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./assets/basetemplate/assets/js/main.js"></script>
-    <script src="./assets/basetemplate/vendors/chart.js/dist/Chart.bundle.min.js"></script>
-    <script src="./assets/basetemplate/assets/js/dashboard.js"></script>
-    <script src="./assets/basetemplate/assets/js/widgets.js"></script>
-    <script src="./assets/basetemplate/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="./assets/basetemplate/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <script src="./assets/basetemplate/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script>
-      (function ($) {
-        "use strict";
+    <script src="../assets/js/list-groupe.js"></script>
+    <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../assets/basetemplate/assets/js/main.js"></script>
 
-        jQuery("#vmap").vectorMap({
-          map: "world_en",
-          backgroundColor: null,
-          color: "#ffffff",
-          hoverOpacity: 0.7,
-          selectedColor: "#1de9b6",
-          enableZoom: true,
-          showTooltip: true,
-          values: sample_data,
-          scaleColors: ["#1de9b6", "#03a9f5"],
-          normalizeFunction: "polynomial",
-        });
-      })(jQuery);
+    <script src="../assets/js/list-groupe-prof.js"></script>
 
-      $(document).ready(() => {
-        $(".obliItems").click(function () {
-          $(".sub-menu-2").toggle(
-            function () {
-              $(this).addClass("hide");
-            },
-            function () {
-              $(this).removeClass("display");
-            }
-          );
-        });
-      });
-    </script>
+    <script src="../assets/basetemplate/vendors/chart.js/dist/Chart.bundle.min.js"></script>
+    <script src="../assets/basetemplate/assets/js/dashboard.js"></script>
+    <script src="../assets/basetemplate/assets/js/widgets.js"></script>
+    <script src="../assets/basetemplate/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+    <script src="../assets/basetemplate/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="../assets/basetemplate/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+
   </body>
 </html>

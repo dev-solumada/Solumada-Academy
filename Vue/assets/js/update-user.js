@@ -1,6 +1,8 @@
 var error = document.getElementById("error");
 var success = document.getElementById("success");
 var first = document.getElementById("first");
+var btns = document.getElementById("saveChange");
+
 
 //Verify mail
 function verify_mail() {
@@ -68,8 +70,19 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
-        console.log("type_util == "+ data[3]);
-        username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
+        //console.log("type_util == "+ data[3]);
+
+        var username = document.getElementById("name_update");
+        var email = document.getElementById("email_update");
+        var m_code = document.getElementById("m_code_update");
+        var num_agent = document.getElementById("num_agent_update");
+        var type_util = document.getElementById("type_util_update");
+ 
+        username.value = data[0];
+        email.value = data[1]
+        m_code.value = data[2];
+        num_agent.value = data[3]; 
+        type_util.value = data[4];
         btnu.disabled = false;
         ids = id;
       }
@@ -95,7 +108,7 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
             }
         }
     };
-    http.send("email=" + email + "&mcode=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
+    http.send("username=" + username + "&email=" + email + "&mcode=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
 }
 
 

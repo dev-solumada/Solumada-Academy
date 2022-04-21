@@ -46,45 +46,43 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    
-                    <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
-                    <li>
-                        <a href="/accueilAdmin"> <i class="menu-icon fa fa-home"></i>Home </a>
-                    </li>
-                    <li>
-                        <a href="/listeUser"> <i class="menu-icon fa fa-users"></i>Users </a>
-                    </li>
-
-                    <li class="menu-item-has-children active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li class="dropdown menu-item-has-children">
-                                <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
-                                <ul class="sub-menu children">
-                                    <% listcourOblig.forEach(function(listcourOblig) { %>
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a href="/listeCours/<%= listcourOblig.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"> <%= listcourOblig.name_Cours %></a></li>
-                                    <% }); %>
-                                </ul>
-                            </li>
-
-                            <li class="menuCours">
-                                <i class="fa fa-bookmark-o"></i><a class="obg-item" href="">Optional</a>
-                                <ul class="sub-menu children">
-                                    <% listcourFac.forEach(function(listcourFac) { %>
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a href="/listeCours/<%= listcourFac.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"><%= listcourFac.name_Cours %></a></li>
-                                    <% }); %>
-                                </ul>
-                            </li>
-                
-                            <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
-
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global view </a>
-                    </li>
+                  <h3 class="menu-title text-center">MENU</h3>
+                  <!-- /.menu-title -->
+                  <li>
+                    <a href="/teacherHome">
+                      <i class="menu-icon fa fa-home"></i>Home
+                    </a>
+                  </li>
+                  <li class="menu-item-has-children active dropdown">
+                    <a
+                      href="#"
+                      class="dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i class="menu-icon fa fa-book"></i>My Cours</a
+                    >
+                    <ul class="sub-menu children dropdown-menu">
+                      <% cours.forEach(cours => { %>
+                        <li class="dropdown menu-item-has-children">
+                          <i class="fa fa-bookmark"></i>
+                          <a href="/teacherCours/<%= cours.name_Cours %>" 
+                            onclick="getdataGP('/getdataGP','<%= cours.name_Cours %>')"
+                             id="obg-item"><%= cours.name_Cours%></a>
+                        </li>
+                        
+                      <%});
+                      %>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="/teacherGlobalView">
+                      <i class="menu-icon fa fa-eye"></i>Global view
+                    </a>
+                  </li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
+              </div>
         </nav>
     </aside><!-- /#left-panel -->
 
@@ -194,8 +192,8 @@
                                                             <option class="text-center" value="1">Anglais Niveau Biginning</option>
                                                             <option class="text-center" value="1">Excel Niveau Biginning</option>
                                                         </select>
-                                                        <!-- <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button> -->
+                                                        <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
                                                         </div>
                                                 </td>
                                                 <td>
