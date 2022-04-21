@@ -2063,6 +2063,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
+    console.log("cours ======== ", cours, groupe, heureStart, heureFin, date);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
