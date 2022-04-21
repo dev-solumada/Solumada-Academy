@@ -561,8 +561,12 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
                         }
                     }
                 ])
-                console.log("cours", membre);
-                res.render("./teacherView/teacherGlobalView.html", {  membre: membre, cours: cours});
+                var point =  await Point.find({ validation: true });
+                var grad =  await Graduation.find({ validation: true });
+                // console.log("point == ", point);
+                // console.log("membre == ", membre);
+                // console.log("cours", membre);
+                res.render("./teacherView/teacherGlobalView.html", { point:point, grad:grad, membre: membre, cours: cours});
             });
     // }
     // else {
