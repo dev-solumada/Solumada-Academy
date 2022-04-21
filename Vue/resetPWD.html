@@ -6,24 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
   integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <title>Reset Password</title>
+  <link rel="stylesheet" href="./assets/basetemplate/vendors/font-awesome/css/font-awesome.min.css">
+  <title>Solumada | Reset Password</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+    body{
+      background: linear-gradient(#9ed40a, #82943a);
+    }
+
+    .text-center
+    {
+      margin-bottom: 20px;
+    }
+
+    #txt-sol {
+      color: #6a7a2b;
+      font-size: 46px;
+      font-weight: bolder;
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 3px;
+  }
+  
+  #txt-acd {
+      color: #ca2611;
+      font-size: 36px;
+      font-weight: bolder;
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 3px;
+  }
+
+  i {
+    font-family: sans-serif;
+  }
+
+  </style>
 </head>
 <body>
   <div class="container-fluid">
     <div class="row" style="height:100vh;">
       <div class="col-12 d-flex justify-content-center">
         <div class="row my-auto">
+          <div class="col-sm-12">
+              <div class="text-center">
+                <h3 id="txt-sol">Solumada</h3>
+                <h3 id="txt-acd">Academie</h3>
+              </div>
+          </div>
           <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card my-auto" style="width:100%">
-              <div class="card-header text-center">RESET MY PASSWORD</div>
+              <div class="card-header text-center text-bold">RESET MY PASSWORD</div>
             <div class="card-body p-2 d-flex text-center justify-content-center">
-              <div class="m-auto">
+              <div class="mb-2">
                 <div class="alert alert-info">
                     <h6 class="my-auto text-semibold">Enter your username here</h6>
                 </div>
     
                 <form action="/code" method="post">
-                    <div class="form-group mb-none">
+                    <div class="form-group mt-2">
                         <div class="input-group">
                             <input name="username" type="email" placeholder="E-mail" class="form-control" required/>
                             <button class="btn btn-primary btn-sm rounded-end" type="submit">Reset!</button>
@@ -31,8 +71,9 @@
                     </div>
                     <center><br><small id="info" style="color: red;display:block"><%= err %> </small></center>
                     <hr>
-                    <p class="text-center mt-lg">Login Page? <a href="/">Login!</a>
+                    <p class="text-center mt-lg">Login Page? <a href="/">Login!</a></p>
                 </form>
+                <a class="btn btn-dark" href="/"><i class="fa fa-arrow-left"></i> Back</a>
               </div>
             </div>
           </div>
