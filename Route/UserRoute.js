@@ -716,27 +716,36 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
-            var cours = await CoursModel.find({ validation: true });
-            var coursM = await CoursModel.aggregate( [
+            //var cours = await CoursModel.find({ validation: true });
+            var coursM = await CoursModel.aggregate([
                 {
-                  $lookup:
-                    {
-                        from: "UserCGN",
-                        localField: "name_Cours",
-                        foreignField:"cours",
-                        // let: {cours: "$name_Cours"},
-                        // pipeline: [{$match:{$expr:{$eq:["$cours", "$$cours"]}}}],
-                    //   let: {nomc:{$toString:"$_id"}},
-                    //   pipeline: [{$match:{$expr:{$eq:["$nom_c", "$$nomc"]}}}],
-                        as:"Cours"
-                    }
-               }
-             ] )
-            var cngModel = await CGNModel.find({ validation: true });
-            console.log("coursM", coursM[0]);
+                  $lookup: {
+                    from: "usercgns",
+                    localField: "name_Cours",
+                    foreignField: "cours",
+                    as: "nbrePartic"
+                  }
+                },
+                {
+                 $addFields: {
+                   countDishes: {
+                     $size: "$nbrePartic"
+                   }
+                 }
+                },
+                {
+                 $match: {
+                   countDishes: {
+                     $gt: 5
+                   }
+                 }
+                }
+              ])
+            console.log("coursM", coursM);
             //console.log("cours", cngModel[0]);
-
-            res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac })
+            var cours = JSON.stringify(coursM)
+            //res.send(cours)
+            res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac, coursM: coursM })
 
         });
 
@@ -1792,11 +1801,12 @@ routeExp.route("/getParcours").post(async function (req, res) {
         .then(async () => {
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
-                { $match: { $or: [{ cours: cours}, {week: week}, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
+                { $match: { $or: [{ cours: cours}]}},//, {week: week}, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
+                //{ $match: { $or: [{ cours: cours}, {week: week}, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
                 {
                     $group: {
                         _id:
-                            { week: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                            { week: week, cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
                         tabl: { $push: { user: "$user", presence: "$presence" } }
                     }
                 }
