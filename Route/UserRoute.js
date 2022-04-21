@@ -590,7 +590,20 @@ routeExp.route("/studentHome").get(async function (req, res) {
 routeExp.route("/studentGroup").get(async function (req, res) {
     var session = req.session;
     if (session.type_util == "Participant") {
-        res.render("./StudentView/studentGroup.html");
+        console.log("session ", session);
+        
+        var groupeEt = await CGNModel.aggregate([
+            { $match: { $or: [{ username: session.username }] } },
+            {
+                $group: {
+                    _id:
+                        {username: "$username", m_code: "$mcode", num_agent: "$num_agent", point: "$point", graduation: "$graduation" },
+                    tabl: { $push: { id: "$_id", cours: "$cours",niveau: "$niveau" } }
+                }
+            }
+        ])
+        console.log("student ", groupeEt);
+        res.render("./StudentView/studentGroup.html", {groupe: groupeEt});
     }
     else {
         res.redirect("/");
@@ -618,7 +631,7 @@ routeExp.route("/studentTimeTable").get(async function (req, res) {
             const element = cgn[i];
             groupe.push(element.groupe)
         }
-        var time 
+        var time = []
         for (let j = 0; j < groupe.length; j++) {
             const element = groupe[j];
             console.log(element);
@@ -881,8 +894,8 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { username: "$username", m_code: "$mcode", num_agent: "$num_agent" },
-                        tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours", point: "$point", graduation: "$graduation" } }
+                            { username: "$username", m_code: "$mcode", num_agent: "$num_agent" , point: "$point", graduation: "$graduation"},
+                        tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours" } }
                     }
                 }
             ])

@@ -190,7 +190,7 @@
                                     </thead>
                                     <tbody>
                                         <% membre.forEach(function(membre) { 
-                                            console.log("table ", membre.tabl[0].point) %>
+                                            console.log("table ", membre) %>
                                             <tr>
                                                 <td>
                                                     <%= membre._id.username %>
@@ -212,10 +212,10 @@
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="hidden" id="custId" name="custId" value="<%= membre.tabl[0].point %>">
+                                                        <input type="hidden" id="custId" name="custId" value="<%= membre._id.point %>">
                                                         <select class="form-control" id="selectPoints">
-                                                            <option class="text-center" value=""><%= membre.tabl[0].point %></option>
-                                                            <% point.forEach(function(point) { %>
+                                                            <option class="text-center" value=""><%= membre._id.point %></option>
+                                                            <% console.log("point == ", point.point); point.forEach(function(point) { %>
                                                                 <option class="text-center" value="<%= point.point %>"><%= point.point %></option>
                                                             <% });
                                                             var table = membre.tabl %>    
