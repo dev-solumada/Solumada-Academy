@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours</title>
+</head>
+
+<body>
+    <h1>ADMIN</h1>
+
+    <div class="center-sign">
+        <div class="panel panel-sign">
+            <div class="panel-title-sign mt-xl text-right">
+                <h2 class="title text-uppercase text-bold m-none">
+                    NEW COURS
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group mb-lg">
+                    <label>Nom</label>
+                    <input type="text" name="nameCours" id="nameCours" onkeyup="verify_cours()"
+                        class="form-control input-lg" required>
+                    <!-- <span id="em" style="color:red;font-size: smaller;display:none;">Cours is required (include
+                        @)</span> -->
+                </div>
+                <div class="form-group mb-lg">
+                    <label>Date de commencement</label>
+                    <input type="date" class="form-control input-lg" onkeyup="verify_date()" id="dateCommenc"
+                        name="dateCommenc" required />
+                </div>
+                <div class="form-group mb-lg">
+                    <label>Nombre participant</label>
+                    <input type="number" class="form-control input-lg" id="nbParticp" name="nbParticp" required />
+                </div>
+                <div class="form-group mb-lg">
+                    <label>Nom Professeur</label>
+                    <input type="text" class="form-control input-lg" onkeyup="verify_professeur()" id="professeur"
+                        name="professeur" required />
+                </div>
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-primary" onclick="add_new_cours()" id="btn-newCours"><i
+                            class="fa fa-plus"></i> ADD COURS</button>
+                </div>
+
+            </div>
+        </div>
+
+        <p class="text-center text-muted mt-md mb-md">&copy; Optimum Solution 2022.</p>
+    </div>
+    <script src="assets/js/add-new-cours.js"></script>
+</body>
+
+</html>

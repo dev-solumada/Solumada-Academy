@@ -57,6 +57,7 @@ function verify_number() {
     }
     verify_all();
 }
+
 function verify_all() {
     if (mail_done && code_done && number_done) {
         btns.disabled = false;
@@ -72,10 +73,9 @@ function add_new_employee() {
     var m_code = document.getElementById("mcode").value;
     var num_agent = document.getElementById("num_agent").value;
     var type_util = document.getElementById("type_util").value;
-    console.log("doc.getElem == " + type_util);
     sendRequest('/addemp', email, m_code, num_agent, type_util);
 }
-function sendRequest(url, email, m_code, num_agent) {
+function sendRequest(url, email, m_code, num_agent, type_util) {
     console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -94,5 +94,6 @@ function sendRequest(url, email, m_code, num_agent) {
             }
         }
     };
+    console.log('the type_util sendRequest ' + type_util)
     http.send("email=" + email + "&mcode=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
 }

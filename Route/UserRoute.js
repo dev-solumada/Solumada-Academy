@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 // solumada-academy : academy123456
 
 const UserSchema = require("../models/User");
+const CoursModel = require("../models/CoursModel");
 const nodemailer = require('nodemailer');
 
 //Mailing
@@ -149,15 +150,19 @@ routeExp.route("/login").post(async function (req, res) {
         .then(async () => {
             var logger = await UserSchema.findOne({ username: email, password: password });
             if (logger) {
-                if (logger.type_util == "user") {
-                    session.type_util = logger.type_util;
+                if (logger.type_util == "professeur") {
                     session.m_code = logger.m_code;
                     session.num_agent = logger.num_agent;
                     session.type_util = logger.type_util;
-                    res.redirect("/timedefine");
+                    res.redirect("/accueilProf");
+                } else if (logger.type_util == "participant") {
+                    session.m_code = logger.m_code;
+                    session.num_agent = logger.num_agent;
+                    session.type_util = logger.type_util;
+                    res.redirect("/accueilParticip");
                 } else {
                     session.type_util = logger.type_util;
-                    res.redirect("/management");
+                    res.redirect("/accueilAdmin");
                 }
             } else {
                 res.render("LoginPage.html", {
@@ -212,4 +217,85 @@ routeExp.route("/newemployee").get(async function (req, res) {
         res.redirect("/");
     }
 });
+
+//Accueil admin
+routeExp.route("/accueilAdmin").get(async function (req, res) {
+    session = req.session;
+    // res.render("newemployee.html");
+    if (session.type_util == "admin") {
+        res.render("accueilAdmin.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+//Accueil Professeur
+routeExp.route("/accueilProf").get(async function (req, res) {
+    session = req.session;
+    // res.render("newemployee.html");
+    if (session.type_util == "professeur") {
+        res.render("accueilProf.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+//Accueil Participant
+routeExp.route("/accueilParticip").get(async function (req, res) {
+    session = req.session;
+    if (session.type_util == "participant") {
+        res.render("accueilParticip.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+//New Cours
+routeExp.route("/newcours").get(async function (req, res) {
+    session = req.session;
+    if (session.type_util == "admin") {
+        res.render("newCours.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+//Add new cours
+routeExp.route("/addcours").post(async function (req, res) {
+    var name_Cours = req.body.name_Cours;
+    var date_Commenc = req.body.date_Commenc;
+    var nbParticp = req.body.nbParticp;
+    var professeur = req.body.professeur;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await CoursModel.findOne({ $or: [{ name_Cours: name_Cours }, { date_Commenc: date_Commenc }, { professeur: professeur }] })) {
+                res.send("error");
+            } else {
+                // var passdefault = randomPassword();
+                var new_cours = {
+                    name_Cours: name_Cours,
+                    date_Commenc: date_Commenc,
+                    nbParticp: nbParticp,
+                    professeur: professeur
+                };
+                console.log("new cours === ", new_cours)
+                await CoursModel(new_cours).save();
+                // sendEmail(email, "Authentification Timesheets", htmlRender(email, passdefault));
+                // res.send(email);
+            }
+        });
+
+});
+
 module.exports = routeExp;
