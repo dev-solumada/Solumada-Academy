@@ -1,0 +1,138 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.menu
+{
+    width: 350px;
+    max-width: 350px;
+    height: 100vh;
+    position: fixed;
+    /* background-color: red; */
+    transition: all 0.5s ease;
+}
+
+.menu.active
+{
+    width: 90px;
+}
+
+.menu .logo-container
+{
+    margin-top: 10px;
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.menu .menu-container
+{
+    margin: 0;
+    margin-top: 15px;
+    width: 100%;
+    background: #abc447;
+    border-radius: 8px;
+    padding-bottom: 10px;
+}
+
+.menu-container .menu-title
+{
+    height: 50px;
+    width: 90%;
+    /* background: red; */
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.menu-container .menu-title #menu-ico
+{
+    font-size: 35px;
+    min-width: 60px;
+    align-items: flex-start;
+    font-weight: 600;
+    /* background-color: black; */
+    text-align: center;
+    cursor: pointer;
+}
+
+.menu-container .menu-title #menu-txt
+{
+    font-size: 30px;
+    text-align: center;
+    min-width: 60px;
+    /* background-color: lime; */
+    margin-left: 40px;
+}
+
+
+.menu-container .menu-items
+{
+    margin-top: 10px;
+    width: 90%;
+    
+}
+
+.menu-container .menu-items ul
+{
+    list-style: none;
+    align-self: center;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-container .menu-items li
+{
+    list-style: none;
+    height: 50px;
+    background: yellowgreen;
+    width: 100%;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.menu-container .menu-items li a
+{
+    text-decoration: none;
+}
+
+
+.menu-item .menu-item-ico
+{
+    font-size: 30px;
+    min-width: 60px;
+    font-weight: 600;
+    text-align: center;
+    color: black;
+}
+
+.menu-item .menu-item-txt
+{
+    font-size: 30px;
+    text-align: center;
+    min-width: 60px;
+    /* background-color: lime; */
+    margin-left: 40px;
+    color: black;
+    font-weight: 500;
+    overflow: hidden;
+}
+
+.content
+{
+    background: linear-gradient(#c4de5b, #abc447, #82943a, #687532);
+    width: calc(100% - 350px);
+    height: 100vh;
+    margin-left: 350px;
+    transition: all 0.5s ease;
+}
+
+.menu.active ~ .content {
+    width: calc(100% - 90px);
+    margin-left: 90px;
+    z-index: 3;
+}

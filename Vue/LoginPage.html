@@ -1,90 +1,79 @@
-<!doctype html>
-<html class="fixed">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
-	<!-- Basic -->
-	<meta charset="UTF-8">
-	<meta name="keywords" content="Optimum Solution" />
-	<meta name="description" content="Timesheets">
-	<meta name="author" content="dev solumada">
-
-	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Solumada</title>
 </head>
-
 <body>
-	<!-- start: page -->
-	<section class="body-sign">
-		<div class="center-sign">
-
-			<div class="panel panel-sign">
-				<div class="panel-title-sign mt-xl text-right">
-					<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> LOGIN</h2>
-				</div>
-				<div class="panel-body">
-					<form action="/login" method="post">
-						<div class="form-group mb-lg">
-							<label>Username</label>
-							<div class="input-group input-group-icon">
-								<input name="username" type="text" class="form-control input-lg" />
-								<span class="input-group-addon">
-									<span class="icon icon-lg">
-										<i class="fa fa-user"></i>
-									</span>
-								</span>
-							</div>
-						</div>
-
-						<div class="form-group mb-lg">
-							<div class="clearfix">
-								<label class="pull-left">Password</label>
-								<a href="/reset" class="pull-right">Reset Password?</a>
-							</div>
-							<div class="input-group input-group-icon">
-								<input name="pwd" type="password" class="form-control input-lg" />
-								<span class="input-group-addon">
-									<span class="icon icon-lg">
-										<i class="fa fa-lock"></i>
-									</span>
-								</span>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-sm-4 text-left">
-								<button type="submit" class="btn btn-primary hidden-xs">CONNECT</button>
-								<!-- <button type="submit"
-									class="btn btn-primary text-bold btn-block btn-lg visible-xs mt-lg">CONNECT</button> -->
-							</div>
-						</div>
-						<center><small id="error"></small></center>
-
-						<hr>
-
-					</form>
-				</div>
-			</div>
-
-			<p class="text-center text-muted mt-md mb-md">&copy; Optimum Solution 2022. Timesheets.</p>
-		</div>
-	</section>
-	<!-- end: page -->
-
+    <div class="container-fluid">
+        <div class="row d-flex d-flex-inline">
+            <div class="col-sm-8 h-100">
+                <div class="row">
+                    <div class="col-12 h-100 px-0 img-side">
+                        <img class="img-fluid img-responsive img-side" src="./assets/images/imgpsh_fullsize_anim.jpg" alt="Cameleon">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-12 login-side d-flex">
+                        <div class="login-container m-auto">
+                            <div class="title">
+                                <h3 id="txt-sol">SOLUMADA</h3>
+                                <h3 id="txt-acd">ACADEMY</h3>
+                            </div>
+                            <form action="/login" method="post">
+                                <div class="form-container mt-5">
+									<div class="error-container text-center mx-auto mb-3">
+										<small  id="error"></small>	
+									</div>
+                                    <div class="mb-5">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="username">Username</label>
+                                            <input type="text" class="form-control" id="username" placeholder="Username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="InputPassword">Password</label>
+                                            <input type="password" class="form-control" id="InputPassword" placeholder="Password" required>
+                                        </div>
+                                    </div>
+                                    <div class="action">
+                                        <div class="row d-flex d-flex-inline justify-content-between">
+                                            <div class="col">
+                                                <button type="submit" class="btn-cnx px-3 py-2">Connexion</button>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <a class="reset-pswd" href="">reset password ?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="view-txt text-center mt-5">
+                                        <h3 id="txt-vision">Une vision à 360°</h3>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	<script>
-		var err = document.getElementById("error");
+		var err = document.getElementById('error');
 		var errValue = '<%= erreur %>';
 		console.log(errValue);
-		if (errValue == '') {
-			err.remove();
+		if (errValue == '')
+		{
+			err.remove()
 		}
-		else {
-			err.setAttribute("style", "color:red;");
+		else
+		{
 			err.innerHTML = errValue;
 		}
 	</script>
-
 </body>
-
 </html>
