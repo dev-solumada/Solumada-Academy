@@ -93,6 +93,7 @@
 
 .menu-container .menu-items li .menu-item:hover {
     background: linear-gradient(#d2f73e, #7b9904);
+    font-size: .9em;
 }
 
 .menu-container .menu-items li .active {
@@ -210,10 +211,9 @@
 .content .main-content .action
 {
     height: 60px;
-    /* background: red; */
 }
 
-.content .main-content .action .btn-action
+/* .content .main-content .action .btn-action
 {
     border: 0;
     border-radius: 5px;
@@ -229,7 +229,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-}
+} */
 
 .content .main-content .action .btn-add-user
 {
