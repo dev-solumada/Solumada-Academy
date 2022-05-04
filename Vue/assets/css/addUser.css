@@ -30,7 +30,8 @@
     margin: 0;
     margin-top: 15px;
     width: 100%;
-    background: #abc447;
+    /* background: #abc447; */
+    background: #92d13f;
     border-radius: 8px;
     padding-bottom: 10px;
 }
@@ -84,24 +85,32 @@
 }
 
 .menu-container .menu-items li .menu-item {
-    /* background: rgb(151, 168, 0); */
     width: 100%;
     align-items: center;
     border-radius: 5px;
-    /* justify-content: center; */
     padding-top: 4px;
 }
 
 .menu-container .menu-items li .menu-item:hover {
-    background: #c4de5b;
-    /* box-shadow: 0px 1px 2px 1px #82943a; */
+    background: linear-gradient(#d2f73e, #7b9904);
 }
 
 .menu-container .menu-items li .active {
-    background: #c4de5b;
-    box-shadow: 0px 1px 2px 1px #82943a;
+    background-image: linear-gradient(#d2f73e, #7b9904);
+    border: 0;
     border-radius: 5px;
-    padding-top: 5px;
+    box-shadow: rgba(0, 0, 0, .3) 0 5px 15px;
+    box-shadow: 0px 1px 2px 1px #7a7c72;
+
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: Montserrat,sans-serif;
+    font-size: .9em;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
 .menu-container .menu-items li a {
@@ -135,7 +144,8 @@
 }
 
 .content {
-    background: linear-gradient(#c4de5b, #abc447, #82943a, #687532);
+    /* background: linear-gradient(#c4de5b, #abc447, #82943a, #687532); */
+    background: linear-gradient(#aae65c, #98ad44);
     width: calc(100% - 350px);
     height: 100vh;
     margin-left: 350px;
@@ -203,7 +213,39 @@
     /* background: red; */
 }
 
-.content .main-content .action .btn-add
+.content .main-content .action .btn-action
 {
+    border: 0;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, .3) 0 5px 15px;
+    box-shadow: 0px 1px 2px 1px #7a7c72;
+    box-sizing: border-box;
     color: #fff;
+    cursor: pointer;
+    font-family: Montserrat,sans-serif;
+    font-size: .5em;
+    padding: 2px;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.content .main-content .action .btn-add-user
+{
+    background-image: linear-gradient(#b6aaaa, #0a0c04);
+    border: 0;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, .3) 0 5px 15px;
+    box-shadow: 0px 1px 2px 1px #7a7c72;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: Montserrat,sans-serif;
+    font-size: .9em;
+    padding: 6px;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
