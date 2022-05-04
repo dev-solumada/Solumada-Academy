@@ -208,14 +208,14 @@ routeExp.route("/addemp").post(async function (req, res) {
 
 //New employee
 routeExp.route("/newemployee").get(async function (req, res) {
-    session = req.session;
-    // res.render("newemployee.html");
-    if (session.type_util == "admin") {
-        res.render("newemployee.html");
-    }
-    else {
-        res.redirect("/");
-    }
+    // session = req.session;
+    res.render("AvecBack/newemployee.html");
+    // if (session.type_util == "admin") {
+    //     res.render("newemployee.html");
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //liste cours
@@ -266,13 +266,14 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
-    session = req.session;
-    if (session.type_util == "admin") {
-        res.render("newCours.html");
-    }
-    else {
-        res.redirect("/");
-    }
+    // session = req.session;
+    res.render("newCours.html");
+    // if (session.type_util == "admin") {
+    //     res.render("newCours.html");
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //Add new cours
