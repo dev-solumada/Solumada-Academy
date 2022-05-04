@@ -149,7 +149,6 @@ routeExp.route("/login").post(async function (req, res) {
         )
         .then(async () => {
             var logger = await UserSchema.findOne({ username: email, password: password });
-            console.log("seession == " + JSON.stringify(logger.type_util));
             if (logger) {
                 if (logger.type_util == "professeur") {
                     session.m_code = logger.m_code;
