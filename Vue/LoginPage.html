@@ -45,8 +45,8 @@
                                                 required />
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="InputPassword">Password</label>
-                                            <input type="password" class="form-control" id="InputPassword"
+                                            <label class="form-label" for="pwd">Password</label>
+                                            <input type="password" class="form-control" id="pwd"
                                                 placeholder="Password" required />
                                         </div>
                                     </div>
@@ -74,8 +74,6 @@
     </div>
     <script>
         var err = document.getElementById("error");
-        var errContainer = document.getElementById(".error-alert");
-
         var errValue = '<%= erreur %>';
         console.log(errValue);
         if (errValue == '') {
@@ -83,7 +81,6 @@
         }
         else {
             err.innerHTML = errValue;
-            errContainer.setAttribute("style", "display:block;");
         }
     </script>
 </body>
