@@ -107,7 +107,8 @@ input[type=password] {
     font-style: italic;
 }
 
-#error{
-    font-weight: 700;
+#error
+{
+    font-weight:800;
     color: red;
 }
