@@ -7,7 +7,9 @@
 .login-side 
 {
     height: 100vh;
-    background: linear-gradient(#c4de5b, #abc447, #82943a, #687532);
+    /* background: linear-gradient(#9dd63a, #a1e330, #687532); */
+    background: linear-gradient(#aae65c, #98ad44);
+
 }
 
 .login-container {
@@ -40,7 +42,7 @@
 }
 
 #txt-acd {
-    color: #a13b3b;
+    color: #ca2611;
     font-size: 50px;
     font-weight: bolder;
 }
@@ -64,13 +66,28 @@ input[type=password] {
 }
 
 .btn-cnx {
-    border: 3px solid #036316;
+    /* border: 3px solid #036316;
     border-radius: 8px;
     font-size: 16px;
-    background-color: #4dce25;
+    background-color: #8bc408;
     color: white;
-    font-weight: 700;
+    font-weight: 400;
+    cursor: pointer; */
+    background-image: linear-gradient(#d2f73e, #7b9904);
+    border: 0;
+    border-radius: 5px;
+    box-shadow: rgba(10, 8, 8, 0.3) 0 5px 15px;
+    box-shadow: 0px 1px 2px 1px #7a7c72;
+
+    box-sizing: border-box;
+    color: #fff;
     cursor: pointer;
+    font-family: Montserrat,sans-serif;
+    font-size: .9em;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
 .form-label {
@@ -102,9 +119,10 @@ input[type=password] {
 
 #txt-vision {
     font-size: 35px;
-    color: #a13b3b;
-    text-shadow: 1px 1px 1px black;
+    color: rgba(202, 38, 17);
+    text-shadow: 1px 1px 1px rgba(119, 111, 110, 0.4);
     font-style: italic;
+    font-family: 'calibri';
 }
 
 #error
