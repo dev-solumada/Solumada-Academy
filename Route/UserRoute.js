@@ -218,6 +218,17 @@ routeExp.route("/newemployee").get(async function (req, res) {
     }
 });
 
+//liste cours
+routeExp.route("/listeCours").get(async function (req, res) {
+    session = req.session;
+    // res.render("newemployee.html");
+    if (session.type_util == "admin") {
+        res.render("ListeCours.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
 //Accueil admin
 routeExp.route("/accueilAdmin").get(async function (req, res) {
     session = req.session;
