@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content
+{
+    /* background: linear-gradient(#c4de5b, #abc447, #82943a, #687532); */
+    background: linear-gradient(#aae65c, #98ad44);
+
+    width: 100%;
+    height: 100vh;
+}
+
+.content .header {
+    height: 60px;
+    /* width: 100%; */
+    /* background: black; */
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+.content .header .user-info
+{
+    height: 100%;
+    /* background: yellow; */
+    width: 200px;
+    text-align: center;
+}
+
+.content .header .user-info span 
+{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.content .header .user-info span i 
+{
+    font-size: 18px;
+    text-align: center;
+    background: red;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+}
