@@ -37,17 +37,16 @@
                                     <div class="mb-5">
                                         <div class="form-group mb-3">
                                             <label class="form-label" for="username">Username</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Username" required />
+                                            <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username" required />
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="InputPassword">Password</label>
-                                            <input type="password" class="form-control" id="InputPassword" placeholder="Password" required />
+                                            <label class="form-label" for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required />
                                         </div>
                                     </div>
                                     <div class="action">
                                         <div class="row d-flex d-flex-inline justify-content-between">
                                             <div class="col">
-
                                                 <button type="submit" class="btn-cnx px-3 py-2">Connexion</button>
                                             </div>
                                             <div class="col d-flex justify-content-center">
@@ -68,20 +67,15 @@
     </div>
 	<script>
 		var err = document.getElementById('error');
-    <script>
-		var err = document.getElementById("error");
-		var errContainer = document.getElementById(".error-alert");
-
 		var errValue = '<%= erreur %>';
 		console.log(errValue);
 		if (errValue == '')
 		{
-			err.remove()
+			err.remove();
 		}
 		else
 		{
 			err.innerHTML = errValue;
-			errContainer.setAttribute("style", "display:block;");
 		}
 	</script>
 </body>

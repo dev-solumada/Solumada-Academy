@@ -106,3 +106,8 @@ input[type=password] {
     text-shadow: 1px 1px 1px black;
     font-style: italic;
 }
+
+#error{
+    font-weight: 700;
+    color: red;
+}
