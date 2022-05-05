@@ -209,7 +209,8 @@ routeExp.route("/addemp").post(async function (req, res) {
 //New employee
 routeExp.route("/newemployee").get(async function (req, res) {
     // session = req.session;
-    res.render("AvecBack/newemployee.html");
+    // res.render("AvecBack/newemployee.html");
+    res.render("ListeCours.html");
     // if (session.type_util == "admin") {
     //     res.render("newemployee.html");
     // }
@@ -218,6 +219,17 @@ routeExp.route("/newemployee").get(async function (req, res) {
     // }
 });
 
+//New employee
+routeExp.route("/newemployee1").get(async function (req, res) {
+    // session = req.session;
+    res.render("AvecBack/newemployee.html");
+    // if (session.type_util == "admin") {
+    //     res.render("newemployee.html");
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
 //liste cours
 routeExp.route("/listeCours").get(async function (req, res) {
     session = req.session;
@@ -268,6 +280,7 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 routeExp.route("/newcours").get(async function (req, res) {
     // session = req.session;
     res.render("newCours.html");
+    // res.render("newCours.html");
     // if (session.type_util == "admin") {
     //     res.render("newCours.html");
     // }
@@ -282,6 +295,7 @@ routeExp.route("/addcours").post(async function (req, res) {
     var date_Commenc = req.body.date_Commenc;
     var nbParticp = req.body.nbParticp;
     var professeur = req.body.professeur;
+    console.log("addcours");
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -294,20 +308,63 @@ routeExp.route("/addcours").post(async function (req, res) {
             if (await CoursModel.findOne({ $or: [{ name_Cours: name_Cours }, { date_Commenc: date_Commenc }, { professeur: professeur }] })) {
                 res.send("error");
             } else {
-                // var passdefault = randomPassword();
                 var new_cours = {
                     name_Cours: name_Cours,
                     date_Commenc: date_Commenc,
                     nbParticp: nbParticp,
                     professeur: professeur
                 };
-                console.log("new cours === ", new_cours)
                 await CoursModel(new_cours).save();
-                // sendEmail(email, "Authentification Timesheets", htmlRender(email, passdefault));
-                // res.send(email);
             }
         });
 
+});
+
+
+//Liste cours
+routeExp.route("/listCours").get(async function (req, res) {
+    session = req.session;
+    // if (session.occupation == "admin") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var listcour = await CoursModel.find({ validation: true });
+            // console.log('listcours == ' + listcour);
+            res.render("ListeCours.html", { listcour: listcour });
+        });
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
+
+//Liste cours
+routeExp.route("/listeUser").get(async function (req, res) {
+    session = req.session;
+    // if (session.occupation == "admin") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var listcour = await CoursModel.find({ validation: true });
+            // console.log('listcours == ' + listcour);
+            res.render("ListeUser.html", { listcour: listcour });
+        });
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 module.exports = routeExp;
