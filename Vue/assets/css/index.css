@@ -48,7 +48,7 @@
 }
 
 .form-container {
-    width: 70%;
+    width: 100%;
     height: auto;
     margin: auto;
 }
@@ -66,13 +66,6 @@ input[type=password] {
 }
 
 .btn-cnx {
-    /* border: 3px solid #036316;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: #8bc408;
-    color: white;
-    font-weight: 400;
-    cursor: pointer; */
     background-image: linear-gradient(#d2f73e, #7b9904);
     border: 0;
     border-radius: 5px;
@@ -83,7 +76,7 @@ input[type=password] {
     color: #fff;
     cursor: pointer;
     font-family: Montserrat,sans-serif;
-    font-size: .9em;
+    font-size: 1em;
     text-align: center;
     user-select: none;
     -webkit-user-select: none;
@@ -96,6 +89,12 @@ input[type=password] {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.form-content
+{
+    margin-bottom: 60px;
+    margin-top: 40px;
+}
+
 .action{
     margin-bottom: 25px;
 }
@@ -103,7 +102,7 @@ input[type=password] {
 .reset-pswd {
     text-decoration: none;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 600;
     color: black;
     margin: auto;
@@ -112,9 +111,9 @@ input[type=password] {
 
 .view-txt
 {
-    margin-top: 25px;
     justify-content: center;
     text-align: center;
+    margin-top: 70px;
 }
 
 #txt-vision {
@@ -123,10 +122,165 @@ input[type=password] {
     text-shadow: 1px 1px 1px rgba(119, 111, 110, 0.4);
     font-style: italic;
     font-family: 'calibri';
+    margin-top: 20px;
 }
 
 #error
 {
     font-weight:800;
     color: red;
+}
+
+@media(max-width:727px)
+{
+    #txt-sol {
+        font-size: 40px;
+    }
+    
+    #txt-acd {
+        font-size: 40px;
+    }
+
+    .form-group
+    {
+        height: 60px;
+        margin-bottom: 5px;
+    }
+    .form-group .form-label
+    {
+        font-size: 14px;
+        margin-bottom: 1px;
+    }
+    .form-container {
+        margin-top: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    input[type=text],
+    input[type=password] 
+    {
+        font-size: 15px;
+    }
+    .btn-cnx {
+        font-size: .6em;
+    }
+    .action{
+        margin-bottom: 15px;
+    }
+    
+    .reset-pswd {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .view-txt
+    {
+        margin-top: 60px;
+    }
+    #txt-vision {
+        font-size: 25px;
+    }
+}
+
+
+@media (max-width:280px) 
+{
+    #txt-sol {
+        font-size: 30px;
+    }
+    
+    #txt-acd {
+        font-size: 30px;
+    }
+
+    .form-group
+    {
+        height: 60px;
+        margin-bottom: 5px;
+    }
+    .form-group .form-label
+    {
+        font-size: 12px;
+        margin-bottom: 1px;
+    }
+    .form-container {
+        margin-top: 20px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    input[type=text],
+    input[type=password] 
+    {
+        font-size: 12px;
+        font-weight: normal;
+    }
+    .btn-cnx {
+        font-size: .4em;
+    }
+    .action{
+        margin-bottom: 15px;
+    }
+    
+    .reset-pswd {
+        font-size: .6em;
+        font-weight: 600;
+    }
+
+    #txt-vision {
+        font-size: 20px;
+    }  
+    .view-txt
+    {
+        margin-top: 60px;
+    }
+}
+
+
+@media(max-height:600px)
+{
+    #txt-sol {
+        font-size: 40px;
+    }
+    
+    #txt-acd {
+        font-size: 40px;
+    }
+
+    .form-group
+    {
+        height: 60px;
+        margin-bottom: 5px;
+    }
+    .form-group .form-label
+    {
+        font-size: 14px;
+        margin-bottom: 1px;
+    }
+    .form-container {
+        margin-top: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    input[type=text],
+    input[type=password] 
+    {
+        font-size: 15px;
+    }
+    .btn-cnx {
+        font-size: .6em;
+    }
+    .action{
+        margin-bottom: 15px;
+    }
+    
+    .reset-pswd {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .view-txt
+    {
+        margin-top: 60px;
+    }
+    #txt-vision {
+        font-size: 25px;
+    }
 }
