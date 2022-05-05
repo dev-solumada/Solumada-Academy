@@ -16,9 +16,11 @@ var en = document.getElementById("en");
 function verify_mail() {
     var email = document.getElementById("email");
     if (email.value != "" && email.value.includes("@")) {
+        console.log("email.value");
         em.style.display = "none";
         email.removeAttribute("style");
         mail_done = true;
+        console.log("email.value ail.valu");
     }
     else {
         em.style.display = "block";
