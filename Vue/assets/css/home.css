@@ -225,3 +225,192 @@
     font-weight: bolder;
     color: #d2f73e;
 }
+
+
+@media(max-width:960px)
+{
+    /* Menu */
+    .menu
+    {
+        width: 250px;
+    }
+    .menu .menu-title
+    {
+        height: 40px;
+    }
+
+    .menu-container .menu-title #menu-ico {
+        font-size: 30px;
+        min-width: 60px;
+        font-weight: 400;
+    }
+    
+    .menu-container .menu-title #menu-txt {
+        font-size: 20px;
+        min-width: 60px;
+        margin-left: 30px;
+    }
+
+    .menu-item .menu-item-ico {
+        font-size: 25px;
+        min-width: 60px;
+        font-weight: 500;
+    }
+    
+    .menu-item .menu-item-txt {
+        font-size: 20px;
+        min-width: 60px;
+        margin-left: 30px;
+        font-weight: 500;
+    }
+
+    /* End menu */
+    .content
+    {
+        width: calc(100% - 250px);
+        margin-left: 250px;
+    }
+    .table-rsp .thead-light
+    {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .table-rsp tbody
+    {
+        font-size: 14px;
+    }
+}
+
+@media(max-width:600px)
+{
+    .menu
+    {
+        width: 220px;
+    }
+    .menu-container .menu-items li {
+        list-style: none;
+        height: 40px;
+        margin-bottom: 5px;
+    }
+
+    .menu-container .menu-title #menu-ico {
+        font-size: 30px;
+        min-width: 60px;
+        font-weight: 400;
+    }
+    
+    .menu-container .menu-title #menu-txt {
+        font-size: 20px;
+        min-width: 60px;
+        margin-left: 30px;
+    }
+
+    .menu-item .menu-item-ico {
+        font-size: 20px;
+        min-width: 60px;
+        font-weight: 500;
+    }
+    
+    .menu-item .menu-item-txt {
+        font-size: 16px;
+        min-width: 60px;
+        margin-left: 30px;
+        font-weight: 500;
+    }
+
+    /* End menu */
+
+    .content
+    {
+        width: calc(100% - 220px);
+        margin-left: 220px;
+    }
+    .content .header .user-info span {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .content .main-content .action
+    {
+        height: 50px;
+    }
+    .content .main-content .action .btn-add-user
+    {
+        font-size: .7em;
+    }
+    .content .main-content .action .breadcrumb-item li
+    {
+        font-size: 12px;
+    }
+    .content .main-content .wlcm-txt
+    {
+        font-size: 30px;
+    }
+
+}
+
+
+@media (max-width:280px) 
+{
+    .menu
+    {
+        width: 220px;
+    }
+    .menu-container .menu-items li {
+        list-style: none;
+        height: 40px;
+        margin-bottom: 5px;
+    }
+
+    .menu-container .menu-title #menu-ico {
+        font-size: 30px;
+        min-width: 60px;
+        font-weight: 400;
+    }
+    
+    .menu-container .menu-title #menu-txt {
+        font-size: 20px;
+        min-width: 60px;
+        margin-left: 30px;
+    }
+
+    .menu-item .menu-item-ico {
+        font-size: 20px;
+        min-width: 60px;
+        font-weight: 500;
+    }
+    
+    .menu-item .menu-item-txt {
+        font-size: 16px;
+        min-width: 60px;
+        margin-left: 30px;
+        font-weight: 500;
+    }
+
+    /* End menu */
+
+    .content
+    {
+        width: calc(100% - 220px);
+        margin-left: 220px;
+    }
+    .content .header .user-info span {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .content .main-content .action
+    {
+        height: 50px;
+    }
+    .content .main-content .action .btn-add-user
+    {
+        font-size: .7em;
+    }
+    .content .main-content .action .breadcrumb-item li
+    {
+        font-size: 12px;
+    }
+    .content .main-content .wlcm-txt
+    {
+        font-size: 30px;
+    }
+}
