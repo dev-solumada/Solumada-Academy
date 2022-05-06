@@ -327,7 +327,7 @@ routeExp.route("/listeCours").get(async function (req, res) {
         )
         .then(async () => {
             var listcour = await CoursModel.find({ validation: true });
-            // console.log('listcours == ' + listcour);
+            console.log('listcours == ' + listcour.date_Commenc);
             res.render("ListeCours.html", { listcour: listcour });
         });
     // }
