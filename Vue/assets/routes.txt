@@ -1,2 +1,33 @@
 Accueil admin == "/accueilAdmin"
 New User = "/"
+
+
+
+
+<!-- <% listcour.forEach(function(listcour) { %>
+                                                <tr>
+                                                    <td style="vertical-align: center;">
+                                                        <%= listcour.name_Cours %>
+                                                    </td>
+                                                    <td>
+                                                        <%= listcour.date_Commenc %>
+                                                    </td>
+                                                    <td>
+                                                        <%= listcour.nbParticp %>
+                                                    </td>
+                                                    <td>
+                                                        <%= listcour.professeur %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group mx-auto" role="group"
+                                                            aria-label="Basic example">
+                                                            <button type="button" class="btn btn-success"><i
+                                                                    class="bx bx-detail"></i></button>
+                                                            <button type="button" class="btn btn-warning"><i
+                                                                    class="bx bx-edit"></i></button>
+                                                            <button type="button" class="btn btn-danger"><i
+                                                                    class="bx bx-trash"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }); %> -->
