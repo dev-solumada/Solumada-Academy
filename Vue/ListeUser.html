@@ -117,57 +117,33 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>John</td>
-                                                <td>Doe</td>
-                                                <td>john@example.com</td>
-                                                <td>Test</td>
-                                                <td>
-                                                    <div class="btn-group mx-auto" role="group"
-                                                        aria-label="Basic example">
-                                                        <button type="button" class="btn btn-success"><i
-                                                                class="bx bx-detail"></i></button>
-                                                        <button type="button" class="btn btn-warning"><i
-                                                                class="bx bx-edit"></i></button>
-                                                        <button type="button" class="btn btn-danger"><i
-                                                                class="bx bx-trash"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>John</td>
-                                                <td>Doe</td>
-                                                <td>john@example.com</td>
-                                                <td>Test</td>
-                                                <td>
-                                                    <div class="btn-group mx-auto" role="group"
-                                                        aria-label="Basic example">
-                                                        <button type="button" class="btn btn-success"><i
-                                                                class="bx bx-detail"></i></button>
-                                                        <button type="button" class="btn btn-warning"><i
-                                                                class="bx bx-edit"></i></button>
-                                                        <button type="button" class="btn btn-danger"><i
-                                                                class="bx bx-trash"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>John</td>
-                                                <td>Doe</td>
-                                                <td>john@example.com</td>
-                                                <td>Test</td>
-                                                <td>
-                                                    <div class="btn-group mx-auto" role="group"
-                                                        aria-label="Basic example">
-                                                        <button type="button" class="btn btn-success"><i
-                                                                class="bx bx-detail"></i></button>
-                                                        <button type="button" class="btn btn-warning"><i
-                                                                class="bx bx-edit"></i></button>
-                                                        <button type="button" class="btn btn-danger"><i
-                                                                class="bx bx-trash"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            <% listuser.forEach(function(listuser) { %>
+                                                <tr>
+                                                    <td style="vertical-align: center;">
+                                                        <%= listuser.username %>
+                                                    </td>
+                                                    <td>
+                                                        <%= listuser.m_code %>
+                                                    </td>
+                                                    <td>
+                                                        <%= listuser.num_agent %>
+                                                    </td>
+                                                    <td>
+                                                        <%= listuser.type_util %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group mx-auto" role="group"
+                                                            aria-label="Basic example">
+                                                            <button type="button" class="btn btn-success"><i
+                                                                    class="bx bx-detail"></i></button>
+                                                            <button type="button" class="btn btn-warning"><i
+                                                                    class="bx bx-edit"></i></button>
+                                                            <button type="button" class="btn btn-danger"><i
+                                                                    class="bx bx-trash"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
                                         </tbody>
                                     </table>
                                 </div>
