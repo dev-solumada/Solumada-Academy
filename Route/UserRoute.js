@@ -3,8 +3,8 @@ const routeExp = express.Router()
 const mongoose = require('mongoose')
 // solumada-academy : academy123456
 
-const UserSchema = require("../models/User");
-const CoursModel = require("../models/CoursModel");
+const UserSchema = require("../Models/User");
+const CoursModel = require("../Models/CoursModel");
 const nodemailer = require('nodemailer');
 
 //Mailing
@@ -316,7 +316,7 @@ routeExp.route("/addcours").post(async function (req, res) {
 routeExp.route("/listeCours").get(async function (req, res) {
     session = req.session;
     // if (session.occupation == "admin") {
-    console.log('listcours == ');
+    //console.log('listcours == ');
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -326,8 +326,8 @@ routeExp.route("/listeCours").get(async function (req, res) {
             }
         )
         .then(async () => {
+    
             var listcour = await CoursModel.find({ validation: true });
-            console.log('listcours == ' + listcour.date_Commenc);
             res.render("ListeCours.html", { listcour: listcour });
         });
     // }
@@ -360,4 +360,47 @@ routeExp.route("/listeUser").get(async function (req, res) {
     // }
 });
 
+
+
+//getuser
+routeExp.route("/getUser").post(async function (req, res) {
+    var id = req.body.id;
+    mongoose
+    .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+        useUnifiedTopology: true,
+        UseNewUrlParser: true,
+      }
+    )
+    .then(async () => {
+      var user = await UserSchema.findOne({_id:id });
+      res.send(user.first_name +","+user.last_name+","+user.m_code + ","+user.num_agent +","+user.amount);
+    });
+  })
+  
+//Update User
+routeExp.route("/updateuser").post(async function (req, res) {
+var id = req.body.id;
+var m_code = req.body.code;
+var num_agent = req.body.num;
+var amount = req.body.am;
+var first = req.body.first;
+var last = req.body.last;
+mongoose
+.connect(
+    "mongodb+srv://Rica:ryane_jarello5@cluster0.z3s3n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+    useUnifiedTopology: true,
+    UseNewUrlParser: true,
+    }
+)
+.then(async () => {
+    var user = await UserSchema.findOne({_id:id });
+    await TimesheetsSchema.updateMany({m_code:user.m_code},{m_code:m_code,num_agent:num_agent});
+    await UserSchema.findOneAndUpdate({_id:id },{m_code:m_code,num_agent:num_agent,amount:amount,first_name:first,last_name:last});
+    await archiveSchema.findOneAndUpdate({m_code:m_code},{m_code:m_code,first_name:first,last_name:last});
+    res.send("User updated successfully");
+})
+})
 module.exports = routeExp;

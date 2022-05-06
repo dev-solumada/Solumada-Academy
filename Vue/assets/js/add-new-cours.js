@@ -91,6 +91,7 @@ function add_new_cours() {
     var date_Commenc = document.getElementById("date_Commenc").value;
     var professeur = document.getElementById("professeur").value;
     var nbParticp = document.getElementById("nbParticp").value;
+    //console.log("date == " + date);
     sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp);
 }
 
