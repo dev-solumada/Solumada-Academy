@@ -1,5 +1,5 @@
 //btn
-var btn_newCours = document.getElementById("btn-newCours");
+var btn_newCours = document.getElementById("btn_newCours");
 btn_newCours.disabled = true;
 
 //Verify
@@ -9,21 +9,21 @@ var nb_Particp_done = false;
 var prof_done = false;
 
 //error 
-var em = document.getElementById("em");
-var ec = document.getElementById("ec");
-var en = document.getElementById("en");
+var nm = document.getElementById("nm");
+var dt = document.getElementById("dt");
+var np = document.getElementById("np");
+var nb = document.getElementById("nb");
 
 //verify cours
 function verify_cours() {
     var nameCours = document.getElementById("nameCours");
-    console.log("name_cours == " + name_Cours_done);
     if (nameCours.value != "") {
-        ec.style.display = "none";
+        nm.style.display = "none";
         nameCours.removeAttribute("style");
         name_Cours_done = true;
     }
     else {
-        ec.style.display = "block";
+        nm.style.display = "block";
         nameCours.setAttribute("style", "border-color:red;");
         name_Cours_done = false;
     }
@@ -31,16 +31,15 @@ function verify_cours() {
 }
 //verify date_Commenc
 function verify_date() {
-    var dateCommenc = document.getElementById("dateCommenc");
-    console.log("dateCommenc == " + dateCommenc);
-    if (dateCommenc.value != "") {
-        ec.style.display = "none";
-        dateCommenc.removeAttribute("style");
+    var date_Commenc = document.getElementById("date_Commenc");
+    if (date_Commenc.value != "") {
+        dt.style.display = "none";
+        date_Commenc.removeAttribute("style");
         date_Commenc_done = true;
     }
     else {
-        ec.style.display = "block";
-        dateCommenc.setAttribute("style", "border-color:red;");
+        dt.style.display = "block";
+        date_Commenc.setAttribute("style", "border-color:red;");
         date_Commenc_done = false;
     }
     verify_all();
@@ -49,14 +48,13 @@ function verify_date() {
 //verify nom professeur
 function verify_professeur() {
     var professeur = document.getElementById("professeur");
-    console.log("professeur == " + professeur);
     if (professeur.value != "") {
-        ec.style.display = "none";
+        np.style.display = "none";
         professeur.removeAttribute("style");
         prof_done = true;
     }
     else {
-        ec.style.display = "block";
+        np.style.display = "block";
         professeur.setAttribute("style", "border-color:red;");
         prof_done = false;
     }
@@ -67,12 +65,12 @@ function verify_professeur() {
 function verify_nb() {
     var nbParticp = document.getElementById("nbParticp");
     if (nbParticp.value != "") {
-        ec.style.display = "none";
+        nb.style.display = "none";
         nbParticp.removeAttribute("style");
         nb_Particp_done = true;
     }
     else {
-        ec.style.display = "block";
+        nb.style.display = "block";
         nbParticp.setAttribute("style", "border-color:red;");
         nb_Particp_done = false;
     }
@@ -80,8 +78,6 @@ function verify_nb() {
 }
 
 function verify_all() {
-    console.log("name_cours == " + name_Cours_done);
-    console.log("professeur == " + professeur);
     if (name_Cours_done && date_Commenc_done && prof_done && nb_Particp_done) {
         btn_newCours.disabled = false;
     }
@@ -91,14 +87,10 @@ function verify_all() {
 }
 
 function add_new_cours() {
-    var name_Cours = document.getElementById("name_Cours").value;
+    var name_Cours = document.getElementById("nameCours").value;
     var date_Commenc = document.getElementById("date_Commenc").value;
     var professeur = document.getElementById("professeur").value;
     var nbParticp = document.getElementById("nbParticp").value;
-    console.log("name_Cours " + name_Cours);
-    console.log("date_Commenc " + date_Commenc);
-    console.log("professeur " + professeur);
-    console.log("nbParticp " + nbParticp);
     sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp);
 }
 
@@ -120,6 +112,5 @@ function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp) {
             }
         }
     };
-    console.log('the type_util sendRequest ' + type_util)
     http.send("name_Cours=" + name_Cours + "&date_Commenc=" + date_Commenc + "&professeur=" + professeur + "&nbParticp=" + nbParticp);
 }

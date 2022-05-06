@@ -23,25 +23,31 @@
                     <label>Nom</label>
                     <input type="text" name="nameCours" id="nameCours" onkeyup="verify_cours()"
                         class="form-control input-lg" required>
+                    <span id="nm" style="color:red;font-size: smaller;display:none;">Entrez le nom du cours</span>
                     <!-- <span id="em" style="color:red;font-size: smaller;display:none;">Cours is required (include
                         @)</span> -->
                 </div>
                 <div class="form-group mb-lg">
                     <label>Date de commencement</label>
-                    <input type="date" class="form-control input-lg" onkeyup="verify_date()" id="dateCommenc"
-                        name="dateCommenc" required />
+                    <input type="date" class="form-control input-lg" onchange="verify_date()" id="date_Commenc"
+                        name="date_Commenc" required />
+                    <span id="dt" style="color:red;font-size: smaller;display:none;">Entrez la date du début du
+                        cours</span>
                 </div>
                 <div class="form-group mb-lg">
                     <label>Nombre participant</label>
-                    <input type="number" class="form-control input-lg" id="nbParticp" name="nbParticp" required />
+                    <input type="number" class="form-control input-lg" onkeyup="verify_nb()" id="nbParticp"
+                        name="nbParticp" required />
+                    <span id="nb" style="color:red;font-size: smaller;display:none;">Entrez Nombre participant</span>
                 </div>
                 <div class="form-group mb-lg">
                     <label>Nom Professeur</label>
                     <input type="text" class="form-control input-lg" onkeyup="verify_professeur()" id="professeur"
                         name="professeur" required />
+                    <span id="np" style="color:red;font-size: smaller;display:none;">Entrez Nom du prof</span>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <button type="button" class="btn btn-primary" onclick="add_new_cours()" id="btn-newCours"><i
+                    <button type="button" class="btn btn-primary" onclick="add_new_cours()" id="btn_newCours"><i
                             class="fa fa-plus"></i> ADD COURS</button>
                 </div>
 
