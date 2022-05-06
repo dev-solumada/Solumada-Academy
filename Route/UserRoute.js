@@ -214,6 +214,7 @@ routeExp.route("/newemployee").get(async function (req, res) {
     // if (session.type_util == "admin") {
     //     res.render("newemployee.html");
     // }
+
     // else {
     //     res.redirect("/");
     // }
@@ -230,17 +231,7 @@ routeExp.route("/newemployee1").get(async function (req, res) {
     //     res.redirect("/");
     // }
 });
-//liste cours
-routeExp.route("/listeCours").get(async function (req, res) {
-    session = req.session;
-    // res.render("newemployee.html");
-    if (session.type_util == "admin") {
-        res.render("ListeCours.html");
-    }
-    else {
-        res.redirect("/");
-    }
-});
+
 //Accueil admin
 routeExp.route("/accueilAdmin").get(async function (req, res) {
     session = req.session;
@@ -322,9 +313,10 @@ routeExp.route("/addcours").post(async function (req, res) {
 
 
 //Liste cours
-routeExp.route("/listCours").get(async function (req, res) {
+routeExp.route("/listeCours").get(async function (req, res) {
     session = req.session;
     // if (session.occupation == "admin") {
+    console.log('listcours == ');
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -357,9 +349,10 @@ routeExp.route("/listeUser").get(async function (req, res) {
             }
         )
         .then(async () => {
-            var listcour = await CoursModel.find({ validation: true });
-            // console.log('listcours == ' + listcour);
-            res.render("ListeUser.html", { listcour: listcour });
+            var listuser = await UserSchema.find({ validation: true });
+            // console.log('listcours == ' + listuser);
+            res.render("ListeUser.html", { listuser: listuser });
+            // res.render("ListeUser.html", { listcour: listcour });
         });
     // }
     // else {
