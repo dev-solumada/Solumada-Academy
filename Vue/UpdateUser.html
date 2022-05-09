@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+</head>
+
+<body>
+
+    <div class="center-sign">
+        <div class="panel panel-sign">
+            <div class="panel-title-sign mt-xl text-right">
+                <h2 class="title text-uppercase text-bold m-none">
+                    Update User
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group mb-lg">
+                    <label>Username</label>
+                    <input type="email" name="email" id="email" onkeyup="verify_mail()" value="<%= user.username %>"
+                        class="form-control input-lg" required>
+                    <span id="em" style="color:red;font-size: smaller;display:none;">Entrez le nom du cours</span>
+                </div>
+                <div class="form-group mb-lg">
+                    <label>m_code</label>
+                    <input type="text" class="form-control input-lg" onchange="verify_code()" id="mcode"
+                        value="<%= user.m_code %>" name="mcode" required />
+                    <span id="ec" style="color:red;font-size: smaller;display:none;">Cours is required (include
+                        @)</span>
+                </div>
+                <div class="form-group mb-lg">
+                    <label>num_agent</label>
+                    <input type="text" class="form-control input-lg" onkeyup="verify_number()" id="num_agent"
+                        value="<%= user.num_agent %>" name="num_agent" required />
+                    <span id="en" style="color:red;font-size: smaller;display:none;">Cours is required (include
+                        @)</span>
+                </div>
+                <div class="form-group row mb-3">
+                    <label for="userSelect" class="col-sm-4 col-form-label">Utilisateur</label>
+
+                    <!-- <select class="form-control" id="userSelect">
+                            <option>Participant</option>
+                            <option>Proffesseur</option>
+                            <option>Administrateur</option>
+                        </select> -->
+                    <select name="type_util" id="type_util">
+                        <!-- <option hidden value="">Select one</option> -->
+                        <option value="admin">Admin</option>
+                        <option value="professeur">Professeur</option>
+                        <option value="participant">Participant</option>
+                    </select>
+
+                </div>
+                <!-- <div class="form-group mb-lg">
+                    <label>type_util</label>
+                    <input type="text" class="form-control input-lg" id="type_util" value="<%= user.type_util %>"
+                        value="" name="type_util" required />
+
+                </div> -->
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-primary" onclick="update_user()" id="btn_updateUser"><i
+                            class="fa fa-plus"></i> UPDATE USER</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script>
+        (document).ready(function () {
+            jQuery('#type_util').val("<%= user.type_util %>")
+        })
+
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script src="./../assets/js/update-user.js"></script>
+</body>
+
+</html>

@@ -24,7 +24,7 @@ app.use(express.static("Vue"));
 // app.use(express.static('public/assets/javascripts'));
 // app.use(express.static('public/assets/stylesheets'));
 // app.use(express.static('public/assets/vendor'));
-// app.use(express.static('public/assets/my_js'));
+app.use(express.static('Vue/assets/js'));
 // View de type html
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
