@@ -103,11 +103,74 @@
                             <div class="col action-right my-auto">
                                 <nav aria-label="breadcrumb justify-content-end">
                                     <ol class="breadcrumb ol-bread m-auto">
-                                        <li class="breadcrumb-item"><a class="bread-ref" href="/accueilAdmin">Home</a></li>
+                                        <li class="breadcrumb-item"><a class="bread-ref" href="/accueilAdmin">Home</a>
+                                        </li>
                                         <li class="breadcrumb-item active" aria-current="page">Users</li>
                                     </ol>
                                 </nav>
                             </div>
+                            <!-- Modal Form -->
+                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content p-4">
+                                        <div class="row text-center mb-2">
+                                            <h3>Cours Registration</h3>
+                                        </div>
+                                        <hr>
+                                        <form autocomplete="off">
+                                            <div class="my-4">
+                                                <div class="form-group row mb-3">
+                                                    <label for="cours-name" class="col-sm-4 col-form-label">Name</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="cours-name"
+                                                            placeholder="Cours Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="m-code" class="col-sm-4 col-form-label">Begin
+                                                        Date</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" class="form-control" id="m-code"
+                                                            placeholder="1/01/2000">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="num-agent" class="col-sm-4 col-form-label">Participant
+                                                        Number</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="username"
+                                                            placeholder="0">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label for="userSelect"
+                                                        class="col-sm-4 col-form-label">Teacher</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" id="userSelect">
+                                                            <option disabled selected>Select Teacher</option>
+                                                            <option>Teacher 1</option>
+                                                            <option>Teacher 2</option>
+                                                            <option>Teacher 3</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row d-flex d-flex-inline justify-content-between py-2">
+                                                <div class="col-sm-5">
+                                                    <!-- <button class="btn btn-danger w-100 close" type="button" data-dismiss="model" aria-label="Close">Cancel</button> -->
+                                                    <button type="button" class="btn btn-danger w-100 close"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <button class="btn btn-success w-100" type="submit">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal -->
                         </div>
                     </div>
                     <div class="col-sm-11 col-md-11 col-lg-11 col-xl-10 col-xxl-10 table-container">
@@ -137,8 +200,7 @@
                                             <%= listcour.professeur %>
                                         </td>
                                         <td>
-                                            <div class="btn-group mx-auto" role="group"
-                                                aria-label="Basic example">
+                                            <div class="btn-group mx-auto" role="group" aria-label="Basic example">
                                                 <button type="button" class="btn btn-sm btn-success"><i
                                                         class="bx bx-detail"></i></button>
                                                 <button type="button" class="btn btn-sm btn-warning"><i
@@ -158,15 +220,14 @@
     </div>
     <script type="text/javascript">
         $(document).ready(
-            function()
-            {
+            function () {
                 $('.btn-header').click(
-                    function(){
+                    function () {
                         $('.menu').addClass('active-mini');
                     }
                 );
                 $('.close-btn').click(
-                    function(){
+                    function () {
                         $('.menu').removeClass('active-mini');
                     }
                 );

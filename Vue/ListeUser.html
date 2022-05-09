@@ -103,7 +103,8 @@
                             <div class="col action-right my-auto">
                                 <nav aria-label="breadcrumb justify-content-end">
                                     <ol class="breadcrumb ol-bread m-auto">
-                                        <li class="breadcrumb-item"><a class="bread-ref" href="/accueilAdmin">Home</a></li>
+                                        <li class="breadcrumb-item"><a class="bread-ref" href="/accueilAdmin">Home</a>
+                                        </li>
                                         <li class="breadcrumb-item active" aria-current="page">Users</li>
                                     </ol>
                                 </nav>
@@ -142,8 +143,10 @@
                                                 <button type="button" class="btn btn-sm btn-success"><i
                                                         class="bx bx-detail"></i></button>
                                                 <button type="button" class="btn btn-sm btn-warning"><i
-                                                        class="bx bx-edit"></i></button>
-                                                <button type="button" class="btn btn-sm btn-danger"><i
+                                                        class="bx bx-edit"
+                                                        onclick="liste_update_user('<%= listuser.m_code %>')"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="liste_update_user('<%= listuser.m_code %>')"><i
                                                         class="bx bx-trash"></i></button>
                                             </div>
                                         </td>
@@ -158,21 +161,21 @@
     </div>
     <script type="text/javascript">
         $(document).ready(
-            function()
-            {
+            function () {
                 $('.btn-header').click(
-                    function(){
+                    function () {
                         $('.menu').addClass('active-mini');
                     }
                 );
                 $('.close-btn').click(
-                    function(){
+                    function () {
                         $('.menu').removeClass('active-mini');
                     }
                 );
             });
     </script>
     <script src="./assets/js/home.js"></script>
+    <script src="./assets/js/update-user.js"></script>
 </body>
 
 </html>
