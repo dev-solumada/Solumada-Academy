@@ -5,16 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="./css/bootstrap-5.1.3-dist/css/bootstrap.min.css"> -->
+    <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="./assets/css/addUser.css">
-    <!-- <link rel="stylesheet" href="./bootstrap-icons-1.8.1/bootstrap-icons.css"> -->
-    <link rel="stylesheet" href="./icons/boxicons-2.1.2/css/boxicons.min.css">
+    <link rel="stylesheet" href="./assets/css/addusers.css">
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <title>Home</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    <title>Users</title>
 </head>
 
 <body>
@@ -22,19 +19,22 @@
         <div class="row d-flex d-flex-inline px-0">
             <div class="col-2 menu">
                 <div class="row">
+                    <div class="col-12 close-btn-side d-flex justify-content-end align-items-center">
+                        <span class="close-btn"><i class="bx bx-x"></i></span>
+                    </div>
                     <div class="col-12 d-flex justify-content-center logo-container">
-                        <img class="img-fluid" src="./assets/images/logo.jpg" alt="">
+                        <img class="img-fluid" src="./assets/images/logo.jpg " alt="">
                     </div>
                     <div class="col-12 d-flex">
                         <div class="menu-container">
-                            <div class="menu-title d-flex d-flex-inline mx-auto">
+                            <div class="menu-title d-flex d-flex-inline">
                                 <span class="menuBtn" id="menu-ico"><i class="bx bx-menu"></i></span>
                                 <span id="menu-txt">Menu</span>
                             </div>
                             <div class="menu-items mx-auto">
                                 <ul>
                                     <li>
-                                        <a href="/accueilAdmin">
+                                        <a href="/acceuilAdmin">
                                             <div class="menu-item d-flex d-flex-inline">
                                                 <span class="menu-item-ico my-auto"><i class="bx bx-home"></i></span>
                                                 <span class="menu-item-txt my-auto">Home</span>
@@ -42,8 +42,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/listeUser">
-                                            <div class="menu-item d-flex d-flex-inline">
+                                        <a href="/newemployee">
+                                            <div class="menu-item d-flex active d-flex-inline">
                                                 <span class="menu-item-ico my-auto"><i class="bx bx-user"></i></span>
                                                 <span class="menu-item-txt my-auto">Users</span>
                                             </div>
@@ -51,7 +51,7 @@
                                     </li>
                                     <li>
                                         <a href="/listeCours">
-                                            <div class="menu-item active d-flex d-flex-inline">
+                                            <div class="menu-item d-flex d-flex-inline">
                                                 <span class="menu-item-ico my-auto"><i class="bx bx-book"></i></span>
                                                 <span class="menu-item-txt my-auto">Cours</span>
                                             </div>
@@ -81,151 +81,95 @@
                 </div>
             </div>
             <div class="col-10 content">
-                <div class="header row d-flex justify-content-end">
-                    <div class="user-info col-12 d-flex d-flex-inline justify-content-end">
-                        <span class="my-auto my-auto mx-2">Andy Solumada</span>
-                        <span class="my-auto my-auto"><i class="bx bx-exit"></i></span>
+                <div class="header row">
+                    <div class="header-container col-12">
+                        <div class="d-flex justify-content-between header-content">
+                            <div class="header-left">
+                                <div class="menu-ico-container"><i class="btn-header bx bx-menu"></i></div>
+                            </div>
+                            <div class="header-right my-auto">
+                                <span class="mx-1 text-center user-txt">Andy Solumada</span>
+                                <span class=" exit-ico text-center"><i class="bx bx-exit"></i></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row main-content">
-                    <div class="col-sm-12 col-md-12 col-lg-11 col-xxl-10 mx-auto py-4 d-flex text-center">
-                        <div class="cart w-100">
-                            <div class="cart-header px-3 d-flex d-flex-inline justify-content-between action">
-                                <div class="left-action">
-                                    <button class="btn-add-user text-light" data-toggle="modal"
-                                        data-target=".bd-example-modal-lg">Add Cours</button>
-                                </div>
-                                <div class="right-action">
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="/accueilAdmin">Home</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Cours</li>
-                                        </ol>
-                                    </nav>
-                                </div>
+                <div class="row px-2 mx-auto d-block main-content">
+                    <div class="col-sm-11 col-md-11 col-lg-11 col-xl-10 col-xxl-10 d-flex all-content">
+                        <div class="action-side row d-flex justify-content-between mx-0">
+                            <div class="col action-left my-auto">
+                                <button class="btn-adduser text-light"><a class="btn-ref" href="/listeUser">Back</a></button>
                             </div>
-                            <div class=" card-body content-tab">
-                                <div class="table-responsive-sm">
-                                    <table id="#Table" class="table table-responsive table-striped mt-2">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>Nom cours</th>
-                                                <th>Date de commencement</th>
-                                                <th>Nombre Participant</th>
-                                                <th>Professeur</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% listcour.forEach(function(listcour) { %>
-                                                <tr>
-                                                    <td style="vertical-align: center;">
-                                                        <%= listcour.name_Cours %>
-                                                    </td>
-                                                    <td>
-                                                        <%= listcour.date_Commenc.toLocaleDateString("fr") %>
-                                                    </td>
-                                                    <td>
-                                                        <%= listcour.nbParticp %>
-                                                    </td>
-                                                    <td>
-                                                        <%= listcour.professeur %>
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-group mx-auto" role="group"
-                                                            aria-label="Basic example">
-                                                            <button type="button" class="btn btn-sm btn-success"><i
-                                                                    class="bx bx-detail"></i></button>
-                                                            <button type="button" class="btn btn-sm btn-warning"><i
-                                                                    class="bx bx-edit"></i></button>
-                                                            <button type="button" class="btn btn-sm btn-danger"><i
-                                                                    class="bx bx-trash"></i></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col action-right my-auto">
+                                <nav aria-label="breadcrumb justify-content-end">
+                                    <ol class="breadcrumb ol-bread m-auto">
+                                        <li class="breadcrumb-item"><a class="bread-ref" href="/accueilAdmin">Home</a></li>
+                                        <li class="breadcrumb-item"><a class="bread-ref" href="/listeUser">Users</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">New</li>
+                                    </ol>
+                                </nav>
                             </div>
-                            <!-- Modal Form -->
-                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content p-4">
-                                        <div class="row text-center mb-2">
-                                            <h3>Cours Registration</h3>
-                                        </div>
-                                        <hr>
-                                        <form autocomplete="off">
-                                            <div class="my-4">
-                                                <div class="form-group row mb-3">
-                                                    <label for="cours-name"
-                                                        class="col-sm-4 col-form-label">Name</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="cours-name"
-                                                            placeholder="Cours Name">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row mb-3">
-                                                    <label for="m-code" class="col-sm-4 col-form-label">Begin Date</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="date" class="form-control" id="m-code"
-                                                            placeholder="1/01/2000">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row mb-3">
-                                                    <label for="num-agent" class="col-sm-4 col-form-label">Participant Number</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="username"
-                                                            placeholder="0">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row mb-3">
-                                                    <label for="userSelect" class="col-sm-4 col-form-label">Teacher</label>
-                                                    <div class="col-sm-8">
-                                                        <select class="form-control" id="userSelect">
-                                                            <option disabled selected>Select Teacher</option>
-                                                            <option>Teacher 1</option>
-                                                            <option>Teacher 2</option>
-                                                            <option>Teacher 3</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row d-flex d-flex-inline justify-content-between py-2">
-                                                <div class="col-sm-5">
-                                                    <!-- <button class="btn btn-danger w-100 close" type="button" data-dismiss="model" aria-label="Close">Cancel</button> -->
-                                                    <button type="button" class="btn btn-danger w-100 close"
-                                                        data-dismiss="modal">Close</button>
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <button class="btn btn-success w-100" type="submit">Submit</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-11 col-md-11 col-lg-11 col-xl-10 col-xxl-10 table-container">
+                        <div class="row align items-center">
+                            <div class="col-sm-8 col-md-6 col-lg-5 col-xl-5 col-xxl-5  d-block mx-auto">
+                                <div class="form-container p-3 mt-2">
+                                    <div class="form-header">
+                                        <div class="form-title text-center fw-bolder">NOUVEAU UTILISATEUR</div>
                                     </div>
+                                    <hr>
+                                    <form action="" method="post" autocomplete="off">
+                                        <div class="mb-2">
+                                            <label for="email" class="form-label fw-bold">Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="codeInput" class="form-label fw-bold">M Code</label>
+                                            <input type="email" class="form-control" id="codeInput" placeholder="User Code">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="num_agent" class="form-label fw-bold">Num Agent</label>
+                                            <input type="text" class="form-control" id="codeInput" placeholder="0000-000">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="type_util" class="form-label fw-bold">Type Utilisateur</label>
+                                            <select class="form-select" id="type_util" aria-label="Default select example">
+                                                <option selected disabled>Type utilisateur</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="proffeseur">Proffesseur</option>
+                                                <option value="participant">Participant</option>
+                                              </select>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button class="btn-submit" type="submit">Submit</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <!-- End Modal -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- script -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(
+            function()
+            {
+                $('.btn-header').click(
+                    function(){
+                        $('.menu').addClass('active-mini');
+                    }
+                );
+                $('.close-btn').click(
+                    function(){
+                        $('.menu').removeClass('active-mini');
+                    }
+                );
+            });
+    </script>
     <script src="./assets/js/home.js"></script>
-    <!-- End script -->
 </body>
 
 </html>

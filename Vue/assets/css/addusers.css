@@ -247,7 +247,6 @@
     border-radius: 5px;
     box-shadow: 0px 1px 2px 1px #7a7c72;
     box-sizing: border-box;
-    color: #fff;
     cursor: pointer;
     font-family: Montserrat,sans-serif;
     font-size: .9em;
@@ -256,6 +255,18 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+}
+
+.content .main-content .all-content .action-side .action-left .btn-adduser a 
+{
+    text-decoration: none;
+    color: #fff;
+}
+
+.content .main-content .all-content .action-side .action-left .btn-adduser .btn-ref
+{
+    color: #fff;
+    text-decoration: none;
 }
 
 .content .main-content .all-content .action-side .action-right .breadcrumb
@@ -276,10 +287,43 @@
     background-color: transparent;
 }
 
-.content .main-content .all-content .action-side .action-left .btn-adduser a 
+.form-container
 {
-    text-decoration: none;
-    color: #fff;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    /* background: #f2f2f2; */
+    border-radius: 20px;
+    box-shadow: 0 0 3px 2px #81a137;
+}
+
+.content .main-content .table-container .form-title
+{
+    font-size: 20px;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.form-label
+{
+    font-weight: 500;
+}
+
+.btn-submit
+{
+    background: linear-gradient(#d2f73e, #7b9904);
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0px 1px 2px 1px #7a7c72;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: Montserrat,sans-serif;
+    font-size: .9em;
+    padding: 6px 10px;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
 
