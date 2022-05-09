@@ -225,33 +225,25 @@
 
 .content .main-content {
     height: calc(100vh - 60px);
-    overflow-x: hidden;
+    width: 100%;
 }
 
-
-.content .main-content .wlcm-txt {
-    font-size: 45px;
-    text-align: center;
-    font-weight: bolder;
-    color: #c4de5b;
-}
-
-.content .main-content .cart
-{
-    background: transparent;
-}
-
-.content .main-content .action
-{
+.content .main-content .all-content {
     height: 60px;
+    width: 100%;
 }
 
-.content .main-content .action .btn-add-user
+.content .main-content .all-content .action-side {
+    height: 60px;
+    color: #fff;
+    width: 100%;
+}
+
+.content .main-content .all-content .action-side .action-left .btn-adduser
 {
     background-image: linear-gradient(#b6aaaa, #0a0c04);
     border: 0;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, .3) 0 5px 15px;
     box-shadow: 0px 1px 2px 1px #7a7c72;
     box-sizing: border-box;
     color: #fff;
@@ -265,15 +257,29 @@
     touch-action: manipulation;
 }
 
-.table-rsp
+.content .main-content .all-content .action-side .action-right .breadcrumb
 {
-    font-size: 24px;
+    justify-content: flex-end;
 }
 
-.content .main-content .right-action .breadcrumb li a
-{
+.content .main-content .all-content .action-side .action-right .breadcrumb a {
     text-decoration: none;
+    font-weight: 700;
 }
+
+.content .main-content .table-container
+{
+    width: auto;
+    height: 550px;
+    background: #d2f73e;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    background-color: transparent;
+}
+
+
+
+
 
 
 @media (max-width:1300px)
@@ -365,23 +371,54 @@
 
 @media (max-width:700px)
 {
-    .content .main-content .wlcm-txt {
-        font-size: 35px;
-    }
+
 }
 
 @media (max-width:500px)
 {
-    .content .main-content .wlcm-txt {
-        font-size: 25px;
+    .content .main-content .all-content .action-side .action-left .btn-adduser
+    {
+        font-size: .7em;
+        padding: 8px;
     }
 }
 
-@media (max-width:300px)
+@media (max-width:350px)
 {
-    .content .main-content .wlcm-txt {
-        font-size: 20px;
+    .content .main-content .all-content .action-side .action-left .btn-adduser
+    {
+        font-size: .6em;
+        padding: 5px;
     }
+
+    .content .main-content .all-content .action-side .action-right .breadcrumb {
+        font-size: .8em;
+    }
+
+    .content .header {
+        height: 40px;
+    }
+
+    .content .header .header-container .header-left
+    {
+        height: 40px;
+    }
+
+    .content .header .header-container .header-left .menu-ico-container i {
+        font-size: 25px;
+        margin-top: 7px;
+    }
+
+    .content .header-container .header-right span 
+    {
+        font-size: 14px;
+    }
+
+    .content .header-container .header-right .exit-ico
+    {
+        font-size: 14px;
+    }
+
 }
 
 
