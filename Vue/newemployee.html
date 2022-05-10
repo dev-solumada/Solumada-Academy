@@ -116,10 +116,10 @@
                             <div class="col-sm-8 col-md-6 col-lg-5 col-xl-5 col-xxl-5  d-block mx-auto">
                                 <div class="form-container p-3 mt-2">
                                     <div class="form-header">
-                                        <div class="form-title text-center fw-bolder">NOUVEAU UTILISATEUR</div>
+                                        <div class="form-title text-center fw-bolder">USER REGISTRATION</div>
                                     </div>
                                     <hr>
-                                    <form action="" method="post" autocomplete="off">
+                                    <form action="/addemp" method="post" autocomplete="off">
                                         <div class="mb-2">
                                             <label for="email" class="form-label fw-bold">Email</label>
                                             <input type="email" class="form-control" id="email" onchange="verify_mail()" placeholder="example@gmail.com">
@@ -139,11 +139,11 @@
                                                 @)</span>
                                         </div>
                                         <div class="mb-2">
-                                            <label for="type_util" class="form-label fw-bold">Type Utilisateur</label>
-                                            <select class="form-select" id="type_util" aria-label="Default select example">
-                                                <option selected disabled>Type utilisateur</option>
+                                            <label for="type_util" class="form-label fw-bold">USER TYPE</label>
+                                            <select class="form-select" name="type_util" id="type_util" aria-label="Default select example">
+                                                <option selected disabled>Select Type</option>
                                                 <option value="admin">Admin</option>
-                                                <option value="proffeseur">Proffesseur</option>
+                                                <option value="proffeseur">Teacher</option>
                                                 <option value="participant">Participant</option>
                                               </select>
                                         </div>
