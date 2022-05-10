@@ -116,28 +116,28 @@
                             <div class="col-sm-8 col-md-6 col-lg-5 col-xl-5 col-xxl-5  d-block mx-auto">
                                 <div class="form-container p-3 mt-2">
                                     <div class="form-header">
-                                        <div class="form-title text-center fw-bolder">NOUVEAU UTILISATEUR</div>
+                                        <div class="form-title text-center fw-bolder">USER REGISTRATION</div>
                                     </div>
                                     <hr>
-                                    <form action="" method="post" autocomplete="off">
+                                    <form action="/addemp" method="post" autocomplete="off">
                                         <div class="mb-2">
                                             <label for="email" class="form-label fw-bold">Email</label>
-                                            <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
+                                            <input type="email" name="email" class="form-control" id="email" placeholder="example@gmail.com">
                                         </div>
                                         <div class="mb-2">
                                             <label for="codeInput" class="form-label fw-bold">M Code</label>
-                                            <input type="email" class="form-control" id="codeInput" placeholder="User Code">
+                                            <input type="text" name="mcode" class="form-control" id="codeInput" placeholder="User Code">
                                         </div>
                                         <div class="mb-2">
                                             <label for="num_agent" class="form-label fw-bold">Num Agent</label>
-                                            <input type="text" class="form-control" id="codeInput" placeholder="0000-000">
+                                            <input type="text" name="num_agent" class="form-control" id="codeInput" placeholder="0000-000">
                                         </div>
                                         <div class="mb-2">
-                                            <label for="type_util" class="form-label fw-bold">Type Utilisateur</label>
-                                            <select class="form-select" id="type_util" aria-label="Default select example">
-                                                <option selected disabled>Type utilisateur</option>
+                                            <label for="type_util" class="form-label fw-bold">USER TYPE</label>
+                                            <select class="form-select" name="type_util" id="type_util" aria-label="Default select example">
+                                                <option selected disabled>Select Type</option>
                                                 <option value="admin">Admin</option>
-                                                <option value="proffeseur">Proffesseur</option>
+                                                <option value="proffeseur">Teacher</option>
                                                 <option value="participant">Participant</option>
                                               </select>
                                         </div>
