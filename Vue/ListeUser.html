@@ -34,7 +34,7 @@
                             <div class="menu-items mx-auto">
                                 <ul>
                                     <li>
-                                        <a href="/acceuilAdmin">
+                                        <a href="/accueilAdmin">
                                             <div class="menu-item d-flex d-flex-inline">
                                                 <span class="menu-item-ico my-auto"><i class="bx bx-home"></i></span>
                                                 <span class="menu-item-txt my-auto">Home</span>
@@ -145,7 +145,7 @@
                                                 <button type="button" class="btn btn-sm btn-warning"><i
                                                         class="bx bx-edit"
                                                         onclick="liste_update_user('<%= listuser.m_code %>')"></i></button>
-                                                <button type="button" class="btn btn-sm btn-danger"
+                                                <button type="button" class="delete-btn btn btn-sm btn-danger"
                                                     onclick="liste_update_user('<%= listuser.m_code %>')"><i
                                                         class="bx bx-trash"></i></button>
                                             </div>
@@ -159,21 +159,8 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(
-            function () {
-                $('.btn-header').click(
-                    function () {
-                        $('.menu').addClass('active-mini');
-                    }
-                );
-                $('.close-btn').click(
-                    function () {
-                        $('.menu').removeClass('active-mini');
-                    }
-                );
-            });
-    </script>
+    <script src="./assets/js/table.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./assets/js/home.js"></script>
     <script src="./assets/js/update-user.js"></script>
 </body>
