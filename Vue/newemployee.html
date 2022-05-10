@@ -122,15 +122,21 @@
                                     <form action="" method="post" autocomplete="off">
                                         <div class="mb-2">
                                             <label for="email" class="form-label fw-bold">Email</label>
-                                            <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
+                                            <input type="email" class="form-control" id="email" onchange="verify_mail()" placeholder="example@gmail.com">
+                                            <span id="em" style="color:red;font-size: smaller;display:none;">Email is required (include
+                                                @)</span>
                                         </div>
                                         <div class="mb-2">
                                             <label for="codeInput" class="form-label fw-bold">M Code</label>
-                                            <input type="email" class="form-control" id="codeInput" placeholder="User Code">
+                                            <input type="text" class="form-control" id="mcode" onchange="verify_code()"  placeholder="User Code">
+                                            <span id="ec" style="color:red;font-size: smaller;display:none;">Email is required (include
+                                                @)</span>
                                         </div>
                                         <div class="mb-2">
                                             <label for="num_agent" class="form-label fw-bold">Num Agent</label>
-                                            <input type="text" class="form-control" id="codeInput" placeholder="0000-000">
+                                            <input type="text" class="form-control" id="num_agent" onchange="verify_number()"  placeholder="0000-000">
+                                            <span id="en" style="color:red;font-size: smaller;display:none;">Email is required (include
+                                                @)</span>
                                         </div>
                                         <div class="mb-2">
                                             <label for="type_util" class="form-label fw-bold">Type Utilisateur</label>
@@ -142,8 +148,11 @@
                                               </select>
                                         </div>
                                         <div class="mt-2">
-                                            <button class="btn-submit" type="submit">Submit</button>
+                                            <button class="btn-submit" type="button" id="btns"onclick="add_new_employee()"> Submit</button>
                                         </div>
+                                        <center><small id ="error" style="display: none;color:red"></small>
+                                            <small id ="success" style="display: none;color:green"></small></center>
+                                        <hr>
                                     </form>
                                 </div>
                             </div>
@@ -170,6 +179,7 @@
             });
     </script>
     <script src="./assets/js/home.js"></script>
+    <script src="./assets/js/add-new-user.js"></script>
 </body>
 
 </html>
