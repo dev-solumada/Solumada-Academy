@@ -17,6 +17,7 @@ var nb = document.getElementById("nb");
 //verify cours
 function verify_cours() {
     var nameCours = document.getElementById("nameCours");
+    console.log("nameCours == "+nameCours);
     if (nameCours.value != "") {
         nm.style.display = "none";
         nameCours.removeAttribute("style");
@@ -32,6 +33,7 @@ function verify_cours() {
 //verify date_Commenc
 function verify_date() {
     var date_Commenc = document.getElementById("date_Commenc");
+    console.log("date_Commenc == "+date_Commenc);
     if (date_Commenc.value != "") {
         dt.style.display = "none";
         date_Commenc.removeAttribute("style");
@@ -64,6 +66,7 @@ function verify_professeur() {
 //verify nombre Particp
 function verify_nb() {
     var nbParticp = document.getElementById("nbParticp");
+    console.log("nbParticp "+nbParticp);
     if (nbParticp.value != "") {
         nb.style.display = "none";
         nbParticp.removeAttribute("style");
@@ -91,11 +94,11 @@ function add_new_cours() {
     var date_Commenc = document.getElementById("date_Commenc").value;
     var professeur = document.getElementById("professeur").value;
     var nbParticp = document.getElementById("nbParticp").value;
-    //console.log("date == " + date);
     sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp);
 }
 
 function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp) {
+    console.log("date == " + name_Cours , date_Commenc, professeur, nbParticp);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -104,7 +107,7 @@ function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp) {
             if (this.responseText == "error") {
                 success.style.display = "none";
                 error.style.display = "block";
-                error.innerHTML = "Employee is already registered";
+                error.innerHTML = "Cours is already registered";
             }
             else {
                 success.style.display = "block";

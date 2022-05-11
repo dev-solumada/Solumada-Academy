@@ -55,11 +55,19 @@ function randomPassword() {
     return code;
 }
 
+function htmlVerification(code) {
+    return (
+      "<center><h1>YOUR TIMESHEETS CODE AUTHENTIFICATION</h1>" +
+      "<h3 style='width:250px;font-size:50px;padding:8px;background-color:#619FCB; color:white'>" +
+      code +
+      "<h3></center>"
+    );
+  }
 //Function html render
 function htmlRender(username, password) {
-    var html = '<center><h1>Your Timesheets Authentification</h1>' +
+    var html = '<center><h1>SOLUMADA ACADEMY AUTHENTIFICATION</h1>' +
         '<table border="1" style="border-collapse:collapse;width:25%;border-color: lightgrey;">' +
-        '<thead style="background-color: #619FCB;color:white;font-weight:bold;height: 50px;">' +
+        '<thead style="background-color: #9F4F45;color:white;font-weight:bold;height: 50px;">' +
         '<tr>' +
         '<td align="center">Username</td>' +
         '<td align="center">Password</td>' +
@@ -71,7 +79,9 @@ function htmlRender(username, password) {
         '<td align="center">' + password + '</td>' +
         '</tr>' +
         '</tbody>' +
-        '</table>';
+        '</table>' + 
+        '<h4 style="color: rgba(202, 38, 17);">Une vision à 360 °</h4>';
+        
     return html;
 }
 //Page login
@@ -94,6 +104,110 @@ routeExp.route("/").get(async function (req, res) {
 
 });
 
+//reset password
+routeExp.route("/resetPwd").get(async function (req, res) {
+    //Reset password
+    session = req.session;
+    if (session.mailconfirm) {
+        res.redirect("/code");
+    } else {
+        res.render("resetPwd.html", { err: "" });
+    }//
+
+});
+
+
+//New password
+routeExp.route("/code").post(async function (req, res) {
+    session = req.session;
+    var email = req.body.username;
+    console.log("email == "+ email);
+    mongoose
+      .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+          useUnifiedTopology: true,
+          UseNewUrlParser: true,
+        }
+      )
+      .then(async () => {
+        if (await UserSchema.findOne({ username: email })) {
+          session.mailconfirm = email;
+          session.code = randomCode();
+          sendEmail(
+            session.mailconfirm,
+            "Verification code timesheets",
+            htmlVerification(session.code)
+          );
+          res.redirect("/code");
+        } else {
+          res.render("resetPwd.html", { err: "Username does not exist" });
+        }
+      });
+  });
+
+//code
+routeExp.route("/code").get(async function (req, res) {
+    session = req.session;
+    if (session.mailconfirm) {
+      res.render("code.html", { err: "" });
+    } else {
+      res.redirect("/");
+    }
+  });
+
+//Check code
+routeExp.route("/check").post(async function (req, res) {
+    session = req.session;
+    if (session.code == req.body.code) {
+      res.send("match");
+    } else {
+      res.send("not");
+    }
+  });
+
+
+//Change password
+routeExp.route("/change").post(async function (req, res) {
+    var newpass = req.body.pass;
+    session = req.session;
+    mongoose
+      .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+          useUnifiedTopology: true,
+          UseNewUrlParser: true,
+        }
+      )
+      .then(async () => {
+        await UserSchema.findOneAndUpdate(
+          { username: session.mailconfirm },
+          { password: newpass }
+        );
+        session.mailconfirm = null;
+        session.code = null;
+        res.send("Ok");
+      });
+  });
+
+
+//Drop user 
+routeExp.route("/dropuser").post(async function (req, res) {
+    var names = req.body.fname;
+    names = names.split(" ");
+    mongoose
+    .connect(
+      "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      {
+        useUnifiedTopology: true,
+        UseNewUrlParser: true,
+      }
+    )
+    .then(async () => {
+        await UserSchema.findOneAndDelete({username:names[0]});
+        res.send("User deleted successfully");
+  })
+  })
 //List cours == professeur
 routeExp.route("/cours").get(async function (req, res) {
     session = req.session;
@@ -177,9 +291,13 @@ routeExp.route("/login").post(async function (req, res) {
 //Add employee
 routeExp.route("/addemp").post(async function (req, res) {
     var email = req.body.email;
-    var mcode = req.body.mcode;
+    var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
     var type_util = req.body.type_util;
+    console.log("email == ", email);
+    console.log("m_code == ", m_code);
+    console.log("num_agent == ", num_agent);
+    console.log("type_util == ", type_util);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -189,17 +307,18 @@ routeExp.route("/addemp").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await UserSchema.findOne({ $or: [{ username: email }, { m_code: mcode }, { num_agent: num_agent }, { type_util: type_util }] })) {
+            if (await UserSchema.findOne({ $or: [{ username: email }, { m_code: m_code }, { num_agent: num_agent }] })) {
                 res.send("error");
             } else {
                 var passdefault = randomPassword();
                 var new_emp = {
                     username: email,
                     password: passdefault,
-                    m_code: mcode,
+                    m_code: m_code,
                     num_agent: num_agent,
                     type_util: type_util
                 };
+                console.log("new_emp *********** "+ new_emp);
                 await UserSchema(new_emp).save();
                 sendEmail(email, "Authentification Timesheets", htmlRender(email, passdefault));
                 res.send(email);
@@ -314,7 +433,7 @@ routeExp.route("/addcours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await CoursModel.findOne({ $or: [{ name_Cours: name_Cours }, { date_Commenc: date_Commenc }, { professeur: professeur }] })) {
+            if (await CoursModel.findOne({ $or: [{ name_Cours: name_Cours }] })) {
                 res.send("error");
             } else {
                 var new_cours = {
@@ -401,8 +520,6 @@ routeExp.route("/updateuser").post(async function (req, res) {
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
     var username = req.body.username;
-    var first = req.body.first;
-    var last = req.body.last;
     mongoose
     .connect(
       "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -437,19 +554,32 @@ routeExp.route("/getUser/:m_code").get(async function (req, res) {
         });
 })
 
-//Update User
-routeExp.route("/updateuser").post(async function (req, res) {
-    // var id = req.body.id;
-    // var m_code = req.body.code;
-    // var num_agent = req.body.num;
-    // var amount = req.body.am;
+//get cours
+routeExp.route("/getCours").post(async function (req, res) {
     var id = req.body.id;
-    var email = req.body.email;
-    var m_code = req.body.mcode;
-    var num_agent = req.body.num_agent;
-    var type_util = req.body.type_util;
-    // var first = req.body.first;
-    // var last = req.body.last;
+    mongoose
+    .connect(
+      "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      {
+        useUnifiedTopology: true,
+        UseNewUrlParser: true,
+      }
+    )
+    .then(async () => {
+      var cours = await CoursModel.findOne({_id:id });
+      console.log("cours == ", cours);
+      res.send(cours.name_Cours+","+cours.date_Commenc+","+cours.nbParticp +","+cours.professeur);
+    });
+  })
+
+//Update User
+routeExp.route("/updatecours").post(async function (req, res) {
+    var id = req.body.id;
+    var name_Cours = req.body.name_Cours;
+    var date_Commenc = req.body.date_Commenc;
+    var nbParticp = req.body.nbParticp;
+    var professeur = req.body.professeur;
+    console.log("name_Cours "+name_Cours+" "+date_Commenc+" "+nbParticp+" "+professeur);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -461,10 +591,29 @@ routeExp.route("/updateuser").post(async function (req, res) {
         .then(async () => {
             // var user = await UserSchema.findOne({ _id: id });
             // await TimesheetsSchema.updateMany({ m_code: user.m_code }, { m_code: m_code, num_agent: num_agent });
-            await UserSchema.findOneAndUpdate({ email: email, m_code: m_code, num_agent: num_agent, type_util: type_util });
+            await CoursModel.findOneAndUpdate({_id:id },{ name_Cours: name_Cours, date_Commenc: date_Commenc, nbParticp: nbParticp, professeur: professeur });
             // await archiveSchema.findOneAndUpdate({ m_code: m_code }, { m_code: m_code, first_name: first, last_name: last });
-            console.log('User updated successfully');
-            res.send("User updated successfully");
+            
+            res.send("Cours updated successfully");
         })
 })
+//Drop user 
+routeExp.route("/dropcours").post(async function (req, res) {
+    var names = req.body.fname;
+    names = names.split(" ");
+    mongoose
+    .connect(
+      "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      {
+        useUnifiedTopology: true,
+        UseNewUrlParser: true,
+      }
+    )
+    .then(async () => {
+        await CoursModel.findOneAndDelete({name_Cours:names[0]});
+        res.send("Cours deleted successfully");
+  })
+  })
+
+  
 module.exports = routeExp;

@@ -80,6 +80,10 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
+    console.log("email == ", email);
+    console.log("m_code == ", m_code);
+    console.log("num_agent == ", num_agent);
+    console.log("type_util == ", type_util);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -97,5 +101,5 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
         }
     };
     console.log('the type_util sendRequest ' + type_util)
-    http.send("email=" + email + "&mcode=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
+    http.send("email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
 }
