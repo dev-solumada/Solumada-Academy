@@ -2,17 +2,26 @@
 var error = document.getElementById("error");
 var success = document.getElementById("success");
 var first = document.getElementById("first");
+//btn
+/*var btns = document.getElementById("btn_updateUser");
+btns.disabled = false;
+//Verify
+var mail_done = false;
+var code_done = false;
+var number_done = false;
+//error 
+var em = document.getElementById("em");
+var ec = document.getElementById("ec");
+var en = document.getElementById("en");*/
 
 //Verify mail
 function verify_mail() {
     var email = document.getElementById("email");
     if (email.value != "" && email.value.includes("@")) {
-        // console.log("email.value");
         // em.style.display = "none";
         // email.removeAttribute("style");
         btns.disabled = false;
         mail_done = true;
-        // console.log("email.valueddd");
     }
     else {
         btns.disabled = true;
@@ -69,7 +78,8 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
-        username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
+        //console.log("data *** "+data[1].toLocaleDateString("fr"));
+        nom.value = data[0]; date_Commenc.value = data[1]; nb_part.value = data[2]; prof.value = data[3];
         btnu.disabled = false;
         ids = id;
       }
@@ -77,7 +87,7 @@ function getdata(url, id) {
     http.send("id=" + id);
   }
 
-function sendRequest(url, email, m_code, num_agent, type_util) {
+function sendRequest(url, nom, date_Commenc, nb_part, prof ) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -100,11 +110,11 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
 
 
 function modify() {
-    update_user("/updateuser", ids,username.value, m_code.value, num_agent.value,type_util.value);
+    update_user("/updatecours", ids,nom.value, date_Commenc.value, nb_part.value,prof.value);
   }
 
 
-function update_user(url, id, username, m_code, num_agent) {
+function update_user(url, id, name_Cours, date_Commenc, nbParticp, professeur) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -123,7 +133,7 @@ function update_user(url, id, username, m_code, num_agent) {
         }
       }
     };
-    http.send("id=" + id + "&username=" + username + "&m_code=" + m_code + "&num_agent=" + num_agent );
+    http.send("id=" + id + "&name_Cours=" + name_Cours + "&date_Commenc=" + date_Commenc + "&nbParticp=" + nbParticp+ "&professeur=" + professeur );
   }
 
 
@@ -133,20 +143,20 @@ function showNotif(text) {
     notif.style.display = 'block';
     setTimeout(() => {
       notif.style.display = 'none';
-      window.location = "/listeUser";
+      window.location = "/listeCours";
     }, 2000);
   }
   
 
 
-function delete_user(user) {
+function delete_cours(user) {
   textwarn.innerHTML = "Are you sure to delete user <b>" + user + "</b>";
   del = user;
 }
 
 
 function confirm_del() {
-  drop_user("/dropuser", del);
+  drop_user("/dropcours", del);
 }
 function drop_user(url, fname) {
   var http = new XMLHttpRequest();

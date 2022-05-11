@@ -119,32 +119,41 @@
                                         <div class="form-title text-center fw-bolder">NEW COURS</div>
                                     </div>
                                     <hr>
-                                    <form action="/addemp" method="post" autocomplete="off">
+                                    <div>
                                         <div class="mb-2">
                                             <label for="nameCours" class="form-label fw-bold">Name</label>
                                             <input type="text" name="nameCours" class="form-control" id="nameCours" onkeyup="verify_cours()" placeholder="Cours name" required>
+                                            <span id="nm" style="color:red;font-size: smaller;display:none;">Entrez le nom du cours</span>
                                         </div>
                                         <div class="mb-2">
                                             <label for="date_Commenc" class="form-label fw-bold">Begin Date</label>
-                                            <input type="date" name="date_Commenc" class="form-control" id="date_Commenc" required>
+                                            <input type="date" name="date_Commenc" onchange="verify_date()" class="form-control" id="date_Commenc" required>
+                                            <span id="dt" style="color:red;font-size: smaller;display:none;">Entrez la date du début du
+                                                cours</span>
                                         </div>
                                         <div class="mb-2">
                                             <label for="nbParticp" class="form-label fw-bold">participant</label>
-                                            <input type="number" onkeyup="verify_nb()" name="nbParticp" class="form-control" id="codeInput" placeholder="participant number" required>
+                                            <input type="number" class="form-control" onkeyup="verify_nb()" id="nbParticp"
+                                            name="nbParticp" placeholder="participant number"  required />
+                                            <span id="nb" style="color:red;font-size: smaller;display:none;">Entrez Nombre participant</span>
                                         </div>
                                         <div class="mb-2">
                                             <label for="nbParticp" class="form-label fw-bold">Teacher</label>
-                                            <input type="text" onkeyup="verify_professeur()" id="professeur" name="nbParticp" class="form-control" placeholder="Teacher name" required>
+                                            <input type="text" onkeyup="verify_professeur()" id="professeur" name="professeur" class="form-control" placeholder="Teacher name" required>
+                                            <span id="np" style="color:red;font-size: smaller;display:none;">Entrez Nom du prof</span>
                                         </div>
                                         <br>
                                         <div class="mt-2">
-                                            <button class="btn-submit" type="submit">Save</button>
+                                            <button class="btn-submit" onclick="add_new_cours()" id="btn_newCours">Save</button>
                                         </div>
                                         <hr>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
+                            <center><small class="alert-danger" id ="error" style="display: none;color:red"></small>
+                                <small class="alert-success" id ="success" style="display: none;color:blanchedalmond"></small></center>
                         </div>
+                    
                     </div>
                 </div>
             </div>
