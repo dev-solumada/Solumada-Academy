@@ -5,11 +5,62 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/addUser.css">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <title>Accueil</title>
 </head>
 
 <body>
     <h1>PROFESSEUR</h1>
-</body>
 
+    <span class=" exit-ico text-center"><a href="/logout">Logout</a></span>
+
+<div class="col-sm-11 col-md-11 col-lg-11 col-xl-10 col-xxl-10 table-container">
+    <table class="table table-striped table-hover text-center">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Code</th>
+                <th scope="col">Num</th>
+                <th scope="col">Type</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% listuser.forEach(function(listuser) { %>
+                <tr>
+                    <td style="vertical-align: center;">
+                        <%= listuser.username %>
+                    </td>
+                    <td>
+                        <%= listuser.m_code %>
+                    </td>
+                    <td>
+                        <%= listuser.num_agent %>
+                    </td>
+                    <td>
+                        <%= listuser.type_util %>
+                    </td>
+                    <td>
+                        <div class="btn-group mx-auto actionTabBtn" role="group"
+                            aria-label="Basic example">
+                            <button type="button" class="btn btn-sm btn-success"><i
+                                    class="bx bx-detail"></i></button>
+                            <button type="button" id="first" onclick="getdata('/getuser','<%= listuser._id %>')" 
+                                class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                                data-bs-whatever="@getbootstrap"><i
+                                    class="bx bx-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser" ><i
+                                onclick="delete_user('<%= listuser.username %>')" class="bx bx-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+</div>
+</body>
 </html>

@@ -58,7 +58,7 @@ function randomPassword() {
 function htmlVerification(code) {
     return (
       "<center><h1>YOUR ACADEMY SOLUMADA CODE AUTHENTIFICATION</h1>" +
-      "<h3 style='width:250px;font-size:50px;padding:8px;background-color:#9F4F45; color:white'>" +
+      "<h3 style='width:250px;font-size:50px;padding:8px;background-color:#84E62A,; color:white'>" +
       code +
       "<h3></center>"
     );
@@ -67,7 +67,7 @@ function htmlVerification(code) {
 function htmlRender(username, password) {
     var html = '<center><h1>SOLUMADA ACADEMY AUTHENTIFICATION</h1>' +
         '<table border="1" style="border-collapse:collapse;width:25%;border-color: lightgrey;">' +
-        '<thead style="background-color: #9F4F45;color:white;font-weight:bold;height: 50px;">' +
+        '<thead style="background-color: #84E62A,;color:white;font-weight:bold;height: 50px;">' +
         '<tr>' +
         '<td align="center">Username</td>' +
         '<td align="center">Password</td>' +
@@ -87,20 +87,60 @@ function htmlRender(username, password) {
 //Page login
 routeExp.route("/").get(async function (req, res) {
     session = req.session;
-    res.render("LoginPage.html", { erreur: "" });
-    // if (session.type_util == "Professeur") {
-    //     res.redirect("/cours");
-    // }
-    // else if (session.type_util == "Admin") {
-    //     res.redirect('/admin');
-    // }
-    // else if (session.type_util == "Participant") {
-    //     res.redirect('/mon_cours');
-    // }
-    // else {
-    //     res.render("LoginPage.html", { erreur: "" });
-    // }
+    //res.render("LoginPage.html", { erreur: "" });
+    if (session.type_util == "Professeur") {
+        res.redirect("/accueilProf");
+    }
+    else if (session.type_util == "Admin") {
+        res.redirect('/accueilAdmin');
+    }
+    else if (session.type_util == "Participant") {
+        res.redirect('/accueilParticip');
+    }
+    else {
+        res.render("LoginPage.html", { erreur: "" });
+    }
 
+});
+
+//logout
+routeExp.route("/logout").get(function (req, res) {
+    session = req.session;
+    session.type_util = null;
+    res.redirect("/");
+  });
+
+//Accueil admin
+routeExp.route("/accueilAdmin").get(async function (req, res) {
+    session = req.session;
+    if (session.type_util == "Admin") {
+        res.render("accueilAdmin.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+//Accueil professeur
+// routeExp.route("/accueilProf").get(async function (req, res) {
+//     session = req.session;
+//     if (session.type_util == "Professeur") {
+//         res.render("accueilProf.html");
+//     }
+//     else {
+//         res.redirect("/");
+//     }
+// });
+
+//Accueil participant
+routeExp.route("/accueilParticip").get(async function (req, res) {
+    session = req.session;
+    if (session.type_util == "Participant") {
+        res.render("accueilParticip.html");
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
 //reset password
@@ -207,48 +247,7 @@ routeExp.route("/dropuser").post(async function (req, res) {
         res.send("User deleted successfully");
   })
   })
-//List cours == professeur
-routeExp.route("/cours").get(async function (req, res) {
-    session = req.session;
-    if (session.type_util == "Professseur") {
-        mongoose
-            .connect(
-                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-                {
-                    useUnifiedTopology: true,
-                    UseNewUrlParser: true,
-                }
-            )
-            .then(async () => {
-                var projects = await projectSchema.find({ status: 'In Progress' });
-                res.render("Cours.html", { available_project: projects });
-            });
-    }
-    else {
-        res.redirect("/");
-    }
-});
-//admin
-routeExp.route("/admin").get(async function (req, res) {
-    session = req.session;
-    if (session.type_util == "Admin") {
-        mongoose
-            .connect(
-                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-                {
-                    useUnifiedTopology: true,
-                    UseNewUrlParser: true,
-                }
-            )
-            .then(async () => {
-                var projects = await projectSchema.find({ status: 'In Progress' });
-                res.render("Admin.html", { available_project: projects });
-            });
-    }
-    else {
-        res.redirect("/");
-    }
-});
+
 //Post login
 routeExp.route("/login").post(async function (req, res) {
     session = req.session;
@@ -293,10 +292,6 @@ routeExp.route("/addemp").post(async function (req, res) {
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
     var type_util = req.body.type_util;
-    console.log("email == ", email);
-    console.log("m_code == ", m_code);
-    console.log("num_agent == ", num_agent);
-    console.log("type_util == ", type_util);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -317,7 +312,6 @@ routeExp.route("/addemp").post(async function (req, res) {
                     num_agent: num_agent,
                     type_util: type_util
                 };
-                console.log("new_emp *********** "+ new_emp);
                 await UserSchema(new_emp).save();
                 sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
                 res.send(email);
@@ -328,65 +322,33 @@ routeExp.route("/addemp").post(async function (req, res) {
 
 //New employee
 routeExp.route("/newemployee").get(async function (req, res) {
-    // session = req.session;
-    // res.render("AvecBack/newemployee.html");
-    res.render("newemployee.html");
-    // if (session.type_util == "admin") {
-    //     res.render("newemployee.html");
-    // }
-
-    // else {
-    //     res.redirect("/");
-    // }
-});
-
-//New employee
-routeExp.route("/listeUser1").get(async function (req, res) {
-    // session = req.session;
     session = req.session;
-    // if (session.occupation == "admin") {
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            var listuser = await UserSchema.find({ validation: true });
-            res.render("AvecBack/listeUser.html", { listuser: listuser });
-        });
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
-    // if (session.type_util == "admin") {
-    //     res.render("newemployee.html");
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
-});
-
-//Accueil admin
-routeExp.route("/accueilAdmin").get(async function (req, res) {
-    session = req.session;
-    // res.render("newemployee.html");
-    if (session.type_util == "admin") {
-        res.render("accueilAdmin.html");
-    }
-    else {
+    //res.render("newemployee.html");
+    if (session.type_util == "Admin") {
+        res.render("newemployee.html");
+    }else {
         res.redirect("/");
     }
 });
 
+
 //Accueil Professeur
 routeExp.route("/accueilProf").get(async function (req, res) {
     session = req.session;
-    // res.render("newemployee.html");
-    if (session.type_util == "professeur") {
-        res.render("accueilProf.html");
+
+    if (session.type_util == "Admin" || session.type_util == "Professeur") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var listuser = await UserSchema.find({ validation: true });
+                res.render("accueilProf.html", { listuser: listuser });
+            });
     }
     else {
         res.redirect("/");
@@ -406,15 +368,14 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
-    // session = req.session;
-    res.render("newCours.html");
+    session = req.session;
     // res.render("newCours.html");
-    // if (session.type_util == "admin") {
-    //     res.render("newCours.html");
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
+    if (session.type_util == "Admin") {
+        res.render("newCours.html");
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
 //Add new cours
@@ -451,47 +412,46 @@ routeExp.route("/addcours").post(async function (req, res) {
 //Liste cours
 routeExp.route("/listeCours").get(async function (req, res) {
     session = req.session;
-    // if (session.occupation == "admin") {
+    if (session.type_util == "Admin") {
     //console.log('listcours == ');
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
 
-            var listcour = await CoursModel.find({ validation: true });
-            res.render("ListeCours.html", { listcour: listcour });
-        });
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
+                var listcour = await CoursModel.find({ validation: true });
+                res.render("ListeCours.html", { listcour: listcour });
+            });
+    } else {
+        res.redirect("/");
+    }
 });
 
-//Liste cours
+//Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
     session = req.session;
-    // if (session.occupation == "admin") {
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            var listuser = await UserSchema.find({ validation: true });
-            res.render("ListeUser.html", { listuser: listuser });
-        });
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
+    if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var listuser = await UserSchema.find({ validation: true });
+                res.render("ListeUser.html", { listuser: listuser });
+            });
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
 
@@ -528,30 +488,10 @@ routeExp.route("/updateuser").post(async function (req, res) {
       }
     )
     .then(async () => {
-      //var user = await UserSchema.findOne({_id:id });
-        //await TimesheetsSchema.updateMany({m_code:user.m_code},{m_code:m_code,num_agent:num_agent});
         await UserSchema.findOneAndUpdate({_id:id },{m_code:m_code,num_agent:num_agent,username:username});
-        //await archiveSchema.findOneAndUpdate({m_code:m_code},{m_code:m_code,first_name:first,last_name:last});
         res.send("User updated successfully");
   })
   })
-//getuser
-routeExp.route("/getUser/:m_code").get(async function (req, res) {
-    var m_code_update = req.params.m_code;
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            var user = await UserSchema.findOne({ m_code: m_code_update });
-            console.log("user " + user);
-            res.render("UpdateUser.html", { user: user });
-        });
-})
 
 //get cours
 routeExp.route("/getCours").post(async function (req, res) {
@@ -578,7 +518,6 @@ routeExp.route("/updatecours").post(async function (req, res) {
     var date_Commenc = req.body.date_Commenc;
     var nbParticp = req.body.nbParticp;
     var professeur = req.body.professeur;
-    console.log("name_Cours "+name_Cours+" "+date_Commenc+" "+nbParticp+" "+professeur);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
