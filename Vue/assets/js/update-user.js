@@ -140,6 +140,7 @@ function showNotif(text) {
 
 
 function delete_user(user) {
+  console.log("user ==");
   textwarn.innerHTML = "Are you sure to delete user <b>" + user + "</b>";
   del = user;
 }
