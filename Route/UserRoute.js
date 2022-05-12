@@ -17,7 +17,7 @@ var transporter = nodemailer.createTransport({
 });
 function sendEmail(receiver, subject, text) {
     var mailOptions = {
-        from: 'Timesheets Optimum solution',
+        from: 'SOLUMADA ACADEMY',
         to: receiver,
         subject: subject,
         html: text
@@ -57,8 +57,8 @@ function randomPassword() {
 
 function htmlVerification(code) {
     return (
-      "<center><h1>YOUR TIMESHEETS CODE AUTHENTIFICATION</h1>" +
-      "<h3 style='width:250px;font-size:50px;padding:8px;background-color:#619FCB; color:white'>" +
+      "<center><h1>YOUR ACADEMY SOLUMADA CODE AUTHENTIFICATION</h1>" +
+      "<h3 style='width:250px;font-size:50px;padding:8px;background-color:#9F4F45; color:white'>" +
       code +
       "<h3></center>"
     );
@@ -87,7 +87,6 @@ function htmlRender(username, password) {
 //Page login
 routeExp.route("/").get(async function (req, res) {
     session = req.session;
-    req.session.destroy();
     res.render("LoginPage.html", { erreur: "" });
     // if (session.type_util == "Professeur") {
     //     res.redirect("/cours");
@@ -136,7 +135,7 @@ routeExp.route("/code").post(async function (req, res) {
           session.code = randomCode();
           sendEmail(
             session.mailconfirm,
-            "Verification code timesheets",
+            "Verification code solumada academy",
             htmlVerification(session.code)
           );
           res.redirect("/code");
@@ -320,7 +319,7 @@ routeExp.route("/addemp").post(async function (req, res) {
                 };
                 console.log("new_emp *********** "+ new_emp);
                 await UserSchema(new_emp).save();
-                sendEmail(email, "Authentification Timesheets", htmlRender(email, passdefault));
+                sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
                 res.send(email);
             }
         });
