@@ -74,16 +74,19 @@ function add_new_employee() {
     var m_code = document.getElementById("mcode").value;
     var num_agent = document.getElementById("num_agent").value;
     var type_util = document.getElementById("type_util").value;
-    sendRequest('/addemp', email, m_code, num_agent, type_util);
+    var niveau = document.getElementById("Niveau").value;
+    var heure = document.getElementById("Heure").value;
+    var groupe = document.getElementById("Groupe").value;
+    var cours = document.getElementById("cours").value;
+    sendRequest('/addemp', email, m_code, num_agent, type_util, niveau, heure, groupe, cours);
 }
-function sendRequest(url, email, m_code, num_agent, type_util) {
+function sendRequest(url, email, m_code, num_agent, type_util, niveau, heure, groupe, cours) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
-    console.log("email == ", email);
-    console.log("m_code == ", m_code);
-    console.log("num_agent == ", num_agent);
-    console.log("type_util == ", type_util);
+    // console.log("Niveau == ", niveau);
+    // console.log("Heure == ", heure);
+    // console.log("Groupe == ", groupe);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -100,6 +103,27 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
             }
         }
     };
-    console.log('the type_util sendRequest ' + type_util)
-    http.send("email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util);
+    http.send("email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util +  "&niveau=" + niveau + "&heure=" + heure + "&groupe=" + groupe + "&cours=" + cours);
+}
+
+function test() {
+    if (document.getElementById('type_util').value == 'Participant') {
+        document.getElementById('label-Niveau').style.display = 'block';
+        document.getElementById('Niveau').style.display = 'block';
+        document.getElementById('label-Heure').style.display = 'block';
+        document.getElementById('Heure').style.display = 'block';
+        document.getElementById('label-Groupe').style.display = 'block';
+        document.getElementById('Groupe').style.display = 'block';
+        document.getElementById('label-cours').style.display = 'block';
+        document.getElementById('cours').style.display = 'block';
+    }else{
+        document.getElementById('label-Niveau').style.display = 'none';
+        document.getElementById('Niveau').style.display = 'none';
+        document.getElementById('label-Heure').style.display = 'none';
+        document.getElementById('Heure').style.display = 'none';
+        document.getElementById('label-Groupe').style.display = 'none';
+        document.getElementById('Groupe').style.display = 'none';
+        document.getElementById('label-cours').style.display = 'none';
+        document.getElementById('cours').style.display = 'none';
+    }
 }

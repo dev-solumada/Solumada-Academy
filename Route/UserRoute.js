@@ -292,6 +292,10 @@ routeExp.route("/addemp").post(async function (req, res) {
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
     var type_util = req.body.type_util;
+    var cours = req.body.cours;
+    var niveau = req.body.niveau;
+    var groupe = req.body.groupe;
+    var heure = req.body.heure;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -310,8 +314,13 @@ routeExp.route("/addemp").post(async function (req, res) {
                     password: passdefault,
                     m_code: m_code,
                     num_agent: num_agent,
-                    type_util: type_util
+                    type_util: type_util,
+                    niveau: niveau,
+                    groupe: groupe,
+                    heure: heure,
+                    cours: cours
                 };
+                console.log("new _emp " + JSON.stringify(new_emp));
                 await UserSchema(new_emp).save();
                 sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
                 res.send(email);
@@ -323,12 +332,24 @@ routeExp.route("/addemp").post(async function (req, res) {
 //New employee
 routeExp.route("/newemployee").get(async function (req, res) {
     session = req.session;
-    //res.render("newemployee.html");
-    if (session.type_util == "Admin") {
-        res.render("newemployee.html");
-    }else {
-        res.redirect("/");
-    }
+    mongoose
+    .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+            useUnifiedTopology: true,
+            UseNewUrlParser: true,
+        }
+    )
+    .then(async () => {
+
+        var listcour = await CoursModel.find({ validation: true });
+        res.render("newemployee.html", { listcour: listcour });
+    });
+    // if (session.type_util == "Admin") {
+    //     res.render("newemployee.html");
+    // }else {
+    //     res.redirect("/");
+    // }
 });
 
 
@@ -369,13 +390,27 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
     session = req.session;
+    var professeur = 'Professeur'
+    mongoose
+    .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+            useUnifiedTopology: true,
+            UseNewUrlParser: true,
+        }
+    )
+    .then(async () => {
+
+        var listuser = await UserSchema.find({ type_util : professeur  });
+        res.render("newCours.html", { listuser: listuser });
+    });
     // res.render("newCours.html");
-    if (session.type_util == "Admin") {
-        res.render("newCours.html");
-    }
-    else {
-        res.redirect("/");
-    }
+    // if (session.type_util == "Admin") {
+    //     res.render("newCours.html");
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //Add new cours
@@ -412,7 +447,7 @@ routeExp.route("/addcours").post(async function (req, res) {
 //Liste cours
 routeExp.route("/listeCours").get(async function (req, res) {
     session = req.session;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
     //console.log('listcours == ');
         mongoose
             .connect(
@@ -427,15 +462,15 @@ routeExp.route("/listeCours").get(async function (req, res) {
                 var listcour = await CoursModel.find({ validation: true });
                 res.render("ListeCours.html", { listcour: listcour });
             });
-    } else {
-        res.redirect("/");
-    }
+    // } else {
+    //     res.redirect("/");
+    // }
 });
 
 //Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
     session = req.session;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -448,10 +483,10 @@ routeExp.route("/listeUser").get(async function (req, res) {
                 var listuser = await UserSchema.find({ validation: true });
                 res.render("ListeUser.html", { listuser: listuser });
             });
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 

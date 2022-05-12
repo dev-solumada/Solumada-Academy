@@ -1,4 +1,3 @@
-
 var error = document.getElementById("error");
 var success = document.getElementById("success");
 var first = document.getElementById("first");
@@ -69,6 +68,7 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
+        console.log("type_util == "+ data[3]);
         username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
         btnu.disabled = false;
         ids = id;
@@ -100,7 +100,7 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
 
 
 function modify() {
-    update_user("/updateuser", ids,username.value, m_code.value, num_agent.value,type_util.value);
+    update_user("/updateuser", ids,username.value, m_code.value, num_agent.value, type_util.value);
   }
 
 
@@ -140,7 +140,6 @@ function showNotif(text) {
 
 
 function delete_user(user) {
-  console.log("user ==");
   textwarn.innerHTML = "Are you sure to delete user <b>" + user + "</b>";
   del = user;
 }

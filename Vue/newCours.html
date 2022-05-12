@@ -137,10 +137,19 @@
                                             name="nbParticp" placeholder="participant number"  required />
                                             <span id="nb" style="color:red;font-size: smaller;display:none;">Entrez Nombre participant</span>
                                         </div>
-                                        <div class="mb-2">
+                                        <!-- <div class="mb-2">listuser
                                             <label for="nbParticp" class="form-label fw-bold">Teacher</label>
                                             <input type="text" onkeyup="verify_professeur()" id="professeur" name="professeur" class="form-control" placeholder="Teacher name" required>
                                             <span id="np" style="color:red;font-size: smaller;display:none;">Entrez Nom du prof</span>
+                                        </div> -->
+                                        <div class="mb-2">
+                                            <label for="professeur" id="label-professeur"  class="form-label fw-bold">Teacher</label>
+                                            <select class="form-select" name="professeur" id="professeur" aria-label="Default select example">
+                                                <option selected disabled>Select Professeur</option>
+                                                <% listuser.forEach(function(listuser) { %>
+                                                <option value="<%= listuser.m_code %>"><%= listuser.m_code %></option>
+                                                <% }); %>
+                                              </select>
                                         </div>
                                         <br>
                                         <div class="mt-2">

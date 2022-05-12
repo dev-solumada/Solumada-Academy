@@ -48,20 +48,20 @@ function verify_date() {
 }
 
 //verify nom professeur
-function verify_professeur() {
-    var professeur = document.getElementById("professeur");
-    if (professeur.value != "") {
-        np.style.display = "none";
-        professeur.removeAttribute("style");
-        prof_done = true;
-    }
-    else {
-        np.style.display = "block";
-        professeur.setAttribute("style", "border-color:red;");
-        prof_done = false;
-    }
-    verify_all();
-}
+// function verify_professeur() {
+//     var professeur = document.getElementById("professeur");
+//     if (professeur.value != "") {
+//         np.style.display = "none";
+//         professeur.removeAttribute("style");
+//         prof_done = true;
+//     }
+//     else {
+//         np.style.display = "block";
+//         professeur.setAttribute("style", "border-color:red;");
+//         prof_done = false;
+//     }
+//     verify_all();
+// }
 
 //verify nombre Particp
 function verify_nb() {
@@ -81,7 +81,7 @@ function verify_nb() {
 }
 
 function verify_all() {
-    if (name_Cours_done && date_Commenc_done && prof_done && nb_Particp_done) {
+    if (name_Cours_done && date_Commenc_done && nb_Particp_done) {
         btn_newCours.disabled = false;
     }
     else {
@@ -90,10 +90,12 @@ function verify_all() {
 }
 
 function add_new_cours() {
+    console.log("**************");
     var name_Cours = document.getElementById("nameCours").value;
     var date_Commenc = document.getElementById("date_Commenc").value;
     var professeur = document.getElementById("professeur").value;
     var nbParticp = document.getElementById("nbParticp").value;
+    console.log("profes == "+ professeur);
     sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp);
 }
 
