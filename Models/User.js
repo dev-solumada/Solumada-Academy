@@ -5,6 +5,10 @@ const User = mongoose.Schema({
    password: String,
    m_code: String,
    num_agent: String,
-   type_util: String
+   cours: String,
+   type_util: String,
+   niveau: String,
+   groupe: String,
+   heure: String
 })
 module.exports = mongoose.model('datauser', User);

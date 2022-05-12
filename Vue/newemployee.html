@@ -140,12 +140,33 @@
                                         </div>
                                         <div class="mb-2">
                                             <label for="type_util" class="form-label fw-bold">USER TYPE</label>
-                                            <select class="form-select" name="type_util" id="type_util" aria-label="Default select example">
+                                            <select class="form-select" name="type_util" id="type_util" onchange='test()' aria-label="Default select example">
                                                 <option selected disabled>Select Type</option>
                                                 <option value="Admin">Admin</option>
                                                 <option value="Professeur">Teacher</option>
                                                 <option value="Participant">Participant</option>
                                               </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="cours" style="display: none" id="label-cours"  class="form-label fw-bold">Cours</label>
+                                            <select class="form-select" name="cours" style="display: none" id="cours" aria-label="Default select example">
+                                                <option selected disabled>Select Cours</option>
+                                                <% listcour.forEach(function(listcour) { %>
+                                                <option value="<%= listcour.name_Cours %>"><%= listcour.name_Cours %></option>
+                                                <% }); %>
+                                              </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="" class="form-label fw-bold" id="label-Niveau" style="display: none">Niveau</label>
+                                            <input type="text" class="form-control" style="display: none" id="Niveau"  placeholder="Niveau">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="" class="form-label fw-bold" style="display: none" id="label-Groupe">Groupe</label>
+                                            <input type="text" class="form-control" style="display: none" id="Groupe" placeholder="Groupe">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="" class="form-label fw-bold" style="display: none" id="label-Heure">Heure</label>
+                                            <input type="text" class="form-control" style="display: none" id="Heure" placeholder="Heure">
                                         </div>
                                         <br>
                                         <div class="mt-0">
