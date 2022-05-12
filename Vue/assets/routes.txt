@@ -1,8 +1,9 @@
 Accueil admin == "/accueilAdmin"
 New User = "/"
 
-
-
+developpeur.solumada@gmail.com : lvR!Um8I
+professeur@gmail.com : gsvPhsd3
+participant@gmail.com : KSi3dTud
 
 <!-- <% listcour.forEach(function(listcour) { %>
                                                 <tr>
