@@ -121,17 +121,6 @@ routeExp.route("/accueilAdmin").get(async function (req, res) {
     }
 });
 
-//Accueil professeur
-// routeExp.route("/accueilProf").get(async function (req, res) {
-//     session = req.session;
-//     if (session.type_util == "Professeur") {
-//         res.render("accueilProf.html");
-//     }
-//     else {
-//         res.redirect("/");
-//     }
-// });
-
 //Accueil participant
 routeExp.route("/accueilParticip").get(async function (req, res) {
     session = req.session;
@@ -352,11 +341,10 @@ routeExp.route("/newemployee").get(async function (req, res) {
     // }
 });
 
-
 //Accueil Professeur
 routeExp.route("/accueilProf").get(async function (req, res) {
     session = req.session;
-
+    var para = session
     if (session.type_util == "Admin" || session.type_util == "Professeur") {
         mongoose
             .connect(
@@ -367,7 +355,15 @@ routeExp.route("/accueilProf").get(async function (req, res) {
                 }
             )
             .then(async () => {
+                console.log("para == "+JSON.stringify(para) );
                 var listuser = await UserSchema.find({ validation: true });
+                //console.log("listuser === "+listuser);
+                var cours = await CoursModel.findOne({ $or: [{ professeur: listuser.m_code }] });
+                //console.log("cours === "+cours);
+                //var listeParticip = await UserSchema.find({ $or: [{ professeur: listuser.m_code }] });
+
+                //(await CoursModel.findOne({ $or: [{ name_Cours: name_Cours }] }))
+
                 res.render("accueilProf.html", { listuser: listuser });
             });
     }
@@ -419,6 +415,7 @@ routeExp.route("/addcours").post(async function (req, res) {
     var date_Commenc = req.body.date_Commenc;
     var nbParticp = req.body.nbParticp;
     var professeur = req.body.professeur;
+    var type = req.body.type;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -435,7 +432,8 @@ routeExp.route("/addcours").post(async function (req, res) {
                     name_Cours: name_Cours,
                     date_Commenc: date_Commenc,
                     nbParticp: nbParticp,
-                    professeur: professeur
+                    professeur: professeur,
+                    type: type
                 };
                 await CoursModel(new_cours).save();
             }
@@ -443,6 +441,31 @@ routeExp.route("/addcours").post(async function (req, res) {
 
 });
 
+//Add new groupe
+routeExp.route("/addgroupe").post(async function (req, res) {
+    var name_Groupe = req.body.name_Groupe;
+    var cours = req.body.cours;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await GroupeModel.findOne({ $or: [{ name_Groupe: name_Groupe , cours: cours }] })) {
+                res.send("error");
+            } else {
+                var new_gpe = {
+                    name_Groupe: name_Groupe,
+                    cours: cours
+                };
+                await GroupeModel(new_gpe).save();
+            }
+        });
+
+});
 
 //Liste cours
 routeExp.route("/listeCours").get(async function (req, res) {
@@ -467,6 +490,29 @@ routeExp.route("/listeCours").get(async function (req, res) {
     // }
 });
 
+//Liste cours
+routeExp.route("/GroupeAdmin").get(async function (req, res) {
+    session = req.session;
+    res.render("AvecBack/GroupeAdmin.html");
+    //if (session.type_util == "Admin") {
+    //console.log('listcours == ');
+        // mongoose
+        //     .connect(
+        //         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        //         {
+        //             useUnifiedTopology: true,
+        //             UseNewUrlParser: true,
+        //         }
+        //     )
+        //     .then(async () => {
+
+        //         var listcour = await CoursModel.find({ validation: true });
+        //         res.render("ListeCours.html", { listcour: listcour });
+        //     });
+    // } else {
+    //     res.redirect("/");
+    // }
+});
 //Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
     session = req.session;

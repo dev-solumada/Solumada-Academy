@@ -90,17 +90,16 @@ function verify_all() {
 }
 
 function add_new_cours() {
-    console.log("**************");
     var name_Cours = document.getElementById("nameCours").value;
     var date_Commenc = document.getElementById("date_Commenc").value;
     var professeur = document.getElementById("professeur").value;
     var nbParticp = document.getElementById("nbParticp").value;
-    console.log("profes == "+ professeur);
-    sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp);
+    var type = document.getElementById("type").value;
+    console.log("type == "+ type);
+    sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp, type);
 }
 
-function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp) {
-    console.log("date == " + name_Cours , date_Commenc, professeur, nbParticp);
+function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp, type) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -118,5 +117,5 @@ function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp) {
             }
         }
     };
-    http.send("name_Cours=" + name_Cours + "&date_Commenc=" + date_Commenc + "&professeur=" + professeur + "&nbParticp=" + nbParticp);
+    http.send("name_Cours=" + name_Cours + "&date_Commenc=" + date_Commenc + "&professeur=" + professeur + "&nbParticp=" + nbParticp + "&type=" + type);
 }
