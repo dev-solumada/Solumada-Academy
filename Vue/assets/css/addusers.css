@@ -153,7 +153,7 @@
 .content {
     background: linear-gradient(#aae65c, #98ad44);
     width: calc(100% - 350px);
-    height: 100vh;
+    height: auto;
     margin-left: 350px;
     transition: all 0.3s ease;
 }
@@ -283,7 +283,7 @@
 .content .main-content .table-container
 {
     width: auto;
-    height: 550px;
+    height: auto;
     background-color: transparent;
 }
 
