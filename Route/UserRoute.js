@@ -479,8 +479,12 @@ routeExp.route("/listeCours").get(async function (req, res) {
             .then(async () => {
 
                 var listcour = await CoursModel.find({ validation: true });
-                res.render("ListeCours.html", { listcour: listcour });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                res.render("ListeCours.html", { listcour: listcour,listcourOblig:listcourOblig, listcourFac:listcourFac });
             });
+
+
     // } else {
     //     res.redirect("/");
     // }
