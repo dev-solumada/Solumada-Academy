@@ -47,7 +47,7 @@
                     
                     <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
                     <li>
-                        <a href="./adminHome.html"> <i class="menu-icon fa fa-home"></i>Home </a>
+                        <a href="/accueilAdmin"> <i class="menu-icon fa fa-home"></i>Home </a>
                     </li>
                     <li>
                         <a href="./adminUser.html"> <i class="menu-icon fa fa-users"></i>Users </a>
@@ -235,37 +235,48 @@
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">M Code</label></div>
+                                        <div class="col col-md-3"><label for="m_code" class=" form-control-label">M Code</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="email-input" name="email-input" placeholder="Enter Email" class="form-control" required>
+                                            <input type="text" id="m_code" name="m_code" placeholder="M Code" class="form-control" required>
                                             <!-- <small class="help-block form-text">Please enter your email</small> -->
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="password-input" class=" form-control-label">Agent Num</label></div>
+                                        <div class="col col-md-3"><label for="num_agent" class=" form-control-label">Agent Num</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control" required>
+                                            <input type="text" id="num_agent" name="num_agent" placeholder="Password" class="form-control" required>
                                             <!-- <small class="help-block form-text">Please enter a complex password</small> -->
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="password-input" class=" form-control-label">Cours</label></div>
+                                        <div class="col col-md-3"><label for="type_util" class="form-control-label">User Type</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="password-input" name="password-input" placeholder="Password" class="form-control" required>
+                                            <select name="typ_util" id="type_util" class="form-control" required*>
+                                                <option disabled selected>Select Type</option>
+                                                <option value="Participant" >Admin</option>
+                                                <option value="Teacher">Teacher</option>
+                                                <option value="Admin">Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="cours" class=" form-control-label">Cours</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" id="cours" name="cours" placeholder="Cours" class="form-control" required>
                                             <!-- <small class="help-block form-text">Please enter a complex password</small> -->
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="password-input" class=" form-control-label">Niveau</label></div>
+                                        <div class="col col-md-3"><label for="level" class=" form-control-label">Level</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control" required>
+                                            <input type="text" id="level" name="level" placeholder="Level" class="form-control" required>
                                             <!-- <small class="help-block form-text">Please enter a complex password</small> -->
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="select-group" class=" form-control-label">group</label></div>
+                                        <div class="col col-md-3"><label for="group" class=" form-control-label">group</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="select-group" id="select-group" class="form-control" required*>
+                                            <select name="group" id="group" class="form-control" required*>
                                                 <option value="0" disabled selected>Please select</option>
                                                 <option value="1">Group 1</option>
                                                 <option value="2">Group 2</option>
@@ -296,7 +307,7 @@
     <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="./../assets/js/update-user.js"></script>
+    <script src="./../assets/basetemplate/assets/js/update-user.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
