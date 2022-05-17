@@ -547,7 +547,7 @@ routeExp.route("/listeUser").get(async function (req, res) {
 
 
 //Liste User
-routeExp.route("/graduation").get(async function (req, res) {
+routeExp.route("/adminGraduation").get(async function (req, res) {
     session = req.session;
     if (session.type_util == "Admin") {
         mongoose
@@ -573,7 +573,7 @@ routeExp.route("/graduation").get(async function (req, res) {
     }
 });
 //Liste User
-routeExp.route("/view").get(async function (req, res) {
+routeExp.route("/adminGlobalview").get(async function (req, res) {
     session = req.session;
     if (session.type_util == "Admin") {
         mongoose
