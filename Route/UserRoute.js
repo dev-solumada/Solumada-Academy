@@ -409,26 +409,27 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 routeExp.route("/newcours").get(async function (req, res) {
     session = req.session;
     var professeur = 'Professeur'
-    mongoose
-    .connect(
-        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-        {
-            useUnifiedTopology: true,
-            UseNewUrlParser: true,
-        }
-    )
-    .then(async () => {
+    if (session.type_util == "Admin") {
+        mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
 
-        var listuser = await UserSchema.find({ type_util : professeur  });
-        res.render("newCours.html", { listuser: listuser });
-    });
+            var listuser = await UserSchema.find({ type_util : professeur  });
+            res.render("newCours.html", { listuser: listuser });
+        });
     // res.render("newCours.html");
     // if (session.type_util == "Admin") {
     //     res.render("newCours.html");
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
 //Add new cours
