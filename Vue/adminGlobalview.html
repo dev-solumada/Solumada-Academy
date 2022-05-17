@@ -62,17 +62,26 @@
                                 <i class="fa fa-bookmark"></i><a href="/listeCours">Obligatory</a>
                             </li>
                             <div class="obg-items">
-                                <li><i class="fa fa-table"></i><a href="/listeCours">OBG1</a></li>
-                                <li><i class="fa fa-table"></i><a href="/listeCours">OBG2</a></li>
-                                <li><i class="fa fa-table"></i><a href="/listeCours">OBG3</a></li>
+                                <% listcourOblig.forEach(function(listcourOblig) { %>
+                                    <li>
+                                        <i class="fa fa-table"></i>
+                                        <a href="/listeCours" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
+                                            <%= listcourOblig.name_Cours %>
+                                        </a>
+                                    </li>
+                                  <% }); %>
+                                
                             </div>
                             
 
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">Optional</a></li>
                             <div class="opt-items">
-                                <li><i class="fa fa-table"></i><a href="/listeCours">OPT1</a></li>
-                                <li><i class="fa fa-table"></i><a href="/listeCours">OPT2</a></li>
-                                <li><i class="fa fa-table"></i><a href="/listeCours">OPT3</a></li>
+                                <% listcourFac.forEach(function(listcourFac) { %>
+                                  <li><i class="fa fa-table"></i>
+                                    <a class="" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')">
+                                        <%= listcourFac.name_Cours %>
+                                    </a></li>
+                                <% }); %>
                             </div>
 
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
@@ -80,10 +89,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="active" href="./adminGraduation.html"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
+                        <a class="active" href="/graduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
                     </li>
                     <li>
-                        <a href="./adminGlobalview.html"> <i class="menu-icon fa fa-eye"></i>Global view </a>
+                        <a href="/view"> <i class="menu-icon fa fa-eye"></i>Global view </a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
