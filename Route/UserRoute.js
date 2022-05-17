@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const UserSchema = require("../Models/User");
 const CoursModel = require("../Models/CoursModel");
 const nodemailer = require('nodemailer');
+const GroupeModel = require("../Models/GroupeModel");
 
 //Mailing
 var transporter = nodemailer.createTransport({
@@ -386,7 +387,7 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
     session = req.session;
-    var professeur = 'Professeur'
+    //var professeur = 'Professeur'
     mongoose
     .connect(
         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -397,8 +398,8 @@ routeExp.route("/newcours").get(async function (req, res) {
     )
     .then(async () => {
 
-        var listuser = await UserSchema.find({ type_util : professeur  });
-        res.render("newCours.html", { listuser: listuser });
+        var listuser = await UserSchema.find({ validation: true });
+        res.render("AvecBack/newCours.html", { listuser: listuser });
     });
     // res.render("newCours.html");
     // if (session.type_util == "Admin") {
@@ -441,32 +442,6 @@ routeExp.route("/addcours").post(async function (req, res) {
 
 });
 
-//Add new groupe
-routeExp.route("/addgroupe").post(async function (req, res) {
-    var name_Groupe = req.body.name_Groupe;
-    var cours = req.body.cours;
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            if (await GroupeModel.findOne({ $or: [{ name_Groupe: name_Groupe , cours: cours }] })) {
-                res.send("error");
-            } else {
-                var new_gpe = {
-                    name_Groupe: name_Groupe,
-                    cours: cours
-                };
-                await GroupeModel(new_gpe).save();
-            }
-        });
-
-});
-
 //Liste cours
 routeExp.route("/listeCours").get(async function (req, res) {
     session = req.session;
@@ -483,36 +458,14 @@ routeExp.route("/listeCours").get(async function (req, res) {
             .then(async () => {
 
                 var listcour = await CoursModel.find({ validation: true });
-                res.render("ListeCours.html", { listcour: listcour });
+                res.render("AvecBack/listeCours.html", { listcour: listcour });
+                //res.render("ListeCours.html", { listcour: listcour });
             });
     // } else {
     //     res.redirect("/");
     // }
 });
 
-//Liste cours
-routeExp.route("/GroupeAdmin").get(async function (req, res) {
-    session = req.session;
-    res.render("AvecBack/GroupeAdmin.html");
-    //if (session.type_util == "Admin") {
-    //console.log('listcours == ');
-        // mongoose
-        //     .connect(
-        //         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-        //         {
-        //             useUnifiedTopology: true,
-        //             UseNewUrlParser: true,
-        //         }
-        //     )
-        //     .then(async () => {
-
-        //         var listcour = await CoursModel.find({ validation: true });
-        //         res.render("ListeCours.html", { listcour: listcour });
-        //     });
-    // } else {
-    //     res.redirect("/");
-    // }
-});
 //Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
     session = req.session;
@@ -634,5 +587,140 @@ routeExp.route("/dropcours").post(async function (req, res) {
   })
   })
 
+
+
+
+
+
+  //nouveau
+
+//New Cours
+routeExp.route("/newgroupe").get(async function (req, res) {
+    session = req.session;
+    //var professeur = 'Professeur'
+    var type = "obligatoire"
+    var cours = "cours"
+    mongoose
+    .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+            useUnifiedTopology: true,
+            UseNewUrlParser: true,
+        }
+    )
+    .then(async () => {
+
+        var listgroupe = await GroupeModel.find({ validation: true });
+        res.render("AvecBack/newGroupe.html", { listgroupe: listgroupe });
+    });
+    // res.render("newCours.html");
+    // if (session.type_util == "Admin") {
+    //     res.render("newCours.html");
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
+
+//Post Add new groupe
+routeExp.route("/addgroupe").post(async function (req, res) {
+    var name_Groupe = req.body.nameGroupe;
+    var cours = "anglais";
+    //var type = "obligatoire"
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await GroupeModel.findOne({ $or: [{ name_Groupe: name_Groupe , cours: cours }] })) {
+                res.send("error");
+            } else {
+                var new_gpe = {
+                    name_Groupe: name_Groupe,
+                    cours: cours
+                };
+                console.log("new groupe ", new_gpe);
+                await GroupeModel(new_gpe).save();
+            }
+        });
+
+});
+
+//Liste cours
+routeExp.route("/GroupeCours").get(async function (req, res) {
+    session = req.session;
+    //if (session.type_util == "Admin") {
+    //console.log('listcours == ');
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                var listgroupe = await GroupeModel.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                
+                //console.log("liste " ,listgroupe)
+                //console.log("obligatoire " , listcourOblig);
+                //console.log("facultatif " , listcourFac);
+                res.render("AvecBack/GroupeCours.html", {listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+                //res.render("ListeCours.html", { listcour: listcour });
+            });
+    // } else {
+    //     res.redirect("/");
+    // }
+});
   
+//Liste cours
+routeExp.route("/GroupeAdmin").post(async function (req, res) {
+    session = req.session;
+    var name_cours = req.body.name_cours;
+    var type = req.body.type;
+    //if (session.type_util == "Admin") {
+    //console.log('listcours == ');
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                var listgroupe = await GroupeModel.find({ name_cours:name_cours});
+                
+                
+                console.log("liste " ,listgroupe)
+                //console.log("obligatoire " , listcourOblig);
+
+                //   <li><a class="dropdown-item">Obligatoire</a></li>
+                //   <% listcourOblig.forEach(function(listcourOblig) { %>
+                //     <li><a class="" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"><%= listcourOblig.name_Cours %></a></li>
+                //   <% }); %>
+                    
+                //   <li><hr class="dropdown-divider"></li>
+
+                //   <li><a class="dropdown-item">Facultatif</a></li>
+                //   <% listcourFac.forEach(function(listcourFac) { %>
+                //     <li><a class="" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"><%= listcourFac.name_Cours %></a></li>
+                //   <% }); %>
+
+                //console.log("facultatif " , listcourFac);
+                res.render("AvecBack/GroupeAdmin.html", {listgroupe:listgroupe});
+                //res.render("ListeCours.html", { listcour: listcour });
+            });
+    // } else {
+    //     res.redirect("/");
+    // }
+});
 module.exports = routeExp;

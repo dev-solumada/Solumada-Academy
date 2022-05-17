@@ -56,6 +56,17 @@
                                                         <span class="menu-item-ico my-auto"><i class="bx bx-book"></i></span><span class="menu-item-txt my-auto">Cours</span>
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                                      <li><a class="dropdown-item">Obligatoire</a></li>
+                                                      <% listcourOblig.forEach(function(listcourOblig) { %>
+                                                        <li><a class="" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"><%= listcourOblig.name_Cours %></a></li>
+                                                      <% }); %>
+                                                      
+                                                      <li><hr class="dropdown-divider"></li>
+
+                                                      <li><a class="dropdown-item">Facultatif</a></li>
+                                                      <% listcourFac.forEach(function(listcourFac) { %>
+                                                        <li><a class="" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"><%= listcourFac.name_Cours %></a></li>
+                                                      <% }); %>
                                                     </ul>
                                                   </li>
                                                 </span>
@@ -87,18 +98,7 @@
                     <button>PARCOURS</button>
                     
                 </div> -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        GROUPE
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <% listgroupe.forEach(function(listgroupe) { %>
-                        <option value="<%= listgroupe.name_Groupe %>"><%= listgroupe.name_Groupe %></option>
-                        
-                        <% }); %>
-                    </ul>
-                </div>
-                <button class="btn-adduser text-light"><a href="/newgroupe">New groupe</a></button>
+                <h1>COURS</h1>
             </div>
         </div>
     </div>

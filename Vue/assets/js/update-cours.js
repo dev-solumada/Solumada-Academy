@@ -71,6 +71,11 @@ function verify_all() {
     }
 }
 
+function formatTime(time, prefix = "") {
+  //return typeof time == "object" ? prefix + time.toLocaleDateString() : "";
+  console.log("time ", time == "object" ? prefix + time.toLocaleDateString() : "");
+}
+
 function getdata(url, id) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -78,8 +83,10 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
+        var date = new Date(data[1]).toLocaleDateString('en-CA');
+        //console.log("data_date == ", data[1].toLocaleDateString("fr"));
         //console.log("data *** "+data[1].toLocaleDateString("fr"));
-        nom.value = data[0]; date_Commenc.value = data[1]; nb_part.value = data[2]; prof.value = data[3];
+        nom.value = data[0]; date_Commenc.value = date; nb_part.value = data[2]; prof.value = data[3];
         btnu.disabled = false;
         ids = id;
       }
@@ -133,6 +140,7 @@ function update_user(url, id, name_Cours, date_Commenc, nbParticp, professeur) {
         }
       }
     };
+    console.log("date_commenc ++  ", date_Commenc.toLocaleDateString("fr"));
     http.send("id=" + id + "&name_Cours=" + name_Cours + "&date_Commenc=" + date_Commenc + "&nbParticp=" + nbParticp+ "&professeur=" + professeur );
   }
 
