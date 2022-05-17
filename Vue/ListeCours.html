@@ -1,254 +1,409 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/addUser.css">
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-    <title>Users</title>
+    <title>Sufee Admin - HTML5 Admin Template</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="../apple-icon.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+
+
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="../assets/basetemplate/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/chosen/chosen.min.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row d-flex d-flex-inline px-0">
-            <div class="col-2 menu">
-                <div class="row">
-                    <div class="col-12 close-btn-side d-flex justify-content-end align-items-center">
-                        <span class="close-btn"><i class="bx bx-x"></i></span>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center logo-container">
-                        <img class="img-fluid" src="./assets/images/logo.jpg " alt="">
-                    </div>
-                    <div class="col-12 d-flex">
-                        <div class="menu-container">
-                            <div class="menu-title d-flex d-flex-inline">
-                                <span class="menuBtn" id="menu-ico"><i class="bx bx-menu"></i></span>
-                                <span id="menu-txt">Menu</span>
+    <!-- Left Panel -->
+
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="./"><img src="../assets/basetemplate/images/logo.jpg" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="../assets/basetemplate/images/logo2.png" alt="Logo"></a>
+            </div>
+
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    
+                    <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
+                    <li>
+                        <a href="./adminHome.html"> <i class="menu-icon fa fa-home"></i>Home </a>
+                    </li>
+                    <li>
+                        <a href="#"> <i class="menu-icon fa fa-users"></i>Users </a>
+                    </li>
+
+                    <li class="menu-item-has-children active dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li class="menuCoursOBG" id="obgButton">
+                                <i class="fa fa-bookmark"></i><a href="./adminCours.html">Obligatory</a>
+                            </li>
+                            <div class="obg-items">
+                                <li><i class="fa fa-table"></i><a href="#">OBG1</a></li>
+                                <li><i class="fa fa-table"></i><a href="#">OBG2</a></li>
+                                <li><i class="fa fa-table"></i><a href="#">OBG3</a></li>
                             </div>
-                            <div class="menu-items mx-auto">
-                                <ul>
-                                    <li>
-                                        <a href="/accueilAdmin">
-                                            <div class="menu-item d-flex d-flex-inline">
-                                                <span class="menu-item-ico my-auto"><i class="bx bx-home"></i></span>
-                                                <span class="menu-item-txt my-auto">Home</span>
-                                            </div>
-                                        </a>
+                            
+
+                            <li class="menuCours"><i class="fa fa-bookmark"></i><a href="#">Optional</a></li>
+                            <div class="opt-items">
+                                <li><i class="fa fa-table"></i><a href="#">OPT1</a></li>
+                                <li><i class="fa fa-table"></i><a href="#">OPT2</a></li>
+                                <li><i class="fa fa-table"></i><a href="#">OPT3</a></li>
+                            </div>
+
+                            <li class="menuCours"><i class="fa fa-bookmark"></i><a href="#">All Cours</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="active" href="./adminGraduation.html"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
+                    </li>
+                    <li>
+                        <a href="#"> <i class="menu-icon fa fa-eye"></i>Global view </a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->
+
+    <!-- Left Panel -->
+
+    <!-- Right Panel -->
+
+    <div id="right-panel" class="right-panel">
+
+        <!-- Header-->
+        <header id="header" class="header">
+
+            <div class="header-menu">
+
+                <div class="col-sm-7">
+                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+                    <div class="header-left">
+                        
+
+        
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="../assets/basetemplate/images/admin.jpg" alt="User Avatar">
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+
+                            <!-- <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
+
+                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a> -->
+
+                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header><!-- /header -->
+        <!-- Header-->
+
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Cours</a></li>
+                            <li class="active">Obligatory</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Cours Name</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Group</a>
                                     </li>
-                                    <li>
-                                        <a href="/listeUser">
-                                            <div class="menu-item d-flex d-flex-inline">
-                                                <span class="menu-item-ico my-auto"><i class="bx bx-user"></i></span>
-                                                <span class="menu-item-txt my-auto">Users</span>
-                                            </div>
-                                        </a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Time Table</a>
                                     </li>
-                                    <li>
-                                        <a href="/listeCours">
-                                            <div class="menu-item active d-flex d-flex-inline">
-                                                <span class="menu-item-ico my-auto"><i class="bx bx-book"></i></span>
-                                                <span class="menu-item-txt my-auto">Cours</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <div class="menu-item d-flex d-flex-inline">
-                                                <span class="menu-item-ico my-auto"><i
-                                                        class="bx bx-bookmark"></i></span>
-                                                <span class="menu-item-txt my-auto">Points</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <div class="menu-item d-flex d-flex-inline">
-                                                <span class="menu-item-ico my-auto"><i class="bx bx-chart"></i></span>
-                                                <span class="menu-item-txt my-auto">Graduation</span>
-                                            </div>
-                                        </a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Parcours</a>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-10 content">
-                <div class="header row">
-                    <div class="header-container col-12">
-                        <div class="d-flex justify-content-between header-content">
-                            <div class="header-left">
-                                <div class="menu-ico-container"><i class="btn-header bx bx-menu"></i></div>
-                            </div>
-                            <div class="header-right my-auto">
-                                <span class="mx-1 text-center user-txt">Andy Solumada</span>
-                                <span class=" exit-ico text-center"><i class="bx bx-exit"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row px-2 mx-auto d-block main-content">
-                    <div class="col-sm-11 col-md-11 col-lg-11 col-xl-10 col-xxl-10 d-flex all-content">
-                        <div class="action-side row d-flex justify-content-between mx-0">
-                            <div class="col action-left my-auto">
-                                <button class="btn-adduser text-light"><a href="/newcours">New</a></button>
-                            </div>
-                            <div class="col action-right my-auto">
-                                <nav aria-label="breadcrumb justify-content-end">
-                                    <ol class="breadcrumb ol-bread m-auto">
-                                        <li class="breadcrumb-item"><a class="bread-ref" href="/accueilAdmin">Home</a>
-                                        </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Cours</li>
-                                    </ol>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="notif" class="col-sm-6 notification">
-                        
-                    </div>
-                    <div class="col-sm-11 col-md-11 col-lg-11 mt-2 col-xl-10 col-xxl-10 table-container">
-                        <table id="table_id" class="table table-striped table-hover text-center">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Begin Date</th>
-                                    <th scope="col">Number</th>
-                                    <th scope="col">Teacher</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% listcour.forEach(function(listcour) { %>
-                                    <tr>
-                                        <td style="vertical-align: center;">
-                                            <%= listcour.name_Cours %>
-                                        </td>
-                                        <td>
-                                            <%= listcour.date_Commenc.toLocaleDateString("fr") %>
-                                        </td>
-                                        <td>
-                                            <%= listcour.nbParticp %>
-                                        </td>
-                                        <td>
-                                            <%= listcour.professeur %>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group mx-auto" role="group" aria-label="Basic example">
-                                                <button type="button" class="btn btn-sm btn-success"><i
-                                                        class="bx bx-detail"></i></button>
-                                                <button type="button" id="first" onclick="getdata('/getcours','<%= listcour._id %>')" 
-                                                    class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-                                                    data-bs-whatever="@getbootstrap"><i
-                                                        class="bx bx-edit"></i></button>
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser" ><i
-                                                    onclick="delete_cours('<%= listcour.name_Cours %>')" class="bx bx-trash"></i></button>
+                                <div class="tab-content pl-3 p-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="col-md-12 mt-2">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="d-flex justify-content-between">
+                                                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#groupModal"><i class="fa fa-plus"></i> new</button>
+                                                        <strong class="card-title my-auto">Group</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="text-center">
+                                                        <h3>ProffName</h3>
+                                                    </div>
+                                                    <div class="groupselect">
+                                                        <form action="#">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="select-group">Group Name </label>
+                                                                <select class="form-select" name="select-group" id="select-group">
+                                                                    <option value="groupe" selected>Group PDF</option>
+                                                                    <option value="groupe">Group IT</option>
+                                                                    <option value="groupe">Group SOI</option>
+                                                                    <option value="groupe">Group DS4</option>
+                                                                    <option value="groupe">Group O5</option>
+                                                                </select>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>mcode</th>
+                                                                <th>numbering</th>
+                                                                <th>level</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Onisoa</td>
+                                                                <td>PDFB-001</td>
+                                                                <td>001</td>
+                                                                <td>Beginning A2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Thierry</td>
+                                                                <td>PDFB-008</td>
+                                                                <td>008</td>
+                                                                <td>Intermediate B1</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <% }); %>
-                            </tbody>
-                        </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="col-md-12 mt-2">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="d-flex justify-content-between">
+                                                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#tameTableModal"><i class="fa fa-plus"></i> new</button>
+                                                        <h4 class="my-auto">Date: 16/02/2022</h4>
+                                                        <strong class="card-title my-auto">Time Table</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Week</th>
+                                                                <th>Group</th>
+                                                                <th>Starting Time</th>
+                                                                <th>End Ending</th>
+                                                                <th>actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Monday 16/05/2022</td>
+                                                                <td>Group A</td>
+                                                                <td>11h00</td>
+                                                                <td>12h00</td>
+                                                                <td>Action</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tuesday 17/05/2022</td>
+                                                                <td>Group A</td>
+                                                                <td>11h00</td>
+                                                                <td>12h00</td>
+                                                                <td>Action</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                        <div class="col-md-12 mt-2">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="d-flex justify-content-end">
+                                                        <strong class="card-title my-auto">Parcours</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Week</th>
+                                                                <th>date</th>
+                                                                <th>Start</th>
+                                                                <th>End</th>
+                                                                <th>Group</th>
+                                                                <th>present</th>
+                                                                <th>absence</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>week 1</td>
+                                                                <td>16/05/2022</td>
+                                                                <td>10h</td>
+                                                                <td>11h</td>
+                                                                <td>group A</td>
+                                                                <td>3</td>
+                                                                <td>2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>week 2</td>
+                                                                <td>17/05/2022</td>
+                                                                <td>10h</td>
+                                                                <td>11h</td>
+                                                                <td>group A</td>
+                                                                <td>3</td>
+                                                                <td>2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>week 3</td>
+                                                                <td>18/05/2022</td>
+                                                                <td>10h</td>
+                                                                <td>11h</td>
+                                                                <td>group A</td>
+                                                                <td>3</td>
+                                                                <td>2</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form>
-                      <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Nom cours:</label>
-                        <input type="text" class="form-control" id="nom">
-                      </div>
-                      <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Date de commencement:</label>
-                        <input type="date" class="form-control" id="date_Commenc">
-                      </div>
-                      <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label"> Nombre participant:</label>
-                        <input type="number" class="form-control" id="nb_part">
-                      </div>
-                      <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Professseur:</label>
-                        <input type="text" class="form-control" id="prof">
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id ="btnu" class="btn btn-primary" onclick="modify()">Update</button>
-                  </div>
+            
+            <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="largeModalLabel">New Group</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Form here</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Confirm</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-<!-- Modal -->
-<div class="modal fade" id="deleteUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">DELETE USER</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p id="textwarn"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" onclick="confirm_del()">Yes, delete it!</button>
-        </div>
-      </div>
-    </div>
-  </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(
-            function () {
-                $('.btn-header').click(
-                    function () {
-                        $('.menu').addClass('active-mini');
-                    }
-                );
-                $('.close-btn').click(
-                    function () {
-                        $('.menu').removeClass('active-mini');
-                    }
-                );
-            });
-    </script>
+
+            <div class="modal fade" id="tameTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="largeModalLabel">New Time Table</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Form here</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- .animated -->
+        </div><!-- .content -->
+
+
+    </div><!-- /#right-panel -->
+
+    <!-- Right Panel -->
+
+
+    <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../assets/basetemplate/assets/js/main.js"></script>
+
+
+    <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="../assets/basetemplate/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../assets/basetemplate/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../assets/basetemplate/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
+
     <script>
-        $(document).ready( function () {
-            $('#table_id').DataTable({
-                scrollY:        '70vh',
-                scrollCollapse: true,
-            });
+        let obgbutton = document.getElementById('obgButton');
+        let obgitems = document.querySelector('obg-items');
+        obgbutton.click(function(){
+            obgitems.setAttribute('display', 'block');
         });
     </script>
-    <script src="./assets/js/table.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./assets/js/home.js"></script>
 
-    <script src="./assets/js/update-cours.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </body>
 
 </html>
