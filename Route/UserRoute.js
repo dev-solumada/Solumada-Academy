@@ -564,9 +564,6 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
                 res.render("adminGraduation.html", { listuser: listuser,listcourOblig:listcourOblig, listcourFac:listcourFac });
             });
-
-
-
     }
     else {
         res.redirect("/");
@@ -787,11 +784,12 @@ routeExp.route("/GroupeCours").get(async function (req, res) {
     }
 });
   
+
+
 //Liste cours
-routeExp.route("/GroupeAdmin").get(async function (req, res) {
+routeExp.route("/listeCours/:cours").get(async function (req, res) {
     session = req.session;
-    var name_cours = req.body.name_cours;
-    var type = req.body.type;
+    var nomCours =  req.params.nomCours;
     //if (session.type_util == "Admin") {
     //console.log('listcours == ');
         mongoose
@@ -804,28 +802,19 @@ routeExp.route("/GroupeAdmin").get(async function (req, res) {
             )
             .then(async () => {
 
-                var listgroupe = await GroupeModel.find({ name_cours:name_cours});
-                console.log("liste " ,listgroupe)
+                var listgroupe = await GroupeModel.find({ cours: nomCours });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                
+                //console.log("liste " ,listgroupe)
                 //console.log("obligatoire " , listcourOblig);
-
-                //   <li><a class="dropdown-item">Obligatoire</a></li>
-                //   <% listcourOblig.forEach(function(listcourOblig) { %>
-                //     <li><a class="" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"><%= listcourOblig.name_Cours %></a></li>
-                //   <% }); %>
-                    
-                //   <li><hr class="dropdown-divider"></li>
-
-                //   <li><a class="dropdown-item">Facultatif</a></li>
-                //   <% listcourFac.forEach(function(listcourFac) { %>
-                //     <li><a class="" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"><%= listcourFac.name_Cours %></a></li>
-                //   <% }); %>
-
                 //console.log("facultatif " , listcourFac);
-                res.render("AvecBack/GroupeAdmin.html");
+                res.render("AvecBack/listeCours.html", {listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
                 //res.render("ListeCours.html", { listcour: listcour });
             });
     // } else {
     //     res.redirect("/");
     // }
 });
+  
 module.exports = routeExp;

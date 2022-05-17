@@ -1,6 +1,6 @@
-function getdataGP(url, name_Cours, type){
+function getdataGP( name_Cours, type){
     console.log('name_cours == ', name_Cours);
-    console.log('type == ', type);
+    //console.log('type == ', type);
     sendRequest('/GroupeAdmin', name_Cours);
 }
 
@@ -8,7 +8,7 @@ function getdataGP(url, name_Cours, type){
 function sendRequest(url, name_Cours) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
-    http.open("GET", url, true);
+    http.open("POST", url, true);
     // console.log("Niveau == ", niveau);
     // console.log("Heure == ", heure);
     // console.log("Groupe == ", groupe);
