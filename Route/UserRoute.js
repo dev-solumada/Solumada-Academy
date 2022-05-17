@@ -140,6 +140,34 @@ routeExp.route("/accueilAdmin").get(async function (req, res) {
     }
 });
 
+//Accueil admin
+routeExp.route("/accueilAdminBack").get(async function (req, res) {
+    session = req.session;
+    //if (session.type_util == "Admin") {
+        mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+
+            //var listgroupe = await GroupeModel.find({ validation: true });
+            var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+            var listcourFac = await CoursModel.find({ type: 'facultatif' });
+            
+            //console.log("liste " ,listgroupe)
+            //console.log("obligatoire " , listcourOblig);
+            //console.log("facultatif " , listcourFac);
+            res.render("./AvecBack/accueilAdmin.html", {listcourOblig:listcourOblig, listcourFac:listcourFac});
+        });
+    //}
+    // else {
+    //     res.redirect("/");
+    // }
+});
 //Accueil professeur
 routeExp.route("/accueilProf").get(async function (req, res) {
     session = req.session;
@@ -760,11 +788,11 @@ routeExp.route("/GroupeCours").get(async function (req, res) {
 });
   
 //Liste cours
-routeExp.route("/GroupeAdmin").post(async function (req, res) {
+routeExp.route("/GroupeAdmin").get(async function (req, res) {
     session = req.session;
     var name_cours = req.body.name_cours;
     var type = req.body.type;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
     //console.log('listcours == ');
         mongoose
             .connect(
@@ -777,8 +805,6 @@ routeExp.route("/GroupeAdmin").post(async function (req, res) {
             .then(async () => {
 
                 var listgroupe = await GroupeModel.find({ name_cours:name_cours});
-                
-                
                 console.log("liste " ,listgroupe)
                 //console.log("obligatoire " , listcourOblig);
 
@@ -795,11 +821,11 @@ routeExp.route("/GroupeAdmin").post(async function (req, res) {
                 //   <% }); %>
 
                 //console.log("facultatif " , listcourFac);
-                res.render("AvecBack/GroupeAdmin.html", {listgroupe:listgroupe});
+                res.render("AvecBack/GroupeAdmin.html");
                 //res.render("ListeCours.html", { listcour: listcour });
             });
-    } else {
-        res.redirect("/");
-    }
+    // } else {
+    //     res.redirect("/");
+    // }
 });
 module.exports = routeExp;
