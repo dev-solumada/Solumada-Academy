@@ -1135,21 +1135,29 @@ aside.left-panel {
             position: relative; }
 
             /* custom */
-            .menuCours {
+            .children li {
               background-color: transparent;
               color: black;
-              position: relative; }
+              position: relative; 
+          }
 
               .obg-items
               {
-                display: block;
+                /* display: block; */
+                display: none;
                 background: transparent;
+                transition: all .5s ease;
               }
 
               .opt-items
               {
-                display: block;
+              display: none;
+              /* display: block; */
                 background: transparent;
+              }
+
+              .children li:hover > .obg-items{
+                display: block;
               }
 
               /* end custum */
