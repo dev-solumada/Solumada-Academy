@@ -54,16 +54,18 @@
                     </li>
 
                     <li class="menu-item-has-children active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
+                        <span  class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            <i class="menu-icon fa fa-book"></i>Cours
+                        </span>
                         <ul class="sub-menu children dropdown-menu">
                             <li class="menuCoursOBG" id="obgButton">
-                                <i class="fa fa-bookmark"></i><a href="/listeCours">Obligatory</a>
+                                <i class="fa fa-bookmark"></i>Obligatory
                             </li>
                             <div class="obg-items">
                                 <% listcourOblig.forEach(function(listcourOblig) { %>
                                     <li>
                                         <i class="fa fa-table"></i>
-                                        <a href="/listeCours" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
+                                        <a onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
                                             <%= listcourOblig.name_Cours %>
                                         </a>
                                     </li>
@@ -72,7 +74,7 @@
                             </div>
                             
 
-                            <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">Optional</a></li>
+                            <li class="menuCours"><i class="fa fa-bookmark"></i>Optional</li>
                             <div class="opt-items">
                                 <% listcourFac.forEach(function(listcourFac) { %>
                                   <li><i class="fa fa-table"></i>
@@ -163,6 +165,7 @@
 
     <!-- Right Panel -->
 
+    <script src="../assets/js/list-groupe.js"></script>
     <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
