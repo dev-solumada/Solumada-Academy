@@ -1133,33 +1133,13 @@ aside.left-panel {
           padding: 0 0 0 35px; }
           .navbar .navbar-nav li.menu-item-has-children .sub-menu li {
             position: relative; }
+   
 
-            /* custom */
-            .children li {
-              background-color: transparent;
-              color: black;
-              position: relative; 
-            }
-              .obg-items
-              {
-                /* display: block; */
-                display: none;
-                background: transparent;
-                transition: all .5s ease;
-              }
+              /* custom css here */
 
-              .opt-items
-              {
-              display: none;
-              /* display: block; */
-                background: transparent;
-              }
 
-              .children li:hover > .obg-items{
-                display: block;
-              }
+            /* end custum css */
 
-              /* end custum */
           .navbar .navbar-nav li.menu-item-has-children .sub-menu i {
             color: #000000;
             float: left;
