@@ -883,8 +883,8 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 //console.log("liste " ,listgroupe[0].cours)
                 //console.log("obligatoire " , listcourOblig);
                 //console.log("facultatif " , listcourFac);
-                res.render("AvecBack/listeCoursCondition.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
-                //res.render("ListeCours.html", { listcour: listcour });
+                //res.render("AvecBack/listeCoursCondition.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+                res.render("ListeCours.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
             });
     // } else {
     //     res.redirect("/");
