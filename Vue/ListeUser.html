@@ -167,7 +167,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#UserFormModal"><i class="fa fa-plus"></i> New user</button>
+                                    <button type="button" class="btn btn-secondary rounded btn-sm" data-toggle="modal" data-target="#UserFormModal"><small><i class="fa fa-plus"></i> New user</small></button>
                                     <strong class="card-title my-auto">Users</strong>
                                 </div>
                             </div>
@@ -238,14 +238,23 @@
                                 <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
-                                                <div class="feedback align-items-center">
-                                                    <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
-                                                    <small class="alert alert-success text-center" role="alert" style="display: block;color:green">Success message Here</small>
-                                            </div>
+                                            <div class="feedback align-items-center">
+                                                <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
+                                                <small class="alert alert-success text-center" role="alert" style="display: block;color:green">Success message Here</small>
                                         </div>
-                                        <div class="col col-md-3"><label for="Username" class="form-control-label">Username</label></div>
+                                    </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="name" class="form-control-label">Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="email" onchange="verify_mail()" placeholder="username" class="form-control">
+                                            <input type="email" id="name"  placeholder="User Name" class="form-control">
+                                            <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="Username" class="form-control-label">Email</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="email" id="email" onchange="verify_mail()" placeholder="user@gmail.com" class="form-control">
                                             <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
@@ -273,39 +282,6 @@
                                                 <option value="Admin">Admin</option>
                                             </select>
                                             <small id="et" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="cours" onchange="verify_cours()" class=" form-control-label">Cours</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="cours" name="cours" placeholder="Cours" class="form-control">
-                                            <small id="ec" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="level" class=" form-control-label">Level</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="level" name="level" placeholder="Level" class="form-control">
-                                            <small id="el" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="group" class=" form-control-label">Group</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="group" id="group" class="form-control">
-                                                <option value="0" disabled selected>Please select</option>
-                                                <option value="1">Group 1</option>
-                                                <option value="2">Group 2</option>
-                                                <option value="3">Group 3</option>
-                                            </select>
-                                            <small id="eg" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="m_code" class=" form-control-label">Heure</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="time" id="m_code" onchange="verify_time()" name="time" placeholder="Hour" class="form-control">
-                                            <small id="eh" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                 </form>
