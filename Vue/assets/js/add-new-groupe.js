@@ -95,7 +95,7 @@
 // }
 
 function add_new_groupe() {
-    var newgroupe = document.getElementById("newgroupe").value;
+    var newgroupe = document.getElementById("groupName").value;
     var cours = document.getElementById("cours").value;
     console.log("************** ", cours);
     sendRequest('/addgroupe', newgroupe, cours);
@@ -111,12 +111,12 @@ function sendRequest(url, newgroupe, cours) {
             if (this.responseText == "error") {
                 success.style.display = "none";
                 error.style.display = "block";
-                error.innerHTML = "Cours is already registered";
+                error.innerHTML = "Groupe is already registered";
             }
             else {
                 success.style.display = "block";
                 error.style.display = "none";
-                success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+                success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             }
         }
     };
