@@ -191,10 +191,10 @@
                                             <td><%= listuser.type_util %></td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                    <button type="button" class="btn btn-sm btn-success"><i class="fa fa-list"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-success rounded-start"><i class="fa fa-list"></i></button>
                                                     <button type="button" class="btn btn-sm btn-warning" onclick="getdata('/getuser','<%= listuser._id %>')" data-bs-toggle="modal" data-bs-target="#exampleModal" 
                                                         data-bs-whatever="@getbootstrap" ><i class="fa fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteUser" ><i
+                                                    <button type="button" class="btn btn-sm btn-danger rounded-end" delete-btn" data-bs-toggle="modal" data-bs-target="#deleteUser" ><i
                                                         onclick="delete_user('<%= listuser.username %>')"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </td>
