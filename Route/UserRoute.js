@@ -877,9 +877,9 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 var cours = listgroupe[0].cours
                 
                 //console.log("listUser " ,listUser)
-                listUser.forEach(function(listUser) {
-                    console.log(" ******* ", listUser.username)
-                })
+                // listUser.forEach(function(listUser) {
+                //     console.log(" ******* ", listUser.username)
+                // })
                 //console.log("liste " ,listgroupe[0].cours)
                 //console.log("obligatoire " , listcourOblig);
                 //console.log("facultatif " , listcourFac);
