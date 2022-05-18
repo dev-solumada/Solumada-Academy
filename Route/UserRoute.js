@@ -891,4 +891,43 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
     // }
 });
   
+
+
+//Liste cours
+routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
+    session = req.session;
+    var nomCours =  req.params.cours;
+    //if (session.type_util == "Admin") {
+    //console.log('listcours == ', req.params.cours);
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                var listgroupe = await GroupeModel.find({ cours: nomCours });
+                var listUser = await UserSchema.find({ cours: nomCours });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var cours = listgroupe[0].cours
+                
+                //console.log("listUser " ,listUser)
+                // listUser.forEach(function(listUser) {
+                //     console.log(" ******* ", listUser.username)
+                // })
+                //console.log("liste " ,listgroupe[0].cours)
+                //console.log("obligatoire " , listcourOblig);
+                //console.log("facultatif " , listcourFac);
+                //res.render("AvecBack/listeCoursCondition.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+                res.render("./AvecBack/ListeCours.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+            });
+    // } else {
+    //     res.redirect("/");
+    // }
+});
+  
 module.exports = routeExp;

@@ -23,9 +23,11 @@
     <link rel="stylesheet" href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="../assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
 
     <link rel="stylesheet" href="../assets/basetemplate/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/listeCours.css">
     <link rel="stylesheet" href="../assets/basetemplate/vendors/chosen/chosen.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
@@ -38,16 +40,18 @@
         <nav class="navbar navbar-expand-sm navbar-default">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
+                    aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="./"><img src="../assets/basetemplate/images/logo.jpg" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="../assets/basetemplate/images/logo2.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="../assets/basetemplate/images/logo2.png"
+                        alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    
+
                     <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
                     <li>
                         <a href="/accueilAdmin"> <i class="menu-icon fa fa-home"></i>Home </a>
@@ -57,7 +61,8 @@
                     </li>
 
                     <li class="menu-item-has-children active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
                             <i class="menu-icon fa fa-book"></i>
                             Cours
                         </a>
@@ -69,23 +74,24 @@
                                 <% listcourOblig.forEach(function(listcourOblig) { %>
                                     <li>
                                         <i class="fa fa-table"></i>
-                                        <a href="/listeCours/<%= listcourOblig.name_Cours %>" >
+                                        <a href="/listeCours/<%= listcourOblig.name_Cours %>">
                                             <%= listcourOblig.name_Cours %>
                                         </a>
                                     </li>
-                                  <% }); %>
-                                
+                                    <% }); %>
+
                             </div>
-                            
+
 
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">Optional</a></li>
                             <div class="opt-items">
                                 <% listcourFac.forEach(function(listcourFac) { %>
-                                  <li><i class="fa fa-table"></i>
-                                    <a class="" href="/listeCours/<%= listcourFac.name_Cours %>">
-                                        <%= listcourFac.name_Cours %>
-                                    </a></li>
-                                <% }); %>
+                                    <li><i class="fa fa-table"></i>
+                                        <a class="" href="/listeCours/<%= listcourFac.name_Cours %>">
+                                            <%= listcourFac.name_Cours %>
+                                        </a>
+                                    </li>
+                                    <% }); %>
                             </div>
 
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
@@ -93,7 +99,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
+                        <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations
+                        </a>
                     </li>
                     <li>
                         <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global View </a>
@@ -117,16 +124,18 @@
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        
 
-        
+
+
                     </div>
                 </div>
 
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="../assets/basetemplate/images/admin.jpg" alt="User Avatar">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="../assets/basetemplate/images/admin.jpg"
+                                alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -173,30 +182,39 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#courModal"><i class="fa fa-plus"></i> cour</button>
+                                    <button class="btn btn-secondary" type="button" data-toggle="modal"
+                                        data-target="#courModal"><i class="fa fa-plus"></i> cour</button>
                                     <strong class="card-title my-auto">Cours Name</strong>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Group</a>
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home"
+                                            role="tab" aria-controls="home" aria-selected="true">Group</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Time Table</a>
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
+                                            role="tab" aria-controls="profile" aria-selected="false">Time Table</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Parcours</a>
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact"
+                                            role="tab" aria-controls="contact" aria-selected="false">Parcours</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content pl-3 p-1" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                        aria-labelledby="home-tab">
                                         <div class="col-md-12 mt-2">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#groupModal"><i class="fa fa-plus"></i> group</button>
-                                                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#addUser"><i class="fa fa-plus"></i> new membre</button>
+                                                        <button class="btn btn-secondary" type="button"
+                                                            data-toggle="modal" data-target="#groupModal"><i
+                                                                class="fa fa-plus"></i> group</button>
+                                                        <button class="btn btn-secondary" type="button"
+                                                            data-toggle="modal" data-target="#addUser"><i
+                                                                class="fa fa-plus"></i> new membre</button>
                                                         <strong class="card-title my-auto">Group</strong>
                                                     </div>
                                                 </div>
@@ -207,19 +225,85 @@
                                                     <div class="groupselect">
                                                         <form action="#">
                                                             <div class="form-group">
-                                                                <label class="form-label" for="select-group">Group Name </label>
-                                                                <select class="form-select" name="select-group" id="select-group">
+                                                                <label class="form-label" for="select-group">Group Name
+                                                                </label>
+                                                                <select class="form-select" name="select-group"
+                                                                    id="select-group">
 
                                                                     <% listgroupe.forEach(function(listgroupe) { %>
                                                                         <option value="groupe">
                                                                             <%= listgroupe.name_Groupe %>
                                                                         </option>
-                                                                    <% }); %>
+                                                                        <% }); %>
                                                                 </select>
                                                             </div>
+
+
+            <select class="form-select" name="select-group"
+                id="select-group-1">
+
+                <% listgroupe.forEach(function(listgroupe) { %>
+                    <option value="groupe">
+                        <%= listgroupe.name_Groupe %>
+                    </option>
+                    <% }); %>
+            </select>
+            <div>
+                <select id="select01">
+                    <option value="admin">Admin</option>
+                    <option value="eng">Engineering</option>
+                </select>
+
+            </div>
+
+
+
+            <div class="myClass" id="admin">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ADMIN</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="myClass" id="eng">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Engineering</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
                                                         </form>
                                                     </div>
-                                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                                    <table id="bootstrap-data-table-export"
+                                                        class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
                                                                 <th>Name</th>
@@ -247,18 +331,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="tab-pane fade" id="profile" role="tabpanel"
+                                        aria-labelledby="profile-tab">
                                         <div class="col-md-12 mt-2">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#tameTableModal"><i class="fa fa-plus"></i> time Table</button>
+                                                        <button class="btn btn-secondary" type="button"
+                                                            data-toggle="modal" data-target="#tameTableModal"><i
+                                                                class="fa fa-plus"></i> time Table</button>
                                                         <h4 class="my-auto">Date: 16/02/2022</h4>
                                                         <strong class="card-title my-auto">Time Table</strong>
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                                    <table id="bootstrap-data-table-export"
+                                                        class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
                                                                 <th>Week</th>
@@ -289,7 +377,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="tab-pane fade" id="contact" role="tabpanel"
+                                        aria-labelledby="contact-tab">
                                         <div class="col-md-12 mt-2">
                                             <div class="card">
                                                 <div class="card-header">
@@ -298,7 +387,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                                    <table id="bootstrap-data-table-export"
+                                                        class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
                                                                 <th>Week</th>
@@ -350,8 +440,8 @@
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" id="courModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+            <div class="modal fade" id="courModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -359,38 +449,55 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                    class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
-                                                <div class="feedback align-items-center">
-                                                    <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
-                                                    <small class="alert alert-success text-center" role="alert" style="display: block;color:green">Success message Here</small>
+                                            <div class="feedback align-items-center">
+                                                <small class="alert alert-danger text-center" role="alert" id="error"
+                                                    style="display: none;color:red">Error message Here</small>
+                                                <small class="alert alert-success text-center" role="alert"
+                                                    style="display: block;color:green">Success message Here</small>
                                             </div>
                                         </div>
-                                        <div class="col col-md-3"><label for="name_cours" class="form-control-label">Cour Name</label></div>
+                                        <div class="col col-md-3"><label for="name_cours"
+                                                class="form-control-label">Cour Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="name_cours" onchange="" placeholder="Cour Name" class="form-control">
-                                            <small id="name_cours_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <input type="text" id="name_cours" onchange="" placeholder="Cour Name"
+                                                class="form-control">
+                                            <small id="name_cours_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="dateCommenc" class=" form-control-label">Beginning Date</label></div>
+                                        <div class="col col-md-3"><label for="dateCommenc"
+                                                class=" form-control-label">Beginning Date</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="date" id="date_Commenc" onchange="" placeholder="M Code" class="form-control">
-                                            <small id="dateCommenc_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <input type="date" id="date_Commenc" onchange="" placeholder="M Code"
+                                                class="form-control">
+                                            <small id="dateCommenc_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="nbParticp" class=" form-control-label">Number Of Participant</label></div>
+                                        <div class="col col-md-3"><label for="nbParticp"
+                                                class=" form-control-label">Number Of Participant</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="number" id="nbParticp" onchange="" placeholder="Agent Number" class="form-control">
-                                            <small id="nbParticp_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <input type="number" id="nbParticp" onchange="" placeholder="Agent Number"
+                                                class="form-control">
+                                            <small id="nbParticp_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="teacher" class="form-control-label">Teacher</label></div>
+                                        <div class="col col-md-3"><label for="teacher"
+                                                class="form-control-label">Teacher</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Teacher" class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Teacher" class="standardSelect"
+                                                tabindex="1">
                                                 <option value=""></option>
                                                 <option value="teacher 1">Teacher 1</option>
                                                 <option value="teacjer 2">Teacher 2</option>
@@ -406,11 +513,14 @@
                                                 <option value="teacher 12">Teacher 12</option>
 
                                             </select>
-                                            <small id="teacher_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <small id="teacher_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_cour" class="form-control-label">Type</label></div>
+                                        <div class="col col-md-3"><label for="type_cour"
+                                                class="form-control-label">Type</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Type" class="standardSelect" tabindex="1">
                                                 <option value=""></option>
@@ -428,7 +538,9 @@
                                                 <option value="type 12">Type 12</option>
                                                 <option value="type 13">Type 13</option>
                                             </select>
-                                            <small id="type_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <small id="type_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                 </form>
@@ -437,13 +549,15 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
-                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"  id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"
+                                id="saveUser">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+
+            <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -451,22 +565,28 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                    class="form-horizontal" autocomplete="off">
 
                                     <input type="hidden" name="" id="cours" value="<%= cours %>">
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
                                                 <center>
-                                                    <small class="alert-danger" id ="error" style="display: none;color:red"></small>
-                                                    <small class="alert-success" id ="success" style="display: none;color:green"></small>
+                                                    <small class="alert-danger" id="error"
+                                                        style="display: none;color:red"></small>
+                                                    <small class="alert-success" id="success"
+                                                        style="display: none;color:green"></small>
                                                 </center>
                                             </div>
                                         </div>
-                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">Group Name</label></div>
+                                        <div class="col col-md-3"><label for="groupName"
+                                                class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="groupName" placeholder="Group Name" class="form-control">
-                                            <small id="eg" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <input type="text" id="groupName" placeholder="Group Name"
+                                                class="form-control">
+                                            <small id="eg" style="color: red; font-size: smaller; display:none;">This
+                                                field is required</small>
                                         </div>
                                     </div>
                                     <!-- <div class="row form-group">
@@ -523,13 +643,15 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_new_groupe()"  id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="add_new_groupe()"
+                                id="saveUser">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -537,55 +659,74 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                    class="form-horizontal" autocomplete="off">
 
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_cour" class="form-control-label">Member</label></div>
+                                        <div class="col col-md-3"><label for="type_cour"
+                                                class="form-control-label">Member</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Cours" multiple class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Cours" multiple class="standardSelect"
+                                                tabindex="1">
                                                 <option value=""></option>
                                                 <% listUser.forEach(function(listUser) { %>
-                                                        <option value="<%= listUser.name_Cours %>">   <%= listUser.username %></option>
-                                                  <% }); %>
+                                                    <option value="<%= listUser.name_Cours %>">
+                                                        <%= listUser.username %>
+                                                    </option>
+                                                    <% }); %>
                                             </select>
-                                            <small id="cour_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <small id="cour_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_membre()"  id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="add_membre()"
+                                id="saveUser">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="tameTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+            <div class="modal fade" id="tameTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">New Time Table<Table></Table></h5>
+                            <h5 class="modal-title" id="largeModalLabel">New Time Table<Table></Table>
+                            </h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                    class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
-                                                <small class="alert alert-success text-center" role="alert" style="display: block;color:green">Success message Here</small>
+                                                <small class="alert alert-danger text-center" role="alert" id="error"
+                                                    style="display: none;color:red">Error message Here</small>
+                                                <small class="alert alert-success text-center" role="alert"
+                                                    style="display: block;color:green">Success message Here</small>
                                             </div>
                                         </div>
-                                        <div class="col col-md-3"><label for="weekday" class="form-control-label">Date</label></div>
+                                        <div class="col col-md-3"><label for="weekday"
+                                                class="form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="date" id="groupName" placeholder="Group Name" class="form-control">
-                                            <small id="week_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <input type="date" id="groupName" placeholder="Group Name"
+                                                class="form-control">
+                                            <small id="week_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="group_name" class="form-control-label">Group Name</label></div>
+                                        <div class="col col-md-3"><label for="group_name"
+                                                class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" class="standardSelect" tabindex="1">
                                                 <option value=""></option>
@@ -605,21 +746,29 @@
                                                 <option value="group 14">Group 14</option>
                                                 <option value="group 1">Group 15</option>
                                             </select>
-                                            <small id="cour_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <small id="cour_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">Start At</label></div>
+                                        <div class="col col-md-3"><label for="groupName"
+                                                class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
                                             <input type="time" id="timeStart" class="form-control">
-                                            <small id="startTime_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <small id="startTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">End At</label></div>
+                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">End
+                                                At</label></div>
                                         <div class="col-12 col-md-9">
                                             <input type="time" id="timeStart" class="form-control">
-                                            <small id="endTime_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <small id="endTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                 </form>
@@ -628,7 +777,8 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
-                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"  id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"
+                                id="saveUser">Save</button>
                         </div>
                     </div>
                 </div>
@@ -641,6 +791,7 @@
 
     <!-- Right Panel -->
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
@@ -663,7 +814,28 @@
     <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
     <script>
-        jQuery(document).ready(function() {
+        $(function () {
+            $("#admin").show();
+
+            $("#select-group-1").on("change", function () {
+                // $("#admin").hide();
+                // $(".myClass").hide();
+                // $("div[id='" + $(this).val() + "']").show();
+            });
+        });
+
+        $(function () {
+            $("#admin").show();
+
+            $("#select01").on("change", function () {
+                $("#admin").hide();
+                $(".myClass").hide();
+                $("div[id='" + $(this).val() + "']").show();
+            });
+        });
+
+
+        jQuery(document).ready(function () {
             jQuery(".standardSelect").chosen({
                 disable_search_threshold: 10,
                 no_results_text: "Oops, nothing found!",
@@ -673,19 +845,11 @@
 
 
 
-        $(function () { 
-            $("#admin").show();
-
-            $("#select01").on("change", function () {
-                $(".myClass").hide();
-                $("div[id='" + $(this).val() + "']").show();
-            });
-        });
     </script>
     <script>
         let obgbutton = document.getElementById('obgButton');
         let obgitems = document.querySelector('obg-items');
-        obgbutton.click(function(){
+        obgbutton.click(function () {
             obgitems.setAttribute('display', 'block');
         });
     </script>
