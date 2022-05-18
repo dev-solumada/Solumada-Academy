@@ -61,7 +61,7 @@
                             <li class="menuCoursOBG" id="obgButton">
                                 <i class="fa fa-bookmark"></i>Obligatory
                             </li>
-                            <div class="obg-items">
+                            <!--div class="obg-items"-->
                                 <% listcourOblig.forEach(function(listcourOblig) { %>
                                     <li>
                                         <i class="fa fa-table"></i>
@@ -71,18 +71,22 @@
                                     </li>
                                   <% }); %>
                                 
-                            </div>
+                            <!--/div-->
                             
 
-                            <li class="menuCours"><i class="fa fa-bookmark"></i>Optional</li>
-                            <div class="opt-items">
+                            <li class="menuCours">
+                                <i class="fa fa-bookmark"></i>Optional
+                            </li>
+                            <!--div class="opt-items"-->
                                 <% listcourFac.forEach(function(listcourFac) { %>
-                                  <li><i class="fa fa-table"></i>
-                                    <a onclick="getdataGP('<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')">
-                                        <%= listcourFac.name_Cours %>
-                                    </a></li>
+                                    <li>
+                                      <i class="fa fa-table"></i>
+                                        <a href="/listeCours/<%= listcourFac.name_Cours %>">
+                                            <%= listcourFac.name_Cours %>
+                                        </a>
+                                    </li>
                                 <% }); %>
-                            </div>
+                            <!--/div-->
 
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
 

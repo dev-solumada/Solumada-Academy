@@ -7,6 +7,7 @@ const UserSchema = require("../Models/User");
 const CoursModel = require("../Models/CoursModel");
 const nodemailer = require('nodemailer');
 const GroupeModel = require("../Models/GroupeModel");
+const NiveauModel = require("../Models/NiveauModel");
 
 //Mailing
 var transporter = nodemailer.createTransport({
@@ -158,6 +159,10 @@ routeExp.route("/accueilAdminBack").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             
+            listcourFac.forEach(function(listcourFac) {
+                
+                console.log("facultatif " , listcourFac.name_Cours);
+            });
             //console.log("liste " ,listgroupe)
             //console.log("obligatoire " , listcourOblig);
             //console.log("facultatif " , listcourFac);
@@ -545,6 +550,27 @@ routeExp.route("/listeUser").get(async function (req, res) {
     }
 });
 
+//Liste User
+routeExp.route("/listeUserBack").get(async function (req, res) {
+    session = req.session;
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var listuser = await UserSchema.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                res.render("./AvecBack/listeUser.html", { listuser: listuser,listcourOblig:listcourOblig, listcourFac:listcourFac });
+            });
+
+
+});
+
 
 //Liste User
 routeExp.route("/adminGraduation").get(async function (req, res) {
@@ -698,7 +724,7 @@ routeExp.route("/dropcours").post(async function (req, res) {
 
   //nouveau
 
-//New Cours
+//New Group et new niveau ==> Get
 routeExp.route("/newgroupe").get(async function (req, res) {
     session = req.session;
     //var professeur = 'Professeur'
@@ -714,8 +740,15 @@ routeExp.route("/newgroupe").get(async function (req, res) {
     )
     .then(async () => {
 
+
         var listgroupe = await GroupeModel.find({ validation: true });
-        res.render("AvecBack/newGroupe.html", { listgroupe: listgroupe });
+        var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+        var listcourFac = await CoursModel.find({ type: 'facultatif' });
+        
+        //console.log("liste " ,listgroupe)
+        //console.log("obligatoire " , listcourOblig);
+        //console.log("facultatif " , listcourFac);
+        res.render("AvecBack/newGroup.html", {listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
     });
     // res.render("newCours.html");
     // if (session.type_util == "Admin") {
@@ -728,8 +761,9 @@ routeExp.route("/newgroupe").get(async function (req, res) {
 
 //Post Add new groupe
 routeExp.route("/addgroupe").post(async function (req, res) {
-    var name_Groupe = req.body.nameGroupe;
-    var cours = "anglais";
+    var name_Groupe = req.body.newgroupe;
+    //console.log("newgroupe ", name_Groupe);
+    var cours = req.body.cours;
     //var type = "obligatoire"
     mongoose
         .connect(
@@ -754,44 +788,78 @@ routeExp.route("/addgroupe").post(async function (req, res) {
 
 });
 
-//Liste cours
-routeExp.route("/GroupeCours").get(async function (req, res) {
-    session = req.session;
-    if (session.type_util == "Admin") {
-    //console.log('listcours == ');
-        mongoose
-            .connect(
-                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-                {
-                    useUnifiedTopology: true,
-                    UseNewUrlParser: true,
-                }
-            )
-            .then(async () => {
 
-                var listgroupe = await GroupeModel.find({ validation: true });
-                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
-                var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                
-                //console.log("liste " ,listgroupe)
-                //console.log("obligatoire " , listcourOblig);
-                //console.log("facultatif " , listcourFac);
-                res.render("AvecBack/GroupeCours.html", {listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
-                //res.render("ListeCours.html", { listcour: listcour });
-            });
-    } else {
-        res.redirect("/");
-    }
+//New Niveau
+routeExp.route("/newniveau").get(async function (req, res) {
+    session = req.session;
+    //var professeur = 'Professeur'
+    var type = "obligatoire"
+    var cours = "cours"
+    mongoose
+    .connect(
+        "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+            useUnifiedTopology: true,
+            UseNewUrlParser: true,
+        }
+    )
+    .then(async () => {
+
+
+        var listgroupe = await GroupeModel.find({ validation: true });
+        var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+        var listcourFac = await CoursModel.find({ type: 'facultatif' });
+        
+        //console.log("liste " ,listgroupe)
+        //console.log("obligatoire " , listcourOblig);
+        //console.log("facultatif " , listcourFac);
+        res.render("AvecBack/newGroup.html", {listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+    });
+    // res.render("newCours.html");
+    // if (session.type_util == "Admin") {
+    //     res.render("newCours.html");
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
-  
+
+//Post Add new niveau
+routeExp.route("/addniveau").post(async function (req, res) {
+    var name_niveau = req.body.newniveau;
+    //console.log("newgroupe ", name_niveau);
+    var cours = req.body.cours
+    //var type = "obligatoire"
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await NiveauModel.findOne({ $or: [{ name_niveau: name_niveau , cours: cours }] })) {
+                res.send("error");
+            } else {
+                var new_niveau = {
+                    name_niveau: name_niveau,
+                    cours: cours
+                };
+                console.log("new niveau ", new_niveau);
+                await NiveauModel(new_niveau).save();
+            }
+        });
+
+});
 
 
 //Liste cours
 routeExp.route("/listeCours/:cours").get(async function (req, res) {
     session = req.session;
-    var nomCours =  req.params.nomCours;
+    var nomCours =  req.params.cours;
     //if (session.type_util == "Admin") {
-    //console.log('listcours == ');
+    //console.log('listcours == ', req.params.cours);
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -803,13 +871,19 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             .then(async () => {
 
                 var listgroupe = await GroupeModel.find({ cours: nomCours });
+                var listUser = await UserSchema.find({ cours: nomCours });
                 var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var cours = listgroupe[0].cours
                 
-                //console.log("liste " ,listgroupe)
+                //console.log("listUser " ,listUser)
+                listUser.forEach(function(listUser) {
+                    console.log(" ******* ", listUser.username)
+                })
+                //console.log("liste " ,listgroupe[0].cours)
                 //console.log("obligatoire " , listcourOblig);
                 //console.log("facultatif " , listcourFac);
-                res.render("AvecBack/listeCours.html", {listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+                res.render("AvecBack/listeCoursCondition.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
                 //res.render("ListeCours.html", { listcour: listcour });
             });
     // } else {
