@@ -6,6 +6,9 @@ const User = mongoose.Schema({
     nbParticp: Number,
     professeur: String,
     type: String,
+    niveau: String,
+    groupe: String,
+    participant: String
 })
 
 module.exports = mongoose.model('dataCours', User);
