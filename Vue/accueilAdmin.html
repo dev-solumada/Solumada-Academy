@@ -57,7 +57,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li class="menuCoursOBG" id="obgButton">
-                                <i class="fa fa-bookmark"></i><a href="/listeCours">Obligatory</a>
+                                <i class="fa fa-bookmark"></i><a >Obligatory</a>
                             </li>
                             <div class="obg-items">
                                 <% listcourOblig.forEach(function(listcourOblig) { %>
@@ -67,8 +67,7 @@
                                             <%= listcourOblig.name_Cours %>
                                         </a>
                                     </li>
-                                  <% }); %>
-                                
+                                <% }); %>
                             </div>
                             
 
@@ -92,6 +91,7 @@
                     <li>
                         <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global view </a>
                     </li>
+
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
