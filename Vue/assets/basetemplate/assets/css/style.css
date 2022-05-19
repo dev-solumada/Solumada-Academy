@@ -1163,6 +1163,14 @@ aside.left-panel {
                 display: block;
               }
 
+              
+
+              .sub-menu-item{
+                /* display: none; */
+                list-style: none;
+                background: red;
+              }
+
               /* end custum */
           .navbar .navbar-nav li.menu-item-has-children .sub-menu i {
             color: #000000;
