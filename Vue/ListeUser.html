@@ -56,36 +56,30 @@
                     <li class="menu-item-has-children active dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li class="menuCoursOBG" id="obgButton">
-                                <i class="fa fa-bookmark"></i><a href="/listeCours">Obligatory</a>
-                            </li>
-                            <div class="obg-items">
+                            <li class="dropdown menu-item-has-children">
+                                <i class="fa fa-bookmark"></i><a class="obg-item">Obligatory</a>
+                                <ul class="sub-menu children">
                                 <% listcourOblig.forEach(function(listcourOblig) { %>
-                                    <li>
-                                        <i class="fa fa-table"></i>
-                                        <a href="/listeCours/<%= listcourOblig.name_Cours %>" >
-                                            <%= listcourOblig.name_Cours %>
-                                        </a>
-                                    </li>
-                                  <% }); %>
-                                
-                            </div>
-                            
-
-                            <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">Optional</a></li>
-                            <div class="opt-items">
-                                <% listcourFac.forEach(function(listcourFac) { %>
-                                  <li><i class="fa fa-table"></i>
-                                    <a class="" href="/listeCours/<%= listcourFac.name_Cours %>">
-                                        <%= listcourFac.name_Cours %>
-                                    </a></li>
+                                    <li class="sub-menu-item"><a href="/listeCours/<%= listcourOblig.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"> <%= listcourOblig.name_Cours %></a></li>
                                 <% }); %>
-                            </div>
+                                </ul>
+                            </li>
 
+                            <li class="menuCours">
+                                <i class="fa fa-bookmark"></i><a class="obg-item" href="">Optional</a>
+                                <ul class="sub-menu children">
+                                <% listcourFac.forEach(function(listcourFac) { %>
+                                    <li class="sub-menu-item"><a href="/listeCours/<%= listcourFac.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"><%= listcourFac.name_Cours %></a></li>
+                                <% }); %>
+
+                                </ul>
+                            </li>
+                
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
 
                         </ul>
                     </li>
+                    
                     <li>
                         <a href="/adminGraduation"> <i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
                     </li>
@@ -191,10 +185,10 @@
                                             <td><%= listuser.type_util %></td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                    <button type="button" class="btn btn-sm btn-success"><i class="fa fa-list"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-success rounded-start"><i class="fa fa-list"></i></button>
                                                     <button type="button" class="btn btn-sm btn-warning" onclick="getdata('/getuser','<%= listuser._id %>')" data-bs-toggle="modal" data-bs-target="#exampleModal" 
                                                         data-bs-whatever="@getbootstrap" ><i class="fa fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteUser" ><i
+                                                    <button type="button" class="btn btn-sm btn-danger rounded-end" delete-btn" data-bs-toggle="modal" data-bs-target="#deleteUser" ><i
                                                         onclick="delete_user('<%= listuser.username %>')"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </td>
