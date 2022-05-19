@@ -5,13 +5,41 @@
     /*  Data Table
     -------------*/
 
-    $('#bootstrap-data-table').DataTable({
+    $('#bootstrap-data-table-gold').DataTable({
         lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		scrollY:        '50vh',
+        scrollCollapse: true,
+    });
+
+	$('#bootstrap-data-table-silver').DataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		// scrollY:        '50vh',
+        scrollCollapse: true,
+    });
+
+	$('#bootstrap-data-table-bronze').DataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		// scrollY:        '50vh',
+        scrollCollapse: true,
+    });
+
+	$('#timeTable').DataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		// scrollY:        '50vh',
+        scrollCollapse: true,
+    });
+
+	$('#parcours').DataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		// scrollY:        '50vh',
+        scrollCollapse: true,
     });
 
     $('#bootstrap-data-table-export').DataTable({
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+		scrollY: '60vh',
+        scrollCollapse: true,
     });
 
 	$('#row-select').DataTable( {

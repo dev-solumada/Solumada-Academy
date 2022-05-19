@@ -1026,7 +1026,6 @@ aside.left-panel {
     text-align: center;
     width: 100%; }
   .navbar .navbar-brand {
-    /* border-bottom: 1px solid #4e4e52; */
     color: #f1f2f7 !important;
     font-family: 'Open Sans';
     font-size: 22px;
@@ -1147,31 +1146,38 @@ aside.left-panel {
                 background: transparent;
                 transition: all .5s ease;
               }
-
-              .menuCoursOBG:hover ~ .dropdown-content{
-                display: block;
+              .sub-menu-item
+              {
+                list-style: block;
               }
 
-              .opt-items
+              .menuobg
+              {
+                display: block !important;
+              }
+
+              .sub-menu-item
               {
               /* display: none; */
-              display: block;
+               display: block;
                 background: transparent;
+                cursor: pointer;
+                transition: all .5s ease;
               }
 
-              .children li:hover > .obg-items{
+              #obg-item
+              {
+                cursor: pointer;
+              }
+
+              #obg-item:hover > .menuobg
+              {
                 display: block;
-              }
-
-              
-
-              .sub-menu-item{
-                /* display: none; */
-                list-style: none;
-                background: red;
               }
 
               /* end custum */
+
+
           .navbar .navbar-nav li.menu-item-has-children .sub-menu i {
             color: #000000;
             float: left;
@@ -1197,10 +1203,10 @@ aside.left-panel {
           -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
           position: static !important; }
 
-.navbar .navbar-nav > .active > a,
-.navbar .navbar-nav > .active > a:focus,
-.navbar .navbar-nav > .active > a:hover {
-  color: #000000 !important; }
+        .navbar .navbar-nav > .active > a,
+        .navbar .navbar-nav > .active > a:focus,
+        .navbar .navbar-nav > .active > a:hover {
+          color: #000000 !important; }
 
 .navbar-nav li span.count {
   background: #a9d86e;
