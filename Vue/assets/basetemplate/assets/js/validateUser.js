@@ -1,8 +1,10 @@
 
 var error = document.getElementById("error");
 var success = document.getElementById("success");
-//btn
 var btns = document.getElementById("saveUser");
+
+
+
 // btns.disabled = true;
 //Verify
 var mail_done = false;
