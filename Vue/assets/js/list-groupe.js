@@ -1,32 +1,162 @@
-function getdataGP( name_Cours, type){
-    console.log('name_cours == ', name_Cours);
-    //console.log('type == ', type);
-    sendRequest('/GroupeAdmin', name_Cours);
+
+var groupeId = document.getElementById('select-group');
+var listU = document.getElementById('listUserC');
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const groupSelect = urlParams.get('select-group');
+const end = urlParams.get('end');
+if (queryString.length != 0) {
+    //document.getElementById("ch_title").innerHTML = "Your filtered data";
+    groupeId.value = groupSelect;
+}
+function getdataGP(){
+    var groupeVal = groupeId.value;
+    var cours = document.getElementById('cours').value;
+
+    console.log('name_groupe == ', groupeVal, cours);
+    table.style.display = "block";
+    sendRequest('/groupe', groupeVal, cours);
 }
 
 
-function sendRequest(url, name_Cours) {
-    //console.log('sendRequest')
+function sendRequest(url, groupeVal, cours) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
-    // console.log("Niveau == ", niveau);
-    // console.log("Heure == ", heure);
-    // console.log("Groupe == ", groupe);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+
             //console.log("this.responseText  "+this.responseText);
             // if (this.responseText == "error") {
             //     success.style.display = "none";
             //     error.style.display = "block";
             //     error.innerHTML = "Employee is already registered";
             // }
+            
+
+            // else {
+
+                if (groupeId.value == "" ) {
+                    window.location = "/listeCours/" + cours;
+                }
+                else {
+                    // document.getElementById("download").disabled = true;
+                    // load.style.display = "none";
+                    window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                }
+                // console.log("send Reque");
+            //     error.style.display = "none";
+            //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+            //}
+        }
+    };
+    http.send("groupe=" + groupeVal + "&cours=" + cours);
+}
+
+
+
+function add_membre(){
+    var list = listU.value;
+    var groupeVal = groupeId.value
+    var cours = document.getElementById('cours').value;
+    //var cours = document.getElementById('cours').value;
+
+    console.log('listU == ', cours), list;
+    //document.getElementById('select-group').value = groupe
+    //console.log('type == ', type);
+    sendRequest1('/newmembre', list, groupeVal, cours);
+}
+
+
+function sendRequest1(url, username,groupeVal, cours) {
+    //console.log('sendRequest')
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            //console.log("this.responseText  "+this.responseText);
+            if (this.responseText == "error") {
+                success.style.display = "none";
+                error.style.display = "block";
+                error.innerHTML = "Employee is already registered";
+            }
+            
+
+            else {
+                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                    //window.location = "/listeCoursBack/" + cours ;
+            //     error.style.display = "none";
+            //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+            }
+        }
+    };
+    http.send("username=" + username + "&cours=" + cours + "&groupeVal=" + groupeVal);
+}
+
+
+
+function add_new_groupe() {
+    var newgroupe = document.getElementById("groupeNew").value;
+    var cours = document.getElementById("cours").value;
+    console.log("**** ", newgroupe, cours);
+    sendRequestGroupe('/addgroupe', newgroupe, cours);
+}
+
+function sendRequestGroupe(url, newgroupe, cours) {
+    console.log(" date == ");
+    console.log(" date == ");
+    console.log(" date == ");
+    console.log(" date == ");
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // if (this.responseText == "error") {
+            //     success.style.display = "none";
+            //     error.style.display = "block";
+            //     error.innerHTML = "Groupe is already registered";
+            // }
             // else {
             //     success.style.display = "block";
             //     error.style.display = "none";
-            //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+            //     success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             // }
         }
     };
-    http.send("name_Cours=" + name_Cours);
+    http.send("newgroupe=" + newgroupe + "&cours=" + cours);
+}
+
+
+
+
+function add_new_niveau() {
+    console.log("**************");
+    var newniveau = document.getElementById("newniveau").value;
+    var cours = document.getElementById("cours").value;
+    console.log("newniveau ", newniveau);
+    sendRequestN('/addniveau', newniveau, cours);
+}
+
+function sendRequestN(url, newniveau, cours) {
+    console.log("niveau == " + newniveau);
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText == "error") {
+                success.style.display = "none";
+                error.style.display = "block";
+                error.innerHTML = "Cours is already registered";
+            }
+            else {
+                success.style.display = "block";
+                error.style.display = "none";
+                success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+            }
+        }
+    };
+    http.send("newniveau=" + newniveau + "&cours=" + cours);
 }
