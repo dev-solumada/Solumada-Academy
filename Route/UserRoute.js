@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const GroupeModel = require("../Models/GroupeModel");
 const NiveauModel = require("../Models/NiveauModel");
 const CGNModel = require("../Models/CGNModel");
+const EmplTemp = require("../Models/EmploiDuTemps");
 
 var membre = [{
     cours: '',
@@ -346,14 +347,11 @@ routeExp.route("/login").post(async function (req, res) {
 
 //Add employee
 routeExp.route("/addemp").post(async function (req, res) {
+    var name = req.body.name;
     var email = req.body.email;
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
     var type_util = req.body.type_util;
-    var cours = req.body.cours;
-    var niveau = req.body.niveau;
-    var groupe = req.body.groupe;
-    var heure = req.body.heure;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -368,15 +366,12 @@ routeExp.route("/addemp").post(async function (req, res) {
             } else {
                 var passdefault = randomPassword();
                 var new_emp = {
+                    name: name,
                     username: email,
                     password: passdefault,
                     m_code: m_code,
                     num_agent: num_agent,
-                    type_util: type_util,
-                    niveau: niveau,
-                    groupe: groupe,
-                    heure: heure,
-                    cours: cours
+                    type_util: type_util
                 };
                 console.log("new _emp " + JSON.stringify(new_emp));
                 await UserSchema(new_emp).save();
@@ -1029,5 +1024,41 @@ routeExp.route("/listeMembre1").get(async function (req, res) {
             var listcourOblig = await CGNModel.find({ type: 'obligatoire' });
             console.log("liste ", listcourOblig)
         });
+});
+
+
+//Add emploi du temps
+routeExp.route("/EmplTemp").post(async function (req, res) {
+    var jours = req.body.jours
+    var group = req.body.group
+    var cours = req.body.cours
+    var heurdebut = req.body.heurdebut
+    var heurfin = req.body.heurfin
+
+    
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart:heurdebut,  heureFin:heurfin }] })) {
+                res.send("error");
+            } else {
+                var new_emploi = {
+                    cours: cours,
+                    groupe: name_groupe,
+                    jours: username,
+                    heureStart : heurdebut,
+                    heureFin: heurfin
+                };
+                //console.log("new niveau ", new_membre);
+                await CGNMoEmplTempdel(new_emploi).save();
+            }
+        });
+
 });
 module.exports = routeExp;
