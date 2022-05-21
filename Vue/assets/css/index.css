@@ -59,10 +59,12 @@ input[type=password] {
     border-radius: 8px;
     border: 3px solid #036316;
     box-sizing: border-box;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 700;
     color: #494d4a;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .btn-cnx {
@@ -71,7 +73,7 @@ input[type=password] {
     border-radius: 5px;
     box-shadow: rgba(10, 8, 8, 0.3) 0 5px 15px;
     box-shadow: 0px 1px 2px 1px #7a7c72;
-
+    padding: 10px 15px;
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
@@ -159,7 +161,7 @@ input[type=password] {
     input[type=text],
     input[type=password] 
     {
-        font-size: 15px;
+        font-size: 12px;
     }
     .btn-cnx {
         font-size: .6em;
@@ -185,102 +187,113 @@ input[type=password] {
 @media (max-width:280px) 
 {
     #txt-sol {
-        font-size: 30px;
+        font-size: 35px;
     }
-    
+    .login-container
+    {
+        padding: 5% 35px;
+
+        width: 90%;      
+    }
+
     #txt-acd {
-        font-size: 30px;
+        font-size: 25px;
+    }
+
+    .form-content{
+        margin: 0;
     }
 
     .form-group
     {
         height: 60px;
-        margin-bottom: 5px;
+        margin-bottom: 10px !important;
     }
-    .form-group .form-label
-    {
-        font-size: 12px;
-        margin-bottom: 1px;
+
+    .form-group .form-label{
+        font-size: 10px;
     }
-    .form-container {
-        margin-top: 20px;
-        padding-left: 5px;
-        padding-right: 5px;
-    }
+
     input[type=text],
     input[type=password] 
     {
-        font-size: 12px;
-        font-weight: normal;
-    }
-    .btn-cnx {
-        font-size: .4em;
-    }
-    .action{
-        margin-bottom: 15px;
-    }
-    
-    .reset-pswd {
-        font-size: .6em;
-        font-weight: 600;
+        font-size: 10px;
+        line-height: 6px;
+        padding: 10px 5px;
     }
 
-    #txt-vision {
+    .action{
+        margin-bottom: 5px;
+    }
+
+    
+
+    .view-txt{
+        margin-top: 20px;
         font-size: 20px;
-    }  
-    .view-txt
-    {
-        margin-top: 60px;
+    }
+
+    .btn-cnx {
+        font-size: .8em;
+        padding: 5px;
+    }
+    .reset-pswd{
+        font-size: 10px;
     }
 }
 
-
-@media(max-height:600px)
-{
+@media  (max-height:480px) {
     #txt-sol {
-        font-size: 40px;
+        font-size: 35px;
     }
-    
+    .login-container
+    {
+        padding: 5% 20px;
+
+        width: 90%;      
+    }
+
     #txt-acd {
-        font-size: 40px;
+        font-size: 28px;
+    }
+
+    .form-content{
+        margin: 0;
     }
 
     .form-group
     {
         height: 60px;
-        margin-bottom: 5px;
+        margin-bottom: 10px !important;
     }
-    .form-group .form-label
-    {
-        font-size: 14px;
-        margin-bottom: 1px;
+
+
+    .form-group .form-label{
+        font-size: 10px;
     }
-    .form-container {
-        margin-top: 20px;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+
     input[type=text],
     input[type=password] 
     {
-        font-size: 15px;
+        font-size: 8px;
+        line-height: 6px;
+        padding: 10px 5px;
     }
+
+    .action{
+        margin-bottom: 5px;
+    }
+
+    .view-txt{
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
     .btn-cnx {
         font-size: .6em;
+        padding: 5px;
     }
-    .action{
-        margin-bottom: 15px;
-    }
-    
-    .reset-pswd {
-        font-size: 12px;
-        font-weight: 600;
-    }
-    .view-txt
-    {
-        margin-top: 60px;
-    }
-    #txt-vision {
-        font-size: 25px;
+    .reset-pswd{
+        font-size: 10px;
     }
 }
