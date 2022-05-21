@@ -99,32 +99,39 @@ function sendRequest1(url, username,groupeVal, cours) {
 function add_new_groupe() {
     var newgroupe = document.getElementById("groupeNew").value;
     var cours = document.getElementById("cours").value;
-    console.log("**** ", newgroupe, cours);
     sendRequestGroupe('/addgroupe', newgroupe, cours);
 }
 
 function sendRequestGroupe(url, newgroupe, cours) {
-    console.log(" date == ");
-    console.log(" date == ");
-    console.log(" date == ");
-    console.log(" date == ");
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
+
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            // if (this.responseText == "error") {
-            //     success.style.display = "none";
-            //     error.style.display = "block";
-            //     error.innerHTML = "Groupe is already registered";
-            // }
-            // else {
-            //     success.style.display = "block";
-            //     error.style.display = "none";
-            //     success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
-            // }
+    console.log(" date == ", this.responseText);
+    http.onreadystatechange = function() {
+        console.log("onreadystatechange");
+        if (http.readyState == 4 && http.status == 200) {
+          console.log(http.responseText);
         }
-    };
+      }
+
+    // http.onreadystatechange = function () {
+    //     errorG.style.display = "block";
+        
+    //     console.log("onreadystatechange ");
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         // if (this.responseText == "error") {
+    //         //     successG.style.display = "none";
+    //         //     error.style.display = "block";
+    //         //     error.innerHTML = "Groupe is already registered";
+    //         // }
+    //         // else {
+    //         //     success.style.display = "block";
+    //         //     error.style.display = "none";
+    //         //     success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
+    //         // }
+    //     }
+    // };
     http.send("newgroupe=" + newgroupe + "&cours=" + cours);
 }
 

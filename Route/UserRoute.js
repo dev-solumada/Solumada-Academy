@@ -788,7 +788,7 @@ routeExp.route("/addgroupe").post(async function (req, res) {
                     cours: cours
                 };
                 console.log("new groupe ", new_gpe);
-                await GroupeModel(new_gpe).save();
+                //await GroupeModel(new_gpe).save();
             }
         });
 
@@ -896,8 +896,6 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
     //     res.redirect("/");
     // }
 });
-
-
 
 //Liste cours
 routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
@@ -1014,6 +1012,7 @@ routeExp.route("/groupe").post(async function (req, res) {
         });
 
 });
+
 //Accueil admin
 routeExp.route("/listeMembre1").get(async function (req, res) {
     session = req.session;
