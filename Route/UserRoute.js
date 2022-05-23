@@ -10,6 +10,7 @@ const GroupeModel = require("../Models/GroupeModel");
 const NiveauModel = require("../Models/NiveauModel");
 const CGNModel = require("../Models/CGNModel");
 const EmplTemp = require("../Models/EmploiDuTemps");
+const ParcoursModel = require("../Models/Parcours");
 
 var membre = [{
     cours: '',
@@ -879,7 +880,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             var cours = listgroupe[0].cours
 
             var time = await EmplTemp.find({ cours: nomCours });
-            res.render("ListeCours.html", { membre: membre, cours: cours, time:time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("ListeCours.html", { membre: membre, cours: cours, time: time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -1059,8 +1060,6 @@ routeExp.route("/addparcours").post(async function (req, res) {
     var heurdebut = req.body.heurdebut
     var heurfin = req.body.heurfin
 
-    
-    console.log("emploi du temps == ", date, group, heurdebut, heurfin, cours);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1070,7 +1069,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart:heurdebut,  heureFin:heurfin }] }))   || jours=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
+            if((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart:heurdebut,  heureFin:heurfin }] }))   || date=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
                 res.send("error");
             } else {
                 var new_parcours = {
@@ -1081,7 +1080,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
                     heureFin: heurfin
                 };
                 console.log("new emploi ", new_parcours);
-                await EmplTemp(new_parcours).save();
+                await ParcoursModel(new_parcours).save();
                 res.send(new_emnew_parcoursploi.jours + " at " + new_parcours.heureStart + " is successfuly saved");
             }
         });
