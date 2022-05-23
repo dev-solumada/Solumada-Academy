@@ -9,3 +9,4 @@ const EmplTemp = mongoose.Schema({
 })
 
 module.exports = mongoose.model('EmplTemp', EmplTemp);
+
