@@ -99,30 +99,25 @@ function sendRequest1(url, username,groupeVal, cours) {
 function add_new_groupe() {
     var newgroupe = document.getElementById("groupeNew").value;
     var cours = document.getElementById("cours").value;
-    console.log("**** ", newgroupe, cours);
     sendRequestGroupe('/addgroupe', newgroupe, cours);
 }
 
 function sendRequestGroupe(url, newgroupe, cours) {
-    console.log(" date == ");
-    console.log(" date == ");
-    console.log(" date == ");
-    console.log(" date == ");
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            // if (this.responseText == "error") {
-            //     success.style.display = "none";
-            //     error.style.display = "block";
-            //     error.innerHTML = "Groupe is already registered";
-            // }
-            // else {
-            //     success.style.display = "block";
-            //     error.style.display = "none";
-            //     success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
-            // }
+            if (this.responseText == "error") {
+                success.style.display = "none";
+                error.style.display = "block";
+                error.innerHTML = "Groupe is already registered";
+            }
+            else {
+                success.style.display = "block";
+                error.style.display = "none";
+                success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
+            }
         }
     };
     http.send("newgroupe=" + newgroupe + "&cours=" + cours);
@@ -132,7 +127,6 @@ function sendRequestGroupe(url, newgroupe, cours) {
 
 
 function add_new_niveau() {
-    console.log("**************");
     var newniveau = document.getElementById("newniveau").value;
     var cours = document.getElementById("cours").value;
     console.log("newniveau ", newniveau);
@@ -159,4 +153,37 @@ function sendRequestN(url, newniveau, cours) {
         }
     };
     http.send("newniveau=" + newniveau + "&cours=" + cours);
+}
+
+
+
+
+function save_time() {
+    var jour = document.getElementById("select-jour").value;
+    var grpe = document.getElementById("select-gpe").value;
+    var timeStart = document.getElementById("timeStart").value;
+    var timeEnd = document.getElementById("timeEnd").value;
+    var cours = document.getElementById("cours").value;
+    sendRequestTime('/EmplTemp', jour, grpe, timeStart, timeEnd, cours);
+}
+
+function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log("niveau == ", jours, grpe, timeStart, timeEnd, cours);
+            if (this.responseText == "error" || jours=="" || grpe=="" || timeStart=="" || timeEnd=="" || cours=="") {
+                successT.style.display = "none";
+                errorT.style.display = "block";
+                errorT.innerHTML = "This day at this time is already occupied or you must fill in the field";
+            }else {
+                successT.style.display = "block";
+                errorT.style.display = "none";
+                successT.innerHTML = "Employee " + this.responseText + " registered successfuly";
+            }
+        }
+    };
+    http.send("jours=" + jours + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours);
 }

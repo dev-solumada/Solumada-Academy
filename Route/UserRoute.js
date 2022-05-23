@@ -784,6 +784,7 @@ routeExp.route("/addgroupe").post(async function (req, res) {
                 };
                 console.log("new groupe ", new_gpe);
                 await GroupeModel(new_gpe).save();
+                res.send(new_gpe.name_Groupe);
             }
         });
 
@@ -877,15 +878,8 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var cours = listgroupe[0].cours
 
-            //console.log("listUser " ,listUser)
-            // listUser.forEach(function(listUser) {
-            //     console.log(" ******* ", listUser.username)
-            // })
-            //console.log("liste " ,listgroupe[0].cours)
-            //console.log("obligatoire " , listcourOblig);
-            //console.log("facultatif " , listcourFac);
-            //res.render("AvecBack/listeCoursCondition.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
-            res.render("ListeCours.html", { membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            var time = await EmplTemp.find({ cours: nomCours });
+            res.render("ListeCours.html", { membre: membre, cours: cours, time:time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -915,17 +909,9 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var cours = listgroupe[0].cours
+            var time = await EmplTemp.find({ cours: nomCours });
 
-            //console.log("listUser " ,listUser)
-            // listUser.forEach(function(listUser) {
-            //     console.log(" ******* ", listUser.username)
-            // })
-
-            //console.log("liste " ,listgroupe[0].cours)
-            //console.log("obligatoire " , listcourOblig);
-            //console.log("facultatif " , listcourFac);
-            //res.render("AvecBack/listeCoursCondition.html", {cours:cours, listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
-            res.render("./AvecBack/ListeCours.html", { membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("./AvecBack/ListeCours.html", { membre: membre, cours: cours, time:time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -949,7 +935,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })) {
+            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })){
                 res.send("error");
             } else {
 
@@ -1036,6 +1022,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
     var heurfin = req.body.heurfin
 
     
+    console.log("emploi du temps == ", jours, group, heurdebut, heurfin, cours);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1045,18 +1032,57 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart:heurdebut,  heureFin:heurfin }] })) {
+            if((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart:heurdebut,  heureFin:heurfin }] }))   || jours=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
                 res.send("error");
             } else {
                 var new_emploi = {
                     cours: cours,
-                    groupe: name_groupe,
-                    jours: username,
+                    groupe: group,
+                    jours: jours,
                     heureStart : heurdebut,
                     heureFin: heurfin
                 };
-                //console.log("new niveau ", new_membre);
-                await CGNMoEmplTempdel(new_emploi).save();
+                console.log("new emploi ", new_emploi);
+                await EmplTemp(new_emploi).save();
+                res.send(new_emploi.jours + " at " + new_emploi.heureStart + " is successfuly saved");
+            }
+        });
+
+});
+
+
+//Add parcours
+routeExp.route("/addparcours").post(async function (req, res) {
+    var date = req.body.date
+    var group = req.body.group
+    var cours = req.body.cours
+    var heurdebut = req.body.heurdebut
+    var heurfin = req.body.heurfin
+
+    
+    console.log("emploi du temps == ", date, group, heurdebut, heurfin, cours);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart:heurdebut,  heureFin:heurfin }] }))   || jours=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
+                res.send("error");
+            } else {
+                var new_parcours = {
+                    cours: cours,
+                    groupe: group,
+                    date: date,
+                    heureStart : heurdebut,
+                    heureFin: heurfin
+                };
+                console.log("new emploi ", new_parcours);
+                await EmplTemp(new_parcours).save();
+                res.send(new_emnew_parcoursploi.jours + " at " + new_parcours.heureStart + " is successfuly saved");
             }
         });
 

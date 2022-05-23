@@ -290,34 +290,34 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>Monday 16/05/2022</td>
-                                                                <td>Group A</td>
-                                                                <td>11h00</td>
-                                                                <td>12h00</td>
-                                                                <td>
-                                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                        <button type="button" class="btn btn-sm btn-success rounded-start"><i class="fa fa-list"></i></button>
-                                                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-                                                                            data-bs-whatever="@getbootstrap" ><i class="fa fa-edit"></i></button>
-                                                                        <button type="button" class="btn btn-sm btn-danger rounded-end delete-btn" data-bs-toggle="modal" data-bs-target="deleteUser" ><i class="fa fa-trash"></i></button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Tuesday 17/05/2022</td>
-                                                                <td>Group A</td>
-                                                                <td>11h00</td>
-                                                                <td>12h00</td>
-                                                                <td>
-                                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                        <button type="button" class="btn btn-sm btn-success rounded-start"><i class="fa fa-list"></i></button>
-                                                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-                                                                            data-bs-whatever="@getbootstrap" ><i class="fa fa-edit"></i></button>
-                                                                        <button type="button" class="btn btn-sm btn-danger rounded-end delete-btn" data-bs-toggle="modal" data-bs-target="deleteUser" ><i class="fa fa-trash"></i></button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
+
+
+                                                            <% time.forEach(function(time) { %>
+                                                                <tr>
+                                                    
+                                                                        <td>
+                                                                            <%= time.jours %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= time.groupe %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= time.heureStart %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= time.heureFin %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                                                <button type="button" class="btn btn-sm btn-success rounded-start"><i class="fa fa-list"></i></button>
+                                                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                                                                                    data-bs-whatever="@getbootstrap" ><i class="fa fa-edit"></i></button>
+                                                                                <button type="button" class="btn btn-sm btn-danger rounded-end delete-btn" data-bs-toggle="modal" data-bs-target="deleteUser" ><i class="fa fa-trash"></i></button>
+                                                                            </div>
+                                                                        </td>
+    
+                                                                </tr>
+                                                                <% }); %>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -491,7 +491,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">New Group **</h5>
+                            <h5 class="modal-title" id="largeModalLabel">New Group</h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
@@ -515,57 +515,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                        <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
                                         <button class="btn-submit btn btn-success" type="button" onclick="add_new_groupe()"  id="saveUser">Save</button>
                                     </div>
-                                    <!-- <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_cour" class="form-control-label">Cours</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Cours" class="standardSelect" tabindex="1">
-                                                <option value=""></option>
-                                                <option value="cour 1">Cour 1</option>
-                                                <option value="cour 2">Cour 2</option>
-                                                <option value="cour 3">Cour 3</option>
-                                                <option value="cour 4">Cour 4</option>
-                                                <option value="cour 5">Cour 5</option>
-                                                <option value="cour 6">Cour 6</option>
-                                                <option value="cour 7">Cour 7</option>
-                                                <option value="cour 8">Cour 8</option>
-                                                <option value="cour 9">Cour 9</option>
-                                                <option value="cour 10">Cour 10</option>
-                                                <option value="cour 11">Cour 11</option>
-                                                <option value="cour 12">Cour 12</option>
-                                                <option value="cour 13">Cour 13</option>
-                                                <option value="cour 14">Cour 14</option>
-                                                <option value="cour 1">Cour 15</option>
-                                            </select>
-                                            <small id="cour_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_cour" class="form-control-label">Member</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Cours" multiple class="standardSelect" tabindex="1">
-                                                <option value=""></option>
-                                                <option value="user 1">Onisoa</option>
-                                                <option value="user 2">Ricardo</option>
-                                                <option value="cour 3">Njato</option>
-                                                <option value="cour 4">user 1</option>
-                                                <option value="cour 5">user 5</option>
-                                                <option value="cour 6">user 6</option>
-                                                <option value="cour 7">user 7</option>
-                                                <option value="cour 8">user 8</option>
-                                                <option value="cour 9">Cour 9</option>
-                                                <option value="cour 10">Cour 10</option>
-                                                <option value="cour 11">Cour 11</option>
-                                                <option value="cour 12">Cour 12</option>
-                                                <option value="cour 13">Cour 13</option>
-                                                <option value="cour 14">Cour 14</option>
-                                                <option value="cour 1">Cour 15</option>
-                                            </select>
-                                            <small id="cour_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div> -->
                                 </form>
                             </div>
                         </div>
@@ -614,40 +565,36 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+                                <form id="form" action="/" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
-                                                <small class="alert alert-success text-center" role="alert" style="display: block;color:green">Success message Here</small>
+                                                <small class="alert alert-danger text-center" role="alert" id ="errorT" style="display: none;color:red"></small>
+                                                <small class="alert alert-success text-center" role="alert" id ="successT"  style="display: none;color:green"></small>
                                             </div>
                                         </div>
                                         <div class="col col-md-3"><label for="weekday" class="form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="date" id="groupName" placeholder="Group Name" class="form-control">
-                                            <small id="week_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                            <select data-placeholder="Choose day" class="standardSelect" id="select-jour" tabindex="1">
+                                                <option value=""></option>
+                                                    <option value="lundi">lundi</option>
+                                                    <option value="mardi">mardi</option>
+                                                    <option value="mercredi">mercredi</option>
+                                                    <option value="jeudi">jeudi</option>
+                                                    <option value="vendredi">vendredi</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="group_name" class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Group" id="select-gpe"   class="standardSelect" tabindex="1">
                                                 <option value=""></option>
-                                                <option value="group 1">Group 1</option>
-                                                <option value="group 2">Group 2</option>
-                                                <option value="group 3">Group 3</option>
-                                                <option value="group 4">Group 4</option>
-                                                <option value="group 5">Group 5</option>
-                                                <option value="group 6">Group 6</option>
-                                                <option value="group 7">Group 7</option>
-                                                <option value="group 8">Group 8</option>
-                                                <option value="group 9">Group 9</option>
-                                                <option value="group 10">Group 10</option>
-                                                <option value="group 11">Group 11</option>
-                                                <option value="group 12">Group 12</option>
-                                                <option value="group 13">Group 13</option>
-                                                <option value="group 14">Group 14</option>
-                                                <option value="group 1">Group 15</option>
+                                                <% listgroupe.forEach(function(listgroupe) { %>
+                                                    <option value="<%= listgroupe.name_Groupe %>">
+                                                        <%= listgroupe.name_Groupe %>
+                                                    </option>
+                                                <% }); %>
                                             </select>
                                             <small id="cour_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
@@ -662,15 +609,8 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="groupName" class="form-control-label">End At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeStart" class="form-control">
+                                            <input type="time" id="timeEnd" class="form-control">
                                             <small id="endTime_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="dateCommenc" class=" form-control-label">Cour Title</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="level" placeholder="This is the title of lesson" class="form-control">
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                 </form>
@@ -678,7 +618,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"  id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="save_time()"  id="saveUser">Save</button>
                         </div>
                     </div>
                 </div>
@@ -698,8 +638,8 @@
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
-                                                <small class="alert alert-success text-center" role="alert" style="display: none;color:green">Success message Here</small>
+                                                <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red"></small>
+                                                <small class="alert alert-success text-center" role="alert" id ="success"  style="display: none;color:green"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -741,7 +681,6 @@
     <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="../assets/js/add-new-groupe.js"></script>
     <script src="../assets/js/list-groupe.js"></script>
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
 
