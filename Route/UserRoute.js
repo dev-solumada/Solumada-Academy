@@ -17,6 +17,20 @@ var membre = [{
     groupe: '',
     username: ''
 }]
+var time = [{
+    jours: '',
+    groupe: '',
+    heureStart: '',
+    heureFin: '',
+    cours: ''
+}]
+var parcours = [{
+    date: '',
+    groupe: '',
+    heureStart: '',
+    heureFin: '',
+    cours: ''
+}]
 //Mailing
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -516,6 +530,7 @@ routeExp.route("/listeCours").get(async function (req, res) {
                 var listcour = await CoursModel.find({ validation: true });
                 var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
+
                 res.render("ListeCours.html", { listcour: listcour, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
 
@@ -879,8 +894,11 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var cours = listgroupe[0].cours
 
-            var time = await EmplTemp.find({ cours: nomCours });
-            res.render("ListeCours.html", { membre: membre, cours: cours, time: time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            time = await EmplTemp.find({ cours: nomCours });
+            parcours = await ParcoursModel.find({ cours: nomCours });
+
+            console.log("parcours == ", parcours);
+            res.render("ListeCours.html", { parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -910,9 +928,9 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var cours = listgroupe[0].cours
-            var time = await EmplTemp.find({ cours: nomCours });
+            time = await EmplTemp.find({ cours: nomCours });
 
-            res.render("./AvecBack/ListeCours.html", { membre: membre, cours: cours, time:time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("./AvecBack/ListeCours.html", { membre: membre, cours: cours, time: time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -956,6 +974,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                 };
                 //console.log("new niveau ", new_membre);
                 await CGNModel(new_membre).save();
+                res.send(new_membre.username);
             }
         });
 
@@ -988,7 +1007,6 @@ routeExp.route("/groupe").post(async function (req, res) {
             var listUser = await UserSchema.find({ cours: cours });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
-
 
             res.render("ListeCours.html", {membre: membre, cours:cours , listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
             //await CGNModel(new_membre).save();
@@ -1069,7 +1087,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart:heurdebut,  heureFin:heurfin }] }))   || date=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
+            if((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut,  heureFin: heurfin }] }))   || date=="" || group=="" || heurdebut=="" || heurfin=="" || cours=="" ) {
                 res.send("error");
             } else {
                 var new_parcours = {
@@ -1079,9 +1097,9 @@ routeExp.route("/addparcours").post(async function (req, res) {
                     heureStart : heurdebut,
                     heureFin: heurfin
                 };
-                console.log("new emploi ", new_parcours);
+                console.log("new parc ", new_parcours);
                 await ParcoursModel(new_parcours).save();
-                res.send(new_emnew_parcoursploi.jours + " at " + new_parcours.heureStart + " is successfuly saved");
+                res.send( new_parcours.cours+ " at " + new_parcours.heureStart + " is successfuly saved");
             }
         });
 
