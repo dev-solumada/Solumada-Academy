@@ -954,7 +954,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })){
+            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })) {
                 res.send("error");
             } else {
 
@@ -969,7 +969,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                     cours: cours,
                     groupe: name_groupe,
                     username: username,
-                    num_agent : num_agent,
+                    num_agent: num_agent,
                     mcode: mcode
                 };
                 //console.log("new niveau ", new_membre);
@@ -1008,7 +1008,7 @@ routeExp.route("/groupe").post(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
 
-            res.render("ListeCours.html", {membre: membre, cours:cours , listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
+            res.render("ListeCours.html", { membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             //await CGNModel(new_membre).save();
             //}
         });
@@ -1040,7 +1040,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
     var heurdebut = req.body.heurdebut
     var heurfin = req.body.heurfin
 
-    
+
     console.log("emploi du temps == ", jours, group, heurdebut, heurfin, cours);
     mongoose
         .connect(
@@ -1051,14 +1051,14 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart:heurdebut,  heureFin:heurfin }] }))   || jours=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
+            if ((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart: heurdebut, heureFin: heurfin }] })) || jours == "" || group == "" || heurdebut == "" || heureFin == "" || cours == "") {
                 res.send("error");
             } else {
                 var new_emploi = {
                     cours: cours,
                     groupe: group,
                     jours: jours,
-                    heureStart : heurdebut,
+                    heureStart: heurdebut,
                     heureFin: heurfin
                 };
                 console.log("new emploi ", new_emploi);
@@ -1087,19 +1087,19 @@ routeExp.route("/addparcours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut,  heureFin: heurfin }] }))   || date=="" || group=="" || heurdebut=="" || heurfin=="" || cours=="" ) {
+            if ((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut, heureFin: heurfin }] })) || date == "" || group == "" || heurdebut == "" || heurfin == "" || cours == "") {
                 res.send("error");
             } else {
                 var new_parcours = {
                     cours: cours,
                     groupe: group,
                     date: date,
-                    heureStart : heurdebut,
+                    heureStart: heurdebut,
                     heureFin: heurfin
                 };
                 console.log("new parc ", new_parcours);
                 await ParcoursModel(new_parcours).save();
-                res.send( new_parcours.cours+ " at " + new_parcours.heureStart + " is successfuly saved");
+                res.send(new_parcours.cours + " at " + new_parcours.heureStart + " is successfuly saved");
             }
         });
 
