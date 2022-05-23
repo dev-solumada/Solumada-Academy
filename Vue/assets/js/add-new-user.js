@@ -70,6 +70,7 @@ function verify_all() {
 
 
 function add_new_employee() {
+    var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;
     var m_code = document.getElementById("mcode").value;
     var num_agent = document.getElementById("num_agent").value;
@@ -78,9 +79,9 @@ function add_new_employee() {
     var heure = document.getElementById("Heure").value;
     var groupe = document.getElementById("Groupe").value;
     var cours = document.getElementById("cours").value;
-    sendRequest('/addemp', email, m_code, num_agent, type_util, niveau, heure, groupe, cours);
+    sendRequest('/addemp',name,  email, m_code, num_agent, type_util, niveau, heure, groupe, cours);
 }
-function sendRequest(url, email, m_code, num_agent, type_util, niveau, heure, groupe, cours) {
+function sendRequest(url, name, email, m_code, num_agent, type_util, niveau, heure, groupe, cours) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -103,7 +104,7 @@ function sendRequest(url, email, m_code, num_agent, type_util, niveau, heure, gr
             }
         }
     };
-    http.send("email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util +  "&niveau=" + niveau + "&heure=" + heure + "&groupe=" + groupe + "&cours=" + cours);
+    http.send("name=" + name + "&email=" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type_util=" + type_util +  "&niveau=" + niveau + "&heure=" + heure + "&groupe=" + groupe + "&cours=" + cours);
 }
 
 function test() {
