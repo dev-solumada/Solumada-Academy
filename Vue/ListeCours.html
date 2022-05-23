@@ -125,9 +125,7 @@
                         <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
 
-                            <!-- <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a> -->
+                            <a class="nav-link" href="/resetPWD"><i class="fa fa-user"></i> reset password</a>
 
                             <a class="nav-link" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
@@ -214,7 +212,7 @@
                                                                         <div class="col col-8">
                                                                             <div class="d-flex d-inline-flex">
                                                                                 <form action="" method="get">
-                                                                                    <select class="form-control" name="select-group" id="select-group">
+                                                                                    <select class="form-control standardSelect" name="select-group" id="select-group">
                                                                                         
                                                                                         <% listgroupe.forEach(function(listgroupe) { %>
                                                                                             <option value="<%= listgroupe.name_Groupe %>">
@@ -426,7 +424,7 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="teacher" class="form-control-label">Teacher</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Teacher" class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Teacher" class="form-control standardSelect" tabindex="1">
                                                 <option value=""></option>
                                                 <option value="teacher 1">Teacher 1</option>
                                                 <option value="teacjer 2">Teacher 2</option>
@@ -458,7 +456,7 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="group" class="form-control-label">Group</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Groups" multiple class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Groups" multiple class="form-control standardSelect" tabindex="1">
                                                 <option value=""></option>
                                                 <option value="group 1">Group 1</option>
                                                 <option value="group 2">Group 2</option>
@@ -538,7 +536,7 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="type_cour" class="form-control-label">Member</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Cours" multiple class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Cours" multiple class="form-control standardSelect" tabindex="1">
                                                 <option value=""></option>
                                                 <% listUser.forEach(function(listUser) { %>
                                                         <option value="<%= listUser.name_Cours %>">   <%= listUser.username %></option>
@@ -576,7 +574,7 @@
                                         </div>
                                         <div class="col col-md-3"><label for="weekday" class="form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose day" class="standardSelect" id="select-jour" tabindex="1">
+                                            <select data-placeholder="Choose day" class="form-control standardSelect" id="select-jour" tabindex="1">
                                                 <option value=""></option>
                                                     <option value="lundi">lundi</option>
                                                     <option value="mardi">mardi</option>
@@ -589,7 +587,7 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="group_name" class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="select-gpe"   class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Group" id="select-gpe"   class="form-control standardSelect">
                                                 <option value=""></option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
@@ -739,9 +737,9 @@
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="group_name" class="form-control-label">Add Member</label></div>
+                                        <div class="col col-md-3"><label for="group_name" class="form-control-label">New Members</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="listUserC" name="listUserC"   class="standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Group" id="listUserC" name="listUserC"  multiple class="form-control standardSelect" tabindex="1">
                                                 <option value=""></option>
                                                 <% listUser.forEach(function(listUser) { %>
                                                     <option value="<%= listUser.username %>">

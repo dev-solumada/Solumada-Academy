@@ -9,10 +9,7 @@
     <meta name="description" content="Sufee Admin - HTML5 Admin Template" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link
-      rel="apple-touch-icon"
-      href="./assets/basetemplate/images/logo.jpg"
-    />
+    <link rel="apple-touch-icon" href="./assets/basetemplate/images/logo.jpg" />
     <link rel="shortcut icon" href="./assets/basetemplate/images/logo.jpg" />
 
     <link
@@ -201,6 +198,9 @@
                   ><i class="fa fa-user"></i> My Profile</a
                 >
 
+                <a class="nav-link" href="/resetPWD"><i class="fa fa-user"></i> reset password</a>
+
+
                 <!-- <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a> -->
@@ -273,15 +273,15 @@
       })(jQuery);
 
       $(document).ready(() => {
-        $('.obliItems').click(function(){
-            $(".sub-menu-2").toggle(
-          function () {
-            $(this).addClass("hide");
-          },
-          function () {
-            $(this).removeClass("display");
-          }
-        );
+        $(".obliItems").click(function () {
+          $(".sub-menu-2").toggle(
+            function () {
+              $(this).addClass("hide");
+            },
+            function () {
+              $(this).removeClass("display");
+            }
+          );
         });
       });
     </script>
