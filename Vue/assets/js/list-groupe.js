@@ -26,29 +26,12 @@ function sendRequest(url, groupeVal, cours) {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-
-            //console.log("this.responseText  "+this.responseText);
-            // if (this.responseText == "error") {
-            //     success.style.display = "none";
-            //     error.style.display = "block";
-            //     error.innerHTML = "Employee is already registered";
-            // }
-            
-
-            // else {
-
                 if (groupeId.value == "" ) {
                     window.location = "/listeCours/" + cours;
                 }
                 else {
-                    // document.getElementById("download").disabled = true;
-                    // load.style.display = "none";
                     window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
                 }
-                // console.log("send Reque");
-            //     error.style.display = "none";
-            //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
-            //}
         }
     };
     http.send("groupe=" + groupeVal + "&cours=" + cours);
@@ -196,10 +179,28 @@ function add_new_parcours() {
     var timeStart = document.getElementById("timeS").value;
     var timeEnd = document.getElementById("timeE").value;
     var cours = document.getElementById("cours").value;
-    sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours);
+        var present = [];
+        for (var option of document.getElementById('present').options)
+        {
+            if (option.selected) {
+                present.push(option.value);
+            }
+        }
+        var absent = [];
+        for (var option of document.getElementById('absent').options)
+        {
+            if (option.selected) {
+                absent.push(option.value);
+            }
+        }
+        //alert(selected);
+
+    //var present = document.getElementById("present").value;
+    console.log("present === ", present);
+    sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours, present, absent);
 }
 
-function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours) {
+function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -213,15 +214,22 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours) {
             }else {
                 successP.style.display = "block";
                 errorP.style.display = "none";
-                successP.innerHTML = "Employee " + this.responseText + " registered successfuly";
+                successP.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             }
         }
     };
 
-    http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours);
+    http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&present=" + present + "&absent=" + absent);
 }
 
 
 function anuler(){
     window.location = "/listeCours/" + cours
 }
+function anulerBack(){
+    window.location = "/listeCoursBack/" + cours
+}
+
+
+
+    
