@@ -89,6 +89,7 @@ function add_new_groupe() {
 function sendRequestGroupe(url, newgroupe, cours) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
+
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -103,7 +104,25 @@ function sendRequestGroupe(url, newgroupe, cours) {
                 success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             }
         }
-    };
+      }
+
+    // http.onreadystatechange = function () {
+    //     errorG.style.display = "block";
+        
+    //     console.log("onreadystatechange ");
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         // if (this.responseText == "error") {
+    //         //     successG.style.display = "none";
+    //         //     error.style.display = "block";
+    //         //     error.innerHTML = "Groupe is already registered";
+    //         // }
+    //         // else {
+    //         //     success.style.display = "block";
+    //         //     error.style.display = "none";
+    //         //     success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
+    //         // }
+    //     }
+    // };
     http.send("newgroupe=" + newgroupe + "&cours=" + cours);
 }
 
@@ -165,7 +184,7 @@ function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
             }else {
                 successT.style.display = "block";
                 errorT.style.display = "none";
-                successT.innerHTML = "Employee " + this.responseText + " registered successfuly";
+                successT.innerHTML = "Group " + this.responseText + " registered successfuly in the time ";
             }
         }
     };

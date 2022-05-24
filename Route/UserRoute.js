@@ -909,8 +909,6 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
     // }
 });
 
-
-
 //Liste cours
 routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
     session = req.session;
@@ -959,7 +957,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })){
+            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })) {
                 res.send("error");
             } else {
 
@@ -974,7 +972,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                     cours: cours,
                     groupe: name_groupe,
                     username: username,
-                    num_agent : num_agent,
+                    num_agent: num_agent,
                     mcode: mcode
                 };
                 //console.log("new niveau ", new_membre);
@@ -1023,6 +1021,7 @@ routeExp.route("/groupe").post(async function (req, res) {
         });
 
 });
+
 //Accueil admin
 routeExp.route("/listeMembre1").get(async function (req, res) {
     session = req.session;
@@ -1049,7 +1048,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
     var heurdebut = req.body.heurdebut
     var heurfin = req.body.heurfin
 
-    
+
     console.log("emploi du temps == ", jours, group, heurdebut, heurfin, cours);
     mongoose
         .connect(
@@ -1067,12 +1066,12 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
                     cours: cours,
                     groupe: group,
                     jours: jours,
-                    heureStart : heurdebut,
+                    heureStart: heurdebut,
                     heureFin: heurfin
                 };
                 console.log("new emploi ", new_emploi);
                 await EmplTemp(new_emploi).save();
-                res.send(new_emploi.jours + " at " + new_emploi.heureStart + " is successfuly saved");
+                res.send(new_emploi.groupe + " at " + new_emploi.heureStart + " is successfuly saved");
             }
         });
 
