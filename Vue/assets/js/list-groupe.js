@@ -5,6 +5,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const groupSelect = urlParams.get('select-group');
 const end = urlParams.get('end');
+var cours = document.getElementById("cours").value;
 if (queryString.length != 0) {
     //document.getElementById("ch_title").innerHTML = "Your filtered data";
     groupeId.value = groupSelect;
@@ -218,4 +219,9 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours) {
     };
 
     http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours);
+}
+
+
+function anuler(){
+    window.location = "/listeCours/" + cours
 }

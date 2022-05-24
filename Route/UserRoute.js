@@ -1051,7 +1051,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart:heurdebut,  heureFin:heurfin }] }))   || jours=="" || group=="" || heureStart=="" || heureFin=="" || cours=="" ) {
+            if((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart:heurdebut,  heureFin:heurfin }] }))   || jours=="" || group=="" || heurdebut=="" || heurfin=="" || cours=="" ) {
                 res.send("error");
             } else {
                 var new_emploi = {
