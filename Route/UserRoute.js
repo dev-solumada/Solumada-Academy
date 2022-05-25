@@ -932,7 +932,8 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
             var cours = listgroupe[0].cours
             var time = await EmplTemp.find({ cours: nomCours });
             var parcours = await ParcoursModel.find({ cours: nomCours });
-
+            //var ParcoursAbsent = await ParcoursModel.find({ date, groupe, heureStart, heureFin, cours});
+            //console.log("parcours == ", ParcoursAbsent);
             res.render("./AvecBack/ListeCours.html", { coursM: coursM, parcours: parcours, membre: membre, cours: cours, time: time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
@@ -1126,7 +1127,15 @@ routeExp.route("/addparcours").post(async function (req, res) {
                             //console.log("new parc ", new_parcours);
                             await AbsentModel(new_parcours).save();
                         
-                    }
+                    }var new_parcours = {
+                        cours: cours,
+                        groupe: group,
+                        date: date,
+                        heureStart : heurdebut,
+                        heureFin: heurfin
+                    };
+                    //console.log("new parc ", new_parcours);
+                    await ParcoursModel(new_parcours).save();
                     res.send( new_parcours.cours+ " at " + new_parcours.heureStart + " is successfuly saved");
                 
                 }
