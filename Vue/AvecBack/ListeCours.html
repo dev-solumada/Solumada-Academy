@@ -812,8 +812,8 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add present" id="present" name="listUserC"
-                                            multiple class="form-control standardSelect" tabindex="1">
+                                            <select data-placeholder="Add present" id="present" name="present"
+                                            multiple class="form-control prensentSelect" tabindex="1">
                                                 <option value=""></option>
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
@@ -825,8 +825,8 @@
                                         <div class="col col-md-3"><label for="abscent"
                                                 class=" form-control-label">Absent</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add absent" id="absent" name="listUserC"
-                                            multiple class="form-control standardSelect" tabindex="1">
+                                            <select data-placeholder="Add absent" id="absent" name="absent"
+                                            multiple class="form-control prensentSelect" tabindex="1">
                                                 <option value=""></option>
 
                                             </select>
@@ -913,7 +913,6 @@
     <script src="../assets/basetemplate/assets/js/main.js"></script>
 
     <script src="../assets/js/list-groupe.js"></script>
-    <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
 
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -946,68 +945,7 @@
                 $("div[id='" + $(this).val() + "']").show();
             });
         });
-
-
-        function groupePresence(sel) {
-    //var gpe = document.getElementById("gpe").value;
-    console.log("ggggpe = ", sel.value);
-    sendRequestPresence('/presence', sel.value, cours);
-}
-
-function sendRequestPresence(url, gpe, cours) {
-    console.log("groupe == ", gpe, cours);
-    var http = new XMLHttpRequest();
-    http.open("POST", url, true);
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.onreadystatechange = function () {
-            console.log(" niveau ");
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText == "error") {
-                successP.style.display = "none";
-                errorP.style.display = "block";
-                errorP.innerHTML = "This day at this time is already occupied or you must fill in the field";
-            }else {
-                successP.style.display = "block";
-                errorP.style.display = "none";
-                
-
-                console.log("this.responseText == ", this.responseText);
-                var result = JSON.parse(this.responseText)
-
-                // console.log(result);
-                var absent = document.getElementById('absent')
-                var present = document.getElementById('present')
-                
-                // result.forEach(element=> {
-                //     // absent.appendChild(opt)
-                // });
-                // http.send("gpe=" + gpe + "&cours=" + cours );
-                foreach(result, absent)
-                foreach(result, present)
-                
-                console.log("aaaa ",absent);
-                console.log("present ", present);
-                // successP.innerHTML = "Groupe registered successfuly";
-            }
-        }
-    };
-    http.send("gpe=" + gpe + "&cours=" + cours)
-}
-
-function foreach(params1, params2) {
-    params1.forEach(element=> {
-                    console.log("element == ", element.username);
-                    var opt = document.createElement("option")
-                    opt.value = element.username;
-                    opt.text = element.username;
-                    params2.add(opt, null);
-                    // var opt = document.createElement("option")
-                    // var text = document.createTextNode(element.username)
-                    // opt.appendChild(text)
-                    // params2.appendChild(opt)
-                });
-}
-    </script>
+</script>
 
 </body>
 

@@ -10,7 +10,7 @@ if (queryString.length != 0) {
     //document.getElementById("ch_title").innerHTML = "Your filtered data";
     groupeId.value = groupSelect;
 }
-function getdataGP(){
+function getdataGP() {
     var groupeVal = groupeId.value;
     var cours = document.getElementById('cours').value;
 
@@ -26,12 +26,12 @@ function sendRequest(url, groupeVal, cours) {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-                if (groupeId.value == "" ) {
-                    window.location = "/listeCours/" + cours;
-                }
-                else {
-                    window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
-                }
+            if (groupeId.value == "") {
+                window.location = "/listeCoursBack/" + cours;
+            }
+            else {
+                window.location = "/listeCoursBack/" + cours + "?select-group=" + groupeVal;
+            }
         }
     };
     http.send("groupe=" + groupeVal + "&cours=" + cours);
@@ -39,7 +39,7 @@ function sendRequest(url, groupeVal, cours) {
 
 
 
-function add_membre(){
+function add_membre() {
     var list = listU.value;
     var groupeVal = groupeId.value
     var cours = document.getElementById('cours').value;
@@ -52,7 +52,7 @@ function add_membre(){
 }
 
 
-function sendRequest1(url, username,groupeVal, cours) {
+function sendRequest1(url, username, groupeVal, cours) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -65,13 +65,13 @@ function sendRequest1(url, username,groupeVal, cours) {
                 error.style.display = "block";
                 error.innerHTML = "Employee is already registered";
             }
-            
+
 
             else {
                 window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
-                    //window.location = "/listeCoursBack/" + cours ;
-            //     error.style.display = "none";
-            //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
+                //window.location = "/listeCoursBack/" + cours ;
+                //     error.style.display = "none";
+                //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
             }
         }
     };
@@ -104,11 +104,11 @@ function sendRequestGroupe(url, newgroupe, cours) {
                 success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             }
         }
-      }
+    }
 
     // http.onreadystatechange = function () {
     //     errorG.style.display = "block";
-        
+
     //     console.log("onreadystatechange ");
     //     if (this.readyState == 4 && this.status == 200) {
     //         // if (this.responseText == "error") {
@@ -177,11 +177,11 @@ function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log("niveau == ", jours, grpe, timeStart, timeEnd, cours);
-            if (this.responseText == "error" || jours=="" || grpe=="" || timeStart=="" || timeEnd=="" || cours=="") {
+            if (this.responseText == "error" || jours == "" || grpe == "" || timeStart == "" || timeEnd == "" || cours == "") {
                 successT.style.display = "none";
                 errorT.style.display = "block";
                 errorT.innerHTML = "This day at this time is already occupied or you must fill in the field";
-            }else {
+            } else {
                 successT.style.display = "block";
                 errorT.style.display = "none";
                 successT.innerHTML = "Group " + this.responseText + " registered successfuly in the time ";
@@ -198,21 +198,19 @@ function add_new_parcours() {
     var timeStart = document.getElementById("timeS").value;
     var timeEnd = document.getElementById("timeE").value;
     var cours = document.getElementById("cours").value;
-        var present = [];
-        for (var option of document.getElementById('present').options)
-        {
-            if (option.selected) {
-                present.push(option.value);
-            }
+    var present = [];
+    for (var option of document.getElementById('present').options) {
+        if (option.selected) {
+            present.push(option.value);
         }
-        var absent = [];
-        for (var option of document.getElementById('absent').options)
-        {
-            if (option.selected) {
-                absent.push(option.value);
-            }
+    }
+    var absent = [];
+    for (var option of document.getElementById('absent').options) {
+        if (option.selected) {
+            absent.push(option.value);
         }
-        //alert(selected);
+    }
+    //alert(selected);
 
     //var present = document.getElementById("present").value;
     console.log("present === ", present);
@@ -226,11 +224,11 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log("niveau == ", date, grpe, timeStart, timeEnd, cours);
-            if (this.responseText == "error" || date=="" || grpe=="" || timeStart=="" || timeEnd=="" || cours=="") {
+            if (this.responseText == "error" || date == "" || grpe == "" || timeStart == "" || timeEnd == "" || cours == "") {
                 successP.style.display = "none";
                 errorP.style.display = "block";
                 errorP.innerHTML = "This day at this time is already occupied or you must fill in the field";
-            }else {
+            } else {
                 successP.style.display = "block";
                 errorP.style.display = "none";
                 successP.innerHTML = "Groupe " + this.responseText + " registered successfuly";
@@ -242,13 +240,81 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
 }
 
 
-function anuler(){
+function anuler() {
     window.location = "/listeCours/" + cours
 }
-function anulerBack(){
+function anulerBack() {
     window.location = "/listeCoursBack/" + cours
 }
 
 
+var present = document.getElementById('present')
+var absent = document.getElementById('absent')
+function groupePresence(sel) {
+    //var sel = document.getElementById("maListe");
+    //console.log("present ", ('#present option').length);
+    for (let index = 0; index < ('#present option').length; index++) {
+        const element = ('#present option')[index];
+        //console.log("element");
+        present.remove(element);
+    }
 
-    
+    for (let index = 0; index < ('#absent option').length; index++) {
+        const element = ('#absent option')[index];
+        //console.log("element");
+        absent.remove(element);
+    }
+    jQuery(document).ready(function () {
+        jQuery(".prensentSelect").trigger("chosen:updated");
+    });
+
+    console.log("result après=== ", present);
+    //var gpe = document.getElementById("gpe").value;
+    //console.log("ggggpe = ", sel.value);
+    sendRequestPresence('/presence', sel.value, cours);
+}
+
+function sendRequestPresence(url, gpe, cours) {
+    console.log("groupe == ", gpe, cours);
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        console.log(" niveau ");
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText == "error") {
+                successP.style.display = "none";
+                errorP.style.display = "block";
+                errorP.innerHTML = "This day at this time is already occupied or you must fill in the field";
+            } else {
+                result = JSON.parse(this.responseText)
+                function_foreach(result, absent)
+                // console.log("aaaa ", absent);
+                function_foreach(result, present)
+
+                //console.log("present ", present);
+                jQuery(document).ready(function () {
+                    jQuery(".prensentSelect").chosen({
+                        disable_search_threshold: 10,
+                        no_results_text: "Oops, nothing found!",
+                        width: "100%"
+                    });
+                });
+                
+                jQuery(document).ready(function () {
+                    jQuery(".prensentSelect").trigger("chosen:updated");
+                });
+            }
+        }
+    };
+    http.send("gpe=" + gpe + "&cours=" + cours)
+}
+
+function function_foreach(params1, params2) {
+    params1.forEach(element => {
+        var opt = document.createElement("option")
+        opt.value = element.username;
+        opt.text = element.username;
+        params2.add(opt, null);
+    });
+}
