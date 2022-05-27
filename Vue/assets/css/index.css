@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
 .img-side img
 {
     height: 100vh;
@@ -37,14 +39,18 @@
 
 #txt-sol {
     color: #6a7a2b;
-    font-size: 50px;
+    font-size: 46px;
     font-weight: bolder;
+    font-family: 'Russo One', sans-serif;
+    letter-spacing: 3px;
 }
 
 #txt-acd {
     color: #ca2611;
-    font-size: 50px;
+    font-size: 46px;
     font-weight: bolder;
+    font-family: 'Russo One', sans-serif;
+    letter-spacing: 3px;
 }
 
 .form-container {
@@ -53,11 +59,23 @@
     margin: auto;
 }
 
+.form-group
+{
+    margin-bottom: 5px;
+    justify-content: center;
+}
+
+.form-group label
+{
+    font-size: 13px;
+    margin-bottom: 1px;
+}
+
 input[type=text],
 input[type=password] {
     width: 100%;
     border-radius: 8px;
-    border: 3px solid #036316;
+    border: .08em solid #036316;
     box-sizing: border-box;
     font-size: 12px;
     font-weight: 700;
@@ -65,17 +83,17 @@ input[type=password] {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-top: 0px;
 }
 
 .btn-cnx {
     background-image: linear-gradient(#d2f73e, #7b9904);
     border: 0;
     border-radius: 5px;
-    box-shadow: rgba(10, 8, 8, 0.3) 0 5px 15px;
     box-shadow: 0px 1px 2px 1px #7a7c72;
     padding: 10px 15px;
     box-sizing: border-box;
-    color: #fff;
+    color: rgb(97, 94, 94);
     cursor: pointer;
     font-family: Montserrat,sans-serif;
     font-size: 1em;
@@ -83,6 +101,25 @@ input[type=password] {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.btn-cnx:hover{
+    color: white;
+    box-shadow: rgba(10, 8, 8, 0.3) 0 5px 15px;
+}
+
+.btn-cnx:after
+{
+    opacity: 0;
+    background-image: linear-gradient(#abd407, #748825);
+    transition: all 0.8s;
+}
+
+.btn-cnx:active::after{
+    opacity: 1;
+    background-image: linear-gradient(#d2f73e, #7b9904);
 }
 
 .form-label {
@@ -104,7 +141,7 @@ input[type=password] {
 .reset-pswd {
     text-decoration: none;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: black;
     margin: auto;

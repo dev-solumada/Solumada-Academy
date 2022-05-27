@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Users</title>
+    <title>Admin | Points</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,7 +86,7 @@
                         <a href="/adminGraduation"> <i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
                     </li>
                     <li>
-                        <a href="/adminGraduation"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
+                        <a href="./adminPoint.html"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
                     </li>
                     <li>
                         <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global view </a>
@@ -168,7 +168,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-dark rounded btn-sm" data-toggle="modal" data-target="#UserFormModal"><small><i class="fa fa-plus"></i> New user</small></button>
+                                    <button type="button" class="btn btn-dark rounded btn-sm" data-toggle="modal" data-target="#UserFormModal"><small><i class="fa fa-plus"></i> New Point</small></button>
                                     <strong class="card-title my-auto">Users</strong>
                                 </div>
                             </div>
@@ -178,13 +178,12 @@
                                         <tr>
                                             <th>Username</th>
                                             <th>M Code</th>
-                                            <th>Num</th>
-                                            <th>Type</th>
+                                            <th>Points</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% listuser.forEach(function(listuser) { %>
+                                        <!-- <% listuser.forEach(function(listuser) { %>
                                         <tr>
                                             <td><%= listuser.username %></td>
                                             <td><%= listuser.m_code %></td>
@@ -197,7 +196,19 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    <% }); %>
+                                    <% }); %> -->
+
+                                        <tr>
+                                            <td>Onisoa</td>
+                                            <td>005</td>
+                                            <td>5 pts</td>
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                    <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#UserUpdateFormModal"><i class="fa fa-edit"></i></button>
+                                                    <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         
                                     </tbody>
                                 </table>
@@ -229,7 +240,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">New User</h5>
+                            <h5 class="modal-title" id="largeModalLabel">New Point</h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
@@ -243,43 +254,17 @@
                                     </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="name" class="form-control-label">Name</label></div>
+                                        <div class="col col-md-3"><label for="name" class="form-control-label">M Code</label></div>
                                         <div class="col-12 col-md-9">
                                             <input type="email" id="name"  placeholder="User Name" class="form-control">
                                             <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="Username" class="form-control-label">Email</label></div>
+                                        <div class="col col-md-3"><label for="num_agent" class=" form-control-label">Point</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="email" onchange="verify_mail()" placeholder="user@gmail.com" class="form-control">
-                                            <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="m_code" class=" form-control-label">M Code</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="m_code" onchange="verify_code()" name="m_code" placeholder="M Code" class="form-control">
-                                            <small id="emc" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="num_agent" class=" form-control-label">Agent Num</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="num_agent" onchange="verify_number()" name="num_agent" placeholder="Agent Number" class="form-control">
+                                            <input type="number" id="num_agent" name="num_agent" placeholder="Point" class="form-control">
                                             <small id="en" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_util" class="form-control-label">User Type</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="typ_util" id="type_util" onchange="test()" class="form-control">
-                                                <option disabled selected>Select Type</option>
-                                                <option value="Participant" >Participant</option>
-                                                <option value="Teacher">Teacher</option>
-                                                <option value="Admin">Admin</option>
-                                            </select>
-                                            <small id="et" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                 </form>
@@ -288,7 +273,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
-                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"  id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button"  id="saveUser">Save</button>
                         </div>
                     </div>
                 </div>
@@ -302,57 +287,31 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">New User</h5>
+                            <h5 class="modal-title" id="largeModalLabel">New Point</h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+                                <form id="form" action="" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
                                                 <small class="alert alert-danger text-center" role="alert" id ="error" style="display: none;color:red">Error message Here</small>
                                                 <small class="alert alert-success text-center" role="alert" style="display: block;color:green">Success message Here</small>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="name" class="form-control-label">Name</label></div>
+                                        <div class="col col-md-3"><label for="name" class="form-control-label">M Code</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="name" value="Onisoa"  placeholder="User Name" class="form-control">
+                                            <input type="email" id="mcodeUpdate"  value="PDF-001" class="form-control">
                                             <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label value="developpeur.solumada@gmail.com"value="developpeur.solumada@gmail.com" for="Username" class="form-control-label">Email</label></div>
+                                        <div class="col col-md-3"><label for="point" class="form-control-label">Point</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="email" onchange="verify_mail()" value="developpeur@gmail.com" class="form-control">
+                                            <input type="number" id="pointUpdate"  value="5" class="form-control">
                                             <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="m_code" class="form-control-label">M Code</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="m_code" onchange="verify_code()" value="15022" name="m_code" placeholder="M Code" class="form-control">
-                                            <small id="emc" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="num_agent" class=" form-control-label">Agent Num</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="text" id="num_agent" onchange="verify_number()" value="152test2" name="num_agent" placeholder="Agent Number" class="form-control">
-                                            <small id="en" style="color: red; font-size: smaller; display:none;">This field is required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_util" class="form-control-label">User Type</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="typ_util" id="type_util" onchange="test()" class="form-control">
-                                                <option disabled >Select Type</option>
-                                                <option value="Participant">Participant</option>
-                                                <option value="Teacher" selected>Teacher</option>
-                                                <option value="Admin">Admin</option>
-                                            </select>
-                                            <small id="et" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                 </form>
@@ -404,7 +363,7 @@
                 Swal.fire
                 ({
                     title: 'Are you sure?',
-                    text: "to delete this user",
+                    text: "to remove this user points",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: 'red',
@@ -416,7 +375,7 @@
                     { 
                         Swal.fire({
                             title:'Deleted!',
-                            text:'user was deleted successfuly',
+                            text:"user's point was deleted successfuly",
                             confirmButtonColor: 'black',
                             icon:'success',
                         })
@@ -424,7 +383,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Deletion',
-                            text: 'deletion user canceled',
+                            text: "deletion user's point canceled",
                             confirmButtonColor: 'black',
                         })
                     }
