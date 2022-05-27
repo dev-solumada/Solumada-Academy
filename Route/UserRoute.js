@@ -228,7 +228,7 @@ routeExp.route("/resetPwd").get(async function (req, res) {
     if (session.mailconfirm) {
         res.redirect("/code");
     } else {
-        res.render("resetPwd.html", { err: "" });
+        res.render("resetPWD.html", { err: "" });
     }//
 
 });
