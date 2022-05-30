@@ -11,8 +11,8 @@ const NiveauModel = require("../Models/NiveauModel");
 const CGNModel = require("../Models/CGNModel");
 const EmplTemp = require("../Models/EmploiDuTemps");
 const ParcoursModel = require("../Models/Parcours");
-const AbsentModel = require("../Models/ParcoursAbsent");
-const PresentModel = require("../Models/ParcoursPresent");
+//const AbsentModel = require("../Models/ParcoursAbsent");
+//const PresentModel = require("../Models/ParcoursPresent");
 
 var membre = [{
     cours: '',
@@ -901,15 +901,25 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             var time = await EmplTemp.find({ cours: nomCours });
             parcours = await ParcoursModel.find({ cours: nomCours });
 
+            // var ParcoursAbsent = await ParcoursModel.aggregate([
+            //     { 
+            //         $group : { _id : 
+            //             {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date", presence: "$presence"}, 
+            //         user: { $push: "$user" } }
+            //     }
+            //   ])
             var ParcoursAbsent = await ParcoursModel.aggregate([
-                {$unwind: "$presence"},
-                { 
-                    $group : { _id : 
-                        {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date", presence: "$presence"}, 
-                    user: { $push: "$user" } }
-                }
+                    {$match: {
+                        cours: { $in: [nomCours] }
+                      }},
+                    { 
+                        $group : { _id : 
+                            { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date"}, 
+                        tabl: { $push: {user:"$user", presence:"$presence" }}
+                     }
+                    }
               ])
-            //console.log("parcours == ", parcours);
+              console.log("nom ", ParcoursAbsent);
             res.render("ListeCours.html", {ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
@@ -940,24 +950,16 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
             var cours = listgroupe[0].cours
             var time = await EmplTemp.find({ cours: nomCours });
             var parcours = await ParcoursModel.find({ cours: nomCours });
-            //var ParcoursAbsent = await AbsentModel.find({parcoursAbsPr});
-            // var ParcoursAbsent = await ParcoursModel.aggregate([
-            //     { 
-            //         $group : { _id : 
-            //             {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date", presence: "$presence"}, 
-            //         user: { $push: "$user" } } }
-            //   ])
-            
           
             var ParcoursAbsent = await ParcoursModel.aggregate([
-                {$unwind: "$presence"},
                 { 
                     $group : { _id : 
-                        {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date", presence: "$presence"}, 
-                    user: { $push: "$user" } }
+                        {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date"}, 
+                    tabl: { $push: {user:"$user", presence:"$presence" } }}
                 }
-              ])
-            console.log("parcours == ", ParcoursAbsent);
+          ])
+
+            //console.log("parcours == ", ParcoursAbsent);
             
             res.render("./AvecBack/ListeCours.html", { coursM: coursM, ParcoursAbsent: ParcoursAbsent, membre: membre, cours: cours, time: time, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
@@ -1040,6 +1042,14 @@ routeExp.route("/groupe").post(async function (req, res) {
             var time = await EmplTemp.find({ cours: cours });
             var parcours = await ParcoursModel.find({ cours: cours });
             
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+                { 
+                    $group : { _id : 
+                        {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date"}, 
+                    tabl: { $push: {user:"$user", presence:"$presence" } }}
+                }
+          ])
+            //console.log("parcours == ", ParcoursAbsent);
 
             res.render("ListeCours.html", {ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre,time:time, parcours:parcours, cours:cours , listUser:listUser, listgroupe:listgroupe, listcourOblig:listcourOblig, listcourFac:listcourFac});
             //await CGNModel(new_membre).save();
@@ -1124,7 +1134,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
             }
         )
         .then(async () => {
-                if((await PresentModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut,  heureFin: heurfin }] }))   || date=="" || group=="" || heurdebut=="" || heurfin=="" || cours=="" ) {
+                if((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut,  heureFin: heurfin }] }))   || date=="" || group=="" || heurdebut=="" || heurfin=="" || cours=="" ) {
                     res.send("error");
                 } else {
                     for (let index = 0; index < presentArray.length; index++) {
@@ -1194,3 +1204,6 @@ routeExp.route("/presence").post(async function (req, res) {
 
 });
 module.exports = routeExp;
+
+
+
