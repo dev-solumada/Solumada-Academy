@@ -420,38 +420,32 @@
                                                                     <td>
                                                                         <%= ParcoursAbsent._id.groupe %>
                                                                     </td>
-
-                                                                    <% if(ParcoursAbsent._id.presence){ %>
                                                                         <td>
                                                                             <select data-placeholder=""
                                                                                 class="form-control standardSelect"
                                                                                 tabindex="1">
-                                                                                <% for(var i=0; i <
-                                                                                    ParcoursAbsent.user.length; i++) {
-                                                                                    %>
+                                                                    <% ParcoursAbsent.tabl.forEach(function(tabl) { %>
+                                                                                <% if(tabl.presence){ %>
                                                                                     <option value="">
-                                                                                        <%= ParcoursAbsent.user[i] %>
+                                                                                        <%= tabl.user %>
                                                                                     </option>
-
                                                                                     <% } %>
+                                                                        <% }); %>
                                                                             </select>
                                                                         </td>
-                                                                        <% } else{ %>
-                                                                            <td></td>
-                                                                            <td>
+                                                                        <td>
                                                                             <select data-placeholder=""
                                                                                 class="form-control standardSelect"
                                                                                 tabindex="1">
-                                                                                <% for(var i=0; i <
-                                                                                    ParcoursAbsent.user.length; i++) {
-                                                                                    %>
+                                                                    <% ParcoursAbsent.tabl.forEach(function(tabl) { %>
+                                                                                <% if(tabl.presence==false){ %>
                                                                                     <option value="">
-                                                                                        <%= ParcoursAbsent.user[i] %>
+                                                                                        <%= tabl.user %>
                                                                                     </option>
-                                                                                        <% } %>
+                                                                                    <% } %>
+                                                                        <% }); %>
                                                                             </select>
-                                                                            </td>
-                                                                            <% } %>
+                                                                        </td>
                                                                 </tr>
                                                                 <% }); %>
                                                         </tbody>
@@ -861,7 +855,7 @@
                                                 class=" form-control-label">Absent</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Add absent" id="absent" name="absent" multiple
-                                                class="form-control prensentSelect" tabindex="1">
+                                                class="form-control absentSelect" tabindex="1">
                                                 <option value=""></option>
 
                                             </select>
@@ -873,7 +867,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anulerBack()"
+                            <button type="button" class="btn btn-danger" onclick="anuler()"
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button" onclick="add_new_parcours()"
                                 id="saveParcours">Save</button>
