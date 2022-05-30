@@ -188,42 +188,23 @@
                                             <td>PDF-001</td>
                                             <td>001</td>
                                             <td>English (Begining A2)</td>
-                                            <td>5</td>
-                                            <td>Bronze</td>
+                                            <td>
+                                                <div class="input-group">
+                                                        <select class="form-control selectPoints">
+                                                            <option class="text-center" value="1">5pts</option>
+                                                            <option class="text-center" value="" class="text-center">Add</option>
+                                                        </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <select class="form-control">
+                                                        <option class="text-center" value="1">Bronze</option>
+                                                        <option class="text-center" value="">Update</option>
+                                                    </select>
+                                                </div>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>Njato</td>
-                                            <td>PDF-002</td>
-                                            <td>002</td>
-                                            <td>English (Begining A2)</td>
-                                            <td>5</td>
-                                            <td>Bronze</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Njato</td>
-                                            <td>PDF-003</td>
-                                            <td>003</td>
-                                            <td>English (Begining A2)</td>
-                                            <td>5</td>
-                                            <td>Bronze</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Njato</td>
-                                            <td>PDF-004</td>
-                                            <td>004</td>
-                                            <td>English (Begining A2)</td>
-                                            <td>5</td>
-                                            <td>Bronze</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Njato</td>
-                                            <td>PDF-005</td>
-                                            <td>005</td>
-                                            <td>English (Begining A2)</td>
-                                            <td>5</td>
-                                            <td>Bronze</td>
-                                        </tr>
-                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -231,14 +212,30 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- .animated -->
-        </div><!-- .content -->
 
+        </div><!-- .content -->
 
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
+
+    <div class="modal fade" id="fileUploadModal" role="dialog">
+        <div class="modal-dialog">
+          Modal content
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add Comment</h4>
+            </div>
+            <div class="modal-body">
+              <p><textarea id = "commentsUpload"class="form-control custom-control" rows="3" style="resize:none"></textarea></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" onclick="submitXYX()" data-dismiss="modal">Submit</button>
+            </div>
+          </div>
+        </div>
+    </div>
 
 
     <script src="./assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
@@ -259,7 +256,17 @@
     <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
 
+<script>
+    $( document ).ready(function() {
+        $('#fileUploadModal').modal('show');
 
+        $( ".selectPoints").change(function() {
+        if ($(this).val() == ""){
+          $('#fileUploadModal').modal('show');
+          }
+        });
+    });
+</script>
 </body>
 
 </html>

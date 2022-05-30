@@ -221,6 +221,24 @@ input[type=password] {
 }
 
 
+@media(max-width: 500px)
+{
+    .img-side
+    {
+        display: none;
+    }
+
+    .login-side 
+    {
+        height: 100vh;
+        width: 100vw;
+        /* background: linear-gradient(#9dd63a, #a1e330, #687532); */
+        background: linear-gradient(#aae65c, #98ad44);
+
+    }
+}
+
+
 @media (max-width:280px) 
 {
     #txt-sol {
@@ -280,6 +298,8 @@ input[type=password] {
 }
 
 @media  (max-height:480px) {
+
+
     #txt-sol {
         font-size: 35px;
     }
