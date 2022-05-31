@@ -880,7 +880,7 @@ routeExp.route("/addniveau").post(async function (req, res) {
 routeExp.route("/listeCours/:cours").get(async function (req, res) {
     session = req.session;
     var nomCours = req.params.cours;
-    //if (session.type_util == "Admin") {
+    if (session.type_util == "Admin") {
     //console.log('listcours == ', req.params.cours);
     mongoose
         .connect(
@@ -922,9 +922,9 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
               console.log("nom ", ParcoursAbsent);
             res.render("ListeCours.html", {ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
-    // } else {
-    //     res.redirect("/");
-    // }
+    } else {
+        res.redirect("/");
+    }
 });
 
 //Liste cours
@@ -972,10 +972,7 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
 routeExp.route("/newmembre").post(async function (req, res) {
     var name_groupe = req.body.groupeVal
     var username = req.body.username
-    var cours = req.body.cours// 'groupe A'//'groupe C'// req.body.name_groupe;
-    //var trm = name_groupe.trim()
-    //console.log("name_groupe***", name_groupe)//,trm.replace(/ /g,"_"));
-    //replace(/^\s+/g, ''));
+    var cours = req.body.cours
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
