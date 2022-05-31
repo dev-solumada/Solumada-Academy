@@ -1200,6 +1200,39 @@ routeExp.route("/presence").post(async function (req, res) {
         });
 
 });
+
+
+//admin Point
+routeExp.route("/adminPoint").get(async function (req, res) {
+    session = req.session;
+    //if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                //var listgroupe = await GroupeModel.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+
+                //console.log("liste " ,listgroupe)
+                //console.log("obligatoire " , listcourOblig);
+                //console.log("facultatif " , listcourFac);
+                var listuser = await UserSchema.find({ validation: true });
+                res.render("adminPoint.html", { listuser:listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            });
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
+
+
 module.exports = routeExp;
 
 
