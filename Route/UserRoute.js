@@ -616,7 +616,7 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
         res.redirect("/");
     }
 });
-//Liste User
+//Global view
 routeExp.route("/adminGlobalview").get(async function (req, res) {
     session = req.session;
     //if (session.type_util == "Admin") {
@@ -1249,6 +1249,31 @@ routeExp.route("/getmembre").post(async function (req, res) {
         });
 })
 
+//Liste User
+routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
+    session = req.session;
+    //if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var listuser = await UserSchema.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var membre = await CGNModel.find({ validation: true })
+                res.render("./AvecBack/adminGlobalview.html", { membre:membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            });
+
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
 module.exports = routeExp;
 
 
