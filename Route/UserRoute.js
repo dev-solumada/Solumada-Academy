@@ -655,7 +655,7 @@ routeExp.route("/getuser").post(async function (req, res) {
         )
         .then(async () => {
             var user = await UserSchema.findOne({ _id: id });
-            res.send(user.username + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
+            res.send(user.username + "," + user.email + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
         });
 })
 
