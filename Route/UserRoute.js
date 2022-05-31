@@ -619,7 +619,7 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
 //Liste User
 routeExp.route("/adminGlobalview").get(async function (req, res) {
     session = req.session;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -632,15 +632,14 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                 var listuser = await UserSchema.find({ validation: true });
                 var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                res.render("adminGlobalview.html", { listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                var membre = await CGNModel.find({ validation: true })
+                res.render("adminGlobalview.html", { membre:membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
 
-
-
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //getuser
@@ -880,7 +879,7 @@ routeExp.route("/addniveau").post(async function (req, res) {
 routeExp.route("/listeCours/:cours").get(async function (req, res) {
     session = req.session;
     var nomCours = req.params.cours;
-    //if (session.type_util == "Admin") {
+    if (session.type_util == "Admin") {
     //console.log('listcours == ', req.params.cours);
     mongoose
         .connect(
@@ -922,9 +921,9 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
               console.log("nom ", ParcoursAbsent);
             res.render("ListeCours.html", {ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
-    // } else {
-    //     res.redirect("/");
-    // }
+    } else {
+        res.redirect("/");
+    }
 });
 
 //Liste cours
@@ -972,10 +971,7 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
 routeExp.route("/newmembre").post(async function (req, res) {
     var name_groupe = req.body.groupeVal
     var username = req.body.username
-    var cours = req.body.cours// 'groupe A'//'groupe C'// req.body.name_groupe;
-    //var trm = name_groupe.trim()
-    //console.log("name_groupe***", name_groupe)//,trm.replace(/ /g,"_"));
-    //replace(/^\s+/g, ''));
+    var cours = req.body.cours
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1203,6 +1199,56 @@ routeExp.route("/presence").post(async function (req, res) {
         });
 
 });
+
+
+//admin Point
+routeExp.route("/adminPoint").get(async function (req, res) {
+    session = req.session;
+    if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                //var listgroupe = await GroupeModel.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+
+                //console.log("liste " ,listgroupe)
+                //console.log("obligatoire " , listcourOblig);
+                //console.log("facultatif " , listcourFac);
+                var listuser = await UserSchema.find({ validation: true });
+                res.render("adminPoint.html", { listuser:listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+
+//get membre
+routeExp.route("/getmembre").post(async function (req, res) {
+    var id = req.body.id;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var user = await CGNModel.findOne({ _id: id });
+            res.send(user.username + "," + user.m_code + "," + user.num_agent + "," + user.groupe + "," + user.niveau);
+        });
+})
+
 module.exports = routeExp;
 
 

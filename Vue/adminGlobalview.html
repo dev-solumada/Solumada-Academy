@@ -85,7 +85,7 @@
                         <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
                     </li>
                     <li>
-                        <a href="./adminPoint.html"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
+                        <a href="/adminPoint"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
                     </li>
                     <li>
                         <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global view </a>
@@ -183,42 +183,42 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Njato</td>
-                                            <td>PDF-001</td>
-                                            <td>001</td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours Level</option>
-                                                        <option class="text-center" value="1">Cours Level</option>
-                                                    </select>
-                                                    <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
-                                                </div>
-                                            </td>
-                                            <td >
-                                                <div class="input-group">
+                                        <% membre.forEach(function(membre) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= membre.username %>
+                                                </td>
+                                                <td>
+                                                    <%= membre.mcode %>
+                                                </td>
+                                                <td>
+                                                    <%= membre.num_agent %>
+                                                </td>
+                                                <td>
+                                                    <%= membre.cours %> - niveau
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
                                                     <select class="form-control selectPoints">
                                                         <option class="text-center" value="1">Cours Name 5pts</option>
                                                         <option class="text-center" value="1">Cours Name 5pts</option>
-                                                    </select>
-                                                    <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
-                                                </div>
-                                                
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
+                                                        </select>
+                                                        <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
+                                                    </div
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
                                                         <select class="form-control">
                                                             <option class="text-center" value="1">Bronze Excel</option>
                                                             <option class="text-center" value="">Silver Anglais</option>
                                                         </select>
-                                                    <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                        <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
                                     </tbody>
                                 </table>
                             </div>
