@@ -619,7 +619,7 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
 //Liste User
 routeExp.route("/adminGlobalview").get(async function (req, res) {
     session = req.session;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -632,15 +632,14 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                 var listuser = await UserSchema.find({ validation: true });
                 var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                res.render("adminGlobalview.html", { listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                var membre = await CGNModel.find({ validation: true })
+                res.render("adminGlobalview.html", { membre:membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
 
-
-
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //getuser
@@ -1205,7 +1204,7 @@ routeExp.route("/presence").post(async function (req, res) {
 //admin Point
 routeExp.route("/adminPoint").get(async function (req, res) {
     session = req.session;
-    //if (session.type_util == "Admin") {
+    if (session.type_util == "Admin") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1226,12 +1225,29 @@ routeExp.route("/adminPoint").get(async function (req, res) {
                 var listuser = await UserSchema.find({ validation: true });
                 res.render("adminPoint.html", { listuser:listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
-    // }
-    // else {
-    //     res.redirect("/");
-    // }
+    }
+    else {
+        res.redirect("/");
+    }
 });
 
+
+//get membre
+routeExp.route("/getmembre").post(async function (req, res) {
+    var id = req.body.id;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var user = await CGNModel.findOne({ _id: id });
+            res.send(user.username + "," + user.m_code + "," + user.num_agent + "," + user.groupe + "," + user.niveau);
+        });
+})
 
 module.exports = routeExp;
 

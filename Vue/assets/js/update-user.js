@@ -68,7 +68,7 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
-        console.log("type_util == "+ data[3]);
+        //console.log("type_util == "+ data[3]);
         username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
         btnu.disabled = false;
         ids = id;
