@@ -75,13 +75,13 @@ function add_new_employee() {
     var m_code = document.getElementById("mcode").value;
     var num_agent = document.getElementById("num_agent").value;
     var type_util = document.getElementById("type_util").value;
-    var niveau = document.getElementById("Niveau").value;
-    var heure = document.getElementById("Heure").value;
-    var groupe = document.getElementById("Groupe").value;
-    var cours = document.getElementById("cours").value;
-    sendRequest('/addemp',name,  email, m_code, num_agent, type_util, niveau, heure, groupe, cours);
+    // var niveau = document.getElementById("Niveau").value;
+    // var heure = document.getElementById("Heure").value;
+    // var groupe = document.getElementById("Groupe").value;
+    // var cours = document.getElementById("cours").value;
+    sendRequest('/addemp',name,  email, m_code, num_agent, type_util);
 }
-function sendRequest(url, name, email, m_code, num_agent, type_util, niveau, heure, groupe, cours) {
+function sendRequest(url, name, email, m_code, num_agent, type_util) {
     //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);

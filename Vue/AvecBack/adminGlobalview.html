@@ -23,7 +23,8 @@
     <link rel="stylesheet" href="./assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="./assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="./assets/basetemplate/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="./assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="./assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
 
     <link rel="stylesheet" href="./assets/basetemplate/assets/css/style.css">
 
@@ -37,16 +38,18 @@
         <nav class="navbar navbar-expand-sm navbar-default">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
+                    aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="./"><img src="./assets/basetemplate/images/logo.jpg" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="./assets/basetemplate/images/logo2.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="./assets/basetemplate/images/logo2.png"
+                        alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    
+
                     <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
                     <li>
                         <a href="/accueilAdmin"> <i class="menu-icon fa fa-home"></i>Home </a>
@@ -56,14 +59,19 @@
                     </li>
 
                     <li class="menu-item-has-children active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li class="dropdown menu-item-has-children">
                                 <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
                                 <ul class="sub-menu children">
                                     <% listcourOblig.forEach(function(listcourOblig) { %>
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a href="/listeCours/<%= listcourOblig.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"> <%= listcourOblig.name_Cours %></a></li>
-                                    <% }); %>
+                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
+                                                href="/listeCours/<%= listcourOblig.name_Cours %>"
+                                                onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
+                                                <%= listcourOblig.name_Cours %>
+                                            </a></li>
+                                        <% }); %>
                                 </ul>
                             </li>
 
@@ -71,18 +79,23 @@
                                 <i class="fa fa-bookmark-o"></i><a class="obg-item" href="">Optional</a>
                                 <ul class="sub-menu children">
                                     <% listcourFac.forEach(function(listcourFac) { %>
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a href="/listeCours/<%= listcourFac.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"><%= listcourFac.name_Cours %></a></li>
-                                    <% }); %>
+                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
+                                                href="/listeCours/<%= listcourFac.name_Cours %>"
+                                                onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')">
+                                                <%= listcourFac.name_Cours %>
+                                            </a></li>
+                                        <% }); %>
                                 </ul>
                             </li>
-                
+
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
 
                         </ul>
                     </li>
 
                     <li>
-                        <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations </a>
+                        <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations
+                        </a>
                     </li>
                     <li>
                         <a href="/adminPoint"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
@@ -109,16 +122,18 @@
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        
 
-        
+
+
                     </div>
                 </div>
 
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="./assets/basetemplate/images/admin.jpg" alt="User Avatar">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="./assets/basetemplate/images/admin.jpg"
+                                alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -183,29 +198,50 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% membre.forEach(function(membre) { %>
+                                        <% var c=[] //console.log(membre); 
+                                        for (let i=0; i < membre.length; i++) { var
+                                            element=membre[i]; %>
+
+
                                             <tr>
                                                 <td>
-                                                    <%= membre.username %>
+                                                    <%= membre[i].username %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.mcode %>
+                                                    <%= membre[i].mcode %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.num_agent %>
+                                                    <%= membre[i].num_agent %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.cours %> - niveau
+                                                    <select class="form-control selectPoints">
+                                                        <% //console.log("membre[i].username==", membre[i].username);
+                                            for (let j = 0; j < c.length; j++) {
+                                                var element1 = c[j];
+                                                if (membre[i].username == c[j]) {
+                                                    %>
+                                                        <option class=" text-center" value="1">
+                                                            <%= membre[i].cours %> - niveau</option>
+                                                                <% } else { console.log("else"); console.log("username=", i,' ', element.username);
+                                                    console.log(" c[j]=", j,' ', c[j]);
+                                                    console.log(" end else"); %>
+                                                                    <% } } c.push(element.username) %>
+                                                    </select>
+
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                    <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours Name 5pts</option>
-                                                        <option class="text-center" value="1">Cours Name 5pts</option>
+                                                        <select class="form-control selectPoints">
+                                                            <option class="text-center" value="1">Cours Name 5pts
+                                                            </option>
+                                                            <option class="text-center" value="1">Cours Name 5pts
+                                                            </option>
                                                         </select>
-                                                        <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
-                                                    </div
+                                                        <button class="btn btn-sm btn-success"><i
+                                                                class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i
+                                                                class="fa fa-edit"></i></button>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
@@ -213,12 +249,17 @@
                                                             <option class="text-center" value="1">Bronze Excel</option>
                                                             <option class="text-center" value="">Silver Anglais</option>
                                                         </select>
-                                                        <button class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-success"><i
+                                                                class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i
+                                                                class="fa fa-edit"></i></button>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <% }); %>
+
+
+
+                                            <% }; %>
                                     </tbody>
                                 </table>
                             </div>
@@ -235,19 +276,21 @@
 
     <div class="modal fade" id="fileUploadModal" role="dialog">
         <div class="modal-dialog">
-          Modal content
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Add Comment</h4>
+            Modal content
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Comment</h4>
+                </div>
+                <div class="modal-body">
+                    <p><textarea id="commentsUpload" class="form-control custom-control" rows="3"
+                            style="resize:none"></textarea></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="submitXYX()"
+                        data-dismiss="modal">Submit</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <p><textarea id = "commentsUpload"class="form-control custom-control" rows="3" style="resize:none"></textarea></p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" onclick="submitXYX()" data-dismiss="modal">Submit</button>
-            </div>
-          </div>
         </div>
     </div>
 
@@ -270,17 +313,17 @@
     <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
 
-<script>
-    $( document ).ready(function() {
-        $('#fileUploadModal').modal('show');
+    <script>
+        $(document).ready(function () {
+            $('#fileUploadModal').modal('show');
 
-        $( ".selectPoints").change(function() {
-        if ($(this).val() == ""){
-          $('#fileUploadModal').modal('show');
-          }
+            $(".selectPoints").change(function () {
+                if ($(this).val() == "") {
+                    $('#fileUploadModal').modal('show');
+                }
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

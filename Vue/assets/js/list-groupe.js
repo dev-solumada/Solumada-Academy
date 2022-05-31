@@ -268,19 +268,20 @@ function groupePresence(sel) {
         jQuery(".prensentSelect").trigger("chosen:updated");
     });
 
-    console.log("result après=== ", present);
+    //console.log("result après=== ", present);
     //var gpe = document.getElementById("gpe").value;
     //console.log("ggggpe = ", sel.value);
     sendRequestPresence('/presence', sel.value, cours);
 }
 
+var selectAbsPres=[]
 function sendRequestPresence(url, gpe, cours) {
-    console.log("groupe == ", gpe, cours);
+    //console.log("groupe == ", gpe, cours);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
-        console.log(" niveau ");
+        //console.log(" niveau ");
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
                 successP.style.display = "none";
@@ -292,13 +293,40 @@ function sendRequestPresence(url, gpe, cours) {
                 // console.log("aaaa ", absent);
                 function_foreach(result, present)
 
-                //console.log("present ", present);
+                console.log("present ", present.value);
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").chosen({
                         disable_search_threshold: 10,
                         no_results_text: "Oops, nothing found!",
                         width: "100%"
                     });
+                });
+
+                var selectedValue = ''
+                jQuery('.prensentSelect').on('change', function(evt, params) {
+                    selectedValue = params.selected;
+                    selectAbsPres.push(selectedValue)
+                    //console.log(selectAbsPres);
+                });
+                
+                //console.log(selectAbsPres);
+                
+
+                jQuery(document).ready(function () {
+                    jQuery(".absentSelect").chosen({
+                        disable_search_threshold: 10,
+                        no_results_text: "Oops, nothing found!",
+                        width: "100%"
+                    });
+                });
+
+                var val = 'developpeur.solumada@gmail.com';
+                
+                jQuery('.absentSelect').on('change', function(evt, params) {
+                    //selectedValue = val.selected;
+                    // selectAbsPres.push(selectedValue)
+                    jQuery('select option .absentSelect[value="developpeur.solumada@gmail.com"]').attr("selected",true);
+                    
                 });
                 
                 jQuery(document).ready(function () {
@@ -318,3 +346,19 @@ function function_foreach(params1, params2) {
         params2.add(opt, null);
     });
 }
+
+function getdata(url, id) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var data = this.responseText.split(",");
+        console.log("type_util == "+ data[3]);
+        username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
+        btnu.disabled = false;
+        ids = id;
+      }
+    };
+    http.send("id=" + id);
+  }
