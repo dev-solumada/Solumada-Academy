@@ -346,3 +346,19 @@ function function_foreach(params1, params2) {
         params2.add(opt, null);
     });
 }
+
+function getdata(url, id) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var data = this.responseText.split(",");
+        console.log("type_util == "+ data[3]);
+        username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
+        btnu.disabled = false;
+        ids = id;
+      }
+    };
+    http.send("id=" + id);
+  }

@@ -183,28 +183,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Njato</td>
-                                            <td>PDF-001</td>
-                                            <td>001</td>
-                                            <td>English (Begining A2)</td>
-                                            <td>
-                                                <div class="input-group">
-                                                        <select class="form-control selectPoints">
-                                                            <option class="text-center" value="1">5pts</option>
-                                                            <option class="text-center" value="" class="text-center">Add</option>
+                                        <% membre.forEach(function(membre) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= membre.username %>
+                                                </td>
+                                                <td>
+                                                    <%= membre.mcode %>
+                                                </td>
+                                                <td>
+                                                    <%= membre.num_agent %>
+                                                </td>
+                                                <td>
+                                                    <%= membre.cours %> - niveau
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                            <select class="form-control selectPoints">
+                                                                <option class="text-center" value="1">5pts</option>
+                                                                <option class="text-center" value="" class="text-center">Add</option>
+                                                            </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <select class="form-control">
+                                                            <option class="text-center" value="1">Bronze</option>
+                                                            <option class="text-center" value="">Update</option>
                                                         </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <select class="form-control">
-                                                        <option class="text-center" value="1">Bronze</option>
-                                                        <option class="text-center" value="">Update</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
                                     </tbody>
                                 </table>
                             </div>
