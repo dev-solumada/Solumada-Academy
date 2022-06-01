@@ -11,6 +11,7 @@ const NiveauModel = require("../Models/NiveauModel");
 const CGNModel = require("../Models/CGNModel");
 const EmplTemp = require("../Models/EmploiDuTemps");
 const ParcoursModel = require("../Models/Parcours");
+const session = require('express-session');
 //const AbsentModel = require("../Models/ParcoursAbsent");
 //const PresentModel = require("../Models/ParcoursPresent");
 
@@ -114,10 +115,10 @@ function htmlRender(username, password) {
 }
 //Page login
 routeExp.route("/").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     //res.render("LoginPage.html", { erreur: "" });
     if (session.type_util == "Professeur") {
-        res.redirect("/accueilProf");
+        res.redirect("/teacherHome");
     }
     else if (session.type_util == "Admin") {
         res.redirect('/accueilAdmin');
@@ -133,14 +134,14 @@ routeExp.route("/").get(async function (req, res) {
 
 //logout
 routeExp.route("/logout").get(function (req, res) {
-    session = req.session;
+    var session = req.session;
     session.type_util = null;
     res.redirect("/");
 });
 
 //Accueil admin
 routeExp.route("/accueilAdmin").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Admin") {
         mongoose
             .connect(
@@ -169,7 +170,7 @@ routeExp.route("/accueilAdmin").get(async function (req, res) {
 
 //Accueil admin
 routeExp.route("/accueilAdminBack").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     //if (session.type_util == "Admin") {
     mongoose
         .connect(
@@ -199,20 +200,10 @@ routeExp.route("/accueilAdminBack").get(async function (req, res) {
     //     res.redirect("/");
     // }
 });
-//Accueil professeur
-routeExp.route("/accueilProf").get(async function (req, res) {
-    session = req.session;
-    if (session.type_util == "Professeur") {
-        res.render("accueilProf.html");
-    }
-    else {
-        res.redirect("/");
-    }
-});
 
 //Accueil participant
 routeExp.route("/accueilParticip").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Participant") {
         res.render("accueilParticip.html");
     }
@@ -224,7 +215,7 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 //reset password
 routeExp.route("/resetPwd").get(async function (req, res) {
     //Reset password
-    session = req.session;
+    var session = req.session;
     if (session.mailconfirm) {
         res.redirect("/code");
     } else {
@@ -236,7 +227,7 @@ routeExp.route("/resetPwd").get(async function (req, res) {
 
 //New password
 routeExp.route("/code").post(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     var email = req.body.username;
     console.log("email == " + email);
     mongoose
@@ -265,7 +256,7 @@ routeExp.route("/code").post(async function (req, res) {
 
 //code
 routeExp.route("/code").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.mailconfirm) {
         res.render("code.html", { err: "" });
     } else {
@@ -275,7 +266,7 @@ routeExp.route("/code").get(async function (req, res) {
 
 //Check code
 routeExp.route("/check").post(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.code == req.body.code) {
         res.send("match");
     } else {
@@ -287,7 +278,7 @@ routeExp.route("/check").post(async function (req, res) {
 //Change password
 routeExp.route("/change").post(async function (req, res) {
     var newpass = req.body.pass;
-    session = req.session;
+    var session = req.session;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -328,7 +319,7 @@ routeExp.route("/dropuser").post(async function (req, res) {
 
 //Post login
 routeExp.route("/login").post(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     var email = req.body.username;
     var password = req.body.pwd;
     mongoose
@@ -342,11 +333,12 @@ routeExp.route("/login").post(async function (req, res) {
         .then(async () => {
             var logger = await UserSchema.findOne({ username: email, password: password });
             if (logger) {
-                if (logger.type_util == "professeur") {
+                if (logger.type_util == "Professeur") {
                     session.m_code = logger.m_code;
                     session.num_agent = logger.num_agent;
                     session.type_util = logger.type_util;
-                    res.redirect("/accueilProf");
+                    session.nomProf = logger.username;
+                    res.redirect("/teacherHome");
                 } else if (logger.type_util == "participant") {
                     session.m_code = logger.m_code;
                     session.num_agent = logger.num_agent;
@@ -403,7 +395,7 @@ routeExp.route("/addemp").post(async function (req, res) {
 
 //New employee
 routeExp.route("/newemployee").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Admin") {
         mongoose
             .connect(
@@ -425,8 +417,32 @@ routeExp.route("/newemployee").get(async function (req, res) {
 
 
 //Accueil Professeur
-routeExp.route("/accueilProf").get(async function (req, res) {
-    session = req.session;
+routeExp.route("/teacherHome").get(async function (req, res) {
+    var session = req.session;
+
+    if (session.type_util == "Professeur") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var cours = await CoursModel.find({ professeur: req.session.nomProf});
+                res.render("./teacherView/teacherHome.html", { cours: cours });
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+//Cours professeur
+routeExp.route("/teacherCours/:cours").get(async function (req, res) {
+    var session = req.session;
+    var cours = req.params.cours;
 
     if (session.type_util == "Admin" || session.type_util == "Professeur") {
         mongoose
@@ -438,8 +454,26 @@ routeExp.route("/accueilProf").get(async function (req, res) {
                 }
             )
             .then(async () => {
-                var listuser = await UserSchema.find({ validation: true });
-                res.render("accueilProf.html", { listuser: listuser });
+                var listcours = await CoursModel.find({ professeur: req.session.nomProf});
+                var listgroupe = await GroupeModel.find({ cours: cours });
+                //console.log("listcours == ",listcours );
+            var listUser = await UserSchema.find({ cours: cours });
+            var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+            var listcourFac = await CoursModel.find({ type: 'facultatif' });
+
+            var time = await EmplTemp.find({ cours: cours });
+            var parcours = await ParcoursModel.find({ cours: cours });
+
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+                {
+                    $group: {
+                        _id:
+                            { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                        tabl: { $push: { user: "$user", presence: "$presence" } }
+                    }
+                }
+            ])
+                res.render("./teacherView/teacherCours.html", {parcours: parcours, listUser: listUser, ParcoursAbsent:ParcoursAbsent, time:time, membre:membre, listgroupe:listgroupe, listcours: listcours, cours: cours });
             });
     }
     else {
@@ -447,9 +481,82 @@ routeExp.route("/accueilProf").get(async function (req, res) {
     }
 });
 
+
+//Liste membre par groupe
+routeExp.route("/groupeTeacher").post(async function (req, res) {
+    var groupe = req.body.groupe
+    var cours = req.body.cours// 'groupe A'//'groupe C'// req.body.name_groupe;
+    //var trm = name_groupe.trim()
+    //console.log("name_groupe***",trm.replace(/ /g,"_"));
+    //replace(/^\s+/g, ''));
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+
+            //groupe == "" ? delete session.request.groupe : (session.request.groupe = {'$regex':groupe,'$options' : 'i'});
+            //if (await CGNModel.find({ $or: [{ cours: cours, groupe:  name_groupe}] })) {
+
+            var listcours = await CoursModel.find({ professeur: req.session.nomProf});
+            var listgroupe = await GroupeModel.find({ cours: cours });
+
+
+            membre = await CGNModel.find({ cours: cours, groupe: groupe })
+            
+            var listUser = await UserSchema.find({ cours: cours });
+            var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+            var listcourFac = await CoursModel.find({ type: 'facultatif' });
+
+            var time = await EmplTemp.find({ cours: cours });
+            var parcours = await ParcoursModel.find({ cours: cours });
+
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+                {
+                    $group: {
+                        _id:
+                            { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                        tabl: { $push: { user: "$user", presence: "$presence" } }
+                    }
+                }
+            ])
+            //console.log("parcours == ", ParcoursAbsent);
+
+            res.render("./teacherView/teacherCours.html", {parcours: parcours, listUser: listUser, ParcoursAbsent: ParcoursAbsent,time: time,membre: membre, listgroupe:listgroupe, listcours: listcours, cours: cours });//ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre, time: time, parcours: parcours, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            //await CGNModel(new_membre).save();
+            //}
+        });
+
+});
+//Global view professeur
+routeExp.route("/teacherGlobalView").get(async function (req, res) {
+    var session = req.session;
+
+    if (session.type_util == "Admin" || session.type_util == "Professeur") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var cours = await CoursModel.find({ professeur: req.session.nomProf});
+                res.render("./teacherView/teacherGlobalView.html", { cours: cours });
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
 //Accueil Participant
 routeExp.route("/accueilParticip").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "participant") {
         res.render("accueilParticip.html");
     }
@@ -460,7 +567,7 @@ routeExp.route("/accueilParticip").get(async function (req, res) {
 
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     var professeur = 'Professeur'
     if (session.type_util == "Admin") {
         mongoose
@@ -518,7 +625,7 @@ routeExp.route("/addcours").post(async function (req, res) {
 
 //Liste cours
 routeExp.route("/listeCours").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Admin") {
         //console.log('listcours == ');
         mongoose
@@ -546,7 +653,7 @@ routeExp.route("/listeCours").get(async function (req, res) {
 
 //Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Admin") {
         mongoose
             .connect(
@@ -573,7 +680,7 @@ routeExp.route("/listeUser").get(async function (req, res) {
 
 //Liste User
 routeExp.route("/listeUserBack").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -595,7 +702,7 @@ routeExp.route("/listeUserBack").get(async function (req, res) {
 
 //Liste User
 routeExp.route("/adminGraduation").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Admin") {
         mongoose
             .connect(
@@ -618,7 +725,7 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
 });
 //Global view
 routeExp.route("/adminGlobalview").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     //if (session.type_util == "Admin") {
     mongoose
         .connect(
@@ -746,7 +853,7 @@ routeExp.route("/dropcours").post(async function (req, res) {
 
 //New Group et new niveau ==> Get
 routeExp.route("/newgroupe").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     //var professeur = 'Professeur'
     var type = "obligatoire"
     var cours = "cours"
@@ -812,7 +919,7 @@ routeExp.route("/addgroupe").post(async function (req, res) {
 
 //New Niveau
 routeExp.route("/newniveau").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     //var professeur = 'Professeur'
     var type = "obligatoire"
     var cours = "cours"
@@ -877,7 +984,7 @@ routeExp.route("/addniveau").post(async function (req, res) {
 
 //Liste cours
 routeExp.route("/listeCours/:cours").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     var nomCours = req.params.cours;
     if (session.type_util == "Admin") {
         //console.log('listcours == ', req.params.cours);
@@ -931,7 +1038,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
 
 //Liste cours
 routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     var nomCours = req.params.cours;
     //if (session.type_util == "Admin") {
     //console.log('listcours == ', req.params.cours);
@@ -1063,7 +1170,7 @@ routeExp.route("/groupe").post(async function (req, res) {
 
 //Accueil admin
 routeExp.route("/listeMembre1").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1210,7 +1317,7 @@ routeExp.route("/presence").post(async function (req, res) {
 
 //admin Point
 routeExp.route("/adminPoint").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     if (session.type_util == "Admin") {
         mongoose
             .connect(
@@ -1258,7 +1365,7 @@ routeExp.route("/getmembre").post(async function (req, res) {
 
 //Liste User
 routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
-    session = req.session;
+    var session = req.session;
     //if (session.type_util == "Admin") {
     mongoose
         .connect(
