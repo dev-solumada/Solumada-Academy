@@ -65,10 +65,7 @@ function sendRequest1(url, username, groupeVal, cours) {
                 success.style.display = "none";
                 error.style.display = "block";
                 error.innerHTML = "Employee is already registered";
-            }
-
-
-            else {
+            }else {
                 window.location = "/teacherCours/" + cours + "?select-group=" + groupeVal;
                 //window.location = "/listeCoursBack/" + cours ;
                 //     error.style.display = "none";
@@ -90,6 +87,7 @@ function add_new_groupe() {
 function sendRequestGroupe(url, newgroupe, cours) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
+    console.log("newgroupe ==== ", newgroupe, cours);
 
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
@@ -97,12 +95,14 @@ function sendRequestGroupe(url, newgroupe, cours) {
             if (this.responseText == "error") {
                 success.style.display = "none";
                 error.style.display = "block";
+                console.log("Groupe is already registered");
                 error.innerHTML = "Groupe is already registered";
             }
             else {
-                success.style.display = "block";
-                error.style.display = "none";
-                success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
+                window.location = "/teacherCours/" + cours ;
+                // success.style.display = "block";
+                // error.style.display = "none";
+                // success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             }
         }
     }
