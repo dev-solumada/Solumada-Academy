@@ -644,12 +644,37 @@ routeExp.route("/listeCours").get(async function (req, res) {
                 }
             )
             .then(async () => {
+                // // var listgroupe = await GroupeModel.find({ cours: nomCours });
+                // // var listUser = await UserSchema.find({ cours: nomCours });
+                // // var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                // // var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                // // var cours = listgroupe[0].cours
 
-                var listcour = await CoursModel.find({ validation: true });
-                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
-                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                // // var time = await EmplTemp.find({ cours: nomCours });
+                
+                // // parcours = await ParcoursModel.find({ cours: nomCours });
+                // // var ParcoursAbsent = await ParcoursModel.aggregate([
+                // //     { $match: { $or: [ { cours: nomCours} ] } },
+                // //     {
+                // //         $group: {
+                // //             _id:
+                // //                 { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                // //             tabl: { $push: { user: "$user", presence: "$presence" } }
+                // //         }
+                // //     }
+                // // ])
+                // // console.log("nom ", ParcoursAbsent);
+                res.render("AllCours.html")//, { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            
 
-                res.render("ListeCours.html", { listcour: listcour, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                // var listcour = await CoursModel.find({ validation: true });
+                // var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                // var listcourFac = await CoursModel.find({ type: 'facultatif' });
+
+                // var time = await EmplTemp.find({ cours: nomCours });
+                // var membre = await CGNModel.find({ validation: true })
+                // var listgroupe = await GroupeModel.find({ cours: nomCours });
+                // res.render("ListeCours.html", { time:time, membre:membre,listgroupe:listgroupe, listcour: listcour, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
 
 
@@ -1011,6 +1036,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
                 var cours = listgroupe[0].cours
 
+                var time = await EmplTemp.find({ cours: nomCours });
                 
                 parcours = await ParcoursModel.find({ cours: nomCours });
 
