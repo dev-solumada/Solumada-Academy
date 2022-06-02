@@ -72,11 +72,11 @@ function getdata(url, id) {
         var data = this.responseText.split(",");
         //console.log("type_util == "+ data[3]);
 
-        var username = document.getElementById("name");
-        var email = document.getElementById("email");
-        var m_code = document.getElementById("m_code");
-        var num_agent = document.getElementById("num_agent");
-        var type_util = document.getElementById("type_util");
+        var username = document.getElementById("name_update");
+        var email = document.getElementById("email_update");
+        var m_code = document.getElementById("m_code_update");
+        var num_agent = document.getElementById("num_agent_update");
+        var type_util = document.getElementById("type_util_update");
  
         username.value = data[0];
         email.value = data[1]
