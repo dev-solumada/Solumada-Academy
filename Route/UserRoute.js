@@ -465,6 +465,7 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
             var parcours = await ParcoursModel.find({ cours: cours });
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [ { cours: cours} ] } },
                 {
                     $group: {
                         _id:
@@ -473,6 +474,7 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
                     }
                 }
             ])
+            console.log("parcoursAbsent === ", ParcoursAbsent);
                 res.render("./teacherView/teacherCours.html", {parcours: parcours, listUser: listUser, ParcoursAbsent:ParcoursAbsent, time:time, membre:membre, listgroupe:listgroupe, listcours: listcours, cours: cours });
             });
     }
@@ -516,6 +518,7 @@ routeExp.route("/groupeTeacher").post(async function (req, res) {
             var parcours = await ParcoursModel.find({ cours: cours });
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [ { cours: cours} ] } },
                 {
                     $group: {
                         _id:
@@ -546,8 +549,12 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
                 }
             )
             .then(async () => {
+                var listuser = await UserSchema.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var membre = await CGNModel.find({ validation: true })
                 var cours = await CoursModel.find({ professeur: req.session.nomProf});
-                res.render("./teacherView/teacherGlobalView.html", { cours: cours });
+                res.render("./teacherView/teacherGlobalView.html", { membre: membre, cours: cours, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
     }
     else {
@@ -1004,7 +1011,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
                 var cours = listgroupe[0].cours
 
-                var time = await EmplTemp.find({ cours: nomCours });
+                
                 parcours = await ParcoursModel.find({ cours: nomCours });
 
                 // var ParcoursAbsent = await ParcoursModel.aggregate([
@@ -1015,11 +1022,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 //     }
                 //   ])
                 var ParcoursAbsent = await ParcoursModel.aggregate([
-                    {
-                        $match: {
-                            cours: { $in: [nomCours] }
-                        }
-                    },
+                    { $match: { $or: [ { cours: nomCours} ] } },
                     {
                         $group: {
                             _id:
@@ -1061,6 +1064,7 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
             var parcours = await ParcoursModel.find({ cours: nomCours });
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [ { cours: nomCours} ] } },
                 {
                     $group: {
                         _id:
@@ -1151,6 +1155,7 @@ routeExp.route("/groupe").post(async function (req, res) {
             var parcours = await ParcoursModel.find({ cours: cours });
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [ { cours: nomCours} ] } },
                 {
                     $group: {
                         _id:
