@@ -1411,6 +1411,39 @@ routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var membre = await CGNModel.find({ validation: true })
+            var nouveauMb = [];
+            var lastMb = [];
+            
+            //console.log("************************ " , membre);
+            membre.forEach(membre => {
+                nouveauMb.push(membre)
+                for (let i = 0; i < nouveauMb.length; i++) {
+                    const element = nouveauMb[i];
+                    
+                    if (membre._id == nouveauMb[i]._id) {
+                        //console.log(i);
+                    } else if(membre.username == nouveauMb[i].username) {
+                        lastMb.push(membre)
+                    } else if(membre){
+                        // console.log(i+1);
+                        // console.log("membre == ", membre);
+                        // console.log("**************************");
+                        
+                    }else{
+                        console.log(i);
+                    }
+                }
+                //console.log("+++++++++++++++++++++++++++==");
+                //nouveauMb = nouveauMb.push(membre)
+            });
+            membre.forEach(membre => {
+                for (let i = 0; i < lastMb.length; i++) {
+                    if (lastMb[i]._id ==  membre._id) {
+                        console.log("in membre ", membre.cours);
+                    } 
+                }
+            });
+
             res.render("./AvecBack/adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
