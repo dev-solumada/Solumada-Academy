@@ -280,7 +280,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">New User</h5>
+                            <h5 class="modal-title" id="largeModalLabel">Update User</h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
@@ -296,35 +296,35 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="name" class="form-control-label">Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="name"  placeholder="User Name" class="form-control">
+                                            <input type="email" id="name_update"  placeholder="User Name" class="form-control">
                                             <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="Username" class="form-control-label">Email</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="email" id="email" placeholder="example@gmail.com" onchange="verify_mail()" class="form-control">
+                                            <input type="email" id="email_update" placeholder="example@gmail.com" onchange="verify_mail()" class="form-control">
                                             <small id="em" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="m_code" class="form-control-label">M Code</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="m_code" onchange="verify_code()" name="m_code" placeholder="M Code" class="form-control">
+                                            <input type="text" id="m_code_update" onchange="verify_code()" name="m_code" placeholder="M Code" class="form-control">
                                             <small id="emc" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="num_agent" class=" form-control-label">Agent Num</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="num_agent" onchange="verify_number()" name="num_agent" placeholder="Agent Number" class="form-control">
+                                            <input type="text" id="num_agent_update" onchange="verify_number()" name="num_agent" placeholder="Agent Number" class="form-control">
                                             <small id="en" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="type_util" class="form-control-label">User Type</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select id="type_util" onchange="test()" class="form-control">
+                                            <select id="type_util_update" onchange="test()" class="form-control">
                                                 <option disabled >Select Type</option>
                                                 <option value="Participant">Participant</option>
                                                 <option value="Teacher">Teacher</option>
