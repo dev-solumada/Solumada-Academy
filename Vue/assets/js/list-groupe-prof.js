@@ -6,6 +6,7 @@ const urlParams = new URLSearchParams(queryString);
 const groupSelect = urlParams.get('select-group');
 const end = urlParams.get('end');
 var cours = document.getElementById("cours").value;
+console.log("cours == ", cours);
 if (queryString.length != 0) {
     //document.getElementById("ch_title").innerHTML = "Your filtered data";
     groupeId.value = groupSelect;
@@ -16,7 +17,7 @@ function getdataGP() {
 
     console.log('name_groupe == ', groupeVal, cours);
     table.style.display = "block";
-    sendRequest('/groupe', groupeVal, cours);
+    sendRequest('/groupeTeacher', groupeVal, cours);
 }
 
 
@@ -27,10 +28,10 @@ function sendRequest(url, groupeVal, cours) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (groupeId.value == "") {
-                window.location = "/listeCoursBack/" + cours;
+                window.location = "/teacherCours/" + cours;
             }
             else {
-                window.location = "/listeCoursBack/" + cours + "?select-group=" + groupeVal;
+                window.location = "/teacherCours/" + cours + "?select-group=" + groupeVal;
             }
         }
     };
@@ -65,7 +66,7 @@ function sendRequest1(url, username, groupeVal, cours) {
                 error.style.display = "block";
                 error.innerHTML = "Employee is already registered";
             }else {
-                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                window.location = "/teacherCours/" + cours + "?select-group=" + groupeVal;
                 //window.location = "/listeCoursBack/" + cours ;
                 //     error.style.display = "none";
                 //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
@@ -86,6 +87,7 @@ function add_new_groupe() {
 function sendRequestGroupe(url, newgroupe, cours) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
+    console.log("newgroupe ==== ", newgroupe, cours);
 
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
@@ -93,10 +95,11 @@ function sendRequestGroupe(url, newgroupe, cours) {
             if (this.responseText == "error") {
                 success.style.display = "none";
                 error.style.display = "block";
+                console.log("Groupe is already registered");
                 error.innerHTML = "Groupe is already registered";
             }
             else {
-                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                window.location = "/teacherCours/" + cours ;
                 // success.style.display = "block";
                 // error.style.display = "none";
                 // success.innerHTML = "Groupe " + this.responseText + " registered successfuly";
@@ -239,10 +242,10 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
 
 
 function anuler() {
-    window.location = "/listeCours/" + cours
+    window.location = "/teacherCours/" + cours
 }
 function anulerBack() {
-    window.location = "/listeCoursBack/" + cours
+    window.location = "/teacherCours/" + cours
 }
 
 

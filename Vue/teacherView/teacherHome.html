@@ -76,7 +76,7 @@
             <h3 class="menu-title text-center">MENU</h3>
             <!-- /.menu-title -->
             <li>
-              <a href="./teacherHome.html">
+              <a href="/teacherHome">
                 <i class="menu-icon fa fa-home"></i>Home
               </a>
             </li>
@@ -91,16 +91,20 @@
                 <i class="menu-icon fa fa-book"></i>My Cours</a
               >
               <ul class="sub-menu children dropdown-menu">
-                <li class="dropdown menu-item-has-children">
-                  <i class="fa fa-bookmark"></i><a href="./teacherCours.html" id="obg-item">Anglais</a>
-                </li>
-                <li class="dropdown menu-item-has-children">
-                    <i class="fa fa-bookmark"></i><a href="./teacherCours.html" id="obg-item">Excel</a>
+                <% cours.forEach(cours => { %>
+                  <li class="dropdown menu-item-has-children">
+                    <i class="fa fa-bookmark"></i>
+                    <a href="/teacherCours/<%= cours.name_Cours %>" 
+                      onclick="getdataGP('/getdataGP','<%= cours.name_Cours %>')"
+                       id="obg-item"><%= cours.name_Cours%></a>
                   </li>
+                  
+                <%});
+                %>
               </ul>
             </li>
             <li>
-              <a href="./teacherGlobalView.html">
+              <a href="/teacherGlobalView">
                 <i class="menu-icon fa fa-eye"></i>Global view
               </a>
             </li>
@@ -198,6 +202,9 @@
     <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
+
+    <script src="../assets/js/list-groupe-prof.js"></script>
+
     <script src="../assets/basetemplate/vendors/chart.js/dist/Chart.bundle.min.js"></script>
     <script src="../assets/basetemplate/assets/js/dashboard.js"></script>
     <script src="../assets/basetemplate/assets/js/widgets.js"></script>
