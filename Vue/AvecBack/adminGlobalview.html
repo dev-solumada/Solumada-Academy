@@ -198,14 +198,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% var c=[] //console.log(membre); 
-                                        for (let i=0; i < membre.length; i++) { var
-                                            element=membre[i]; %>
-
-
+                                        <% var c=[]  
+                                        console.log( membre.length);
+                                        for (let i=0; i < membre.length; i++) {
+                                            var element=membre[i];
+                                            c.push(element.username)
+                                            if (membre[i-1]) {
+                                                console.log("membre - 1 existe");
+                                                %>
                                             <tr>
                                                 <td>
                                                     <%= membre[i].username %>
+                                                </td>
+
                                                 </td>
                                                 <td>
                                                     <%= membre[i].mcode %>
@@ -214,48 +219,28 @@
                                                     <%= membre[i].num_agent %>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control selectPoints">
-                                                        <% //console.log("membre[i].username==", membre[i].username);
-                                            for (let j = 0; j < c.length; j++) {
-                                                var element1 = c[j];
-                                                if (membre[i].username == c[j]) {
-                                                    %>
-                                                        <option class=" text-center" value="1">
-                                                            <%= membre[i].cours %> - niveau</option>
-                                                                <% } else { console.log("else"); console.log("username=", i,' ', element.username);
-                                                    console.log(" c[j]=", j,' ', c[j]);
-                                                    console.log(" end else"); %>
-                                                                    <% } } c.push(element.username) %>
-                                                    </select>
+                                                    <div class="input-group">
+                                                        <select class="form-control selectPoints" id="listeUtil">
+                                                        </select>
+                                                        <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button>
+                                                    </div>
+                                                </td>
+                                                    <%
+                                                    for (let j = 0; j < c.length; j++) {
 
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <select class="form-control selectPoints">
-                                                            <option class="text-center" value="1">Cours Name 5pts
-                                                            </option>
-                                                            <option class="text-center" value="1">Cours Name 5pts
-                                                            </option>
-                                                        </select>
-                                                        <button class="btn btn-sm btn-success"><i
-                                                                class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i
-                                                                class="fa fa-edit"></i></button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <select class="form-control">
-                                                            <option class="text-center" value="1">Bronze Excel</option>
-                                                            <option class="text-center" value="">Silver Anglais</option>
-                                                        </select>
-                                                        <button class="btn btn-sm btn-success"><i
-                                                                class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i
-                                                                class="fa fa-edit"></i></button>
-                                                    </div>
-                                                </td>
+                                                        if (membre[i].username == c[j]) {
+                                                            console.log("mitovy");
+                                                            console.log("membre[i] = ", membre[i].username);
+                                                            console.log("c[j] = ", c[j]);
+                                                            break;
+                                                        } else {
+                                                            console.log("tsy mitovy");
+                                                        }
+                                                    }
+                                                    %>
                                             </tr>
+                                            <% }%>
 
 
 
@@ -270,7 +255,7 @@
 
         </div><!-- .content -->
 
-    </div><!-- /#right-panel -->
+    </div><!-- #right-panel -->
 
     <!-- Right Panel -->
 
