@@ -39,43 +39,6 @@ function sendRequest(url, groupeVal, cours) {
 
 
 
-function add_membre() {
-    var list = listU.value;
-    var groupeVal = groupeId.value
-    var cours = document.getElementById('cours').value;
-    //var cours = document.getElementById('cours').value;
-
-    console.log('listU == ', cours), list;
-    //document.getElementById('select-group').value = groupe
-    //console.log('type == ', type);
-    sendRequest1('/newmembre', list, groupeVal, cours);
-}
-
-
-function sendRequest1(url, username, groupeVal, cours) {
-    //console.log('sendRequest')
-    var http = new XMLHttpRequest();
-    http.open("POST", url, true);
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            //console.log("this.responseText  "+this.responseText);
-            if (this.responseText == "error") {
-                success.style.display = "none";
-                error.style.display = "block";
-                error.innerHTML = "Employee is already registered";
-            }else {
-                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
-                //window.location = "/listeCoursBack/" + cours ;
-                //     error.style.display = "none";
-                //     success.innerHTML = "Employee " + this.responseText + " registered successfuly";
-            }
-        }
-    };
-    http.send("username=" + username + "&cours=" + cours + "&groupeVal=" + groupeVal);
-}
-
-
 
 function add_new_groupe() {
     var newgroupe = document.getElementById("groupeNew").value;
@@ -91,9 +54,9 @@ function sendRequestGroupe(url, newgroupe, cours) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
-                success.style.display = "none";
-                error.style.display = "block";
-                error.innerHTML = "Groupe is already registered";
+                successGrpe.style.display = "none";
+                errorGrpe.style.display = "block";
+                errorGrpe.innerHTML = "Groupe is already registered";
             }
             else {
                 window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
@@ -307,7 +270,7 @@ function sendRequestPresence(url, gpe, cours) {
                     //console.log(selectAbsPres);
                 });
                 
-                //console.log(selectAbsPres);
+                console.log("selectAbsPres" ,selectAbsPres);
                 
 
                 jQuery(document).ready(function () {
@@ -335,6 +298,52 @@ function sendRequestPresence(url, gpe, cours) {
     };
     http.send("gpe=" + gpe + "&cours=" + cours)
 }
+
+
+
+
+function add_membre() {
+    //var list = listU.value;
+    var groupeVal = groupeId.value
+    var cours = document.getElementById('cours').value;
+    //var cours = document.getElementById('cours').value;
+
+    var list = [];
+    for (var option of document.getElementById('listUserC').options) {
+        if (option.selected) {
+            list.push(option.value);
+        }
+    }
+    console.log("list mbre" ,list);
+    console.log('listU == ', cours);
+    //document.getElementById('select-group').value = groupe
+    //console.log('type == ', type);
+    sendRequest1('/newmembre',list, groupeVal, cours);
+}
+
+
+function sendRequest1(url, username, groupeVal, cours) {
+    //console.log('sendRequest')
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            //console.log("this.responseText  "+this.responseText);
+            if (this.responseText == "error") {
+                successMbre.style.display = "none";
+                errorMbre.style.display = "block";
+                errorMbre.innerHTML = "Employee is already registered";
+            }else {
+                //window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                errorMbre.style.display = "none";
+                successMbre.innerHTML = "Employee registered successfuly";
+            }
+        }
+    };
+    http.send("username=" + username + "&cours=" + cours + "&groupeVal=" + groupeVal);
+}
+
 
 function function_foreach(params1, params2) {
     params1.forEach(element => {

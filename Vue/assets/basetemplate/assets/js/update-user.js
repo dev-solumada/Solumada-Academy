@@ -118,7 +118,6 @@ function modify() {
 
 
 function update_user(url, id, username, m_code, num_agent) {
-  console.log("id, username, m_code, num_agent ", id, username, m_code, num_agent);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

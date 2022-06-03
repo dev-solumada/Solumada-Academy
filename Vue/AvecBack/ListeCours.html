@@ -93,14 +93,6 @@
 
                         </ul>
                     </li>
-
-                    <li>
-                        <a class="active" href="/adminGraduation"><i class="menu-icon fa fa-bar-chart-o"></i>Graduations
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/adminGraduation"> <i class="menu-icon fa fa-check-square-o"></i>Points </a>
-                    </li>
                     <li>
                         <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global View </a>
                     </li>
@@ -151,6 +143,8 @@
         </header><!-- /header -->
         <!-- Header-->
 
+
+            <!-- BreadCrumbs -->
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
@@ -171,7 +165,9 @@
                 </div>
             </div>
         </div>
+        <!-- End breadCrumbs -->
 
+        <!-- Main Content -->
         <div class="content mt-3">
             <div class="animated fadeIn">
                 <div class="row">
@@ -209,6 +205,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- table  -->
                                 <div class="tab-content pl-3 p-1" id="myTabContent">
                                     <div class="tab-pane fade show active" id="home" role="tabpanel"
                                         aria-labelledby="home-tab">
@@ -300,8 +298,8 @@
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                            <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#UserUpdateFormModal"><i class="fa fa-edit"></i></button>
-                                                                            <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser"><i class="fa fa-trash"></i></button>
+                                                                            <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#editmember"><i class="fa fa-edit"></i></button>
+                                                                            <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" data-toggle="modal" data-target="#deletemember"><i class="fa fa-trash"></i></button>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -312,6 +310,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- time table table -->
                                     <div class="tab-pane fade" id="profile" role="tabpanel"
                                         aria-labelledby="profile-tab">
                                         <div class="col-md-12 mt-2">
@@ -319,7 +319,7 @@
                                                 <div class="card-header">
                                                     <div class="d-flex justify-content-between">
                                                         <button class="btn btn-dark btn-sm rounded" type="button"
-                                                            data-toggle="modal" data-target="#tameTableModal"><small><i
+                                                            data-toggle="modal" data-target="#timeTableModal"><small><i
                                                                     class="fa fa-plus"></i> time Table</small></button>
                                                         <h4 class="my-auto">Date: 16/02/2022</h4>
                                                         <strong class="card-title my-auto">Time Table</strong>
@@ -339,8 +339,6 @@
                                                         </thead>
                                                         <tbody>
 
-
-
                                                             <% time.forEach(function(time) { %>
                                                                 <tr>
 
@@ -359,17 +357,14 @@
                                                                     <td class="text-center">
                                                                         <div class="btn-group" role="group"
                                                                             aria-label="Basic mixed styles example">
-                                                                            <button type="button"
-                                                                                class="btn btn-sm btn-warning"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#exampleModal"
-                                                                                data-bs-whatever="@getbootstrap"><i
-                                                                                    class="fa fa-edit"></i></button>
-                                                                            <button type="button"
-                                                                                class="btn btn-sm btn-danger rounded-end delete-btn"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="deleteUser"><i
-                                                                                    class="fa fa-trash"></i></button>
+                                                                            <button type="button"  class="btn px-2 btn-sm btn-warning" type="button" id="delete" 
+                                                                                    class="btn btn-sm btn-warning" data-toggle="modal" data-target="#timeTableModalUpdate">
+                                                                                    <i class="fa fa-edit"></i>
+                                                                            </button>
+                                                                            <button type="button"  class="btn px-2 btn-sm btn-danger" type="button" id="delete" 
+                                                                                    class="btn btn-sm btn-warning" data-toggle="modal" data-target="#deleteTimeTable">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </button>
                                                                         </div>
                                                                     </td>
 
@@ -381,6 +376,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- end Time table table -->
+
+
                                     <div class="tab-pane fade" id="contact" role="tabpanel"
                                         aria-labelledby="contact-tab">
                                         <div class="col-md-12 mt-2">
@@ -398,11 +396,12 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Date</th>
-                                                                <th>Starting Time</th>
-                                                                <th>Ending Time</th>
+                                                                <th>Start At</th>
+                                                                <th>End At</th>
                                                                 <th>Group</th>
                                                                 <th>Present</th>
                                                                 <th>Absent</th>
+                                                                <th>Actions</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -448,6 +447,19 @@
                                                                         <% }); %>
                                                                             </select>
                                                                         </td>
+                                                                        <td class="text-center">
+                                                                            <div class="btn-group" role="group"
+                                                                                aria-label="Basic mixed styles example">
+                                                                                <button type="button"  class="btn px-2 btn-sm btn-warning" type="button"  
+                                                                                        class="btn btn-sm btn-warning" data-toggle="modal" data-target="#">
+                                                                                        <i class="fa fa-edit"></i>
+                                                                                </button>
+                                                                                <button type="button"  class="btn px-2 btn-sm btn-danger" type="button" 
+                                                                                        class="btn btn-sm btn-warning" data-toggle="modal" data-target="#">
+                                                                                        <i class="fa fa-trash"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
                                                                 </tr>
                                                                 <% }); %>
                                                         </tbody>
@@ -463,18 +475,50 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="editmember" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <h5 class="modal-title" id="staticBackdropLabel">Update Member</h5>
                     </div>
                     <div class="modal-body">
-                      ...
+                        <form id="updateUserLevel" method="post">
+                            <div class="row mt-2 mb-3">
+                                <div class="col">
+                                    <div class="">
+                                        <div class="text-center">Change UserName level</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="name" class="form-control-label">Level</label></div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="userLevel"  placeholder="New level" class="form-control">
+                                    <small id="" style="color: red; font-size: smaller; display: none;"></small>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success" >Save Change</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="deletemember" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                      <h5 class="modal-title text-light" id="staticBackdropLabel">Delete this Member from GroupName</h5>
+                    </div>
+                    <div class="modal-body">
+                        <strong class="text-center">Are you sure to remove username from this group?</strong>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger"> Yes, delete it!</button>
+                      <button type="button" class="btn btn-success" data-dismiss="modal">No, cancel</button>
                     </div>
                   </div>
                 </div>
@@ -608,6 +652,8 @@
                 </div>
             </div>
 
+            
+
             <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -625,9 +671,9 @@
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
                                                 <center>
-                                                    <small class="alert-danger" id="error"
+                                                    <small class="alert-danger" id="errorGrpe"
                                                         style="display: none;color:red"></small>
-                                                    <small class="alert-success" id="success"
+                                                    <small class="alert-success" id="successGrpe"
                                                         style="display: none;color:green"></small>
                                                 </center>
                                             </div>
@@ -697,7 +743,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="tameTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+
+            <!-- Time Table Modal -->
+            <div class="modal fade" id="timeTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -782,6 +830,108 @@
                     </div>
                 </div>
             </div>
+            <!-- End time Table Modal -->
+
+            <!-- Time Table Update Modal -->
+            <div class="modal fade" id="timeTableModalUpdate" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="largeModalLabel">Update Time Table<Table></Table>
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body card-block">
+                                <form id="form" action="/" enctype="multipart/form-data" class="form-horizontal"
+                                    autocomplete="off">
+                                    <div class="row form-group">
+                                        <div class="col-12">
+                                            <div class="feedback align-items-center">
+                                                <small class="alert alert-danger text-center" role="alert" id="errorT"
+                                                    style="display: none;color:red"></small>
+                                                <small class="alert alert-success text-center" role="alert"
+                                                    id="successT" style="display: none;color:green"></small>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row form-group mb-2">
+                                        <div class="col col-md-3">
+                                            <strong>Group Name</strong>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <strong>{{Group Name Here}}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="weekday"
+                                            class="form-control-label">Date</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <select data-placeholder="Choose day" class="form-control standardSelect"
+                                                id="select-jour" tabindex="1">
+                                                <option value=""></option>
+                                                <option value="lundi">lundi</option>
+                                                <option value="mardi">mardi</option>
+                                                <option value="mercredi">mercredi</option>
+                                                <option value="jeudi">jeudi</option>
+                                                <option value="vendredi">vendredi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="groupName"
+                                                class="form-control-label">Start At</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="time" id="timeStart" class="form-control">
+                                            <small id="startTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">End
+                                                At</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="time" id="timeEnd" class="form-control">
+                                            <small id="endTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                                data-dismiss="modal">Cancel</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="save_time()"
+                                id="saveUser">Save Change</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End time Update Table Modal -->
+
+            <!-- delete time table -->
+            <div class="modal fade" id="deleteTimeTable" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="staticBackdropLabel">Delete this Time Table</h5>
+                    </div>
+                    <div class="modal-body">
+                        <strong class="text-center">Are you sure to delete this Time Table?</strong>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"> Yes, delete it!</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">No, cancel</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- end delete time table -->
 
 
             <div class="modal fade" id="parcoursModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
@@ -842,7 +992,7 @@
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" id="gpe"
-                                                onchange="groupePresence(this)" class="form-control standardSelect">
+                                                onchange="groupePresence(this)" class="standardSelect">
                                                 <option value=""></option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
@@ -911,9 +1061,9 @@
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id="error"
+                                                <small class="alert alert-danger text-center" role="alert" id="errorMbre"
                                                     style="display: none;color:red"></small>
-                                                <small class="alert alert-success text-center" role="alert" id="success"
+                                                <small class="alert alert-success text-center" role="alert" id="successMbre"
                                                     style="display: none;color:green"></small>
                                             </div>
                                         </div>
