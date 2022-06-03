@@ -1440,7 +1440,7 @@ routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
             for (let j = 0; j < membre.length; j++) {
                 for (let i = 0; i < lastMb.length; i++) {
                     if (lastMb[i]._id ==  membre[j]._id) {
-                        console.log("in membre ",lastMb[i]._id, membre[j].cours);
+                        console.log("in membre ",lastMb[i]._id, membre[j].cours, );
                     } else if ((i == lastMb.length-1) && (lastMb[i].username !=  membre[j].username)) {
                         if (lastMb[i]._id ==  membre[j]._id) {
                             console.log("in lastmb ", membre[j].cours);
