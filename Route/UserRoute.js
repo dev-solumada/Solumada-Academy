@@ -1018,7 +1018,7 @@ routeExp.route("/addniveau").post(async function (req, res) {
 routeExp.route("/listeCours/:cours").get(async function (req, res) {
     var session = req.session;
     var nomCours = req.params.cours;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
         //console.log('listcours == ', req.params.cours);
         mongoose
             .connect(
@@ -1060,9 +1060,9 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 //console.log("nom ", ParcoursAbsent);
                 res.render("ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
-    } else {
-        res.redirect("/");
-    }
+    // } else {
+    //     res.redirect("/");
+    // }
 });
 
 //Liste cours
@@ -1121,6 +1121,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
     var name_groupe = req.body.groupeVal
     var username = req.body.username
     var cours = req.body.cours
+    const listeUser = username.split(",");
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1130,29 +1131,43 @@ routeExp.route("/newmembre").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: username }] })) {
+                for (let index = 0; index < listeUser.length; index++) {
+            if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: listeUser[index]  }] })) {
                 res.send("error");
+            
             } else {
+                console.log("usernam liste ", listeUser[index]);
+                // var user = await UserSchema.find({ username: username });
+                // var mcode = ""
+                // var num_agent = ""
+                // user.forEach(function (user) {
+                //     mcode = user.m_code
+                //     num_agent = user.num_agent
+                // });
 
-                var user = await UserSchema.find({ username: username });
-                var mcode = ""
-                var num_agent = ""
-                user.forEach(function (user) {
-                    mcode = user.m_code
-                    num_agent = user.num_agent
-                });
-                var new_membre = {
-                    cours: cours,
-                    groupe: name_groupe,
-                    username: username,
-                    num_agent: num_agent,
-                    mcode: mcode
-                };
-                //console.log("new niveau ", new_membre);
-                await CGNModel(new_membre).save();
-                res.send(new_membre.username);
+
+                    var user = await UserSchema.find({ username: listeUser[index] });
+                    var mcode = ""
+                    var num_agent = ""
+                    user.forEach(function (user) {
+                        mcode = user.m_code
+                        num_agent = user.num_agent
+                    });
+    
+                    var new_membre = {
+                        cours: cours,
+                        groupe: name_groupe,
+                        username: listeUser[index],
+                        num_agent: num_agent,
+                        mcode: mcode
+                    };
+                    //console.log("new niveau ", new_membre);
+                    await CGNModel(new_membre).save();
+                    //res.send( new_parcours.cours+ " at " + new_parcours.heureStart + " is successfuly saved");
+                }
             }
-        });
+                res.send("new membre ok");
+        })
 
 });
 
@@ -1352,6 +1367,37 @@ routeExp.route("/presence").post(async function (req, res) {
 
 });
 
+
+//Add new membre
+routeExp.route("/membre_new").post(async function (req, res) {
+    var groupe = req.body.gpe
+    var cours = req.body.cours
+    //console.log("gpe ", gpe, cours);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            //if( coursM = await CoursModel.findOne({ $or: [{ cours: cours, groupe: gpe}] })) {
+            //     res.send("error");
+            // } else {
+
+            //membre = await CGNModel.find({ cours: cours, groupe: groupe })
+
+            coursM = await CGNModel.find({ cours: cours, groupe: groupe })
+            //var coursM = await CoursModel.find({ name_Cours: cours, groupe: gpe})
+            console.log("cours");
+
+            res.send(coursM);
+
+            //}
+        });
+
+});
 
 //admin Point
 routeExp.route("/adminPoint").get(async function (req, res) {
