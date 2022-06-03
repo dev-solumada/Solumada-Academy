@@ -61,9 +61,9 @@ function sendRequest1(url, username, groupeVal, cours) {
         if (this.readyState == 4 && this.status == 200) {
             //console.log("this.responseText  "+this.responseText);
             if (this.responseText == "error") {
-                success.style.display = "none";
-                error.style.display = "block";
-                error.innerHTML = "Employee is already registered";
+                successMbre.style.display = "none";
+                errorMbre.style.display = "block";
+                errorMbre.innerHTML = "Employee is already registered";
             }else {
                 window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
                 //window.location = "/listeCoursBack/" + cours ;
@@ -91,9 +91,9 @@ function sendRequestGroupe(url, newgroupe, cours) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
-                success.style.display = "none";
-                error.style.display = "block";
-                error.innerHTML = "Groupe is already registered";
+                successGrpe.style.display = "none";
+                errorGrpe.style.display = "block";
+                errorGrpe.innerHTML = "Groupe is already registered";
             }
             else {
                 window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
