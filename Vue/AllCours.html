@@ -46,9 +46,10 @@
                 <a class="navbar-brand hidden" href="./"><img src="./assets/basetemplate/images/logo2.png" alt="Logo"></a>
             </div>
 
+
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    
+
                     <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
                     <li>
                         <a href="/accueilAdmin"> <i class="menu-icon fa fa-home"></i>Home </a>
@@ -58,28 +59,41 @@
                     </li>
 
                     <li class="menu-item-has-children active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li class="dropdown menu-item-has-children">
                                 <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
-                                <ul class="sub-menu children menuobg">
-                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a>Anglais</a> </a></li>
+                                <ul class="sub-menu children">
+                                    <% listcourOblig.forEach(function(listcourOblig) { %>
+                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
+                                                href="/listeCours/<%= listcourOblig.name_Cours %>"
+                                                onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
+                                                <%= listcourOblig.name_Cours %>
+                                            </a></li>
+                                        <% }); %>
                                 </ul>
                             </li>
 
                             <li class="menuCours">
                                 <i class="fa fa-bookmark-o"></i><a class="obg-item" href="">Optional</a>
                                 <ul class="sub-menu children">
-                                    <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a >Excel</a></li>
+                                    <% listcourFac.forEach(function(listcourFac) { %>
+                                        <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
+                                                href="/listeCours/<%= listcourFac.name_Cours %>"
+                                                onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')">
+                                                <%= listcourFac.name_Cours %>
+                                            </a></li>
+                                        <% }); %>
                                 </ul>
                             </li>
-                
+
                             <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
 
                         </ul>
                     </li>
                     <li>
-                        <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global view </a>
+                        <a href="/adminGlobalview"> <i class="menu-icon fa fa-eye"></i>Global View </a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -173,24 +187,30 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Anglais</td>
-                                            <td>Rojovola</td>
-                                            <td>12/02/2022</td>
-                                            <td>5</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                    <button type="button"  class="btn px-2 btn-sm btn-warning" type="button" id="first"
-                                                        class="btn btn-sm btn-warning" data-toggle="modal" data-target="#exampleModal" 
-                                                        data-bs-whatever="@getbootstrap"><i class="fa fa-edit"></i></button>
-                                                    <button type="button"  class="btn px-2 btn-sm btn-danger" type="button" id="delete" 
-                                                        class="btn btn-sm btn-warning" data-toggle="modal" data-target="#deleteuser">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        
+                                        <% allCours.forEach(function(allCours) { %>
+                                            <tr>
+
+                                                <td>
+                                                    <%= allCours.name_Cours %>
+                                                </td>
+                                                <td>
+                                                    <%= allCours.professeur %>
+                                                </td>
+                                                <td>
+                                                    <%= allCours.date_Commenc.toLocaleDateString("fr")
+                                                        %>
+                                                </td>
+                                                <td>
+                                                    <%= allCours.nbParticp %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                        <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#editmember"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" data-toggle="modal" data-target="#deletemember"><i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
                                     </tbody>
                                 </table>
                             </div>
