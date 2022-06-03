@@ -1057,7 +1057,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                         }
                     }
                 ])
-                console.log("nom ", ParcoursAbsent);
+                //console.log("nom ", ParcoursAbsent);
                 res.render("ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
     } else {
@@ -1436,14 +1436,45 @@ routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
                 //console.log("+++++++++++++++++++++++++++==");
                 //nouveauMb = nouveauMb.push(membre)
             });
-            membre.forEach(membre => {
-                for (let i = 0; i < lastMb.length; i++) {
-                    if (lastMb[i]._id ==  membre._id) {
-                        console.log("in membre ", membre.cours);
-                    } 
-                }
-            });
+            var l = []
+            // membre.forEach(membre => {
+            //     for (let i = 0; i < lastMb.length; i++) {
+            //         if (lastMb[i]._id ==  membre._id) {
+            //             console.log("in membre ", membre.username);
+            //         } else if (lastMb[i].username ==  membre.username) {
+            //             console.log("log", membre.username);
+            //         }else{
+            //             console.log("else", membre.username);
+            //             if ((i == 0) ) {
+            //                 l.push(lastMb[0])
+            //             }
+            //         }
+            //     }
+            // });
 
+            // console.log("li == ", l);
+
+            for (let i = 0; i < membre.length; i++) {
+                if (i == 0) {
+                    l.push(membre[0])
+                }
+                if (membre[i-1]) {
+                    for (let j = 0; j < lastMb.length; j++) {
+                        const element = lastMb[j];
+                        if (membre[i].username == lastMb[j].username) {
+                            console.log("lllllllll", l[i]);
+                            if (l[i].username == membre[i].username) {
+                                
+                                console.log("lllllllll", membre[i].username);
+                                
+                            }
+                        }
+                    }
+                }
+                
+            }
+
+            console.log(" l === ", l);
             res.render("./AvecBack/adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
