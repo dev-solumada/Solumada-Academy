@@ -1065,6 +1065,57 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
     }
 });
 
+//Liste cours
+routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
+    var session = req.session;
+    var nomCours = req.params.cours;
+    if (session.type_util == "Admin") {
+        //console.log('listcours == ', req.params.cours);
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                var listgroupe = await GroupeModel.find({ cours: nomCours });
+                var listUser = await UserSchema.find({ cours: nomCours });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                //var cours = listgroupe[0].cours
+
+                var time = await EmplTemp.find({ cours: nomCours });
+                
+                parcours = await ParcoursModel.find({ cours: nomCours });
+
+                // var ParcoursAbsent = await ParcoursModel.aggregate([
+                //     { 
+                //         $group : { _id : 
+                //             {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date", presence: "$presence"}, 
+                //         user: { $push: "$user" } }
+                //     }
+                //   ])
+                var ParcoursAbsent = await ParcoursModel.aggregate([
+                    { $match: { $or: [ { cours: nomCours} ] } },
+                    {
+                        $group: {
+                            _id:
+                                { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                            tabl: { $push: { user: "$user", presence: "$presence" } }
+                        }
+                    }
+                ])
+                //console.log("nom ", ParcoursAbsent);
+                res.render("./AvecBack/ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            });
+    } else {
+        res.redirect("/");
+    }
+});
+
 //Post Add new membre in groupe
 routeExp.route("/newmembre").post(async function (req, res) {
     var name_groupe = req.body.groupeVal
