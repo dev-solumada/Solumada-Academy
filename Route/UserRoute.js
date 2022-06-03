@@ -1424,25 +1424,32 @@ routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
                         //console.log(i);
                     } else if(membre.username == nouveauMb[i].username) {
                         lastMb.push(membre)
-                    } else if(membre){
+                    } else if(i==membre.length-1){
                         // console.log(i+1);
-                        // console.log("membre == ", membre);
+                        //console.log("membre == ", membre);
                         // console.log("**************************");
                         
                     }else{
-                        console.log(i);
+                        //console.log(i);
                     }
                 }
                 //console.log("+++++++++++++++++++++++++++==");
                 //nouveauMb = nouveauMb.push(membre)
             });
-            membre.forEach(membre => {
+            //membre.forEach(membre => {
+            for (let j = 0; j < membre.length; j++) {
                 for (let i = 0; i < lastMb.length; i++) {
-                    if (lastMb[i]._id ==  membre._id) {
-                        console.log("in membre ", membre.cours);
-                    } 
+                    if (lastMb[i]._id ==  membre[j]._id) {
+                        console.log("in membre ",lastMb[i]._id, membre[j].cours);
+                    } else if ((i == lastMb.length-1) && (lastMb[i].username !=  membre[j].username)) {
+                        if (lastMb[i]._id ==  membre[j]._id) {
+                            console.log("in lastmb ", membre[j].cours);
+                        }
+
+                        console.log("else ", lastMb[i]._id, membre[j].username);
+                    }
                 }
-            });
+            };
 
             res.render("./AvecBack/adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
