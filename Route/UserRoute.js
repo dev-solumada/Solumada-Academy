@@ -1058,7 +1058,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                     }
                 ])
                 //console.log("nom ", ParcoursAbsent);
-                res.render("ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                res.render("ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
     } else {
         res.redirect("/");
