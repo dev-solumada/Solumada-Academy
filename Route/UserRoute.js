@@ -124,7 +124,7 @@ routeExp.route("/").get(async function (req, res) {
         res.redirect('/accueilAdmin');
     }
     else if (session.type_util == "Participant") {
-        res.redirect('/accueilParticip');
+        res.redirect('/studentHome');
     }
     else {
         res.render("LoginPage.html", { erreur: "" });
@@ -201,16 +201,6 @@ routeExp.route("/accueilAdminBack").get(async function (req, res) {
     // }
 });
 
-//Accueil participant
-routeExp.route("/accueilParticip").get(async function (req, res) {
-    var session = req.session;
-    if (session.type_util == "Participant") {
-        res.render("accueilParticip.html");
-    }
-    else {
-        res.redirect("/");
-    }
-});
 
 //reset password
 routeExp.route("/resetPwd").get(async function (req, res) {
@@ -339,11 +329,11 @@ routeExp.route("/login").post(async function (req, res) {
                     session.type_util = logger.type_util;
                     session.nomProf = logger.username;
                     res.redirect("/teacherHome");
-                } else if (logger.type_util == "participant") {
+                } else if (logger.type_util == "Participant") {
                     session.m_code = logger.m_code;
                     session.num_agent = logger.num_agent;
                     session.type_util = logger.type_util;
-                    res.redirect("/accueilParticip");
+                    res.redirect("/studentHome");
                 } else {
                     session.type_util = logger.type_util;
                     res.redirect("/accueilAdmin");
@@ -562,16 +552,51 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
     }
 });
 //Accueil Participant
-routeExp.route("/accueilParticip").get(async function (req, res) {
+routeExp.route("/studentHome").get(async function (req, res) {
     var session = req.session;
-    if (session.type_util == "participant") {
-        res.render("accueilParticip.html");
+    if (session.type_util == "Participant") {
+        res.render("./StudentView/studentHome.html");
     }
     else {
         res.redirect("/");
     }
 });
 
+
+
+// student Group
+routeExp.route("/studentGroup").get(async function (req, res) {
+    var session = req.session;
+    if (session.type_util == "Participant") {
+        res.render("./StudentView/studentGroup.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+
+// student TimeTable
+routeExp.route("/studentTimeTable").get(async function (req, res) {
+    var session = req.session;
+    if (session.type_util == "Participant") {
+        res.render("./StudentView/studentTimeTable.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+// student Info
+routeExp.route("/studentInfo").get(async function (req, res) {
+    var session = req.session;
+    if (session.type_util == "Participant") {
+        res.render("./StudentView/studentInfo.html");
+    }
+    else {
+        res.redirect("/");
+    }
+});
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
     var session = req.session;
