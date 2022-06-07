@@ -1,7 +1,7 @@
 Accueil admin == "/accueilAdmin"
 New User = "/"
 
-developpeur.solumada@gmail.com : lvR!Um8I
+developpeur.solumada@gmail.com : password
 professeur@gmail.com : gsvPhsd3
 participant@gmail.com : KSi3dTud
 

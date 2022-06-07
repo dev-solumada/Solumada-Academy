@@ -172,7 +172,7 @@ function drop_user(url, fname) {
         window.location = "/";
       }
       else {
-        showNotif(this.responseText);
+        alert('user deleted');
       }
     }
   };
