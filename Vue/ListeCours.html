@@ -294,11 +294,13 @@
                                                                         <%= membre.num_agent %>
                                                                     </td>
                                                                     <td>
-                                                                        niveau
+                                                                        <%= membre.niveau %>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                                            <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#editmember"><i class="fa fa-edit"></i></button>
+                                                                            <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" onclick="getmembre('/getmembre','<%= membre._id %>')"  data-target="#editmember">
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </button>
                                                                             <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" data-toggle="modal" data-target="#deletemember"><i class="fa fa-trash"></i></button>
                                                                         </div>
                                                                     </td>
@@ -481,6 +483,9 @@
                     <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdropLabel">Update Member</h5>
                     </div>
+                    <div id="notif" class="col-sm-6 notification">
+                        
+                    </div>
                     <div class="modal-body">
                         <form id="updateUserLevel" method="post">
                             <div class="row mt-2 mb-3">
@@ -501,7 +506,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-success" >Save Change</button>
+                      <button type="button" class="btn btn-success" onclick="updateMembre()" >Save Change</button>
                     </div>
                   </div>
                 </div>
