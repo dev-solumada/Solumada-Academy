@@ -783,15 +783,15 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                     $group: {
                         _id:
                             { username: "$username", m_code: "$mcode", num_agent: "$num_agent" },
-                        tabl: { $push: { niveau: "$niveau", cours: "$cours" } }
+                        tabl: { $push: { id:"$_id", niveau: "$niveau", cours: "$cours", niveau: "$niveau" , graduation: "$graduation"} }
                     }
                 }
             ])
-for (let i = 0; i < membre.length; i++) {
-    const element = membre[i];
-    console.log("membre ", element);
-    
-}
+            for (let i = 0; i < membre.length; i++) {
+                const element = membre[i];
+                //console.log("membre ", element);
+                
+            }
             res.render("adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
@@ -1654,9 +1654,9 @@ routeExp.route("/getpoint").post(async function (req, res) {
             }
         )
         .then(async () => {
-            var user = await CGNModel.findOne({ _id: id });
-            console.log("user == ", user);
-            res.send(user.point);
+            // var user = await CGNModel.findOne({ _id: id });
+            // console.log("user == ", user);
+            res.send("user.point");
         });
 })
 //Add point
