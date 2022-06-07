@@ -235,7 +235,7 @@ function groupePresence(sel) {
     sendRequestPresence('/presence', sel.value, cours);
 }
 
-var selectAbsPres=[]
+var selectAbsPres = []
 function sendRequestPresence(url, gpe, cours) {
     //console.log("groupe == ", gpe, cours);
     var http = new XMLHttpRequest();
@@ -264,14 +264,14 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var selectedValue = ''
-                jQuery('.prensentSelect').on('change', function(evt, params) {
+                jQuery('.prensentSelect').on('change', function (evt, params) {
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
                     //console.log(selectAbsPres);
                 });
-                
-                console.log("selectAbsPres" ,selectAbsPres);
-                
+
+                console.log("selectAbsPres", selectAbsPres);
+
 
                 jQuery(document).ready(function () {
                     jQuery(".absentSelect").chosen({
@@ -282,14 +282,14 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var val = 'developpeur.solumada@gmail.com';
-                
-                jQuery('.absentSelect').on('change', function(evt, params) {
+
+                jQuery('.absentSelect').on('change', function (evt, params) {
                     //selectedValue = val.selected;
                     // selectAbsPres.push(selectedValue)
-                    jQuery('select option .absentSelect[value="developpeur.solumada@gmail.com"]').attr("selected",true);
-                    
+                    jQuery('select option .absentSelect[value="developpeur.solumada@gmail.com"]').attr("selected", true);
+
                 });
-                
+
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").trigger("chosen:updated");
                 });
@@ -314,11 +314,11 @@ function add_membre() {
             list.push(option.value);
         }
     }
-    console.log("list mbre" ,list);
+    console.log("list mbre", list);
     console.log('listU == ', cours);
     //document.getElementById('select-group').value = groupe
     //console.log('type == ', type);
-    sendRequest1('/newmembre',list, groupeVal, cours);
+    sendRequest1('/newmembre', list, groupeVal, cours);
 }
 
 
@@ -334,7 +334,7 @@ function sendRequest1(url, username, groupeVal, cours) {
                 successMbre.style.display = "none";
                 errorMbre.style.display = "block";
                 errorMbre.innerHTML = "Employee is already registered";
-            }else {
+            } else {
                 //window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
                 errorMbre.style.display = "none";
                 successMbre.innerHTML = "Employee registered successfuly";
@@ -359,13 +359,70 @@ function getdata(url, id) {
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var data = this.responseText.split(",");
-        console.log("type_util == "+ data[3]);
-        username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
-        btnu.disabled = false;
-        ids = id;
-      }
+        if (this.readyState == 4 && this.status == 200) {
+            var data = this.responseText.split(",");
+            console.log("type_util == " + data[3]);
+            username.value = data[0]; m_code.value = data[1]; num_agent.value = data[2]; type_util.value = data[3];
+            btnu.disabled = false;
+            ids = id;
+        }
     };
     http.send("id=" + id);
-  }
+}
+var ids = ""
+function getmembre(url, id) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    console.log("id == ", id);
+    console.log("url == ", url);
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = this.responseText.split(",");
+            console.log("data == ", data);
+            //console.log("data *** "+data[1].toLocaleDateString("fr"));
+            userLevel.value = data[0];;
+            //btnu.disabled = false;
+            ids = id;
+        }
+    };
+    http.send("id=" + id);
+}
+
+function updateMembre() {
+    update_membre("/updatemembre", ids, userLevel.value);
+    console.log("ids == ", ids);
+    console.log("userlevel == ", userLevel.value);
+}
+
+
+function update_membre(url, id, userLevel) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.includes("already")) {
+                document.getElementById("notif").setAttribute("style", "background-color:red");
+                showNotif(this.responseText);
+            }
+            else if (this.responseText == "error") {
+                window.location = "/";
+            }
+            else {
+                document.getElementById("notif").setAttribute("style", "background-color:limeagreen");
+                showNotif(this.responseText);
+            }
+        }
+    };
+    http.send("id=" + id + "&userLevel=" + userLevel);
+}
+function showNotif(text) {
+    const notif = document.querySelector('.notification');
+    notif.innerHTML = text;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+        window.location = "/listeCours/" + cours;
+    }, 2000);
+}

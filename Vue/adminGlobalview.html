@@ -188,32 +188,39 @@
                                                     <%= membre.num_agent %>
                                                 </td>
                                                 <td>
-                                                    <!-- <%= membre.cours %> - niveau -->
+                                                    <!--  -->
                                                     <div class="input-group">
-                                                        <select class="form-control selectPoints">
-                                                            <option class="text-center" value="1">Anglais Niveau Biginning</option>
-                                                            <option class="text-center" value="1">Excel Niveau Biginning</option>
-                                                        </select>
+                                                        <%= membre.cours %> - <%= membre.niveau %>
+                                                        <!-- <select class="form-control selectPoints">
+                                                            <option class="text-center" value="1"><%= membre.cours %> - <%= membre.niveau %></option>
+                                                        </select> -->
                                                         <!-- <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
                                                         <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button> -->
                                                         </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                    <select class="form-control selectPoints">
+                                                        <%= membre.point %> 
+                                                    <!-- <select class="form-control selectPoints">
                                                         <option class="text-center" value="1">Cours Name 5pts</option>
                                                         <option class="text-center" value="1">Cours Name 5pts</option>
-                                                    </select>
-                                                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalAddPoint"><i class="fa fa-plus"></i></button>
-                                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangePoint"><i class="fa fa-edit"></i></button>
+                                                    </select> -->
+                                                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="addPoint('/getpoint','<%= membre._id %>' ,'<%= membre.cours %>')" 
+                                                        data-target="#ModalAddPoint">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangePoint">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <select class="form-control">
+                                                        <%= membre.graduation %> 
+                                                        <!-- <select class="form-control">
                                                             <option class="text-center" value="1">Bronze Excel</option>
                                                             <option class="text-center" value="">Silver Anglais</option>
-                                                        </select>
+                                                        </select> -->
                                                         <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalAddGraduation"><i class="fa fa-plus"></i></button>
                                                         <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangeGraduation"><i class="fa fa-edit"></i></button>
                                                     </div>
@@ -234,7 +241,7 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Add point to {{ username}}</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Add point to {{ username }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="card-body card-block">
@@ -245,11 +252,12 @@
                                             class="form-control-label">Cours</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <select data-placeholder="Choose Cour"
+                                        <input type="text" id="coursPoint" placeholder="cours" class="form-control">
+                                        <!-- <select data-placeholder="Choose Cour"
                                             class="form-control standardSelect" tabindex="1">
                                             <option value="cours 1">Cours 1</option>
                                             <option value="cours 2">Cours 2</option>
-                                        </select>
+                                        </select> -->
                                         <small id="teacher_err"
                                             style="color: red; font-size: smaller; display:none;">This field is
                                             required</small>
@@ -416,6 +424,7 @@
     <script src="./assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/basetemplate/assets/js/main.js"></script>
 
+    <script src="./assets/basetemplate/assets/js/admin-global.js"></script>
 
     <script src="./assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="./assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>

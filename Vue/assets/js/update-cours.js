@@ -110,7 +110,7 @@ function sendRequest(url, nom, date_Commenc, nb_part, prof ) {
 
 
 function modify() {
-    update_user("/updatecours", ids,nom.value, date_Commenc.value, nb_part.value,prof.value);
+    update_user("/updatecours", ids, nom.value, date_Commenc.value, nb_part.value, prof.value);
   }
 
 
