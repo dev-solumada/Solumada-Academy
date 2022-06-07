@@ -52,31 +52,16 @@
                     <li>
                         <a href="/studentHome"> <i class="menu-icon fa fa-home"></i>Home </a>
                     </li>
-
-                    <li class="menu-item-has-children active dropdown">
-                        <a
-                          href="#"
-                          class="dropdown-toggle"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i class="menu-icon fa fa-book"></i>My Group</a
-                        >
-                        <ul class="sub-menu children dropdown-menu">
-                          <li class="dropdown menu-item-has-children">
-                            <i class="fa fa-bookmark"></i><a href="/studentGroup" id="obg-item">Group 1</a>
-                          </li>
-                          <li class="dropdown menu-item-has-children">
-                              <i class="fa fa-bookmark"></i><a href="/studentGroup" id="obg-item">Group 2</a>
-                            </li>
-                        </ul>
-                      </li>
                       <li>
                         <a href="/studentTimeTable">
                           <i class="menu-icon fa fa-calendar"></i>My TimeTable
                         </a>
                       </li>
+                      <li>
+                        <a href="/studentGroup">
+                          <i class="menu-icon fa fa-eye"></i>Global View
+                        </a>
+                    </li>
                       <li>
                         <a href="/studentInfo">
                           <i class="menu-icon fa fa-user-md"></i>My Info
@@ -164,19 +149,45 @@
                                     <thead>
                                         <tr>
                                             <th>Username</th>
-                                            <th>M Code</th>
+                                            <th>My Cours</th>
+                                            <th>Levels</th>
                                             <th>Points</th>
-                                            <th>Action</th>
+                                            <th>Graduations</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>Onisoa</td>
-                                            <td>005</td>
-                                            <td>5 pts</td>
                                             <td>
-                                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                    <button type="button"  class="btn px-2 btn-sm btn-success" data-toggle="modal" data-target="#UserUpdateFormModal"><i class="fa fa-list"></i></button>
+                                                <div class="input-group">
+                                                    <select class="form-control">
+                                                        <option class="text-center" value="1">Cours Name</option>
+                                                        <option class="text-center" value="1">Cours Name</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <select class="form-control selectPoints">
+                                                        <option class="text-center" value="1">Cours - {{ level }}</option>
+                                                        <option class="text-center" value="1">Cours - {{ level }}</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <select class="form-control selectPoints">
+                                                        <option class="text-center" value="1">Cours - {{ point }}</option>
+                                                        <option class="text-center" value="1">Cours - {{ point }}</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <select class="form-control selectPoints">
+                                                        <option class="text-center" value="1">Cours - {{ grade }}</option>
+                                                        <option class="text-center" value="1">Cours - {{ grade }}</option>
+                                                    </select>
                                                 </div>
                                             </td>
                                         </tr>

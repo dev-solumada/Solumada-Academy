@@ -52,31 +52,16 @@
                     <li>
                         <a href="/studentHome"> <i class="menu-icon fa fa-home"></i>Home </a>
                     </li>
-
-                    <li class="menu-item-has-children active dropdown">
-                        <a
-                          href="#"
-                          class="dropdown-toggle"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i class="menu-icon fa fa-book"></i>My Group</a
-                        >
-                        <ul class="sub-menu children dropdown-menu">
-                          <li class="dropdown menu-item-has-children">
-                            <i class="fa fa-bookmark"></i><a href="/studentGroup" id="obg-item">Group 1</a>
-                          </li>
-                          <li class="dropdown menu-item-has-children">
-                              <i class="fa fa-bookmark"></i><a href="/studentGroup" id="obg-item">Group 2</a>
-                            </li>
-                        </ul>
-                      </li>
                       <li>
                         <a href="/studentTimeTable">
                           <i class="menu-icon fa fa-calendar"></i>My TimeTable
                         </a>
                       </li>
+                      <li>
+                        <a href="/studentGroup">
+                          <i class="menu-icon fa fa-eye"></i>Global View
+                        </a>
+                    </li>
                       <li>
                         <a href="/studentInfo">
                           <i class="menu-icon fa fa-user-md"></i>My Info
@@ -186,7 +171,12 @@
                                                             <div class="col-12  mb-3">
                                                                 <div class="d-flex justify-content-between">
                                                                     <h5>Graduation :</h5>
-                                                                    <h5>Silver</h5>
+                                                                    <div>
+                                                                        <ul>
+                                                                            <li class="mb-1" style="list-style: none;"><h5>Silver {{ CoursName }}</h5></li>
+                                                                            <li class="mb-1" style="list-style: none;"><h5>Bronze {{ CoursName }}</h5></li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12  mb-3">
