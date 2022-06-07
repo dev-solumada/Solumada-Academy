@@ -348,6 +348,7 @@ routeExp.route("/login").post(async function (req, res) {
 
 //Add employee
 routeExp.route("/addemp").post(async function (req, res) {
+    console.log(req.body);
     var name = req.body.name;
     var email = req.body.email;
     var m_code = req.body.m_code;
@@ -794,7 +795,9 @@ routeExp.route("/getuser").post(async function (req, res) {
         )
         .then(async () => {
             var user = await UserSchema.findOne({ _id: id });
-            res.send(user.username + "," + user.email + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
+            user = JSON.stringify(user);
+            res.send(user);
+            // res.send(user.username + "," + user.email + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
         });
 })
 
