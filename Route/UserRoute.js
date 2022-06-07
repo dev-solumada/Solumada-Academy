@@ -330,9 +330,11 @@ routeExp.route("/login").post(async function (req, res) {
                     session.nomProf = logger.username;
                     res.redirect("/teacherHome");
                 } else if (logger.type_util == "Participant") {
+                    session.name = logger.name,
                     session.m_code = logger.m_code;
                     session.num_agent = logger.num_agent;
                     session.type_util = logger.type_util;
+                    session.num_agent = logger.num_agent;
                     res.redirect("/studentHome");
                 } else {
                     session.type_util = logger.type_util;
@@ -590,10 +592,14 @@ routeExp.route("/studentTimeTable").get(async function (req, res) {
 // student Info
 routeExp.route("/studentInfo").get(async function (req, res) {
     var session = req.session;
+    console.log("session == ", session);
     if (session.type_util == "Participant") {
-        res.render("./StudentView/studentInfo.html");
-    }
-    else {
+        var name = session.name;
+        var m_code = session.m_code
+        
+        console.log("session.name ", session.name, " ", session.m_code);
+        res.render("./StudentView/studentInfo.html", {name : name, m_code: m_code, num : session.num_agent});
+    }else {
         res.redirect("/");
     }
 });
@@ -1471,7 +1477,7 @@ routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
             var nouveauMb = [];
             var lastMb = [];
             
-            //console.log("************************ " , membre);
+            console.log("************************ " , membre);
             membre.forEach(membre => {
                 nouveauMb.push(membre)
                 for (let i = 0; i < nouveauMb.length; i++) {
@@ -1510,9 +1516,77 @@ routeExp.route("/adminGlobalviewBack").get(async function (req, res) {
                     }                   1 
                 }
             }
+            unique = membre.filter((set => f => !set.has(f.username) && set.add(f.username))(new Set));
+            console.log("unique ", unique);
+
             // console.log(" l === ", l);
-            console.log(" lastMb === ", lastMb);
+            //console.log(" lastMb === ", lastMb);
             res.render("./AvecBack/adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+        });
+
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
+
+
+const XLSX = require('xlsx')
+routeExp.route("/addxlsx").get(async function (req, res) {
+    var session = req.session;
+    //if (session.type_util == "Admin") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async (                  ) => {
+            
+            const parseExcel = (filename) => {
+
+                const excelData = XLSX.readFile(filename);
+
+                return Object.keys(excelData.Sheets).map(name => ({
+                    name,
+                    data: XLSX.utils.sheet_to_json(excelData.Sheets[name]),
+                }));
+            };
+            var liste = []
+            parseExcel("./Vue/assets/listeUser.xls").forEach(element => {
+                console.log(element.data);
+                liste.push(element.data)
+            });
+            // if (await UserSchema.findOne({ $or: [{ username: email }, { m_code: m_code }, { num_agent: num_agent }] })) {
+            //     res.send("error");
+            // } else {
+                //console.log("liste . ", [0].NOM);
+
+            var listUser = await UserSchema.find({ validation: true });
+                console.log("listeUser ", listUser.length);
+                var passdefault = "solumada0000";
+                var value = liste[0]
+                // for (let i = 0; i < value.length; i++) {
+
+                //     var user = value[i];
+                //     //console.log("name: ",user.NOM);
+                //     var new_emp = {
+                //         name: user.NOM,
+                //         username: user.MAIL,
+                //         password: passdefault,
+                //         m_code: user.CODE,
+                //         num_agent: user.NUMBERING,
+                //         type_util: ""
+                //     };
+                //     await UserSchema(new_emp).save();
+                    
+                // }
+                //sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
+                //res.send(email);
+            //}
+
         });
 
     // }
