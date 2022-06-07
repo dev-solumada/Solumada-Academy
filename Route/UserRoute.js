@@ -777,7 +777,21 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
             var listuser = await UserSchema.find({ validation: true });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
-            var membre = await CGNModel.find({ validation: true })
+            //var membre = await CGNModel.find({ validation: true })
+            var membre = await CGNModel.aggregate([
+                {
+                    $group: {
+                        _id:
+                            { username: "$username", m_code: "$mcode", num_agent: "$num_agent" },
+                        tabl: { $push: { niveau: "$niveau", cours: "$cours" } }
+                    }
+                }
+            ])
+for (let i = 0; i < membre.length; i++) {
+    const element = membre[i];
+    console.log("membre ", element);
+    
+}
             res.render("adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
