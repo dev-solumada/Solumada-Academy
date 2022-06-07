@@ -182,5 +182,5 @@ function drop_user(url, fname) {
       }
     }
   };
-  http.send("fname=" + fname);
+  http.send("" + fname);
 }
