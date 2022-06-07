@@ -779,6 +779,10 @@ routeExp.route("/updateuser").post(async function (req, res) {
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
     var username = req.body.username;
+    // additional field
+    var type_util = req.body.type_util;
+    var email = req.body.email;
+    // End additonal field
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -788,7 +792,7 @@ routeExp.route("/updateuser").post(async function (req, res) {
             }
         )
         .then(async () => {
-            await UserSchema.findOneAndUpdate({ _id: id }, { m_code: m_code, num_agent: num_agent, username: username });
+            await UserSchema.findOneAndUpdate({ _id: id }, { m_code: m_code, num_agent: num_agent, username: username, type_util:type_util, email: email });
             res.send("User updated successfully");
         })
 })

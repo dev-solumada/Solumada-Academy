@@ -8,14 +8,14 @@ function getuser(id)
 
     $.ajax(
         {
-            url : "/getuser",
+            url : "/getuser" + id,
             method: 'get',
             dataType: 'json',
             beforeSend: function(){
                 $('#userUpdate').modal('show');
             },
             success: function(response){
-                    console.log(JSON.stringify(response));
+                    alert('user data received');
                 },
             error: function(err){
                     console.log(err);

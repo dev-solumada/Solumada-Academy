@@ -4,6 +4,7 @@ var first = document.getElementById("first");
 var btns = document.getElementById("saveChange");
 
 
+var ids;
 //Verify mail
 function verify_mail() {
     var email = document.getElementById("email");
@@ -72,17 +73,17 @@ function getdata(url, id) {
         var data = this.responseText.split(",");
         //console.log("type_util == "+ data[3]);
 
-        var username = document.getElementById("name_update");
-        var email = document.getElementById("email_update");
-        var m_code = document.getElementById("m_code_update");
-        var num_agent = document.getElementById("num_agent_update");
-        var type_util = document.getElementById("type_util_update");
- 
-        username.value = data[0];
-        email.value = data[1]
-        m_code.value = data[2];
-        num_agent.value = data[3]; 
-        type_util.value = data[4];
+        var username_update = document.getElementById("name_update");
+        var email_update = document.getElementById("email_update");
+        var m_code_update = document.getElementById("m_code_update");
+        var num_agent_update = document.getElementById("num_agent_update");
+        var type_util_update = document.getElementById("type_util_update");
+        
+        username_update.value = data[0];
+        email_update.value = data[1]
+        m_code_update.value = data[2];
+        num_agent_update.value = data[3]; 
+        type_util_update.value = data[4];
         btnu.disabled = false;
         ids = id;
       }
@@ -112,12 +113,18 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
 }
 
 
-function modify() {
-    update_user("/updateuser", ids,username.value, m_code.value, num_agent.value, type_util.value);
-  }
+function modify() 
+{
+  var username = document.getElementById("name_update");
+  var email = document.getElementById("email_update");
+  var m_code = document.getElementById("m_code_update");
+  var num_agent = document.getElementById("num_agent_update");
+  var type_util = document.getElementById("type_util_update");
+  update_user(url="/updateuser", id=ids,username=username.value, email=email.value, m_code=m_code.value, num_agent=num_agent.value, type_util=type_util.value);
+}
 
 
-function update_user(url, id, username, m_code, num_agent) {
+function update_user(url, id, username,email, m_code, num_agent, type_util) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -136,7 +143,7 @@ function update_user(url, id, username, m_code, num_agent) {
         }
       }
     };
-    http.send("id=" + id + "&username=" + username + "&m_code=" + m_code + "&num_agent=" + num_agent );
+    http.send("id=" + id + "&username=" + username + "&email" + email + "&m_code=" + m_code + "&num_agent=" + num_agent + "&type-util=" + type_util );
   }
 
 
