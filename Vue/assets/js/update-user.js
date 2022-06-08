@@ -178,3 +178,137 @@ function drop_user(url, fname) {
   };
   http.send("fname=" + fname);
 }
+
+
+function anuler() {
+  window.location = "/listeCours"
+}
+
+
+
+//ADD NEW COURS
+
+//btn
+var btn_newCours = document.getElementById("btn_newCours");
+btn_newCours.disabled = true;
+
+//Verify
+var name_Cours_done = false;
+var date_Commenc_done = false;
+var nb_Type_done = false;
+var prof_done = false;
+
+//error 
+var nm = document.getElementById("nm");
+var dt = document.getElementById("dt");
+var np = document.getElementById("np");
+var nb = document.getElementById("nb");
+
+//verify cours
+function verify_cours() {
+  var nameCours = document.getElementById("nameCours");
+  console.log("nameCours == "+nameCours);
+  if (nameCours.value != "") {
+      nm.style.display = "none";
+      nameCours.removeAttribute("style");
+      name_Cours_done = true;
+  } else {
+      nm.style.display = "block";
+      nameCours.setAttribute("style", "border-color:red;");
+      name_Cours_done = false;
+  }
+  verify_all_cours();
+}
+
+//verify date_Commenc
+function verify_date() {
+  var date_Commenc = document.getElementById("date_Commenc");
+  console.log("date_Commenc == "+date_Commenc);
+  if (date_Commenc.value != "") {
+      dt.style.display = "none";
+      date_Commenc.removeAttribute("style");
+      date_Commenc_done = true;
+  }
+  else {
+      dt.style.display = "block";
+      date_Commenc.setAttribute("style", "border-color:red;");
+      date_Commenc_done = false;
+  }
+  verify_all_cours();
+}
+
+//verify nom professeur
+function verify_teacher() {
+    var professeur = document.getElementById("professeur");
+    console.log("professeur == "+professeur);
+    if (professeur.value != "") {
+        np.style.display = "none";
+        professeur.removeAttribute("style");
+        prof_done = true;
+    }
+    else {
+        np.style.display = "block";
+        professeur.setAttribute("style", "border-color:red;");
+        prof_done = false;
+    }
+    verify_all_cours();
+}
+
+//verify nombre Particp
+function verify_typ() {
+  var typeCours = document.getElementById("typeCours");
+  console.log("typeCours "+typeCours);
+  if (typeCours.value != "") {
+      nb.style.display = "none";
+      typeCours.removeAttribute("style");
+      nb_Type_done = true;
+  }
+  else {
+      nb.style.display = "block";
+      typeCours.setAttribute("style", "border-color:red;");
+      nb_Type_done = false;
+  }
+  verify_all_cours();
+}
+
+function verify_all_cours() {
+  console.log(name_Cours_done , date_Commenc_done ,nb_Type_done , prof_done);
+  if (name_Cours_done && date_Commenc_done && nb_Type_done && prof_done) {
+      btn_newCours.disabled = false;
+  }
+  else {
+      btn_newCours.disabled = true;
+  }
+}
+
+function add_new_cours() {
+  console.log("**************");
+  var name_Cours = document.getElementById("nameCours").value;
+  var date_Commenc = document.getElementById("date_Commenc").value;
+  var professeur = document.getElementById("professeur").value;
+  var typeCours = document.getElementById("typeCours").value;
+  console.log("profes == "+ professeur);
+  sendRequestCours('/addcours', name_Cours, date_Commenc, professeur, typeCours);
+}
+
+function sendRequestCours(url, name_Cours, date_Commenc, professeur, typeCours) {
+  console.log("date == " + name_Cours , date_Commenc, professeur, typeCours);
+  var http = new XMLHttpRequest();
+  http.open("POST", url, true);
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+          if (this.responseText == "error") {
+              successAddC.style.display = "block";
+              errorAddC.style.display = "block";
+              errorAddC.innerHTML = "Cours is already registered";
+          }
+          else {
+              successAddC.style.display = "block";
+              errorAddC.style.display = "none";
+              successAddC.innerHTML = "Employee " + this.responseText + " registered successfuly";
+          }
+      }
+  };
+  http.send("name_Cours=" + name_Cours + "&date_Commenc=" + date_Commenc + "&professeur=" + professeur + "&typeCours=" + typeCours);
+}
