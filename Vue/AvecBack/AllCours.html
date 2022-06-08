@@ -266,6 +266,15 @@
                                         </div>
                                     </div>
                                     <div class="row form-group">
+                                        <div class="col col-md-3"><label for="dateCommenc"
+                                                class=" form-control-label">Level</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" id="level" placeholder="Level" class="form-control">
+                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
+                                                field is required</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
                                         <div class="col col-md-3"><label for="teacher"
                                                 class="form-control-label">Proffessor</label></div>
                                         <div class="col-12 col-md-9">
@@ -286,10 +295,35 @@
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Type" class="form-control" tabindex="1">
                                                 <option value="" selected disabled>Type Cours</option>
-                                                <option value="obligatoire">Obligatory</option>
-                                                <option value="facultatif">Optional</option>
+                                                <option value="obligatory">Obligatory</option>
+                                                <option value="optional">Optional</option>
                                             </select>
                                             <small id="type_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="group"
+                                                class="form-control-label">Group</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <select data-placeholder="Choose Groups" multiple
+                                                class="standardSelect form-control" tabindex="1">
+                                                <option value=""></option>
+                                                <option value="group 1">Group 1</option>
+                                                <option value="group 2">Group 2</option>
+                                                <option value="group 3">Group 3</option>
+                                                <option value="group 4">Group 4</option>
+                                                <option value="group 5">Group 5</option>
+                                                <option value="group 6">Group 6</option>
+                                                <option value="group 7">Group 7</option>
+                                                <option value="group 8">Group 8</option>
+                                                <option value="group 9">Group 9</option>
+                                                <option value="group 10">Group 10</option>
+                                                <option value="group 11">Group 11</option>
+                                                <option value="group 12">Group 12</option>
+                                            </select>
+                                            <small id="teacher_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
                                         </div>
@@ -301,7 +335,7 @@
                             <button type="button" class="btn btn-danger" onclick="anuler()"
                                 data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_new_cours()()"
+                            <button class="btn-submit btn btn-success" type="button" onclick="test_save()"
                                 id="saveUser">Save</button>
                         </div>
                     </div>

@@ -378,9 +378,7 @@ function getmembre(url, id) {
         if (this.readyState == 4 && this.status == 200) {
             var data = this.responseText.split(",");
             console.log("data == ", data);
-            //console.log("data *** "+data[1].toLocaleDateString("fr"));
-            userLevel.value = data[0];;
-            //btnu.disabled = false;
+            userLevel.value = data[0];
             ids = id;
         }
     };
