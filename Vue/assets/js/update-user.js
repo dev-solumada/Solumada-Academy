@@ -299,7 +299,7 @@ function sendRequestCours(url, name_Cours, date_Commenc, professeur, typeCours) 
   http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
           if (this.responseText == "error") {
-              successAddC.style.display = "block";
+              successAddC.style.display = "none";
               errorAddC.style.display = "block";
               errorAddC.innerHTML = "Cours is already registered";
           }
