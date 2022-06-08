@@ -867,8 +867,9 @@ routeExp.route("/getCours").post(async function (req, res) {
         )
         .then(async () => {
             var cours = await CoursModel.findOne({ _id: id });
-            console.log("cours == ", cours);
-            res.send(cours.name_Cours + "," + cours.date_Commenc + "," + cours.nbParticp + "," + cours.professeur);
+            res.send(JSON.stringify(cours));
+            console.log(cours);
+            // res.send(cours.name_Cours + "," + cours.date_Commenc + "," + cours.nbParticp + "," + cours.professeur);
         });
 })
 

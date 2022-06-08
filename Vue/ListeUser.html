@@ -191,7 +191,7 @@
                                                         data-bs-whatever="@getbootstrap"><i class="fa fa-edit"></i></button>
                                                     <!-- <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#deleteUserConfirm"><i class="fa fa-trash"></i></button> -->
                                                     <button type="button"  class="btn px-2 btn-sm btn-danger" type="button" id="delete" 
-                                                        class="btn btn-sm btn-warning"  onclick="getuserToDelete(id='<%=listuser.id%>')" data-toggle="modal" data-target="#deleteuser">
+                                                        class="btn btn-sm btn-warning"  onclick="getuserAndDelete(id='<%=listuser.id%>')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -244,7 +244,6 @@
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
                                                 <small class="alert alert-danger text-center" role="alert" id ="errorAddUser" style="display: none;color:red">Error message Here</small>
-                                                <small class="alert alert-success text-center" role="alert" id="successAddUser" style="display: none;color:green">Success message Here</small>
                                             </div>
                                         </div>
                                     </div>
@@ -401,6 +400,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <!-- <script src="./assets/basetemplate/assets/js/update-user.js"></script> -->
     <script src="./assets/basetemplate/assets/js/users.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.17/sweetalert2.min.js"></script>
     <!-- <script src="./assets/basetemplate/assets/js/addUser.js"></script> -->
 
 

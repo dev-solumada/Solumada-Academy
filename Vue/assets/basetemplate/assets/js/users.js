@@ -43,11 +43,19 @@ function addUser(url)
                 $('#errorAddUser').css('display', 'block');
                 $('#errorAddUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
             } else {
-                $('#errorAddUser').css('display', 'none');
-                $('#successAddUser').css('display', 'block');
                 resetForm(action='add');
-                $('#successAddUser').html( response + ' Saved successfully');
-                window.location = "/listeUser";
+                responsetxt = response + ' Saved successfully';
+                Swal.fire(
+                    'User Saved',
+                    responsetxt,
+                    'success',
+                    {
+                    confirmButtonText: 'Ok',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                    window.location = "/listeUser";
+                    }
+                  })
             }
         }
     });
@@ -69,15 +77,22 @@ function updateUser(url)
         data : formUpdateData,
         success : function(response){
             if(response == 'error'){
-                $('#successUpdateUser').css('display', 'none');
                 $('#errorUpdateUser').css('display', 'block');
                 $('#errorUpdateUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
             } else {
-                $('#errorUpdateUser').css('display', 'none');
-                $('#successUpdateUser').css('display', 'block');
                 resetForm(action='update');
-                $('#successUpdateUser').html( response + ' updated successfully');
-                window.location = "/listeUser";
+                responsetxt = response + ' Updated successfully';
+                Swal.fire(
+                    'User Updated',
+                    responsetxt,
+                    'success',
+                    {
+                    confirmButtonText: 'Ok',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                    window.location = "/listeUser";
+                    }
+                })
             }
         },
         error: function(response){
@@ -87,7 +102,7 @@ function updateUser(url)
 }
 
 
-function getuserToDelete(id)
+function getuserAndDelete(id)
 {
 
     $.ajax(
@@ -97,8 +112,45 @@ function getuserToDelete(id)
             dataType: 'json',
             data: {id: id},
             success: function(user){
-                    $('#confirmdeleteusername').html("Are you sure to delete " + user.username +" ?");
-                    $('#emailtodelete').val(user.username);
+                    var user_email = user.username
+                    var txt = "Are you sure to delete " + user_email +"?";
+                        Swal.fire({
+                            title: 'Delete User',
+                            text: txt,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: 'red',
+                            cancelButtonColor: 'green',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '/dropuser',
+                                    method: 'post',
+                                    data: { email: user_email },
+                                    success: function(response){
+                                        responsetxt = response + ' Deleted successfully';
+                                        Swal.fire({
+                                            position: 'top-center',
+                                            icon: 'success',
+                                            title: responsetxt,
+                                            showConfirmButton: false,
+                                            timer: 1600
+                                        });
+                                        window.location = "/listeUser";
+                                    },
+                                    error: function(response){
+                                        Swal.fire({
+                                            position: 'top-center',
+                                            icon: 'error',
+                                            title: response,
+                                            showConfirmButton: false,
+                                            timer: 1600
+                                        });
+                                    }
+                                })
+                            }
+                        })
                 },
             error: function(err){
                     alert(JSON.stringify(err));
@@ -118,8 +170,19 @@ function deleteUser(url)
         method: 'post',
         data: formDeleteData,
         success: function(response){
-            alert("delete user" + response);
-            window.location = "/listeUser";
+            responsetxt = response + ' Deleted successfully';
+            Swal.fire(
+                'User Deleted',
+                responsetxt,
+                'success',
+                {
+                confirmButtonText: 'Ok',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                window.location = "/listeUser";
+                }
+            })
+
         },
         error: function(response){
             alert(response);

@@ -183,7 +183,7 @@
                                     <thead>
                                         <tr>
                                             <th>Cours Name</th>
-                                            <th>Proffessor</th>
+                                            <th>M_code</th>
                                             <th>Start Date</th>
                                             <th>Participant</th>
                                             <th>Action</th>
@@ -197,7 +197,7 @@
                                                     <%= allCours.name_Cours %>
                                                 </td>
                                                 <td>
-                                                    <%= allCours.professeur %>
+                                                    <%= allCours.m_code %>
                                                 </td>
                                                 <td>
                                                     <%= allCours.date_Commenc.toLocaleDateString("fr")
@@ -208,7 +208,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                        <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#editmember"><i class="fa fa-edit"></i></button>
+                                                        <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" data-target="#updateCours" onclick="getCour('<%= allCours.id %>')"><i class="fa fa-edit"></i></button>
                                                         <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" data-toggle="modal" data-target="#deletemember"><i class="fa fa-trash"></i></button>
                                                     </div>
                                                 </td>
@@ -303,6 +303,90 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="updateCours" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="largeModalLabel">New Cour</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body card-block">
+                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                    class="form-horizontal" autocomplete="off">
+                                    <div class="row form-group">
+                                        <div class="col-12">
+                                            <div class="feedback align-items-center">
+                                                <small class="alert alert-danger text-center" role="alert" id="errorAddC"
+                                                    style="display: none;color:red"></small>
+                                                <small class="alert alert-success text-center" role="alert" id="successAddC"
+                                                    style="display: none;color:green"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col col-md-3"><label for="name_cours"
+                                            class="form-control-label">Cour Name</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" id="nameCours_update" onkeyup="verify_cours()"  placeholder="Cour Name"
+                                                class="form-control">
+                                            <span id="nm" style="color:red;font-size: smaller;display:none;">Entrez le nom du cours</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <input type="hidden" id="cours_id">
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="dateCommenc"
+                                                class=" form-control-label">Beginning Date</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="date" id="date_Commenc_update" placeholder="M Code"
+                                                class="form-control"  onchange="verify_date()">
+                                            <span id="dt" style="color:red;font-size: smaller;display:none;">Entrez la date du début du
+                                                cours</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="teacher"
+                                                class="form-control-label">Proffessor</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <select data-placeholder="Choose Teacher" onchange="verify_teacher()"
+                                                class="form-control standardSelect" id="professeur_update" tabindex="1">
+                                                <option value="" selected disabled>Choose teacher</option>
+                                                <% listuser.forEach(function(listuser) { %>
+                                                <option value="<%= listuser.m_code %>"><%= listuser.username %></option>
+                                                <% }); %>
+                                            </select>
+                                            <span id="np" style="color:red;font-size: smaller;display:none;">Entrez Nom du prof</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="type_cour"
+                                                class="form-control-label">Type</label></div>
+                                        <div class="col-12 col-md-9" verify_typ>
+                                            <select data-placeholder="Choose Type" class="form-control" onchange="verify_typ()" id="typeCours_update" tabindex="1">
+                                                <option value="" selected disabled>Type Cours</option>
+                                                <option value="obligatoire">Obligatory</option>
+                                                <option value="facultatif">Optional</option>
+                                            </select>
+                                            <span id="nb" style="color:red;font-size: smaller;display:none;">Choose a type</span>
+                                        
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                                data-dismiss="modal">Cancel</button>
+                            <button class="btn-submit btn btn-success" type="button" onclick="add_new_cours()"
+                            id="btn_newCours">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="modal fade" id="deleteCours" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
@@ -350,9 +434,8 @@
     <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
-    <script src="./assets/js/add-new-user.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-    <script src="./assets/basetemplate/assets/js/update-user.js"></script>
+    <script src="./assets/basetemplate/assets/js/cours.js"></script>
     <!-- <script src="./assets/basetemplate/assets/js/addUser.js"></script> -->
 
 
