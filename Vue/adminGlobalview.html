@@ -176,36 +176,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% membre.forEach(function(membre) { %>
+                                        <% membre.forEach(function(membre) { 
+                                            console.log("table ", membre.tabl) %>
                                             <tr>
                                                 <td>
-                                                    <%= membre.username %>
+                                                    <%= membre._id.username %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.mcode %>
+                                                    <%= membre._id.m_code %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.num_agent %>
-                                                </td>
-                                                <td>
-                                                    <!--  -->
-                                                    <div class="input-group">
-                                                        <%= membre.tabl%>
-                                                        <!-- <select class="form-control selectPoints">
-                                                            <option class="text-center" value="1"><%= membre.cours %> - <%= membre.niveau %></option>
-                                                        </select> -->
-                                                        <!-- <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button> -->
-                                                        </div>
+                                                    <%= membre._id.num_agent %>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <%= membre.point %> 
-                                                    <!-- <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours Name 5pts</option>
-                                                        <option class="text-center" value="1">Cours Name 5pts</option>
-                                                    </select> -->
-                                                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="addPoint('/getpoint','<%= membre._id %>' ,'<%= membre.cours %>')" 
+                                                        <select class="form-control selectPoints">
+                                                        <% membre.tabl.forEach(function(tabl) {
+                                                            %>
+                                                            <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.niveau %></option>
+                                                            
+                                                        <% }); %>     
+                                                    </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <select class="form-control selectPoints">
+                                                            <% membre.tabl.forEach(function(tabl) {
+                                                                %>
+                                                                <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.point %></option>
+                                                            <% });
+                                                            var table = membre.tabl %>   
+                                                        </select>
+                                                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="addPoint('/getpoint','<%= JSON.stringify(table) %>')" 
                                                         data-target="#ModalAddPoint">
                                                         <i class="fa fa-plus"></i>
                                                     </button>
@@ -252,12 +255,10 @@
                                             class="form-control-label">Cours</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="coursPoint" placeholder="cours" class="form-control">
-                                        <!-- <select data-placeholder="Choose Cour"
-                                            class="form-control standardSelect" tabindex="1">
-                                            <option value="cours 1">Cours 1</option>
-                                            <option value="cours 2">Cours 2</option>
-                                        </select> -->
+                                        <!-- <input type="text" id="coursPoint" placeholder="cours" class="form-control"> -->
+                                        <select data-placeholder="Choose Cour"
+                                            class="form-control " id ="selectCours" tabindex="1">
+                                        </select>
                                         <small id="teacher_err"
                                             style="color: red; font-size: smaller; display:none;">This field is
                                             required</small>
@@ -276,7 +277,7 @@
                             </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="anuler()">Cancel</button>
                       <button type="button" class="btn btn-success">Add Point</button>
                     </div>
                   </div>
@@ -424,7 +425,7 @@
     <script src="./assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="./assets/basetemplate/assets/js/admin-global.js"></script>
+    <script src="./assets/js/admin-global.js"></script>
 
     <script src="./assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="./assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
