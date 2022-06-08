@@ -291,8 +291,8 @@ routeExp.route("/change").post(async function (req, res) {
 
 //Drop user 
 routeExp.route("/dropuser").post(async function (req, res) {
-    var names = req.body.fname;
-    names = names.split(" ");
+    var email = req.body.email;
+    console.log(req.body.email);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -302,8 +302,14 @@ routeExp.route("/dropuser").post(async function (req, res) {
             }
         )
         .then(async () => {
-            await UserSchema.findOneAndDelete({ username: names[0] });
-            res.send("User deleted successfully");
+            try {
+                await UserSchema.findOneAndDelete({ username: email });
+                res.send("success");
+                console.log("user deleted");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
         })
 })
 
@@ -350,6 +356,7 @@ routeExp.route("/login").post(async function (req, res) {
 
 //Add employee
 routeExp.route("/addemp").post(async function (req, res) {
+    console.log(req.body);
     var name = req.body.name;
     var email = req.body.email;
     var m_code = req.body.m_code;
@@ -811,19 +818,22 @@ routeExp.route("/getuser").post(async function (req, res) {
         )
         .then(async () => {
             var user = await UserSchema.findOne({ _id: id });
-            res.send(user.username + "," + user.email + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
+            user = JSON.stringify(user);
+            res.send(user);
+            // res.send(user.username + "," + user.email + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
         });
 })
 
 //Update User
 routeExp.route("/updateuser").post(async function (req, res) {
+    console.log(req.body);
     var id = req.body.id;
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
-    var username = req.body.username;
+    var email = req.body.email;
     // additional field
     var type_util = req.body.type_util;
-    var email = req.body.email;
+    var username = req.body.username;
     // End additonal field
     mongoose
         .connect(
@@ -834,8 +844,14 @@ routeExp.route("/updateuser").post(async function (req, res) {
             }
         )
         .then(async () => {
-            await UserSchema.findOneAndUpdate({ _id: id }, { m_code: m_code, num_agent: num_agent, username: username, type_util: type_util, email: email });
-            res.send("User updated successfully");
+            try{
+                await UserSchema.findOneAndUpdate({ _id: id }, { m_code: m_code, num_agent: num_agent, name: username, type_util:type_util, username: email })
+                console.log("user" + username + "updated");
+                res.send(email);
+            } catch(err){
+                console.log(err);
+                res.send("error");
+            }
         })
 })
 
