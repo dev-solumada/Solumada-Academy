@@ -620,7 +620,6 @@ routeExp.route("/newcours").get(async function (req, res) {
                 }
             )
             .then(async () => {
-
                 var listuser = await UserSchema.find({ type_util: professeur });
                 res.render("newCours.html", { listuser: listuser });
             });
