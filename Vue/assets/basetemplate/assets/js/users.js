@@ -8,6 +8,7 @@ function getuser(id)
             dataType: 'json',
             data: {id: id},
             success: function(user){
+                    $('#user_id').val(user._id);
                     $('#name_update').val(user.name);
                     $('#email_update').val(user.username);
                     $('#m_code_update').val(user.m_code);
@@ -46,44 +47,82 @@ function addUser(url)
                 $('#successAddUser').css('display', 'block');
                 resetForm(action='add');
                 $('#successAddUser').html( response + ' Saved successfully');
+                window.location = "/listeUser";
             }
         }
     });
 }
 
-function updateUser(url, id)
+function updateUser(url)
 {
-    let name = $('#name');
-    let email = $('#email');
-    let m_code = $('#m_code');
-    let num_agent = $('#num_agent');
-    let user_type = $('#user_type');
+    formUpdateData = {
+        id : $('#user_id').val(),
+        username: $('#name_update').val(),
+        email: $('#email_update').val(),
+        m_code: $('#m_code_update').val(),
+        num_agent: $('#num_agent_update').val(),
+        type_util: $('#type_util_update').val()
+    }
     $.ajax({
-        url: url +'/'+ id,
+        url: url,
         method: 'post',
-        dataType: 'json',
-        data : {'name':name, 'email':email, 'm_code':m_code, 'num_agent':num_agent, 'user_type':user_type},
+        data : formUpdateData,
         success : function(response){
-            alert("user updatated");
-            resetForm(name='update');
+            if(response == 'error'){
+                $('#successUpdateUser').css('display', 'none');
+                $('#errorUpdateUser').css('display', 'block');
+                $('#errorUpdateUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
+            } else {
+                $('#errorUpdateUser').css('display', 'none');
+                $('#successUpdateUser').css('display', 'block');
+                resetForm(action='update');
+                $('#successUpdateUser').html( response + ' updated successfully');
+                window.location = "/listeUser";
+            }
         },
         error: function(response){
-            alert('Error occured when update the user');
+            alert(JSON.stringify(response));
         }
     })
 }
 
 
-function deleteUser(url, id)
+function getuserToDelete(id)
 {
+
+    $.ajax(
+        {
+            url : "/getuser",
+            method: 'post',
+            dataType: 'json',
+            data: {id: id},
+            success: function(user){
+                    $('#confirmdeleteusername').html("Are you sure to delete " + user.username +" ?");
+                    $('#emailtodelete').val(user.username);
+                },
+            error: function(err){
+                    alert(JSON.stringify(err));
+            }
+        }
+    )
+}
+
+function deleteUser(url)
+{
+    formDeleteData = {
+        email: $('#emailtodelete').val()
+    }
+
     $.ajax({
-        url: url + '/' + id,
+        url: url,
         method: 'post',
+        data: formDeleteData,
         success: function(response){
-            alert('user deleted successfully');
+            alert("delete user" + response);
+            window.location = "/listeUser";
         },
         error: function(response){
-            alert('deletion error');
+            alert(response);
         }
     })
 }
