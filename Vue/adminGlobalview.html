@@ -176,46 +176,62 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% membre.forEach(function(membre) { %>
+                                        <% membre.forEach(function(membre) { 
+                                            console.log("table ", membre.tabl) %>
                                             <tr>
                                                 <td>
-                                                    <%= membre.username %>
+                                                    <%= membre._id.username %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.mcode %>
+                                                    <%= membre._id.m_code %>
                                                 </td>
                                                 <td>
-                                                    <%= membre.num_agent %>
+                                                    <%= membre._id.num_agent %>
                                                 </td>
                                                 <td>
-                                                    <!-- <%= membre.cours %> - niveau -->
                                                     <div class="input-group">
                                                         <select class="form-control selectPoints">
-                                                            <option class="text-center" value="1">Anglais Niveau Biginning</option>
-                                                            <option class="text-center" value="1">Excel Niveau Biginning</option>
-                                                        </select>
-                                                        <!-- <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button> -->
-                                                        </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                    <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours Name 5pts</option>
-                                                        <option class="text-center" value="1">Cours Name 5pts</option>
+                                                        <% membre.tabl.forEach(function(tabl) {
+                                                            %>
+                                                            <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.niveau %></option>
+                                                            
+                                                        <% }); %>     
                                                     </select>
-                                                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalAddPoint"><i class="fa fa-plus"></i></button>
-                                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangePoint"><i class="fa fa-edit"></i></button>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <select class="form-control">
-                                                            <option class="text-center" value="1">Bronze Excel</option>
-                                                            <option class="text-center" value="">Silver Anglais</option>
+                                                        <select class="form-control selectPoints">
+                                                            <% membre.tabl.forEach(function(tabl) {
+                                                                %>
+                                                                <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.point %></option>
+                                                            <% });
+                                                            var table = membre.tabl %>   
                                                         </select>
-                                                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalAddGraduation"><i class="fa fa-plus"></i></button>
-                                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangeGraduation"><i class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="getPoint('/getpoint','<%= JSON.stringify(table) %>')" 
+                                                        data-target="#ModalAddPoint">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <!--button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangePoint">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button-->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <select class="form-control selectGrad">
+                                                            <% membre.tabl.forEach(function(tabl) {
+                                                                %>
+                                                                <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.graduation %></option>
+                                                            <% });
+                                                            var donne = membre.tabl%>   
+                                                        </select>
+                                                        <button class="btn btn-sm btn-success" data-toggle="modal"onclick="getGrad('/getgrad','<%= JSON.stringify(donne) %>')"
+                                                             data-target="#ModalAddGraduation">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                        <!--button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangeGraduation">
+                                                            <i class="fa fa-edit"></i></button-->
                                                     </div>
                                                 </td>
                                             </tr>
@@ -234,8 +250,14 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Add point to {{ username}}</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Add point to {{ username }}</h5>
                     </div>
+                    <center>
+                        <small class="alert-danger" id="errorPoint"
+                            style="display: none;color:red"></small>
+                        <small class="alert-success" id="successPoint"
+                            style="display: none;color:green"></small>
+                    </center>
                     <div class="modal-body">
                         <div class="card-body card-block">
                             <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
@@ -245,10 +267,9 @@
                                             class="form-control-label">Cours</label>
                                     </div>
                                     <div class="col-12 col-md-9">
+                                        <!-- <input type="text" id="coursPoint" placeholder="cours" class="form-control"> -->
                                         <select data-placeholder="Choose Cour"
-                                            class="form-control standardSelect" tabindex="1">
-                                            <option value="cours 1">Cours 1</option>
-                                            <option value="cours 2">Cours 2</option>
+                                            class="form-control " id ="selectCours" tabindex="1">
                                         </select>
                                         <small id="teacher_err"
                                             style="color: red; font-size: smaller; display:none;">This field is
@@ -261,15 +282,15 @@
                                         <label for="dateCommenc" class=" form-control-label">Point</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="number" id="level" placeholder="Level" class="form-control">
-                                        <small id="level" style="color: red; font-size: smaller; display:none;">This field is required</small>
+                                        <input type="number" id="point" placeholder="Point" class="form-control">
+                                        <small id="point_err" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                     </div>
                                 </div>
                             </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="button" class="btn btn-success">Add Point</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="anuler()">Cancel</button>
+                      <button type="button" class="btn btn-success" onclick="add_point()">Add Point</button>
                     </div>
                   </div>
                 </div>
@@ -326,6 +347,12 @@
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Add Graduation to {{ username }}</h5>
                     </div>
+                    <center>
+                        <small class="alert-danger" id="errorGraduation"
+                            style="display: none;color:red"></small>
+                        <small class="alert-success" id="successGraduation"
+                            style="display: none;color:green"></small>
+                    </center>
                     <div class="modal-body">
                         <div class="card-body card-block">
                             <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
@@ -336,9 +363,7 @@
                                     </div>
                                     <div class="col-12 col-md-9">
                                         <select data-placeholder="Choose Cour"
-                                            class="form-control standardSelect" tabindex="1">
-                                            <option value="cours 1">Cours 1</option>
-                                            <option value="cours 2">Cours 2</option>
+                                            class="form-control " id = "CoursGrad" tabindex="1">
                                         </select>
                                         <small id="teacher_err"
                                             style="color: red; font-size: smaller; display:none;">This field is
@@ -351,15 +376,15 @@
                                         <label for="dateCommenc" class=" form-control-label">Graduation</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="level" placeholder="Graduation" class="form-control">
+                                        <input type="text" id="graduation" placeholder="Graduation" class="form-control">
                                         <small id="level" style="color: red; font-size: smaller; display:none;">This field is required</small>
                                     </div>
                                 </div>
                             </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="button" class="btn btn-success">Add Graduation</button>
+                      <button type="button" class="btn btn-secondary" onclick="anuler()" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-success" onclick="add_grad()" >Add Graduation</button>
                     </div>
                   </div>
                 </div>
@@ -416,6 +441,7 @@
     <script src="./assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/basetemplate/assets/js/main.js"></script>
 
+    <script src="./assets/js/admin-global.js"></script>
 
     <script src="./assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="./assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
