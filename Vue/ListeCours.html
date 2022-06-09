@@ -301,7 +301,11 @@
                                                                             <button type="button"  class="btn px-2 btn-sm btn-warning" data-toggle="modal" onclick="getmembre('/getmembre','<%= membre._id %>')"  data-target="#editmember">
                                                                                 <i class="fa fa-edit"></i>
                                                                             </button>
-                                                                            <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" data-toggle="modal" data-target="#deletemember"><i class="fa fa-trash"></i></button>
+                                                                            <button type="button" class="btn px-2 btn-sm btn-danger rounded-end deleteUser" 
+                                                                            onclick="getmbDelete('/getmembreD','<%= membre._id %>')" 
+                                                                             data-toggle="modal" data-target="#deletemember">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -510,7 +514,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" onclick="anuler()" data-dismiss="modal">Close</button>
                       <button type="button" class="btn btn-success" onclick="updateMembre()" >Save Change</button>
                     </div>
                   </div>
@@ -527,8 +531,8 @@
                         <strong class="text-center">Are you sure to remove {{username}} from this group?</strong>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-danger"> Yes, remove!</button>
-                      <button type="button" class="btn btn-success" data-dismiss="modal">No, cancel</button>
+                      <button type="button" class="btn btn-danger" onclick="deleteMembre()"> Yes, remove!</button>
+                      <button type="button" class="btn btn-success" data-dismiss="modal" onclick="anuler()">No, cancel</button>
                     </div>
                   </div>
                 </div>
@@ -800,6 +804,14 @@
             <div class="modal fade" id="deleteTimeTable" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
+                                            <div class="feedback align-items-center">
+                                                <center>
+                                                    <small class="alert-danger" id="errorDelete"
+                                                        style="display: none;color:red"></small>
+                                                    <small class="alert-success" id="successDelete"
+                                                        style="display: none;color:green"></small>
+                                                </center>
+                                            </div> 
                     <div class="modal-header bg-danger">
                     <h5 class="modal-title text-light" id="staticBackdropLabel">Delete this Time Table</h5>
                     </div>
