@@ -337,10 +337,10 @@ routeExp.route("/login").post(async function (req, res) {
                     res.redirect("/teacherHome");
                 } else if (logger.type_util == "Participant") {
                     session.name = logger.name,
-                        session.m_code = logger.m_code;
+                    session.m_code = logger.m_code;
                     session.num_agent = logger.num_agent;
                     session.type_util = logger.type_util;
-                    session.num_agent = logger.num_agent;
+                    session.username = logger.username;
                     res.redirect("/studentHome");
                 } else {
                     session.type_util = logger.type_util;
@@ -546,10 +546,23 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
                 }
             )
             .then(async () => {
-                var listUser = await UserSchema.find({ cours: cours });
-                var membre = await CGNModel.find({ validation: true })
+
+                //var membre = await CGNModel.find({ validation: true })
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
-                res.render("./teacherView/teacherGlobalView.html", { listuser:listUser, membre: membre, cours: cours});
+                
+                console.log("cours", cours[0].name_Cours);
+                var membre = await CGNModel.aggregate([
+                    { $match: { $or: [{ cours: cours[0].name_Cours }] } },
+                    {
+                        $group: {
+                            _id:
+                                { cours: "$cours", username: "$username", m_code: "$mcode", num_agent: "$num_agent" },
+                            tabl: { $push: { id: "$_id", cours: "$cours",niveau: "$niveau", point: "$point", graduation: "$graduation" } }
+                        }
+                    }
+                ])
+                console.log("cours", membre);
+                res.render("./teacherView/teacherGlobalView.html", {  membre: membre, cours: cours});
             });
     // }
     // else {
@@ -585,7 +598,32 @@ routeExp.route("/studentGroup").get(async function (req, res) {
 routeExp.route("/studentTimeTable").get(async function (req, res) {
     var session = req.session;
     if (session.type_util == "Participant") {
-        res.render("./StudentView/studentTimeTable.html");
+        console.log("session ", session.username);
+        // var membre = await CGNModel.aggregate([
+        //     {
+        //         $group: {
+        //             _id:
+        //                 { username: "$username", m_code: "$mcode", num_agent: "$num_agent" },
+        //             tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours", point: "$point", graduation: "$graduation" } }
+        //         }
+        //     }
+        // ])
+        var cgn = await CGNModel.find({  $or: [{ username: session.username }]  });
+        var groupe = []
+        for (let i = 0; i < cgn.length; i++) {
+            const element = cgn[i];
+            groupe.push(element.groupe)
+        }
+        var time 
+        for (let j = 0; j < groupe.length; j++) {
+            const element = groupe[j];
+            console.log(element);
+            time = await EmplTemp.find({ $or: [{ groupe: element }]  });
+            
+        }
+        console.log("time == ", time);
+        //console.log("groupe ", groupe);
+        res.render("./StudentView/studentTimeTable.html", {time: time});
     }
     else {
         res.redirect("/");
@@ -636,7 +674,7 @@ routeExp.route("/newcours").get(async function (req, res) {
 routeExp.route("/addcours").post(async function (req, res) {
     var name_Cours = req.body.name_Cours;
     var date_Commenc = req.body.date_Commenc;
-    var nbParticp = req.body.nbParticp;
+    var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
     mongoose
         .connect(
@@ -653,9 +691,13 @@ routeExp.route("/addcours").post(async function (req, res) {
                 var new_cours = {
                     name_Cours: name_Cours,
                     date_Commenc: date_Commenc,
-                    nbParticp: nbParticp,
+                    type: typeCours,
                     professeur: professeur
                 };
+
+                await UserSchema.findOneAndUpdate({ username: professeur }, { type_util: "Professeur"})
+                
+
                 await CoursModel(new_cours).save();
             }
         });
@@ -777,7 +819,6 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
             }
         )
         .then(async () => {
-            var listuser = await UserSchema.find({ validation: true });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             //var membre = await CGNModel.find({ validation: true })
@@ -790,12 +831,7 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                     }
                 }
             ])
-            for (let i = 0; i < membre.length; i++) {
-                const element = membre[i];
-                //console.log("membre ", element);
-
-            }
-            res.render("adminGlobalview.html", { membre: membre, listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("adminGlobalview.html", { membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
     // }
