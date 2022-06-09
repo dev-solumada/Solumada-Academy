@@ -761,6 +761,30 @@ routeExp.route("/listeUser").get(async function (req, res) {
     }
 });
 
+// Custom URL
+routeExp.route("/allUsers").get(async function (req, res) {
+    var session = req.session;
+    if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var allusers = await UserSchema.find({ validation: true }).select('username m_code num_agent type_util');
+                users = JSON.stringify(allusers);
+                console.log(users);
+                res.send(users);
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
 //Liste User
 routeExp.route("/listeUserBack").get(async function (req, res) {
     var session = req.session;
@@ -846,7 +870,7 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
 
 //getuser
 routeExp.route("/getuser").post(async function (req, res) {
-    var id = req.body.id;
+    var email = req.body.email;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -856,7 +880,7 @@ routeExp.route("/getuser").post(async function (req, res) {
             }
         )
         .then(async () => {
-            var user = await UserSchema.findOne({ _id: id });
+            var user = await UserSchema.findOne({ username: email }).select('_id name username m_code num_agent type_util');
             user = JSON.stringify(user);
             res.send(user);
             // res.send(user.username + "," + user.email + "," + user.m_code + "," + user.num_agent + "," + user.type_util);
