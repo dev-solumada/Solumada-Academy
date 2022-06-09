@@ -271,7 +271,7 @@
                                                 class="form-control standardSelect" id="professeur" tabindex="1">
                                                 <option value="" selected disabled>Choose teacher</option>
                                                 <% listuser.forEach(function(listuser) { %>
-                                                <option value="<%= listuser.m_code %>"><%= listuser.username %></option>
+                                                <option value="<%= listuser.username %>"><%= listuser.username %></option>
                                                 <% }); %>
                                             </select>
                                             <span id="np" style="color:red;font-size: smaller;display:none;">Entrez Nom du prof</span>
