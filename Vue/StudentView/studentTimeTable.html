@@ -155,12 +155,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Monday, 17/02/2022</td>
-                                            <td>Group 1</td>
-                                            <td>16:00</td>
-                                            <td>17:00</td>
-                                        </tr>
+                                        <% time.forEach(function(time) { %>
+                                            <tr>
+
+                                                <td>
+                                                    <%= time.jours %>
+                                                </td>
+                                                <td>
+                                                    <%= time.groupe %>
+                                                </td>
+                                                <td>
+                                                    <%= time.heureStart %>
+                                                </td>
+                                                <td>
+                                                    <%= time.heureFin %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group"
+                                                        aria-label="Basic mixed styles example">
+                                                        <button type="button"  class="btn px-2 btn-sm btn-warning" type="button" id="delete" 
+                                                                class="btn btn-sm btn-warning" data-toggle="modal" data-target="#timeTableModalUpdate">
+                                                                <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button type="button"  class="btn px-2 btn-sm btn-danger" type="button" id="delete" 
+                                                                class="btn btn-sm btn-warning" data-toggle="modal" data-target="#deleteTimeTable">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <% }); %>
                                         
                                     </tbody>
                                 </table>

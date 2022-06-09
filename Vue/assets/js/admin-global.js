@@ -30,6 +30,9 @@ function anuler() {
     window.location = "/adminGlobalview"
 }
 
+function anulerTeach() {
+    window.location = "/teacherGlobalView"
+}
 function add_point() {
     
     add_p_back("/updatePoint", point.value, coursl.value);
