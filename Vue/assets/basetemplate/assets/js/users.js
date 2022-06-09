@@ -1,5 +1,6 @@
 let column, id, usernam, m_code, num_agent, type_util;
 
+let currentPage;
 
 let userDatatable = $("#userTable").DataTable({
     "ajax": {
@@ -72,6 +73,7 @@ $('#saveUser').on("click", function()
                     if (result.isConfirmed) {
                         userDatatable.ajax.reload(null, false);
                         $('#closeModal').click();
+                        userDatatable.page('last').draw('page');
                     }
                 })
             }
@@ -81,6 +83,9 @@ $('#saveUser').on("click", function()
 
 
 $(document).on('click', '.btnUpdateUser', function(){
+    currentPage = userDatatable.page.info();
+    currentPage = JSON.parseInt(currentPage.page + 1);
+    alert(currentPage);
     column = $(this).closest('tr');
     email = column.find('td:eq(0)').text();
     $.ajax(
@@ -107,6 +112,7 @@ $(document).on('click', '.btnUpdateUser', function(){
 
 
 $(document).on('click', '#saveUpdateUser', function(){
+
     formUpdateData = {
         id : $('#user_id').val(),
         username: $('#name_update').val(),
@@ -136,9 +142,10 @@ $(document).on('click', '#saveUpdateUser', function(){
                   }).then((result) => {
                     if (result.isConfirmed) {
                         userDatatable.ajax.reload(null, false);
-                        $('#closeModal').click();
+                        userDatatable.page(currentPage).draw('page');
                     }
-                })
+                });
+                $('#closeModalUpdate').click();
             }
         },
         error: function(response){
