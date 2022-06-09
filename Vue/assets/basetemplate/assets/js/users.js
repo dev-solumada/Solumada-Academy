@@ -1,48 +1,65 @@
-function getuser(id)
-{
+let column, id, usernam, m_code, num_agent, type_util;
 
-    $.ajax(
+
+let userDatatable = $("#userTable").DataTable({
+    "ajax": {
+        "url": "/allUsers",
+        "dataSrc": "",
+    },
+    "columns": [
+        {"data": "username"},
+        {"data": "m_code"},
+        {"data": "num_agent"},
+        {"data": "type_util"},
+        {"defaultContent": "\
+                            <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
+                                <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateUser' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UserUpdateModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteUser' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                            </div>\
+                            "
+        }
+    ],
+    "columDefs": [
         {
-            url : "/getuser",
-            method: 'post',
-            dataType: 'json',
-            data: {id: id},
-            success: function(user){
-                    $('#user_id').val(user._id);
-                    $('#name_update').val(user.name);
-                    $('#email_update').val(user.username);
-                    $('#m_code_update').val(user.m_code);
-                    $('#num_agent_update').val(user.num_agent);
-                    $('#type_util_update').val(user.type_util);
-                },
-            error: function(err){
-                    alert(JSON.stringify(err));
+            "target": [2],
+            render(v){
+                return Number(v).toFixed(2);
             }
         }
-    )
-}
+
+    ]
+});
+
+$('#btnCreateUser').on('click', function()
+{
+    $('#largeModalLabelAdd').css('display', 'block');
+    $('#largeModalLabelUpdate').css('display', 'none');
+});
 
 
-function addUser(url)
+$('#saveUser').on("click", function()
 {
     formAddData = {
-                    name: $('#name').val(),
-                    email: $('#email').val(),
-                    m_code: $('#m_code').val(),
-                    num_agent: $('#num_agent').val(),
-                    type_util: $('#type_util').val()
-                }
+            name: $('#name').val(),
+            email: $('#email').val(),
+            m_code: $('#m_code').val(),
+            num_agent: $('#num_agent').val(),
+            type_util: $('#type_util').val()
+        }
 
     $.ajax({
-        url: url,
+        url: '/addemp',
         method: 'post',
         data: formAddData,
-        success: function(response){
-            if(response == 'error'){
+        success: function(response)
+        {
+            if(response == 'error')
+            {
                 $('#successAddUser').css('display', 'none');
                 $('#errorAddUser').css('display', 'block');
                 $('#errorAddUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
-            } else {
+            }
+            else {
                 resetForm(action='add');
                 responsetxt = response + ' Saved successfully';
                 Swal.fire(
@@ -51,15 +68,212 @@ function addUser(url)
                     'success',
                     {
                     confirmButtonText: 'Ok',
-                  }).then((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
-                    window.location = "/listeUser";
+                        userDatatable.ajax.reload(null, false);
+                        $('#closeModal').click();
                     }
-                  })
+                })
             }
         }
     });
-}
+});
+
+
+$(document).on('click', '.btnUpdateUser', function(){
+    column = $(this).closest('tr');
+    email = column.find('td:eq(0)').text();
+    $.ajax(
+            {
+                url : "/getuser",
+                method: 'post',
+                dataType: 'json',
+                data: {email: email},
+                success: function(user){
+                        $('#user_id').val(user._id);
+                        $('#name_update').val(user.name);
+                        $('#email_update').val(user.username);
+                        $('#m_code_update').val(user.m_code);
+                        $('#num_agent_update').val(user.num_agent);
+                        $('#type_util_update').val(user.type_util);
+                    },
+                error: function(err){
+                        alert(JSON.stringify(err));
+                }
+            }
+        )
+
+});
+
+
+$(document).on('click', '#saveUpdateUser', function(){
+    formUpdateData = {
+        id : $('#user_id').val(),
+        username: $('#name_update').val(),
+        email: $('#email_update').val(),
+        m_code: $('#m_code_update').val(),
+        num_agent: $('#num_agent_update').val(),
+        type_util: $('#type_util_update').val()
+    }
+
+    $.ajax({
+        url: '/updateuser',
+        method: 'post',
+        data : formUpdateData,
+        success : function(response){
+            if(response == 'error'){
+                $('#errorUpdateUser').css('display', 'block');
+                $('#errorUpdateUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
+            } else {
+                resetForm(action='update');
+                responsetxt = response + ' Updated successfully';
+                Swal.fire(
+                    'User Updated',
+                    responsetxt,
+                    'success',
+                    {
+                    confirmButtonText: 'Ok',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        userDatatable.ajax.reload(null, false);
+                        $('#closeModal').click();
+                    }
+                })
+            }
+        },
+        error: function(response){
+            alert(JSON.stringify(response));
+        }
+    })
+});
+
+$(document).on('click', '.btnDeleteUser', function()
+{
+    column = $(this).closest('tr');
+    email = column.find('td:eq(0)').text();
+    $.ajax(
+        {
+            url : "/getuser",
+            method: 'post',
+            dataType: 'json',
+            data: {email: email},
+            success: function(user){
+                    var user_email = user.username
+                    var txt = "Are you sure to delete " + user_email +"?";
+                        Swal.fire({
+                            title: 'Delete User',
+                            text: txt,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: 'red',
+                            cancelButtonColor: 'green',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: '/dropuser',
+                                    method: 'post',
+                                    data: { email: user_email },
+                                    success: function(response){
+                                        responsetxt = user_email + ' Deleted successfully';
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'success',
+                                            title: responsetxt,
+                                            showConfirmButton: false,
+                                            timer: 1600
+                                        });
+                                        userDatatable.ajax.reload(null, false);
+                                    },
+                                    error: function(response){
+                                        Swal.fire({
+                                            position: 'top-center',
+                                            icon: 'error',
+                                            title: response,
+                                            showConfirmButton: false,
+                                            timer: 1600
+                                        });
+                                    }
+                                })
+                            }
+                        })
+                },
+            error: function(err){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: err
+                });
+            }
+        }
+    )
+});
+
+
+
+
+// function getuser(id)
+// {
+
+//     $.ajax(
+//         {
+//             url : "/getuser",
+//             method: 'post',
+//             dataType: 'json',
+//             data: {id: id},
+//             success: function(user){
+//                     $('#user_id').val(user._id);
+//                     $('#name_update').val(user.name);
+//                     $('#email_update').val(user.username);
+//                     $('#m_code_update').val(user.m_code);
+//                     $('#num_agent_update').val(user.num_agent);
+//                     $('#type_util_update').val(user.type_util);
+//                 },
+//             error: function(err){
+//                     alert(JSON.stringify(err));
+//             }
+//         }
+//     )
+// }
+
+
+// function addUser(url)
+// {
+//     formAddData = {
+//                     name: $('#name').val(),
+//                     email: $('#email').val(),
+//                     m_code: $('#m_code').val(),
+//                     num_agent: $('#num_agent').val(),
+//                     type_util: $('#type_util').val()
+//                 }
+
+//     $.ajax({
+//         url: url,
+//         method: 'post',
+//         data: formAddData,
+//         success: function(response){
+//             if(response == 'error'){
+//                 $('#successAddUser').css('display', 'none');
+//                 $('#errorAddUser').css('display', 'block');
+//                 $('#errorAddUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
+//             } else {
+//                 resetForm(action='add');
+//                 responsetxt = response + ' Saved successfully';
+//                 Swal.fire(
+//                     'User Saved',
+//                     responsetxt,
+//                     'success',
+//                     {
+//                     confirmButtonText: 'Ok',
+//                   }).then((result) => {
+//                     if (result.isConfirmed) {
+//                     window.location = "/listeUser";
+//                     }
+//                   })
+//             }
+//         }
+//     });
+// }
 
 function updateUser(url)
 {
@@ -71,6 +285,7 @@ function updateUser(url)
         num_agent: $('#num_agent_update').val(),
         type_util: $('#type_util_update').val()
     }
+
     $.ajax({
         url: url,
         method: 'post',
@@ -129,9 +344,9 @@ function getuserAndDelete(id)
                                     method: 'post',
                                     data: { email: user_email },
                                     success: function(response){
-                                        responsetxt = response + ' Deleted successfully';
+                                        responsetxt = user_email + ' Deleted successfully';
                                         Swal.fire({
-                                            position: 'top-center',
+                                            position: 'center',
                                             icon: 'success',
                                             title: responsetxt,
                                             showConfirmButton: false,
@@ -153,41 +368,14 @@ function getuserAndDelete(id)
                         })
                 },
             error: function(err){
-                    alert(JSON.stringify(err));
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: response
+                });
             }
         }
     )
-}
-
-function deleteUser(url)
-{
-    formDeleteData = {
-        email: $('#emailtodelete').val()
-    }
-
-    $.ajax({
-        url: url,
-        method: 'post',
-        data: formDeleteData,
-        success: function(response){
-            responsetxt = response + ' Deleted successfully';
-            Swal.fire(
-                'User Deleted',
-                responsetxt,
-                'success',
-                {
-                confirmButtonText: 'Ok',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                window.location = "/listeUser";
-                }
-            })
-
-        },
-        error: function(response){
-            alert(response);
-        }
-    })
 }
 
 
