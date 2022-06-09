@@ -397,6 +397,7 @@
                                                     <table id="parcours" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
+                                                                <th>Week</th>
                                                                 <th>Date</th>
                                                                 <th>Start At</th>
                                                                 <th>End At</th>
@@ -410,6 +411,10 @@
 
                                                             <% ParcoursAbsent.forEach(function(ParcoursAbsent) { %>
                                                                 <tr>
+                                                                    <td>
+                                                                        <%= ParcoursAbsent._id.week
+                                                                            %>
+                                                                    </td>
                                                                     <td>
                                                                         <%= ParcoursAbsent._id.date.toLocaleDateString("fr")
                                                                             %>
@@ -823,26 +828,44 @@
                             <div class="card-body card-block">
                                 <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
                                     class="form-horizontal" autocomplete="off">
-                                    <!-- <div class="row form-group">
+                                    <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id="errorP"
+                                                <small class="alert alert-danger text-center" role="alert" id="errorparc"
                                                     style="display: none;color:red"></small>
                                                 <small class="alert alert-success text-center" role="alert"
-                                                    id="successP" style="display: none;color:green"></small>
+                                                    id="successparc" style="display: none;color:green"></small>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="week">Week </label>
                                         </div>
+                                        <div class="col-12 col-md-9">
+                                            <select data-placeholder="Choose Week" id="week_cpt"
+                                                class="standardSelect">
+                                                <option value="week_1">Week 1</option>
+                                                <option value="week_2">Week 2</option>
+                                                <option value="week_3">Week 3</option>
+                                                <option value="week_4">Week 4</option>
+                                                <option value="week_5">Week 5</option>
+                                            </select>
+                                            <small id="cour_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="week">Date </label>
+                                        </div>
                                         <div class="col col-md-9">
                                             <input id="week" type="date" class="form-control">
                                         </div>
                                     </div>
-
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>

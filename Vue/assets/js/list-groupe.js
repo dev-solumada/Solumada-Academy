@@ -154,6 +154,7 @@ function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
 
 
 function add_new_parcours() {
+    var week = document.getElementById("week_cpt").value;
     var date = document.getElementById("week").value;
     var grpe = document.getElementById("gpe").value;
     var timeStart = document.getElementById("timeS").value;
@@ -175,29 +176,29 @@ function add_new_parcours() {
 
     //var present = document.getElementById("present").value;
     console.log("present === ", present);
-    sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours, present, absent);
+    sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours, present, absent, week);
 }
 
-function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent) {
+function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent, week) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("niveau == ", date, grpe, timeStart, timeEnd, cours);
+            console.log("niveau == ", date, grpe, timeStart, timeEnd, cours, week);
             if (this.responseText == "error" || date == "" || grpe == "" || timeStart == "" || timeEnd == "" || cours == "") {
-                successP.style.display = "none";
-                errorP.style.display = "block";
-                errorP.innerHTML = "This day at this time is already occupied or you must fill in the field";
+                successparc.style.display = "none";
+                errorparc.style.display = "block";
+                errorparc.innerHTML = "This day at this time is already occupied or you must fill in the field";
             } else {
-                successP.style.display = "block";
-                errorP.style.display = "none";
-                successP.innerHTML = "Groupe " + this.responseText + " registered successfuly";
+                successparc.style.display = "block";
+                errorparc.style.display = "none";
+                successparc.innerHTML = "Groupe " + this.responseText + " registered successfuly";
             }
         }
     };
 
-    http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&present=" + present + "&absent=" + absent);
+    http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&present=" + present + "&absent=" + absent + "&week=" + week);
 }
 
 
