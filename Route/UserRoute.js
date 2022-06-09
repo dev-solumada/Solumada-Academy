@@ -466,7 +466,7 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
                     {
                         $group: {
                             _id:
-                                { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                                { weed: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
                             tabl: { $push: { user: "$user", presence: "$presence" } }
                         }
                     }
@@ -1123,7 +1123,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                            { week: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
                         tabl: { $push: { user: "$user", presence: "$presence" } }
                     }
                 }
@@ -1169,6 +1169,8 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
                 //         user: { $push: "$user" } }
                 //     }
                 //   ])
+
+            var coursM = await CoursModel.find({ $or: [{ name_Cours: nomCours }] })
                 var ParcoursAbsent = await ParcoursModel.aggregate([
                     { $match: { $or: [{ cours: nomCours }] } },
                     {
@@ -1180,7 +1182,7 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
                     }
                 ])
                 //console.log("nom ", ParcoursAbsent);
-                res.render("./AvecBack/ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                res.render("./AvecBack/ListeCours.html", { cours_prof: coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
     } else {
         res.redirect("/");
@@ -1278,14 +1280,15 @@ routeExp.route("/groupe").post(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                            { week: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
                         tabl: { $push: { user: "$user", presence: "$presence" } }
                     }
                 }
             ])
+            var coursM = await CoursModel.find({ $or: [{ name_Cours: cours }] })
             //console.log("parcours == ", ParcoursAbsent);
 
-            res.render("ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre, time: time, parcours: parcours, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre, time: time, parcours: parcours, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             //await CGNModel(new_membre).save();
             //}
         });
@@ -1357,6 +1360,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
     var heurfin = req.body.heurfin
     var present = req.body.present
     var absent = req.body.absent
+    var week = req.body.week
     const presentArray = present.split(",");
     const absentArray = absent.split(",");
     mongoose
@@ -1379,7 +1383,8 @@ routeExp.route("/addparcours").post(async function (req, res) {
                         heureStart: heurdebut,
                         heureFin: heurfin,
                         presence: true,
-                        user: presentArray[index]
+                        user: presentArray[index],
+                        week: week
                     };
                     //console.log("new parc ", new_parcours);
                     await ParcoursModel(new_parcours).save();
@@ -1393,7 +1398,8 @@ routeExp.route("/addparcours").post(async function (req, res) {
                         heureStart: heurdebut,
                         heureFin: heurfin,
                         presence: false,
-                        user: absentArray[index]
+                        user: absentArray[index],
+                        week: week
                     };
                     //console.log("new parc ", new_parcours);
                     await ParcoursModel(new_parcours).save();
