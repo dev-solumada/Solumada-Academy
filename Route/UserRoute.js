@@ -12,8 +12,8 @@ const CGNModel = require("../Models/CGNModel");
 const EmplTemp = require("../Models/EmploiDuTemps");
 const ParcoursModel = require("../Models/Parcours");
 const session = require('express-session');
-//const AbsentModel = require("../Models/ParcoursAbsent");
-//const PresentModel = require("../Models/ParcoursPresent");
+const Point = require("../Models/Point");
+const Graduation = require("../Models/Graduation");
 
 var membre = [{
     cours: '',
@@ -831,7 +831,11 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                     }
                 }
             ])
-            res.render("adminGlobalview.html", { membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            var point =  await Point.find({ validation: true });
+            var grad =  await Graduation.find({ validation: true });
+            console.log("point == ", point);
+            console.log("membre == ", membre);
+            res.render("adminGlobalview.html", {grad: grad, point: point, membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
     // }
@@ -1110,16 +1114,9 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             //var cours = listgroupe[0].cours
 
             var time = await EmplTemp.find({ cours: nomCours });
-
+            var coursM = await CoursModel.find({ $or: [{ name_Cours: nomCours }] })
+            console.log("cours ", coursM[0].professeur);
             parcours = await ParcoursModel.find({ cours: nomCours });
-
-            // var ParcoursAbsent = await ParcoursModel.aggregate([
-            //     { 
-            //         $group : { _id : 
-            //             {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date", presence: "$presence"}, 
-            //         user: { $push: "$user" } }
-            //     }
-            //   ])
             var ParcoursAbsent = await ParcoursModel.aggregate([
                 { $match: { $or: [{ cours: nomCours }] } },
                 {
@@ -1131,7 +1128,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 }
             ])
             //console.log("nom ", ParcoursAbsent);
-            res.render("ListeCours.html", { ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -1794,6 +1791,61 @@ routeExp.route("/updateGrad").post(async function (req, res) {
         })
 })
 
+
+//Save point
+routeExp.route("/savePoint").post(async function (req, res) {
+    //var id = req.body.id;
+    var point = req.body.point;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await Point.findOne({ $or: [{ point: point }] })) {
+                res.send("error");
+            } else {
+                var new_point = {
+                    point: point
+                };
+                console.log("point " + point);
+                await Point(new_point).save();
+                
+                res.send(point);
+            }
+        })
+})
+
+
+//Save Graduation
+routeExp.route("/saveGrad").post(async function (req, res) {
+    //var id = req.body.id;
+    var grad = req.body.grad;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await Graduation.findOne({ $or: [{ graduation: grad }] })) {
+                res.send("error");
+            } else {
+                var new_graduation = {
+                    graduation: grad
+                };
+                console.log("point " + grad);
+                await Graduation(new_graduation).save();
+                
+                res.send(grad);
+            }
+        })
+})
 
 module.exports = routeExp;
 
