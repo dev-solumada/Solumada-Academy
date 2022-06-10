@@ -8,8 +8,8 @@ let userDatatable = $("#userTable").DataTable({
     },
     "columns": [
         {"data": "username"},
-        {"data": "m_code"},
-        {"data": "num_agent"},
+        // {"data": "m_code"},
+        // {"data": "num_agent"},
         {"data": "type_util"},
         {"defaultContent": "\
                             <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
@@ -18,15 +18,6 @@ let userDatatable = $("#userTable").DataTable({
                             </div>\
                             "
         }
-    ],
-    "columDefs": [
-        {
-            "target": [2],
-            render(v){
-                return Number(v).toFixed(2);
-            }
-        }
-
     ]
 });
 

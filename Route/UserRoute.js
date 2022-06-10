@@ -676,7 +676,8 @@ routeExp.route("/newcours").get(async function (req, res) {
 
 //Add new cours
 routeExp.route("/addcours").post(async function (req, res) {
-    var name_Cours = req.body.name_Cours;
+    console.log(req.body);
+    var name_Cours = req.body.nameCours;
     var date_Commenc = req.body.date_Commenc;
     var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
@@ -703,6 +704,8 @@ routeExp.route("/addcours").post(async function (req, res) {
                 
 
                 await CoursModel(new_cours).save();
+                console.log('cours saved');
+                res.send(name_Cours);
             }
         });
 
@@ -737,6 +740,30 @@ routeExp.route("/listeCours").get(async function (req, res) {
     //     res.redirect("/");
     // }
 });
+
+routeExp.route("/allCours").get(async function (req, res) {
+    var session = req.session;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var allCours = await CoursModel.find({ validation: true });
+            res.send(JSON.stringify(allCours));
+
+        });
+
+
+    // } else {
+    //     res.redirect("/");
+    // }
+});
+
+
 
 //Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
@@ -780,7 +807,6 @@ routeExp.route("/allUsers").get(async function (req, res) {
             .then(async () => {
                 var allusers = await UserSchema.find({ validation: true }).select('username m_code num_agent type_util');
                 users = JSON.stringify(allusers);
-                console.log(users);
                 res.send(users);
             });
     }
@@ -924,7 +950,7 @@ routeExp.route("/updateuser").post(async function (req, res) {
 
 //get cours
 routeExp.route("/getCours").post(async function (req, res) {
-    var id = req.body.id;
+    var name_Cours = req.body.nameCours;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -934,7 +960,7 @@ routeExp.route("/getCours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            var cours = await CoursModel.findOne({ _id: id });
+            var cours = await CoursModel.findOne({ name_Cours: name_Cours });
             res.send(JSON.stringify(cours));
             console.log(cours);
             // res.send(cours.name_Cours + "," + cours.date_Commenc + "," + cours.nbParticp + "," + cours.professeur);
@@ -946,7 +972,7 @@ routeExp.route("/updatecours").post(async function (req, res) {
     var id = req.body.id;
     var name_Cours = req.body.name_Cours;
     var date_Commenc = req.body.date_Commenc;
-    var nbParticp = req.body.nbParticp;
+    var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
     mongoose
         .connect(
@@ -959,16 +985,15 @@ routeExp.route("/updatecours").post(async function (req, res) {
         .then(async () => {
             // var user = await UserSchema.findOne({ _id: id });
             // await TimesheetsSchema.updateMany({ m_code: user.m_code }, { m_code: m_code, num_agent: num_agent });
-            await CoursModel.findOneAndUpdate({ _id: id }, { name_Cours: name_Cours, date_Commenc: date_Commenc, nbParticp: nbParticp, professeur: professeur });
+            await CoursModel.findOneAndUpdate({ _id: id }, { name_Cours: name_Cours, date_Commenc: date_Commenc, professeur: professeur, type: typeCours });
             // await archiveSchema.findOneAndUpdate({ m_code: m_code }, { m_code: m_code, first_name: first, last_name: last });
 
-            res.send("Cours updated successfully");
+            res.send(name_Cours);
         })
 })
 //Drop user 
 routeExp.route("/dropcours").post(async function (req, res) {
-    var names = req.body.fname;
-    names = names.split(" ");
+    var names = req.body.name_Cours;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -978,8 +1003,8 @@ routeExp.route("/dropcours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            await CoursModel.findOneAndDelete({ name_Cours: names[0] });
-            res.send("Cours deleted successfully");
+            await CoursModel.findOneAndDelete({ name_Cours: names });
+            res.send(names);
         })
 })
 
