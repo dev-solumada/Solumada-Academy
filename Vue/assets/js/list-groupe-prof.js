@@ -41,12 +41,18 @@ function sendRequest(url, groupeVal, cours) {
 
 
 function add_membre() {
-    var list = listU.value;
     var groupeVal = groupeId.value
     var cours = document.getElementById('cours').value;
     //var cours = document.getElementById('cours').value;
 
-    console.log('listU == ', cours), list;
+    var list = [];
+    for (var option of document.getElementById('listUserC').options) {
+        if (option.selected) {
+            list.push(option.value);
+        }
+    }
+    console.log("list mbre", list);
+    console.log('listU == ', cours);
     //document.getElementById('select-group').value = groupe
     //console.log('type == ', type);
     sendRequest1('/newmembre', list, groupeVal, cours);
@@ -363,3 +369,96 @@ function getdata(url, id) {
     };
     http.send("id=" + id);
   }
+
+
+  var ids = ""
+  function getmembre(url, id) {
+      var http = new XMLHttpRequest();
+      http.open("POST", url, true);
+      http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      http.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+              var data = this.responseText.split(",");
+              console.log("data == ", data);
+              userLevel.value = data[0];
+              ids = id;
+          }
+      };
+      http.send("id=" + id);
+  }
+  
+function updateMembre() {
+    update_membre("/updatemembre", ids, userLevel.value);
+    console.log("ids == ", ids);
+    console.log("userlevel == ", userLevel.value);
+}
+
+
+function update_membre(url, id, userLevel) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.includes("already")) {
+                document.getElementById("notif").setAttribute("style", "background-color:red");
+                showNotif(this.responseText);
+            }
+            else if (this.responseText == "error") {
+                window.location = "/";
+            }
+            else {
+                document.getElementById("notif").setAttribute("style", "background-color:limeagreen");
+                showNotif(this.responseText);
+            }
+        }
+    };
+    http.send("id=" + id + "&userLevel=" + userLevel);
+}
+
+
+function showNotif(text) {
+    const notif = document.querySelector('.notification');
+    notif.innerHTML = text;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+        window.location = "/listeCours/" + cours;
+    }, 2000);
+}
+
+
+var membreDel = ""
+function getmbDelete(url, membreDelete) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = this.responseText.split(",");
+            console.log("data == ", data);
+            //userLevel.value = data[0];
+            membreDel = membreDelete;
+        }
+    };
+    http.send("id=" + membreDelete);
+}
+
+
+function deleteMembre() {
+    deleteM("/deleteMb", membreDel)
+}
+function deleteM(url, deleteMembre) { 
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+
+                //window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                errorDelete.style.display = "none";
+                successDelete.innerHTML = this.responseText ;
+        }
+    };
+    http.send("id=" + deleteMembre);
+}
