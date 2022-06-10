@@ -84,6 +84,7 @@ $(document).on('click', '.btnUpdateCours', function()
                 data: {id: id},
                 success: function(cours)
                     {
+                        alert(JSON.stringify(cours));
                         $('#cours_id').val(cours._id);
                         $('#nameCours_update').val(cours.name_Cours);
                         $('#date_Commenc_update').val(cours.date_Commenc);

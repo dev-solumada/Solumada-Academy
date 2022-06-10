@@ -385,7 +385,7 @@ routeExp.route("/addemp").post(async function (req, res) {
                 };
                 console.log("new _emp " + JSON.stringify(new_emp));
                 await UserSchema(new_emp).save();
-                sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
+                sendEmail(email, "Authentification Academy solumada", htmlRender("onisoa.solumada@gmail.com", passdefault));
                 res.send(email);
             }
         });
@@ -642,7 +642,8 @@ routeExp.route("/studentInfo").get(async function (req, res) {
         var name = session.name;
         var m_code = session.m_code
 
-        console.log("session.name ", session.name, " ", session.m_code);
+        var particip = await CGNModel.find({ username: name });
+        console.log("session.name ", name);
         res.render("./StudentView/studentInfo.html", { name: name, m_code: m_code, num: session.num_agent });
     } else {
         res.redirect("/");
@@ -951,6 +952,7 @@ routeExp.route("/updateuser").post(async function (req, res) {
 //get cours
 routeExp.route("/getCours").post(async function (req, res) {
     var id = req.body.id;
+    console.log(id);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1290,6 +1292,8 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         mcode: mcode
                     };
                     //console.log("new niveau ", new_membre);
+
+                    await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
                     await CGNModel(new_membre).save();
                     //res.send( new_parcours.cours+ " at " + new_parcours.heureStart + " is successfuly saved");
                 }
@@ -1702,7 +1706,7 @@ routeExp.route("/addxlsx").get(async function (req, res) {
 });
 
 
-//Update User
+//Update Membre
 routeExp.route("/updatemembre").post(async function (req, res) {
     var id = req.body.id;
     var userLevel = req.body.userLevel;
@@ -1931,7 +1935,7 @@ routeExp.route("/getmembreD").post(async function (req, res) {
             res.send(user);
         });
 })
-//get membre
+//delete membre
 routeExp.route("/deleteMb").post(async function (req, res) {
     var id = req.body.id;
     console.log("membre ", id);
@@ -1948,6 +1952,164 @@ routeExp.route("/deleteMb").post(async function (req, res) {
                 await CGNModel.findOneAndDelete({ _id: id });
                 res.send("success");
                 console.log("user deleted");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+            // var user = await CGNModel.findOne({ _id: id });
+            // console.log("user == ", user);
+            // res.send(user.niveau);
+        });
+})
+
+
+//get time
+routeExp.route("/gettime").post(async function (req, res) {
+    var id = req.body.id;
+    console.log("membre ", id);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var temp = await EmplTemp.findOne({ _id: id})
+            console.log("EmplTemp == ", temp);
+            res.send(temp);
+        });
+})
+
+//Update update_time
+routeExp.route("/update_time").post(async function (req, res) {
+    var id = req.body.id;
+    var jours = req.body.jours;
+    var group = req.body.group;
+    var heurdebut = req.body.heurdebut;
+    var heurfin = req.body.heurfin;
+
+    console.log("id == ", id);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe:group, heureStart: heurdebut, heureFin:heurfin});
+            console.log("Time updated successfully");
+            res.send("Time updated successfully");
+        })
+})
+
+
+//get membre
+routeExp.route("/gettimedelete").post(async function (req, res) {
+    var id = req.body.id;
+    console.log("membre ", id);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var emploi = await EmplTemp.findOne({ _id: id });
+            console.log("emploi == ", emploi);
+            res.send(emploi);
+        });
+})
+
+
+//delete emploi
+routeExp.route("/deleteEmploi").post(async function (req, res) {
+    var id = req.body.id;
+    console.log("deleteEmploi ", id);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await EmplTemp.findOneAndDelete({ _id: id });
+                res.send("success");
+                console.log("EmplTemp deleted");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+            // var user = await CGNModel.findOne({ _id: id });
+            // console.log("user == ", user);
+            // res.send(user.niveau);
+        });
+})
+
+
+//get getParcours
+routeExp.route("/getParcours").post(async function (req, res) {
+    var cours = req.body.cours;
+    var groupe = req.body.groupe;
+    var heureStart = req.body.heureStart;
+    var heureFin = req.body.heureFin;
+    var date = req.body.date;
+    console.log("membre ", cours);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [{ cours: cours }] } },
+                {
+                    $group: {
+                        _id:
+                            { week: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                        tabl: { $push: { user: "$user", presence: "$presence" } }
+                    }
+                }
+            ])
+            //var user = await ParcoursModel.findOne({ cours: cours });
+            console.log("user == ", ParcoursAbsent);
+            res.send(ParcoursAbsent);
+        });
+})
+
+
+//delete parcours
+routeExp.route("/deleteParcours").post(async function (req, res) {
+    var cours = req.body.cours;
+    var groupe = req.body.groupe;
+    var heureStart = req.body.heureStart;
+    var heureFin = req.body.heureFin;
+    var date = req.body.date;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await ParcoursModel.deleteMany({ cours: cours, groupe:groupe, heureStart: heureStart, heureFin:heureFin, date:date});
+                res.send("success");
+                console.log("ParcoursModel deleted");
             } catch (err) {
                 console.log(err);
                 res.send(err);
