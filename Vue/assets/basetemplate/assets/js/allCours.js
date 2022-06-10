@@ -19,7 +19,7 @@ let coursDataTable = $('#CoursTable').DataTable(
                                 </div>\
                                 "
             }
-        ],
+        ]
     }
 );
 
@@ -88,7 +88,7 @@ $(document).on('click', '.btnUpdateCours', function()
                         $('#nameCours_update').val(cours.name_Cours);
                         $('#date_Commenc_update').val(cours.date_Commenc);
                         $('#typeCours_update').val(cours.type);
-                        $('#professeur_update').val(cours.professeur);
+                        $('#professeur_update').val(cours.professeur).change();
                     },
                 error: function(err){
                         alert(JSON.stringify(err));
