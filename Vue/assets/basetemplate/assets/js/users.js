@@ -1,5 +1,7 @@
 let column, id, usernam, m_code, num_agent, type_util;
 
+let currentPage;
+
 
 let userDatatable = $("#userTable").DataTable({
     "ajax": {
@@ -62,6 +64,7 @@ $('#saveUser').on("click", function()
                 }).then((result) => {
                     if (result.isConfirmed) {
                         userDatatable.ajax.reload(null, false);
+                        userDatatable.page(currentPage).draw('page');
                         $('#closeModal').click();
                     }
                 })
@@ -72,6 +75,7 @@ $('#saveUser').on("click", function()
 
 
 $(document).on('click', '.btnUpdateUser', function(){
+    currentPage = parseInt(userDatatable.page.info().page);
     column = $(this).closest('tr');
     email = column.find('td:eq(0)').text();
     $.ajax(
@@ -128,6 +132,7 @@ $(document).on('click', '#saveUpdateUser', function(){
                     if (result.isConfirmed) {
                         userDatatable.ajax.reload(null, false);
                         $('#closeModal').click();
+                        userDatatable.page(currentPage).draw('page');
                     }
                 })
             }
@@ -175,6 +180,8 @@ $(document).on('click', '.btnDeleteUser', function()
                                             timer: 1600
                                         });
                                         userDatatable.ajax.reload(null, false);
+                                        $('#closeModal').click();
+                                        userDatatable.page(currentPage).draw('page');
                                     },
                                     error: function(response){
                                         Swal.fire({
