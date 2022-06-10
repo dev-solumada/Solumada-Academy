@@ -443,7 +443,7 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
     var session = req.session;
     var cours = req.params.cours;
 
-    if (session.type_util == "Admin" || session.type_util == "Professeur") {
+    //if (session.type_util == "Admin" || session.type_util == "Professeur") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -474,10 +474,10 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
                 console.log("parcoursAbsent === ", ParcoursAbsent);
                 res.render("./teacherView/teacherCours.html", { parcours: parcours, listUser: listUser, ParcoursAbsent: ParcoursAbsent, time: time, membre: membre, listgroupe: listgroupe, listcours: listcours, cours: cours });
             });
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    //}
 });
 
 
