@@ -8,10 +8,10 @@ let coursDataTable = $('#CoursTable').DataTable(
         },
         "columns": [
         {"data": "_id"},
-        // {"data": "name_Cours"},
+        {"data": "name_Cours"},
         {"data": "professeur"},
         {"data": "date_Commenc"},
-        // {"data": "type"},
+        {"data": "type"},
         {"defaultContent": "\
                             <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
                                 <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateCours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#updateCours' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
@@ -20,6 +20,7 @@ let coursDataTable = $('#CoursTable').DataTable(
                             "
         }
     ],
+    "columnDefs": 
     }
 );
 
