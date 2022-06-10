@@ -1264,6 +1264,8 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         mcode: mcode
                     };
                     //console.log("new niveau ", new_membre);
+
+                    await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
                     await CGNModel(new_membre).save();
                     //res.send( new_parcours.cours+ " at " + new_parcours.heureStart + " is successfuly saved");
                 }
