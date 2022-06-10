@@ -254,9 +254,12 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
 
 
 function anuler() {
+    var cours = document.getElementById("cours").value;
+    console.log("cours ", cours);
     window.location = "/teacherCours/" + cours
 }
 function anulerBack() {
+    var cours = document.getElementById("cours").value;
     window.location = "/teacherCours/" + cours
 }
 
