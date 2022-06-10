@@ -169,17 +169,6 @@
                                             <th>M Code</th>
                                             <th>Numbering</th>
                                             <th>Cours Level</th>
-                                            <th>
-                                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalPoint">
-                                                        <i class="fa fa-plus"></i></button>
-                                                        Point
-                                                </th>
-                                                        
-                                            <th>
-                                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalGraduation">
-                                                        <i class="fa fa-plus"></i>
-                                                </button>
-                                                Graduation</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -206,41 +195,6 @@
                                                         <!-- <button class="btn btn-sm btn-success addLevel" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></button>
                                                         <button class="btn btn-sm btn-danger"><i class="fa fa-edit"></i></button> -->
                                                         </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="hidden" id="custId" name="custId" value="<%= membre.tabl[0].point %>">
-                                                        <select class="form-control" id="selectPoints">
-                                                            <option class="text-center" value=""><%= membre.tabl[0].point %></option>
-                                                            <% point.forEach(function(point) { %>
-                                                                <option class="text-center" value="<%= point.point %>"><%= point.point %></option>
-                                                            <% });
-                                                            var table = membre.tabl %>    
-                                                        </select>
-                                                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="getPoint('/updatePoint','<%= JSON.stringify(table) %>')" 
-                                                        >
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                    
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <select class="form-control " id="selectGrad">
-                                                            <option class="text-center" value=""><%= membre.tabl[0].graduation %></option>
-                                                            <% grad.forEach(function(grad) {
-                                                                %>
-                                                                <option class="text-center" value="<%= grad.graduation %>"> <%= grad.graduation %></option>
-                                                            <% });
-                                                            var donne = membre.tabl%>   
-                                                        </select>
-                                                        <button class="btn btn-sm btn-success" data-toggle="modal"onclick="getGrad('/updateGrad','<%= JSON.stringify(donne) %>')"
-                                                             >
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                        <!--button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangeGraduation">
-                                                            <i class="fa fa-edit"></i></button-->
-                                                    </div>
                                                 </td>
                                             </tr>
                                             <% }); %>

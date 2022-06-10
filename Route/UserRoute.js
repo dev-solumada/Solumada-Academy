@@ -642,7 +642,8 @@ routeExp.route("/studentInfo").get(async function (req, res) {
         var name = session.name;
         var m_code = session.m_code
 
-        console.log("session.name ", session.name, " ", session.m_code);
+        var particip = await CGNModel.find({ username: name });
+        console.log("session.name ", name);
         res.render("./StudentView/studentInfo.html", { name: name, m_code: m_code, num: session.num_agent });
     } else {
         res.redirect("/");
