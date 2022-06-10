@@ -423,3 +423,37 @@ function showNotif(text) {
         window.location = "/listeCours/" + cours;
     }, 2000);
 }
+var membreDel = ""
+function getmbDelete(url, membreDelete) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = this.responseText.split(",");
+            console.log("data == ", data);
+            //userLevel.value = data[0];
+            membreDel = membreDelete;
+        }
+    };
+    http.send("id=" + membreDelete);
+}
+
+
+function deleteMembre() {
+    deleteM("/deleteMb", membreDel)
+}
+function deleteM(url, deleteMembre) { 
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+
+                //window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                errorDelete.style.display = "none";
+                successDelete.innerHTML = this.responseText ;
+        }
+    };
+    http.send("id=" + deleteMembre);
+}
