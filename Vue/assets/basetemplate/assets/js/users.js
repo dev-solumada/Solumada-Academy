@@ -75,7 +75,6 @@ $('#saveUser').on("click", function()
 
 $(document).on('click', '.btnUpdateUser', function(){
     currentPage = parseInt(userDatatable.page.info().page);
-    alert(currentPage);
     column = $(this).closest('tr');
     email = column.find('td:eq(0)').text();
     $.ajax(
