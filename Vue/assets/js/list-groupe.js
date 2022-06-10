@@ -226,11 +226,12 @@ function anulerBack() {
 var present = document.getElementById('present')
 var absent = document.getElementById('absent')
 function groupePresence(sel) {
+    console.log("sel == ", sel);
     //var sel = document.getElementById("maListe");
     //console.log("present ", ('#present option').length);
     for (let index = 0; index < ('#present option').length; index++) {
         const element = ('#present option')[index];
-        //console.log("element");
+        console.log("element");
         present.remove(element);
     }
 
@@ -251,7 +252,7 @@ function groupePresence(sel) {
 
 var selectAbsPres = []
 function sendRequestPresence(url, gpe, cours) {
-    //console.log("groupe == ", gpe, cours);
+    console.log("groupe == ", gpe, cours);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -279,6 +280,7 @@ function sendRequestPresence(url, gpe, cours) {
 
                 var selectedValue = ''
                 jQuery('.prensentSelect').on('change', function (evt, params) {
+                    console.log("params ", params.selected);
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
                     //console.log(selectAbsPres);
