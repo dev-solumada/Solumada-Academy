@@ -13,7 +13,6 @@ var timeEnd = document.getElementById("timeE");
 
 console.log("cours == ", cours);
 if (queryString.length != 0) {
-    //document.getElementById("ch_title").innerHTML = "Your filtered data";
     groupeId.value = groupSelect;
 }
 function getdataGP() {
@@ -226,7 +225,7 @@ function add_new_parcours() {
     //alert(selected);
 
     //var present = document.getElementById("present").value;
-    console.log("present === ", present);
+    console.log("present === ", week);
     sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours, present, absent, week);
 }
 
