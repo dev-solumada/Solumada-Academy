@@ -9,7 +9,6 @@ var gpe = document.getElementById("gpe");
 var select_jour = document.getElementById("sjour");
 var timeStart = document.getElementById("timeS");
 var timeEnd = document.getElementById("timeE");
-var cours = document.getElementById("cours").value;
 
 var week_cptDel = document.getElementById("week_cptDel");
 var weekDate = document.getElementById("weekDate");
@@ -39,10 +38,10 @@ function sendRequest(url, groupeVal, cours) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (groupeId.value == "") {
-                window.location = "/listeCoursBack/" + cours;
+                window.location = "/listeCours/" + cours;
             }
             else {
-                window.location = "/listeCoursBack/" + cours + "?select-group=" + groupeVal;
+                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
             }
         }
     };
@@ -220,7 +219,7 @@ function anuler() {
 }
 function anulerBack() {
     var cours = document.getElementById("cours").value;
-    window.location = "/listeCoursBack/" + cours
+    window.location = "/listeCours/" + cours
 }
 
 
