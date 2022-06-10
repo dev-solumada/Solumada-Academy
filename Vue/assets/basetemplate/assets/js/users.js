@@ -9,8 +9,8 @@ let userDatatable = $("#userTable").DataTable({
     },
     "columns": [
         {"data": "username"},
-        {"data": "m_code"},
-        {"data": "num_agent"},
+        // {"data": "m_code"},
+        // {"data": "num_agent"},
         {"data": "type_util"},
         {"defaultContent": "\
                             <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
@@ -19,15 +19,6 @@ let userDatatable = $("#userTable").DataTable({
                             </div>\
                             "
         }
-    ],
-    "columDefs": [
-        {
-            "target": [2],
-            render(v){
-                return Number(v).toFixed(2);
-            }
-        }
-
     ]
 });
 
@@ -83,8 +74,7 @@ $('#saveUser').on("click", function()
 
 
 $(document).on('click', '.btnUpdateUser', function(){
-    currentPage = userDatatable.page.info();
-    currentPage = JSON.parseInt(currentPage.page + 1);
+    currentPage = parseInt(userDatatable.page.info().page);
     alert(currentPage);
     column = $(this).closest('tr');
     email = column.find('td:eq(0)').text();
