@@ -226,7 +226,7 @@ function add_new_parcours() {
     //alert(selected);
 
     //var present = document.getElementById("present").value;
-    console.log("present === ", present);
+    console.log("present === ", date, grpe, timeStart, timeEnd, cours, present, absent, week);
     sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours, present, absent, week);
 }
 

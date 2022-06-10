@@ -215,9 +215,11 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
 
 
 function anuler() {
+    var cours = document.getElementById("cours").value;
     window.location = "/listeCours/" + cours
 }
 function anulerBack() {
+    var cours = document.getElementById("cours").value;
     window.location = "/listeCoursBack/" + cours
 }
 
