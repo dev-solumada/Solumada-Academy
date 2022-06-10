@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const User = mongoose.Schema({
+const Cours = mongoose.Schema({
     name_Cours: String,
     date_Commenc: Date,
     //nbParticp: Number,
@@ -11,4 +11,4 @@ const User = mongoose.Schema({
     //participant: String
 })
 
-module.exports = mongoose.model('dataCours', User);
+module.exports = mongoose.model('dataCours', Cours);
