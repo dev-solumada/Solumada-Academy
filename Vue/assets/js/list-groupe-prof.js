@@ -204,12 +204,12 @@ function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
 
 
 function add_new_parcours() {
-    var week = document.getElementById("week_cpt").value;
-    var date = document.getElementById("week").value;
-    var grpe = document.getElementById("gpe").value;
-    var timeStart = document.getElementById("timeS").value;
-    var timeEnd = document.getElementById("timeE").value;
-    var cours = document.getElementById("cours").value;
+    var week = document.getElementById("week_cpt");
+    var date = document.getElementById("week");
+    var grpe = document.getElementById("gpe");
+    var timeStart = document.getElementById("timeS");
+    var timeEnd = document.getElementById("timeE");
+    var cours = document.getElementById("cours");
     var present = [];
     for (var option of document.getElementById('present').options) {
         if (option.selected) {
@@ -225,8 +225,13 @@ function add_new_parcours() {
     //alert(selected);
 
     //var present = document.getElementById("present").value;
-    console.log("present === ", week);
-    sendRequestParcours('/addparcours', date, grpe, timeStart, timeEnd, cours, present, absent, week);
+    console.log("present === ", week.value);
+    console.log("date === ", date.value);
+    console.log("grpe === ", grpe.value);
+    console.log("timeStart === ", timeStart.value);
+    console.log("timeEnd === ", timeEnd.value);
+    console.log("cours === ", cours.value);
+    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present.value, absent.value, week.value);
 }
 
 function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent, week) {
