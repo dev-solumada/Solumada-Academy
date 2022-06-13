@@ -455,7 +455,9 @@
                                                                         <select data-placeholder=""
                                                                             class="form-control standardSelect"
                                                                             tabindex="1">
-                                                                            <% ParcoursAbsent.tabl.forEach(function(tabl)
+                                                                            <%
+                                                                            console.log("ParcoursAbsent.tabl ", ParcoursAbsent.tabl); 
+                                                                            ParcoursAbsent.tabl.forEach(function(tabl)
                                                                                 { %>
                                                                                 <% if(tabl.presence){ %>
                                                                                     <option value="">
@@ -1069,7 +1071,7 @@
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeS" class="form-control">
+                                            <input type="time" id="timeSCreate" class="form-control">
                                             <small id="startTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -1079,7 +1081,7 @@
                                         <div class="col col-md-3"><label for="groupName" class="form-control-label">End
                                                 At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeE" class="form-control">
+                                            <input type="time" id="timeECreate" class="form-control">
                                             <small id="endTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -1090,7 +1092,7 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="gpe"
+                                            <select data-placeholder="Choose Group" id="gpeCreate"
                                                 onchange="groupePresence(this)" class="standardSelect">
                                                 <option value=""></option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
