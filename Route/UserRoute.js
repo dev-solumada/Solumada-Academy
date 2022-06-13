@@ -289,6 +289,28 @@ routeExp.route("/change").post(async function (req, res) {
 });
 
 
+// Drop multiple users
+routeExp.route("/dropusers").post(async function (req, res) {
+    var usersToDeleteId = req.body.userlistToDelete;
+    console.log(usersToDeleteId);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await UserSchema.deleteMany({ _id: { $in:usersToDeleteId } });
+                res.send('success');
+            } catch (error) {
+                res.send('error');
+            }
+        });
+})
+
 //Drop user 
 routeExp.route("/dropuser").post(async function (req, res) {
     var email = req.body.email;
@@ -312,6 +334,8 @@ routeExp.route("/dropuser").post(async function (req, res) {
             }
         })
 })
+
+
 
 //Post login
 routeExp.route("/login").post(async function (req, res) {
@@ -814,7 +838,6 @@ routeExp.route("/allUsers").get(async function (req, res) {
             )
             .then(async () => {
                 var allusers = await UserSchema.find().select("username m_code num_agent type_util");
-                console.log(allusers);
                 users = JSON.stringify(allusers);
                 res.send(users);
             });
