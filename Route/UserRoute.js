@@ -901,8 +901,8 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
             ])
             var point =  await Point.find({ validation: true });
             var grad =  await Graduation.find({ validation: true });
-            console.log("point == ", point);
-            console.log("membre == ", membre);
+            // console.log("point == ", point);
+            // console.log("membre == ", membre);
             res.render("adminGlobalview.html", {grad: grad, point: point, membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
@@ -999,11 +999,7 @@ routeExp.route("/updatecours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            // var user = await UserSchema.findOne({ _id: id });
-            // await TimesheetsSchema.updateMany({ m_code: user.m_code }, { m_code: m_code, num_agent: num_agent });
             await CoursModel.findOneAndUpdate({ _id: id }, { name_Cours: name_Cours, date_Commenc: date_Commenc, professeur: professeur, type: typeCours });
-            // await archiveSchema.findOneAndUpdate({ m_code: m_code }, { m_code: m_code, first_name: first, last_name: last });
-
             res.send(name_Cours);
         })
 })
@@ -2131,4 +2127,98 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
             // console.log("user == ", user);
             // res.send(user.niveau);
         });
+})
+
+
+///N'a pas encore dans le copie
+
+
+//Liste User
+routeExp.route("/listeUserMany").get(async function (req, res) {
+    var deleteMany = req.session;
+    //if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var listuser = await UserSchema.find({ validation: true });
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                //console.log("listeUser ", listuser);
+                res.render("./ManyDelet/ListeUser.html", { listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            });
+
+
+
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
+
+//Liste User
+routeExp.route("/getDataDel").post(async function (req, res) {
+    var deleteMany = req.body.id;
+    const listeUser = deleteMany.split(",");
+    console.log("donne", listeUser);
+    //if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var list=[]
+                for (let i = 0; i < listeUser.length; i++) {
+                    const element = listeUser[i];
+                    list.push(await UserSchema.find({ $or: [{ _id:  listeUser[i] }] }));
+                    
+                }
+                console.log("listeUser ", list);
+                res.send(list);
+            });
+
+
+
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
+});
+
+
+//Drop user 
+routeExp.route("/dropManyUser").post(async function (req, res) {
+    var email = req.body.list;
+    const listeUser = email.split(",");
+    console.log("list ", listeUser);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                for (let i = 0; i < listeUser.length; i++) {
+                    await UserSchema.findOneAndDelete({ username: listeUser[i] });
+                    console.log(listeUser[i], " deleted");
+                }
+                res.send("success");
+                console.log("user deleted");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+        })
 })

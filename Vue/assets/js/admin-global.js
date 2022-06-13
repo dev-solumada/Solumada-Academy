@@ -13,6 +13,7 @@ function getPoint(url, id) {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var data = JSON.parse(id);
     console.log("url == ", data[0].id);
+    console.log("coursP ", coursP);
     console.log("coursP.value ", coursP.value);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

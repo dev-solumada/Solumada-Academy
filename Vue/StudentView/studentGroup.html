@@ -194,48 +194,16 @@
 
                                                             <%}%>
                                                     </select>
-                            </div>
-                            </td>
-                            <td>
-                                <%= groupe.niveau %>
-                            </td>
-                            </tr>
-                            <% }); %>
-                                <tr>
-                                    <td>Onisoa</td>
-                                    <td>
-                                        <div class="input-group">
-                                            <select class="form-control">
-                                                <option class="text-center" value="1">Cours Name</option>
-                                                <option class="text-center" value="1">Cours Name</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <select class="form-control selectPoints">
-                                                <option class="text-center" value="1">Cours - {{ level }}</option>
-                                                <option class="text-center" value="1">Cours - {{ level }}</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <select class="form-control selectPoints">
-                                                <option class="text-center" value="1">Cours - {{ point }}</option>
-                                                <option class="text-center" value="1">Cours - {{ point }}</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <select class="form-control selectPoints">
-                                                <option class="text-center" value="1">Cours - {{ grade }}</option>
-                                                <option class="text-center" value="1">Cours - {{ grade }}</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <%= groupe._id.point %>
+                                                </td>
+                                                <td>
+                                                    <%= groupe._id.graduation %>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
 
                                 </tbody>
                                 </table>
