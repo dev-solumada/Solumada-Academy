@@ -984,7 +984,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
     var session = req.session;
     var nomCours = req.params.cours;
 
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1014,9 +1014,9 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
             ])
             res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
-    } else {
-        res.redirect("/");
-    }
+    // } else {
+    //     res.redirect("/");
+    // }
 });
 
 //Liste cours
@@ -1108,6 +1108,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
 routeExp.route("/groupe").post(async function (req, res) {
     var groupe = req.body.groupe
     var cours = req.body.cours
+    console.log("groupe ", groupe, cours);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1334,21 +1335,37 @@ routeExp.route("/addxlsx").get(async function (req, res) {
             var listUser = await UserSchema.find({ validation: true });
             var passdefault = "solumada0000";
             var value = liste[0]
-            // for (let i = 0; i < value.length; i++) {
+            console.log("name: ",value.length);
+            for (let i = 137; i < value.length; i++) {
 
-            //     var user = value[i];
-            //     //console.log("name: ",user.NOM);
-            //     var new_emp = {
-            //         name: user.NOM,
-            //         username: user.MAIL,
-            //         password: passdefault,
-            //         m_code: user.CODE,
-            //         num_agent: user.NUMBERING,
-            //         type_util: ""
-            //     };
-            //     await UserSchema(new_emp).save();
+                var user = value[i];
+                //console.log("name: ",user.NOM);
+                var new_emp = {
+                    name: user.NOM,
+                    username: user.MAIL,
+                    password: passdefault,
+                    m_code: user.CODE,
+                    num_agent: user.NUMBERING,
+                    type_util: ""
+                };
+                var list = await UserSchema.find({ validation: true })
+                if (list[i+4].name == user.NOM) {
+                    
+                    console.log("liste ", list[i].name);
+                    console.log("new_emp ", user.NOM);
+                    console.log("new_emp ", user.PRENOM);
+                    //await UserSchema.findOneAndUpdate({name: user.NOM}, { firstname: user.PRENOM });
+                }
+                for (let i = 0; i < list.length; i++) {
+                    const element = list[i].name;
+                    if (element == new_emp.username) {
+                        //console.log("element egale", list[i].name);
+                        
+                    }
+                }
+                //await UserSchema(new_emp).save();
 
-            // }
+            }
             //sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
             //res.send(email);
             //}

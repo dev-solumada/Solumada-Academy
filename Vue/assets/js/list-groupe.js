@@ -46,7 +46,32 @@ function sendRequest(url, groupeVal, cours) {
     http.send("groupe=" + groupeVal + "&cours=" + cours);
 }
 
+//table.style.display = "none";
+// function getdataGPLoad() {
+//     var cours = document.getElementById('cours').value;
+//     console.log("cours ", cours);
+//     //table.style.display = "block";
+//     sendRequestLoad('/groupe', groupeVal, cours);
+// }
 
+
+function getdataGPLoad(url) {
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    console.log("groupeVal ", groupeVal);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (groupeId.value == "") {
+                window.location = "/listeCours/" + cours;
+            }
+            else {
+                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+            }
+        }
+    };
+    http.send("groupe=" + groupeVal + "&cours=" + cours.value);
+}
 
 
 function add_new_groupe() {
@@ -147,12 +172,6 @@ function add_new_parcours() {
     var timeEnd = document.getElementById("timeECreate");
     var cours = document.getElementById("cours");
     var present = [];
-    console.log("week ", week.value);
-    console.log("date ", date.value);
-    console.log("grpe ", grpe.value);
-    console.log("timeStart ", timeStart.value);
-    console.log("timeEnd ", timeEnd.value);
-    console.log("cours ", cours.value);
     for (var option of document.getElementById('present').options) {
         if (option.selected) {
             present.push(option.value);
@@ -525,7 +544,6 @@ var heureF = ""
 var date = ""
 function getparcDelete(url, id) {
     var param = JSON.parse(id)
-    console.log("parm ", param);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
