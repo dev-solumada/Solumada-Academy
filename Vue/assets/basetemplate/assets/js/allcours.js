@@ -1,5 +1,6 @@
 let id, currentPage;
 
+
 let coursDataTable = $('#CoursTable').DataTable(
     {
         "ajax": {
@@ -7,7 +8,7 @@ let coursDataTable = $('#CoursTable').DataTable(
             "dataSrc": "",
         },
         "columns": [
-            {"data": "_id"},
+            // {"data": "_id"},
             {"data": "name_Cours"},
             {"data": "professeur"},
             {"data": "date_Commenc"},
@@ -20,6 +21,15 @@ let coursDataTable = $('#CoursTable').DataTable(
                                 "
             }
         ],
+        "columnDefs": [ 
+            {
+            "targets": 2,
+            "render": function(data)
+                    {
+                        return  (""+ new Date(data).getDay() + "/" + new Date(data).getMonth() + "/" + new Date(data).getFullYear());
+                    }
+            } 
+        ]
     }
 );
 
@@ -30,19 +40,21 @@ $('#btnCreateCours').on('click', function()
 });
 
 
-$('#saveCours').on("click", function()
+$("#saveCours").on("click", function()
 {
-    formAddCourData = {
+    AddCourData = {
             nameCours: $('#nameCours').val(),
             date_Commenc: $('#date_Commenc').val(),
             professeur: $('#professeur').val(),
             typeCours: $('#typeCours').val()
         }
 
+    alert(JSON.stringify(AddCourData));
+
     $.ajax({
         url: '/addcours',
         method: 'post',
-        data: formAddCourData,
+        data: AddCourData,
         success: function(response)
         {
             if(response == 'error')
@@ -75,20 +87,21 @@ $('#saveCours').on("click", function()
 $(document).on('click', '.btnUpdateCours', function()
 {
     column = $(this).closest('tr');
-    id = column.find('td:eq(0)').text();
+    var name_Cours = column.find('td:eq(0)').text();
     $.ajax(
             {
                 url : "/getCours",
                 method: 'post',
                 dataType: 'json',
-                data: {id: id},
+                data: {name_Cours: name_Cours},
                 success: function(cours)
                     {
                         $('#cours_id').val(cours._id);
                         $('#nameCours_update').val(cours.name_Cours);
-                        $('#date_Commenc_update').val(cours.date_Commenc);
                         $('#typeCours_update').val(cours.type);
                         $('#professeur_update').val(cours.professeur);
+                        $('#date_Commenc_update').val(new Date(cours.date_Commenc).toISOString().split('T')[0]);
+    
                     },
                 error: function(err){
                         alert(JSON.stringify(err));
@@ -104,7 +117,7 @@ $(document).on('click', '#saveUpdateCours', function(){
         name_Cours: $('#nameCours_update').val(),
         date_Commenc: $('#date_Commenc_update').val(),
         typeCours: $('#typeCours_update').val(),
-        professeur: $('#typeCours_update').val()
+        professeur: $('#professeur_update').val()
     }
 
     $.ajax({
@@ -141,13 +154,13 @@ $(document).on('click', '#saveUpdateCours', function(){
 $(document).on('click', '.btnDeleteCours', function()
 {
     column = $(this).closest('tr');
-    id = column.find('td:eq(0)').text();
+    name_Cours = column.find('td:eq(0)').text();
     $.ajax(
         {
             url : "/getCours",
             method: 'post',
             dataType: 'json',
-            data: {id: id},
+            data: {name_Cours: name_Cours},
             success: function(cours)
             {
                     var coursName = cours.name_Cours
@@ -201,10 +214,10 @@ function resetCoursForm(action)
     $('#closeCoursModal').click();
     switch(action){
         case 'addCours':
-            $('#nameCours_update').val('');
-            $('#date_Commenc_update').val('');
-            $('#typeCours_update').val('');
-            $('#professeur_update').val('');
+            $('#nameCours').val('');
+            $('#date_Commenc').val('');
+            $('#typeCours').val('');
+            $('#professeur').val('');
             break;
         case 'updateCours':
             $('#cours_id').val('');
