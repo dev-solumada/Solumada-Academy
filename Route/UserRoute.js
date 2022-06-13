@@ -707,7 +707,7 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
-            res.render("AllCours.html", { listuser: listUser,listcourOblig, listcourFac, allCours })
+            res.render("AllCours.html", { listuser: listUser,listcourOblig, listcourFac })
 
         });
 
