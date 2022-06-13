@@ -8,17 +8,11 @@ var btns = document.getElementById("saveChange");
 function verify_mail() {
     var email = document.getElementById("email");
     if (email.value != "" && email.value.includes("@")) {
-        // console.log("email.value");
-        // em.style.display = "none";
-        // email.removeAttribute("style");
         btns.disabled = false;
         mail_done = true;
-        // console.log("email.valueddd");
     }
     else {
         btns.disabled = true;
-        // em.style.display = "block";
-        // email.setAttribute("style", "border-color:red;");
         mail_done = false;
     }
     verify_all();
@@ -27,28 +21,21 @@ function verify_mail() {
 function verify_code() {
     var mcode = document.getElementById("mcode");
     if (mcode.value != "") {
-        // ec.style.display = "none";
-        // mcode.removeAttribute("style");
         code_done = true;
     }
     else {
-        // ec.style.display = "block";
-        // mcode.setAttribute("style", "border-color:red;");
         code_done = false;
     }
     verify_all();
 }
+
 //Verify number of agent
 function verify_number() {
     var num_agent = document.getElementById("num_agent");
     if (email.value != "") {
-        // en.style.display = "none";
-        // num_agent.removeAttribute("style");
         number_done = true;
     }
     else {
-        // en.style.display = "block";
-        // num_agent.setAttribute("style", "border-color:red;");
         number_done = false;
     }
     verify_all();
@@ -70,7 +57,6 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
-        //console.log("type_util == "+ data[3]);
 
         var username = document.getElementById("name_update");
         var email = document.getElementById("email_update");
@@ -97,13 +83,9 @@ function sendRequest(url, email, m_code, num_agent, type_util) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
-                // success.style.display = "none";
-                // error.style.display = "block";
                 error.innerHTML = "Employee is already registered";
             }
             else {
-                // success.style.display = "block";
-                // error.style.display = "none";
                 success.innerHTML = "Employee " + this.responseText + " registered successfuly";
             }
         }
@@ -118,7 +100,6 @@ function modify() {
 
 
 function update_user(url, id, username, m_code, num_agent) {
-  console.log("id, username, m_code, num_agent ", id, username, m_code, num_agent);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -207,7 +188,6 @@ var nb = document.getElementById("nb");
 //verify cours
 function verify_cours() {
   var nameCours = document.getElementById("nameCours");
-  console.log("nameCours == "+nameCours);
   if (nameCours.value != "") {
       nm.style.display = "none";
       nameCours.removeAttribute("style");
@@ -223,7 +203,6 @@ function verify_cours() {
 //verify date_Commenc
 function verify_date() {
   var date_Commenc = document.getElementById("date_Commenc");
-  console.log("date_Commenc == "+date_Commenc);
   if (date_Commenc.value != "") {
       dt.style.display = "none";
       date_Commenc.removeAttribute("style");
@@ -240,7 +219,6 @@ function verify_date() {
 //verify nom professeur
 function verify_teacher() {
     var professeur = document.getElementById("professeur");
-    console.log("professeur == "+professeur);
     if (professeur.value != "") {
         np.style.display = "none";
         professeur.removeAttribute("style");
@@ -257,7 +235,6 @@ function verify_teacher() {
 //verify nombre Particp
 function verify_typ() {
   var typeCours = document.getElementById("typeCours");
-  console.log("typeCours "+typeCours);
   if (typeCours.value != "") {
       nb.style.display = "none";
       typeCours.removeAttribute("style");
@@ -272,7 +249,6 @@ function verify_typ() {
 }
 
 function verify_all_cours() {
-  console.log(name_Cours_done , date_Commenc_done ,nb_Type_done , prof_done);
   if (name_Cours_done && date_Commenc_done && nb_Type_done && prof_done) {
       btn_newCours.disabled = false;
   }
@@ -290,7 +266,6 @@ function add_new_cours() {
 }
 
 function sendRequestCours(url, name_Cours, date_Commenc, professeur, typeCours) {
-  console.log("date == " + name_Cours , date_Commenc, professeur, typeCours);
   var http = new XMLHttpRequest();
   http.open("POST", url, true);
   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
