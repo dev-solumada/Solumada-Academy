@@ -608,6 +608,31 @@ routeExp.route("/studentInfo").get(async function (req, res) {
     }
 });
 
+
+// Thierry All cours
+routeExp.route("/allCours").get(async function (req, res) {
+    var session = req.session;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var allCours = await CoursModel.find({ validation: true });
+            console.log(JSON.stringify(allCours));
+            res.send(JSON.stringify(allCours));
+        });
+
+
+    // } else {
+    //     res.redirect("/");
+    // }
+});
+
+
 //New Cours
 routeExp.route("/newcours").get(async function (req, res) {
     var session = req.session;
@@ -637,6 +662,7 @@ routeExp.route("/addcours").post(async function (req, res) {
     var date_Commenc = req.body.date_Commenc;
     var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
+    console.log(req.body);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -681,8 +707,6 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
-            var allCours = await CoursModel.find({ validation: true });
-
             res.render("AllCours.html", { listuser: listUser,listcourOblig, listcourFac, allCours })
 
         });
@@ -868,7 +892,7 @@ routeExp.route("/updateuser").post(async function (req, res) {
 
 //get cours
 routeExp.route("/getCours").post(async function (req, res) {
-    var id = req.body.id;
+    var name_Cours = req.body.name_Cours;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -878,7 +902,8 @@ routeExp.route("/getCours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            var cours = await CoursModel.findOne({ _id: id });
+            var cours = await CoursModel.findOne({ name_Cours: name_Cours });
+            console.log(cours);
             res.send(JSON.stringify(cours));
         });
 })
@@ -886,6 +911,7 @@ routeExp.route("/getCours").post(async function (req, res) {
 
 //Update User
 routeExp.route("/updatecours").post(async function (req, res) {
+    console.log(req.body);
     var id = req.body.id;
     var name_Cours = req.body.name_Cours;
     var date_Commenc = req.body.date_Commenc;
@@ -900,8 +926,12 @@ routeExp.route("/updatecours").post(async function (req, res) {
             }
         )
         .then(async () => {
-            await CoursModel.findOneAndUpdate({ _id: id }, { name_Cours: name_Cours, date_Commenc: date_Commenc, professeur: professeur, type: typeCours });
-            res.send(name_Cours);
+            try {
+                await CoursModel.findOneAndUpdate({ _id: id }, { name_Cours: name_Cours, date_Commenc: date_Commenc, professeur: professeur, type: typeCours });
+                res.send(name_Cours);
+            } catch (error) {
+                res.send('error');
+            }
         })
 })
 
