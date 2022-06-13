@@ -214,7 +214,10 @@
                                                     <div class="input-group">
                                                         <input type="hidden" id="custId" name="custId" value="<%= membre._id.point %>">
                                                         <select class="form-control" id="selectPoints">
-                                                            <option class="text-center" value=""><%= membre._id.point %></option>
+                                                            <%  if (membre._id.point) {%>
+                                                                <option class="text-center" value=""><%= membre._id.point %></option>
+                                                                
+                                                                <%}%>
                                                             <% console.log("point == ", point.point); point.forEach(function(point) { %>
                                                                 <option class="text-center" value="<%= point.point %>"><%= point.point %></option>
                                                             <% });
@@ -230,7 +233,10 @@
                                                 <td>
                                                     <div class="input-group">
                                                         <select class="form-control " id="selectGrad">
-                                                            <option class="text-center" value=""><%= membre.tabl[0].graduation %></option>
+                                                            <%  if (membre._id.graduation) {%>
+                                                                <option class="text-center" value=""><%= membre._id.graduation %></option>
+                                                                
+                                                                <%}%>
                                                             <% grad.forEach(function(grad) {
                                                                 %>
                                                                 <option class="text-center" value="<%= grad.graduation %>"> <%= grad.graduation %></option>
