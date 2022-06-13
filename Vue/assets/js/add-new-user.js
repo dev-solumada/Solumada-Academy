@@ -78,13 +78,11 @@ function add_new_employee() {
     sendRequest('/addemp',name,  email, m_code, num_agent, type_util);
 }
 function sendRequest(url, name, email, m_code, num_agent, type_util) {
-    //console.log('sendRequest')
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("this.responseText  "+this.responseText);
             if (this.responseText == "error") {
                 success.style.display = "none";
                 error.style.display = "block";
