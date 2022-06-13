@@ -663,6 +663,7 @@ routeExp.route("/addcours").post(async function (req, res) {
     var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
     console.log(req.body);
+    console.log("professeur == ", professeur);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -681,7 +682,6 @@ routeExp.route("/addcours").post(async function (req, res) {
                     type: typeCours,
                     professeur: professeur
                 };
-
                 await UserSchema.findOneAndUpdate({ username: professeur }, { type_util: "Professeur"})
                 await CoursModel(new_cours).save();
                 res.send(name_Cours);
@@ -830,7 +830,7 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { username: "$username", m_code: "$mcode", num_agent: "$num_agent" , point: "$point", graduation: "$graduation"},
+                            { username: "$username", firstname: "$firstname", m_code: "$mcode", num_agent: "$num_agent" , point: "$point", graduation: "$graduation"},
                         tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours" } }
                     }
                 }
@@ -904,7 +904,6 @@ routeExp.route("/getCours").post(async function (req, res) {
         )
         .then(async () => {
             var cours = await CoursModel.findOne({ name_Cours: name_Cours });
-            console.log(cours);
             res.send(JSON.stringify(cours));
         });
 })
@@ -1114,9 +1113,11 @@ routeExp.route("/newmembre").post(async function (req, res) {
                     var user = await UserSchema.find({ username: listeUser[index] });
                     var mcode = ""
                     var num_agent = ""
+                    var firstname = ""
                     user.forEach(function (user) {
                         mcode = user.m_code
                         num_agent = user.num_agent
+                        firstname = user.firstname
                     });
 
                     var new_membre = {
@@ -1124,7 +1125,8 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         groupe: name_groupe,
                         username: listeUser[index],
                         num_agent: num_agent,
-                        mcode: mcode
+                        mcode: mcode,
+                        firstname: firstname
                     };
                     await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
                     await CGNModel(new_membre).save();
