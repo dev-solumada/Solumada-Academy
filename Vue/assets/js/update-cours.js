@@ -78,7 +78,6 @@ function getdata(url, id) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var data = this.responseText.split(",");
-        //console.log("data *** "+data[1].toLocaleDateString("fr"));
         nom.value = data[0]; date_Commenc.value = data[1]; nb_part.value = data[2]; prof.value = data[3];
         btnu.disabled = false;
         ids = id;
