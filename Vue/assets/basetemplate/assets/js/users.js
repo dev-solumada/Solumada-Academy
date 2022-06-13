@@ -3,24 +3,37 @@ let column, id, usernam, m_code, num_agent, type_util;
 let currentPage;
 
 let userDatatable = $("#userTable").DataTable({
-    "ajax": {
-        "url": "/allUsers",
-        "dataSrc": "",
+    'ajax': {
+        'url': '/allUsers',
+        'dataSrc': '',
     },
-    "columns": [
-        {"data": "username"},
-        // {"data": "m_code"},
-        // {"data": "num_agent"},
-        {"data": "type_util"},
-        {"defaultContent": "\
-                            <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
-                                <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateUser' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UserUpdateModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteUser' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
-                            </div>\
-                            "
-        }
-    ]
+    'columns': [
+                    {'data': ''},
+                    {'data': 'username'},
+                    {'data': 'm_code'},
+                    {'data': 'num_agent'},
+                    {'data': 'type_util'},
+                    {'defaultContent': "\
+                                        <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateUser' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UserUpdateModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteUser' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                        </div>\
+                                        "
+                    }
+                ],
+    'columnDefs':  [
+                        {
+                            'targets': 0,
+                            'className': 'select-checkbox',
+                            'checkboxes':  { 'selectRow': true }
+                        }
+                    ],
+    'select':  { 'selector': 'td:first-child','style': 'multi' },
+    'order': [[1, 'asc']]
 });
+
+
+("#tableForm").on('submit')
 
 $('#btnCreateUser').on('click', function()
 {
@@ -153,18 +166,22 @@ $(document).on('click', '.btnDeleteUser', function()
             method: 'post',
             dataType: 'json',
             data: {email: email},
-            success: function(user){
+            success: function(user)
+                {
                     var user_email = user.username
                     var txt = "Are you sure to delete " + user_email +"?";
-                        Swal.fire({
-                            title: 'Delete User',
-                            text: txt,
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: 'red',
-                            cancelButtonColor: 'green',
-                            confirmButtonText: 'Yes, delete it!'
-                        }).then((result) => {
+                        Swal.fire(
+                            {
+                                title: 'Delete User',
+                                text: txt,
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: 'red',
+                                cancelButtonColor: 'green',
+                                confirmButtonText: 'Yes, delete it!'
+                            }
+                        ).then((result) => 
+                        {
                             if (result.isConfirmed) {
                                 $.ajax({
                                     url: '/dropuser',
@@ -205,71 +222,6 @@ $(document).on('click', '.btnDeleteUser', function()
     )
 });
 
-
-
-
-// function getuser(id)
-// {
-
-//     $.ajax(
-//         {
-//             url : "/getuser",
-//             method: 'post',
-//             dataType: 'json',
-//             data: {id: id},
-//             success: function(user){
-//                     $('#user_id').val(user._id);
-//                     $('#name_update').val(user.name);
-//                     $('#email_update').val(user.username);
-//                     $('#m_code_update').val(user.m_code);
-//                     $('#num_agent_update').val(user.num_agent);
-//                     $('#type_util_update').val(user.type_util);
-//                 },
-//             error: function(err){
-//                     alert(JSON.stringify(err));
-//             }
-//         }
-//     )
-// }
-
-
-// function addUser(url)
-// {
-//     formAddData = {
-//                     name: $('#name').val(),
-//                     email: $('#email').val(),
-//                     m_code: $('#m_code').val(),
-//                     num_agent: $('#num_agent').val(),
-//                     type_util: $('#type_util').val()
-//                 }
-
-//     $.ajax({
-//         url: url,
-//         method: 'post',
-//         data: formAddData,
-//         success: function(response){
-//             if(response == 'error'){
-//                 $('#successAddUser').css('display', 'none');
-//                 $('#errorAddUser').css('display', 'block');
-//                 $('#errorAddUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
-//             } else {
-//                 resetForm(action='add');
-//                 responsetxt = response + ' Saved successfully';
-//                 Swal.fire(
-//                     'User Saved',
-//                     responsetxt,
-//                     'success',
-//                     {
-//                     confirmButtonText: 'Ok',
-//                   }).then((result) => {
-//                     if (result.isConfirmed) {
-//                     window.location = "/listeUser";
-//                     }
-//                   })
-//             }
-//         }
-//     });
-// }
 
 function updateUser(url)
 {
