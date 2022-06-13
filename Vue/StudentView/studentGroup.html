@@ -23,7 +23,8 @@
     <link rel="stylesheet" href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="../assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="../assets/basetemplate/assets/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -38,35 +39,37 @@
         <nav class="navbar navbar-expand-sm navbar-default">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
+                    aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="./"><img src="../assets/basetemplate/images/logo.jpg" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="../assets/basetemplate/images/logo2.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="../assets/basetemplate/images/logo2.png"
+                        alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    
+
                     <h3 class="menu-title text-center">MENU</h3><!-- /.menu-title -->
                     <li>
                         <a href="/studentHome"> <i class="menu-icon fa fa-home"></i>Home </a>
                     </li>
-                      <li>
+                    <li>
                         <a href="/studentTimeTable">
-                          <i class="menu-icon fa fa-calendar"></i>My TimeTable
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/studentGroup">
-                          <i class="menu-icon fa fa-eye"></i>Global View
+                            <i class="menu-icon fa fa-calendar"></i>My TimeTable
                         </a>
                     </li>
-                      <li>
-                        <a href="/studentInfo">
-                          <i class="menu-icon fa fa-user-md"></i>My Info
+                    <li>
+                        <a href="/studentGroup">
+                            <i class="menu-icon fa fa-eye"></i>Global View
                         </a>
-                      </li>
+                    </li>
+                    <li>
+                        <a href="/studentInfo">
+                            <i class="menu-icon fa fa-user-md"></i>My Info
+                        </a>
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -86,14 +89,16 @@
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        
+
                     </div>
                 </div>
 
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="../assets/basetemplate/images/admin.jpg" alt="User Avatar">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="../assets/basetemplate/images/admin.jpg"
+                                alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -156,50 +161,90 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Onisoa</td>
-                                            <td>
-                                                <div class="input-group">
+                                        <% groupe.forEach(function(groupe) { console.log("student ", groupe.tabl); %>
+                                            <tr>
+
+                                                <td>
+                                                    <%= groupe._id.username %>
+                                                </td>
+                                                <td>
+                                                <div class=" input-group">
                                                     <select class="form-control">
-                                                        <option class="text-center" value="1">Cours Name</option>
-                                                        <option class="text-center" value="1">Cours Name</option>
+                                                        <% for (let i=0; i < groupe.tabl.length; i++) { const
+                                                            element=groupe.tabl[i]; console.log("groupe.tabl[i]",
+                                                            groupe.tabl[i]); %>
+
+                                                            <option class="text-center" value="1">
+                                                                <%= groupe.tabl[i].cours %>
+                                                            </option>
+
+                                                            <%}%>
                                                     </select>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours - {{ level }}</option>
-                                                        <option class="text-center" value="1">Cours - {{ level }}</option>
+                                                </td>
+                                                <td>
+                                                    <div class=" input-group">
+                                                    <select class="form-control">
+                                                        <% for (let i=0; i < groupe.tabl.length; i++) { const
+                                                            element=groupe.tabl[i];%>
+
+                                                            <option class="text-center" value="1">
+                                                                <%= groupe.tabl[i].cours %> - <%= groupe.tabl[i].niveau %> 
+                                                            </option>
+
+                                                            <%}%>
                                                     </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours - {{ point }}</option>
-                                                        <option class="text-center" value="1">Cours - {{ point }}</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <select class="form-control selectPoints">
-                                                        <option class="text-center" value="1">Cours - {{ grade }}</option>
-                                                        <option class="text-center" value="1">Cours - {{ grade }}</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
                             </div>
+                            </td>
+                            <td>
+                                <%= groupe.niveau %>
+                            </td>
+                            </tr>
+                            <% }); %>
+                                <tr>
+                                    <td>Onisoa</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <select class="form-control">
+                                                <option class="text-center" value="1">Cours Name</option>
+                                                <option class="text-center" value="1">Cours Name</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <select class="form-control selectPoints">
+                                                <option class="text-center" value="1">Cours - {{ level }}</option>
+                                                <option class="text-center" value="1">Cours - {{ level }}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <select class="form-control selectPoints">
+                                                <option class="text-center" value="1">Cours - {{ point }}</option>
+                                                <option class="text-center" value="1">Cours - {{ point }}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <select class="form-control selectPoints">
+                                                <option class="text-center" value="1">Cours - {{ grade }}</option>
+                                                <option class="text-center" value="1">Cours - {{ grade }}</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
@@ -227,41 +272,38 @@
     <script>
 
         $(document).ready(
-        function () {
-            $('.deleteUser').on('click', function(event)
-            {
-                event.preventDefault();
+            function () {
+                $('.deleteUser').on('click', function (event) {
+                    event.preventDefault();
 
-                Swal.fire
-                ({
-                    title: 'Are you sure?',
-                    text: "to remove this user points",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: 'red',
-                    cancelButtonColor: 'green',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => 
-                {
-                    if (result.isConfirmed) 
-                    { 
-                        Swal.fire({
-                            title:'Deleted!',
-                            text:"user's point was deleted successfuly",
-                            confirmButtonColor: 'black',
-                            icon:'success',
-                        })
-                    }else{
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Deletion',
-                            text: "deletion user's point canceled",
-                            confirmButtonColor: 'black',
-                        })
-                    }
+                    Swal.fire
+                        ({
+                            title: 'Are you sure?',
+                            text: "to remove this user points",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: 'red',
+                            cancelButtonColor: 'green',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: "user's point was deleted successfuly",
+                                    confirmButtonColor: 'black',
+                                    icon: 'success',
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Deletion',
+                                    text: "deletion user's point canceled",
+                                    confirmButtonColor: 'black',
+                                })
+                            }
+                        });
                 });
             });
-    });
     </script>
 
 </body>

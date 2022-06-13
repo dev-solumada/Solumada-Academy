@@ -4,15 +4,16 @@ var coursG = document.getElementById('selectGrad')
 var point = document.getElementById('point')
 var AddPoint = document.getElementById('AddPoint')
 var AddGrad = document.getElementById('AddGrad')
-var custId = document.getElementById('custId')
-console.log(" iiii ", custId.value);
-coursP.options[coursP.selectedIndex].value = custId.value
+// var custId = document.getElementById('custId')
+// console.log(" iiii ", custId.value);
+// coursP.options[coursP.selectedIndex].value = custId.value
 function getPoint(url, id) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var data = JSON.parse(id);
     console.log("url == ", data[0].id);
+    console.log("coursP.value ", coursP.value);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
@@ -27,7 +28,6 @@ function getPoint(url, id) {
             }
         }
     };
-    console.log("coursP.value ", coursP.value);
     http.send("id=" + data[0].id + "&point=" + coursP.value)
     
 }

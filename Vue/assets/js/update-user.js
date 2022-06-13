@@ -282,12 +282,10 @@ function verify_all_cours() {
 }
 
 function add_new_cours() {
-  console.log("**************");
   var name_Cours = document.getElementById("nameCours").value;
   var date_Commenc = document.getElementById("date_Commenc").value;
   var professeur = document.getElementById("professeur").value;
   var typeCours = document.getElementById("typeCours").value;
-  console.log("profes == "+ professeur);
   sendRequestCours('/addcours', name_Cours, date_Commenc, professeur, typeCours);
 }
 

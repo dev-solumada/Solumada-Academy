@@ -30,6 +30,7 @@ let userDatatable = $("#userTable").DataTable({
                     ],
     'select':  { 'selector': 'td:first-child','style': 'multi' },
     'order': [[1, 'asc']]
+
 });
 
 
@@ -74,10 +75,10 @@ $('#saveUser').on("click", function()
                     {
                     confirmButtonText: 'Ok',
                 }).then((result) => {
+                    $('#closeModal').click();
                     if (result.isConfirmed) {
                         userDatatable.ajax.reload(null, false);
-                        $('#closeModal').click();
-                        userDatatable.page('last').draw('page');
+                        userDatatable.page(currentPage).draw('page');
                     }
                 })
             }
@@ -133,6 +134,7 @@ $(document).on('click', '#saveUpdateUser', function(){
                 $('#errorUpdateUser').css('display', 'block');
                 $('#errorUpdateUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
             } else {
+                $('#closeModalUpdate').click();
                 resetForm(action='update');
                 responsetxt = response + ' Updated successfully';
                 Swal.fire(
@@ -197,6 +199,7 @@ $(document).on('click', '.btnDeleteUser', function()
                                             timer: 1600
                                         });
                                         userDatatable.ajax.reload(null, false);
+                                        userDatatable.page(currentPage).draw('page');
                                     },
                                     error: function(response){
                                         Swal.fire({
@@ -221,50 +224,6 @@ $(document).on('click', '.btnDeleteUser', function()
         }
     )
 });
-
-
-function updateUser(url)
-{
-    formUpdateData = {
-        id : $('#user_id').val(),
-        username: $('#name_update').val(),
-        email: $('#email_update').val(),
-        m_code: $('#m_code_update').val(),
-        num_agent: $('#num_agent_update').val(),
-        type_util: $('#type_util_update').val()
-    }
-
-    $.ajax({
-        url: url,
-        method: 'post',
-        data : formUpdateData,
-        success : function(response){
-            if(response == 'error'){
-                $('#errorUpdateUser').css('display', 'block');
-                $('#errorUpdateUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
-            } else {
-                resetForm(action='update');
-                responsetxt = response + ' Updated successfully';
-                Swal.fire(
-                    'User Updated',
-                    responsetxt,
-                    'success',
-                    {
-                    confirmButtonText: 'Ok',
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                    window.location = "/listeUser";
-                    }
-                })
-            }
-        },
-        error: function(response){
-            alert(JSON.stringify(response));
-        }
-    })
-}
-
-
 function getuserAndDelete(id)
 {
 
