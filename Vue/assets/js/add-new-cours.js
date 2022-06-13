@@ -17,7 +17,6 @@ var nb = document.getElementById("nb");
 //verify cours
 function verify_cours() {
     var nameCours = document.getElementById("nameCours");
-    console.log("nameCours == "+nameCours);
     if (nameCours.value != "") {
         nm.style.display = "none";
         nameCours.removeAttribute("style");
@@ -33,7 +32,6 @@ function verify_cours() {
 //verify date_Commenc
 function verify_date() {
     var date_Commenc = document.getElementById("date_Commenc");
-    console.log("date_Commenc == "+date_Commenc);
     if (date_Commenc.value != "") {
         dt.style.display = "none";
         date_Commenc.removeAttribute("style");
@@ -66,7 +64,6 @@ function verify_date() {
 //verify nombre Particp
 function verify_nb() {
     var nbParticp = document.getElementById("nbParticp");
-    console.log("nbParticp "+nbParticp);
     if (nbParticp.value != "") {
         nb.style.display = "none";
         nbParticp.removeAttribute("style");
@@ -90,17 +87,14 @@ function verify_all() {
 }
 
 function add_new_cours() {
-    console.log("**************");
     var name_Cours = document.getElementById("nameCours").value;
     var date_Commenc = document.getElementById("date_Commenc").value;
     var professeur = document.getElementById("professeur").value;
     var nbParticp = document.getElementById("nbParticp").value;
-    console.log("profes == "+ professeur);
     sendRequest('/addcours', name_Cours, date_Commenc, professeur, nbParticp);
 }
 
 function sendRequest(url, name_Cours, date_Commenc, professeur, nbParticp) {
-    console.log("date == " + name_Cours , date_Commenc, professeur, nbParticp);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

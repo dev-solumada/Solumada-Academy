@@ -4,17 +4,11 @@ var coursG = document.getElementById('selectGrad')
 var point = document.getElementById('point')
 var AddPoint = document.getElementById('AddPoint')
 var AddGrad = document.getElementById('AddGrad')
-// var custId = document.getElementById('custId')
-// console.log(" iiii ", custId.value);
-// coursP.options[coursP.selectedIndex].value = custId.value
 function getPoint(url, id) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var data = JSON.parse(id);
-    console.log("url == ", data[0].id);
-    console.log("coursP ", coursP);
-    console.log("coursP.value ", coursP.value);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
@@ -48,7 +42,6 @@ function getGrad(url, id) {
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var data = JSON.parse(id);
-    console.log("url == ", data[0].id);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
@@ -63,23 +56,17 @@ function getGrad(url, id) {
             }
         }
     };
-    console.log("coursG.value ", coursG.value);
     http.send("id=" + data[0].id + "&grad=" + coursG.value)
 }
 
 function savePoint() {
-    
     savePBack("/savePoint", AddPoint.value);
-    // console.log("ids == ", ids);
-    // console.log("userlevel == ", userLevel.value);
 }
 
 function savePBack(url, point) {
     var http = new XMLHttpRequest();
-    //console.log("id == ", id);
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // console.log("url == ", url);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
@@ -99,18 +86,13 @@ function savePBack(url, point) {
 }
 
 function saveGraduation() {
-    
     saveGBack("/saveGrad", AddGrad.value);
-    // console.log("ids == ", ids);
-    // console.log("userlevel == ", userLevel.value);
 }
 
 function saveGBack(url, grad) {
     var http = new XMLHttpRequest();
-    //console.log("id == ", id);
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // console.log("url == ", url);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText == "error") {
