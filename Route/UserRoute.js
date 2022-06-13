@@ -755,6 +755,7 @@ routeExp.route("/allUsers").get(async function (req, res) {
             .then(async () => {
                 var allusers = await UserSchema.find().select("username m_code num_agent type_util");
                 users = JSON.stringify(allusers);
+                console.log(users);
                 res.send(users);
             });
     }

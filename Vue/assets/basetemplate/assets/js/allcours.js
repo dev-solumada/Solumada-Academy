@@ -130,7 +130,7 @@ $(document).on('click', '#saveUpdateCours', function(){
                 $('#errorUpdateUser').html('<strong>'+response+'</strong>' + ': email or username already taken');
             } else {
                 resetCoursForm(action='updateCours');
-                responsetxt = response + ' Updated successfully';
+                responsetxt = "cours " + response + ' Updated successfully';
                 Swal.fire(
                     'Cours Updated',
                     responsetxt,
@@ -181,7 +181,7 @@ $(document).on('click', '.btnDeleteCours', function()
                                     data: { name_Cours: coursName },
                                     success: function(coursName){
 
-                                        responsetxt = coursName + 'Deleted successfully';
+                                        responsetxt = "Cours " + coursName + 'Deleted successfully';
                                         Swal.fire({
                                             position: 'center',
                                             icon: 'success',
