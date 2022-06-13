@@ -161,7 +161,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% groupe.forEach(function(groupe) { console.log("student ", groupe.tabl); %>
+                                        <% groupe.forEach(function(groupe) {  %>
                                             <tr>
 
                                                 <td>
@@ -170,9 +170,9 @@
                                                 <td>
                                                 <div class=" input-group">
                                                     <select class="form-control">
-                                                        <% for (let i=0; i < groupe.tabl.length; i++) { const
-                                                            element=groupe.tabl[i]; console.log("groupe.tabl[i]",
-                                                            groupe.tabl[i]); %>
+                                                        <% for (let i=0; i < groupe.tabl.length; i++) { 
+                                                            const
+                                                            element=groupe.tabl[i];%>
 
                                                             <option class="text-center" value="1">
                                                                 <%= groupe.tabl[i].cours %>
