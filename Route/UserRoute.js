@@ -289,6 +289,28 @@ routeExp.route("/change").post(async function (req, res) {
 });
 
 
+// Drop multiple users
+routeExp.route("/dropusers").post(async function (req, res) {
+    var usersToDeleteId = req.body.userlistToDelete;
+    console.log(usersToDeleteId);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await UserSchema.deleteMany({ _id: { $in:usersToDeleteId } });
+                res.send('success');
+            } catch (error) {
+                res.send('error');
+            }
+        });
+})
+
 //Drop user 
 routeExp.route("/dropuser").post(async function (req, res) {
     var email = req.body.email;
@@ -312,6 +334,8 @@ routeExp.route("/dropuser").post(async function (req, res) {
             }
         })
 })
+
+
 
 //Post login
 routeExp.route("/login").post(async function (req, res) {
@@ -740,7 +764,7 @@ routeExp.route("/listeCours").get(async function (req, res) {
             }
         )
         .then(async () => {
-            var allCours = await CoursModel.find({ validation: true });
+            // var allCours = await CoursModel.find({ validation: true });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
@@ -767,17 +791,11 @@ routeExp.route("/allCours").get(async function (req, res) {
         )
         .then(async () => {
             var allCours = await CoursModel.find({ validation: true });
-            res.send(JSON.stringify(allCours));
+            var cours = JSON.stringify(allCours);
+            res.send();
 
         });
-
-
-    // } else {
-    //     res.redirect("/");
-    // }
 });
-
-
 
 //Liste User
 routeExp.route("/listeUser").get(async function (req, res) {
@@ -792,10 +810,10 @@ routeExp.route("/listeUser").get(async function (req, res) {
                 }
             )
             .then(async () => {
-                var listuser = await UserSchema.find({ validation: true });
+                // var listuser = await UserSchema.find({ validation: true });
                 var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                res.render("ListeUser.html", { listuser: listuser, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                res.render("ListeUser.html", { listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
 
 
@@ -819,7 +837,7 @@ routeExp.route("/allUsers").get(async function (req, res) {
                 }
             )
             .then(async () => {
-                var allusers = await UserSchema.find({ validation: true }).select('username m_code num_agent type_util');
+                var allusers = await UserSchema.find().select("username m_code num_agent type_util");
                 users = JSON.stringify(allusers);
                 res.send(users);
             });
@@ -981,6 +999,7 @@ routeExp.route("/getCours").post(async function (req, res) {
             // res.send(cours.name_Cours + "," + cours.date_Commenc + "," + cours.nbParticp + "," + cours.professeur);
         });
 })
+
 
 //Update User
 routeExp.route("/updatecours").post(async function (req, res) {
