@@ -196,7 +196,7 @@ $(document).on('click', '.btnDeleteCours', function()
                                             icon: 'success',
                                             title: responsetxt,
                                             showConfirmButton: false,
-                                            timer: 1600
+                                            timer: 1700
                                         });
                                         coursDataTable.ajax.reload(null, false);
                                         getCoursList();
@@ -207,7 +207,7 @@ $(document).on('click', '.btnDeleteCours', function()
                                             icon: 'error',
                                             title: response,
                                             showConfirmButton: false,
-                                            timer: 1600
+                                            timer: 1700
                                         });
                                     }
                                 })
@@ -230,6 +230,7 @@ function resetCoursForm(action)
             $('#date_Commenc').val('');
             $('#typeCours').val('');
             $('#professeur').val('');
+            $('#errorAddCour').css('display', 'none');
             break;
         case 'updateCours':
             $('#cours_id').val('');
@@ -237,6 +238,7 @@ function resetCoursForm(action)
             $('#date_Commenc_update').val('');
             $('#typeCours_update').val('');
             $('#professeur_update').val('');
+            $('#errorUpdateCour').css('display', 'none');
             break;
     }
 }
