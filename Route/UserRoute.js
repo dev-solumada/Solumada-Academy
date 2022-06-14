@@ -1062,7 +1062,10 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                         tabl: { $push: { user: "$user", presence: "$presence" } }
                     }
                 }
+                
             ])
+
+            coursM = [{professeur: "Rojoval"}]
             res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
@@ -1103,7 +1106,12 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
                     }
                 }
             ])
-            res.render("./back/ListeCours.html", { coursM:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+
+            coursM = [{professeur: "Rojovola"}]
+            console.log("coursM", coursM);
+            console.log("nomCours", nomCours);
+            //res.render("./back/ListeCours.html", {coursM: coursM, ParcoursAbsent: ParcoursAbsent,  parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("./back/ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");

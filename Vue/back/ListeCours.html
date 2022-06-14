@@ -219,7 +219,7 @@
                                                                     class="fa fa-plus"></i> create
                                                                 group</small></button>
                                                         <div class="text-center my-auto">
-                                                            <h6>Teacher: <%= coursM[0].professeur %>
+                                                            <h6>Teacher: 
                                                             </h6>
                                                         </div>
                                                         <strong class="card-title my-auto">Group</strong>
@@ -866,8 +866,10 @@
                                         <div class="col col-md-3">
                                             <label for="week">Week </label>
                                         </div>
+
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Week" id="week_cptDelB" class="standardSelect">
+                                        <select class="form-control" id="week_cptDelB" aria-label="Default select example">
+                                            
                                                 <option value="week_1">Week 1</option>
                                                 <option value="week_2">Week 2</option>
                                                 <option value="week_3">Week 3</option>
@@ -914,8 +916,13 @@
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" id="gpeDel"
-                                                onchange="groupePresence(this)" class="standardSelect">
-                                                <option value=""></option>
+                                                onchange="groupePresence(this)" class="form-control">
+                                                
+                                                <% listgroupe.forEach(function(listgroupe) { %>
+                                                    <option value="<%= listgroupe.name_Groupe %>">
+                                                        <%= listgroupe.name_Groupe %>
+                                                    </option>
+                                                    <% }); %>
                                             </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
