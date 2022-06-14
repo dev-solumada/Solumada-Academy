@@ -46,9 +46,19 @@ function sendRequest(url, groupeVal, cours) {
     http.send("groupe=" + groupeVal + "&cours=" + cours);
 }
 
+//table.style.display = "none";
+// function getdataGPLoad() {
+//     var cours = document.getElementById('cours').value;
+//     console.log("cours ", cours);
+//     //table.style.display = "block";
+//     sendRequestLoad('/groupe', groupeVal, cours);
+// }
+
+//table.style.display = "none";
 function getdataGPLoad(url) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
+    console.log("groupeVal ", groupeVal);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -56,11 +66,11 @@ function getdataGPLoad(url) {
                 window.location = "/listeCours/" + cours;
             }
             else {
-                window.location = "/listeCours/" + cours + "?select-group=" + groupeId.value;
+                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
             }
         }
     };
-    http.send("groupe=" + groupeId.value + "&cours=" + cours.value);
+    http.send("groupe=" + groupeVal + "&cours=" + cours.value);
 }
 
 
@@ -253,30 +263,20 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var selectedValue = ''
-
-                jQuery('.prensentSelect').change(function(evt, params){
-                    jQuery('.absentSelect').html(''); //Clear
-                    jQuery('.prensentSelect option:not(:selected)')
-                        .clone()
-                        .appendTo('.absentSelect')
-
+                jQuery('.prensentSelect').on('change', function (evt, params) {
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
+                    console.log("selectedV ", selectedValue);
+                });
 
-                })
 
-                jQuery('.absentSelect').change(function(evt, params){
+                jQuery(document).ready(function () {
                     jQuery(".absentSelect").chosen({
                         disable_search_threshold: 10,
                         no_results_text: "Oops, nothing found!",
                         width: "100%"
                     });
                 });
-                // jQuery(".absentSelect").chosen({
-                //     disable_search_threshold: 10,
-                //     no_results_text: "Oops, nothing found!",
-                //     width: "100%"
-                // });
 
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").trigger("chosen:updated");
@@ -513,25 +513,20 @@ function deleteE(url, deleteMembre) {
 
 function getParcours(url, id) {
     var param = JSON.parse(id)
-    console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText)
-            console.log("data ", data);
-            var dateFormat = new Date(data[0]._id.date).toLocaleDateString("fr")
-            //console.log("dateFormat",new Date(dateFormat).toLocaleDateString());
             week_cptDel.value = data[0]._id.week
-            weekDate.value = dateFormat
+            weekDate.value = data[0]._id.date
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
-            //console.log("data[0]._id ",data._id.date.toLocaleDateString("fr") );
         }
     };
-    http.send("cours=" + param.cours+ "&week=" + param.week + "&groupe=" + param.groupe + "&heureStart=" + param.heureStart + "&heureFin=" + param.heureFin + "&date=" + param.date );
+    http.send("cours=" + param.cours + "&groupe=" + param.groupe + "&heureStart=" + param.heureStart + "&heureFin=" + param.heureFin + "&date=" + param.date );
 }
 
 
@@ -543,7 +538,6 @@ var heureF = ""
 var date = ""
 function getparcDelete(url, id) {
     var param = JSON.parse(id)
-    console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
