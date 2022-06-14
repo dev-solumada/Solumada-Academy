@@ -1,5 +1,6 @@
 let id, currentPage;
 
+getCoursList();
 
 let coursDataTable = $('#CoursTable').DataTable(
     {
@@ -49,8 +50,6 @@ $("#saveCours").on("click", function()
             typeCours: $('#typeCours').val()
         }
 
-    alert(JSON.stringify(AddCourData));
-
     $.ajax({
         url: '/addcours',
         method: 'post',
@@ -65,6 +64,7 @@ $("#saveCours").on("click", function()
             else {
                 $('#closeCoursModal').click();
                 resetCoursForm(action='addCours');
+                getCoursList();
                 responsetxt = response + ' Saved successfully';
                 Swal.fire(
                     'Cours Saved',
@@ -131,6 +131,7 @@ $(document).on('click', '#saveUpdateCours', function(){
             } else {
                 resetCoursForm(action='updateCours');
                 responsetxt = "cours " + response + ' Updated successfully';
+                getCoursList();
                 Swal.fire(
                     'Cours Updated',
                     responsetxt,
@@ -165,6 +166,7 @@ $(document).on('click', '.btnDeleteCours', function()
             {
                     var coursName = cours.name_Cours
                     var txt = "Are you sure to delete " + coursName +"?";
+                    getCoursList();
                         Swal.fire({
                             title: 'Delete Cours',
                             text: txt,
@@ -227,4 +229,34 @@ function resetCoursForm(action)
             $('#professeur_update').val('');
             break;
     }
+}
+
+function getCoursList()
+{
+    $.ajax(
+        {
+            url: '/allCoursLists',
+            method: 'get',
+            dataType: 'json',
+            success: function(data)
+                {
+                    obligatoryCours = data.listcourOblig;
+                    optionalCours =data.listcourFac;
+
+                    $.each(obligatoryCours, function(key, value)
+                    {
+                        $("#dropdownCoursObligatory").append(`<li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a href="/listeCours/${value.name_Cours}"</a>${value.name_Cours}</li>`);
+                    });
+
+                    $.each(optionalCours, function(key, value)
+                    {
+                        $("#dropdownCoursOptional").append(`<li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a href="/listeCours/${value.name_Cours}"</a>${value.name_Cours}</li>`);
+                    });
+                },
+            error: function(error)
+                {
+                    alert(error);
+                }      
+        }
+    );
 }

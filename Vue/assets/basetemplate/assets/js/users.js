@@ -198,7 +198,7 @@ $(document).on('click', '#saveUpdateUser', function(){
         email: $('#email_update').val(),
         m_code: $('#m_code_update').val(),
         num_agent: $('#num_agent_update').val(),
-        type_util: $('#type_util_update').val()
+        type_util: $('#type_util_update').val(),
     }
 
     $.ajax({
