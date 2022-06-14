@@ -240,6 +240,9 @@ function getCoursList()
             dataType: 'json',
             success: function(data)
                 {
+                    $('#dropdownCoursObligatory').empty();
+                    $('#dropdownCoursOptional').empty();
+
                     obligatoryCours = data.listcourOblig;
                     optionalCours =data.listcourFac;
 
