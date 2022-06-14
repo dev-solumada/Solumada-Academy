@@ -513,20 +513,25 @@ function deleteE(url, deleteMembre) {
 
 function getParcours(url, id) {
     var param = JSON.parse(id)
+    console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText)
+            console.log("data ", data);
+            var dateFormat = new Date(data[0]._id.date).toLocaleDateString("fr")
+            //console.log("dateFormat",new Date(dateFormat).toLocaleDateString());
             week_cptDel.value = data[0]._id.week
-            weekDate.value = data[0]._id.date
+            weekDate.value = dateFormat
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
+            //console.log("data[0]._id ",data._id.date.toLocaleDateString("fr") );
         }
     };
-    http.send("cours=" + param.cours + "&groupe=" + param.groupe + "&heureStart=" + param.heureStart + "&heureFin=" + param.heureFin + "&date=" + param.date );
+    http.send("cours=" + param.cours+ "&week=" + param.week + "&groupe=" + param.groupe + "&heureStart=" + param.heureStart + "&heureFin=" + param.heureFin + "&date=" + param.date );
 }
 
 
@@ -538,6 +543,7 @@ var heureF = ""
 var date = ""
 function getparcDelete(url, id) {
     var param = JSON.parse(id)
+    console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

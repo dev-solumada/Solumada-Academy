@@ -623,7 +623,6 @@ routeExp.route("/allCours").get(async function (req, res) {
         )
         .then(async () => {
             var allCours = await CoursModel.find({ validation: true });
-            console.log(JSON.stringify(allCours));
             res.send(JSON.stringify(allCours));
         });
 
@@ -1750,6 +1749,44 @@ routeExp.route("/getParcours").post(async function (req, res) {
                     }
                 }
             ])
+            res.send(ParcoursAbsent);
+        });
+})
+
+
+//get getParcoursUpdate
+routeExp.route("/getParcoursUpdate").post(async function (req, res) {
+    var cours = req.body.cours;
+    var week = req.body.week;
+    var groupe = req.body.groupe;
+    var heureStart = req.body.heureStart;
+    var heureFin = req.body.heureFin;
+    var date = req.body.date;
+    console.log("cours", week, cours, groupe,heureStart, heureFin, date );
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [{ cours: cours} , {groupe: groupe}, {heureStart: heureStart}, {heureFin:heureFin}, {date:date}] } },
+                {
+                    $group: {
+                        _id:
+                            { week: week, cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
+                        tabl: { $push: { user: "$user", presence: "$presence" } }
+                    }
+                }
+            ])
+
+            var AllParcours = await ParcoursModel.find({ validation: true })
+            console.log("Parcours ", ParcoursAbsent);
+            console.log("AllParcours ", AllParcours);
             res.send(ParcoursAbsent);
         });
 })
