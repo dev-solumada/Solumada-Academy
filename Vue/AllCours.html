@@ -70,27 +70,15 @@
                         <ul class="sub-menu children dropdown-menu">
                             <li class="dropdown menu-item-has-children">
                                 <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
-                                <ul class="sub-menu children">
-                                    <% listcourOblig.forEach(function(listcourOblig) { %>
-                                    <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
-                                            href="/listeCours/<%= listcourOblig.name_Cours %>"
-                                            onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')">
-                                            <%= listcourOblig.name_Cours %>
-                                        </a></li>
-                                    <% }); %>
+                                <ul class="sub-menu children" id="dropdownCoursObligatory">
+                                    
                                 </ul>
                             </li>
 
                             <li class="menuCours">
                                 <i class="fa fa-bookmark-o"></i><a class="obg-item" href="">Optional</a>
-                                <ul class="sub-menu children">
-                                    <% listcourFac.forEach(function(listcourFac) { %>
-                                    <li class="sub-menu-item"><i class="fa fa-arrow-circle-o-right"></i><a
-                                            href="/listeCours/<%= listcourFac.name_Cours %>"
-                                            onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')">
-                                            <%= listcourFac.name_Cours %>
-                                        </a></li>
-                                    <% }); %>
+                                <ul class="sub-menu children" id="dropdownCoursOptional">
+                                    
                                 </ul>
                             </li>
 

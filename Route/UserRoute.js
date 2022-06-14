@@ -1,6 +1,6 @@
 const express = require('express');
-const routeExp = express.Router()
-const mongoose = require('mongoose')
+const routeExp = express.Router();
+const mongoose = require('mongoose');
 // solumada-academy : academy123456
 
 const UserSchema = require("../Models/User");
@@ -708,8 +708,35 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
-            res.render("AllCours.html", { listuser: listUser,listcourOblig, listcourFac })
+            res.render("AllCours.html", { listuser: listUser,listcourOblig: listcourOblig, listcourFac:listcourFac })
 
+        });
+
+
+    } else {
+        res.redirect("/");
+    }
+});
+
+routeExp.route("/allCoursLists").get(async function (req, res) {
+    var session = req.session;
+    if (session.type_util == "Admin") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var listcourOblig = await CoursModel.find({ type: 'obligatoire' }).select("name_Cours");
+            var listcourFac = await CoursModel.find({ type: 'facultatif' }).select("name_Cours");
+            // var listUser = await UserSchema.find({ validation: true });
+            data = { listcourOblig: listcourOblig, listcourFac:listcourFac };
+            var data = JSON.stringify(data);
+            console.log(data);
+            res.send(data);
         });
 
 
@@ -756,7 +783,6 @@ routeExp.route("/allUsers").get(async function (req, res) {
             .then(async () => {
                 var allusers = await UserSchema.find().select("username m_code num_agent type_util");
                 users = JSON.stringify(allusers);
-                console.log(users);
                 res.send(users);
             });
     }
