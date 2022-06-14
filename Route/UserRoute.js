@@ -622,7 +622,6 @@ routeExp.route("/allCours").get(async function (req, res) {
         )
         .then(async () => {
             var allCours = await CoursModel.find({ validation: true });
-            console.log(JSON.stringify(allCours));
             res.send(JSON.stringify(allCours));
         });
 
@@ -662,7 +661,6 @@ routeExp.route("/addcours").post(async function (req, res) {
     var date_Commenc = req.body.date_Commenc;
     var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
-    console.log(req.body);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1162,7 +1160,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
 routeExp.route("/groupe").post(async function (req, res) {
     var groupe = req.body.groupe
     var cours = req.body.cours
-    console.log("groupe ", groupe, cours);
+    // console.log("groupe ", groupe, cours);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1382,14 +1380,14 @@ routeExp.route("/addxlsx").get(async function (req, res) {
             };
             var liste = []
             parseExcel("./Vue/assets/listeUser.xls").forEach(element => {
-                console.log(element.data);
+                // console.log(element.data);
                 liste.push(element.data)
             });
 
             var listUser = await UserSchema.find({ validation: true });
             var passdefault = "solumada0000";
             var value = liste[0]
-            console.log("name: ",value.length);
+            // console.log("name: ",value.length);
             for (let i = 137; i < value.length; i++) {
 
                 var user = value[i];

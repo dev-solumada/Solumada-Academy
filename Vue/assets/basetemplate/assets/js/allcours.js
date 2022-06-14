@@ -82,6 +82,10 @@ $("#saveCours").on("click", function()
                     if (result.isConfirmed) {
                         coursDataTable.ajax.reload(null, false);
                         searchOnDatatable(datatable=coursDataTable, value=response);
+                        setTimeout(function() { 
+                            coursDataTable.search('').draw();
+                            coursDataTable.page(currentPage).draw('page');
+                        }, 3000);
                     }
                 });
             }
@@ -147,8 +151,12 @@ $(document).on('click', '#saveUpdateCours', function(){
                     confirmButtonText: 'Ok',
                   }).then((result) => {
                     if (result.isConfirmed) {
-                        
                         coursDataTable.ajax.reload(null, false);
+                        searchOnDatatable(datatable=coursDataTable, value=response);
+                        setTimeout(function() { 
+                            coursDataTable.search('').draw();
+                            coursDataTable.page(currentPage).draw('page');
+                        }, 3000);
                     }
                 })
             }
@@ -200,6 +208,8 @@ $(document).on('click', '.btnDeleteCours', function()
                                         });
                                         coursDataTable.ajax.reload(null, false);
                                         getCoursList();
+                                        coursDataTable.search('').draw();
+                                        coursDataTable.page(currentPage).draw('page');
                                     },
                                     error: function(response){
                                         Swal.fire({
@@ -243,6 +253,8 @@ function resetCoursForm(action)
     }
 }
 
+
+// Get all cours List from the Database and diplay asyncronously on menu
 function getCoursList()
 {
     $.ajax(
