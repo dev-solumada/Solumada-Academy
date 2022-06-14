@@ -41,6 +41,12 @@ $('#btnCreateCours').on('click', function()
 });
 
 
+function searchOnDatatable(datatable, value)
+{
+    datatable.search(value).draw();
+}
+
+// Function to Save new Cours
 $("#saveCours").on("click", function()
 {
     AddCourData = {
@@ -62,10 +68,10 @@ $("#saveCours").on("click", function()
                 $('#errorAddCour').html('<strong>'+response+'</strong>' + ': Cours name already exist');
             }
             else {
-                $('#closeCoursModal').click();
                 resetCoursForm(action='addCours');
                 getCoursList();
                 responsetxt = response + ' Saved successfully';
+                $('#closeAddCoursModal').click();
                 Swal.fire(
                     'Cours Saved',
                     responsetxt,
@@ -75,6 +81,7 @@ $("#saveCours").on("click", function()
                 }).then((result) => {
                     if (result.isConfirmed) {
                         coursDataTable.ajax.reload(null, false);
+                        searchOnDatatable(datatable=coursDataTable, value=response);
                     }
                 });
             }
@@ -83,7 +90,7 @@ $("#saveCours").on("click", function()
 });
 
 
-
+// Function to get Cours from backend and insert it at Modal Update Cours
 $(document).on('click', '.btnUpdateCours', function()
 {
     column = $(this).closest('tr');
@@ -99,9 +106,8 @@ $(document).on('click', '.btnUpdateCours', function()
                         $('#cours_id').val(cours._id);
                         $('#nameCours_update').val(cours.name_Cours);
                         $('#typeCours_update').val(cours.type);
-                        $('#professeur_update').val(cours.professeur);
                         $('#date_Commenc_update').val(new Date(cours.date_Commenc).toISOString().split('T')[0]);
-    
+                        $('#professeur_update').val(cours.professeur);
                     },
                 error: function(err){
                         alert(JSON.stringify(err));
@@ -110,7 +116,7 @@ $(document).on('click', '.btnUpdateCours', function()
         )
 });
 
-
+// Function to Save the Update on Cours
 $(document).on('click', '#saveUpdateCours', function(){
     formUpdateCoursData = {
         id : $('#cours_id').val(),
@@ -132,6 +138,7 @@ $(document).on('click', '#saveUpdateCours', function(){
                 resetCoursForm(action='updateCours');
                 responsetxt = "cours " + response + ' Updated successfully';
                 getCoursList();
+                $('#closeCoursModal').click();
                 Swal.fire(
                     'Cours Updated',
                     responsetxt,
@@ -140,7 +147,8 @@ $(document).on('click', '#saveUpdateCours', function(){
                     confirmButtonText: 'Ok',
                   }).then((result) => {
                     if (result.isConfirmed) {
-                        userDatatable.ajax.reload(null, false);
+                        
+                        coursDataTable.ajax.reload(null, false);
                     }
                 })
             }
@@ -151,7 +159,7 @@ $(document).on('click', '#saveUpdateCours', function(){
     })
 });
 
-
+// Function to Delete Cours
 $(document).on('click', '.btnDeleteCours', function()
 {
     column = $(this).closest('tr');
@@ -166,8 +174,7 @@ $(document).on('click', '.btnDeleteCours', function()
             {
                     var coursName = cours.name_Cours
                     var txt = "Are you sure to delete " + coursName +"?";
-                    getCoursList();
-                        Swal.fire({
+                    Swal.fire({
                             title: 'Delete Cours',
                             text: txt,
                             icon: 'warning',
@@ -183,7 +190,7 @@ $(document).on('click', '.btnDeleteCours', function()
                                     data: { name_Cours: coursName },
                                     success: function(coursName){
 
-                                        responsetxt = "Cours " + coursName + 'Deleted successfully';
+                                        responsetxt = "Cours " + coursName + ' Deleted successfully';
                                         Swal.fire({
                                             position: 'center',
                                             icon: 'success',
@@ -192,6 +199,7 @@ $(document).on('click', '.btnDeleteCours', function()
                                             timer: 1600
                                         });
                                         coursDataTable.ajax.reload(null, false);
+                                        getCoursList();
                                     },
                                     error: function(response){
                                         Swal.fire({
@@ -211,6 +219,8 @@ $(document).on('click', '.btnDeleteCours', function()
 });
 
 
+
+// Reset the Cours Modal Form
 function resetCoursForm(action)
 {
     $('#closeCoursModal').click();

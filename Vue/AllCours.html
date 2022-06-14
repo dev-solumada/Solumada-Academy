@@ -271,7 +271,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="closeCoursModal"
+                            <button type="button" class="btn btn-danger" id="closeAddCoursModal"
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button" id="saveCours">Save</button>
                         </div>
@@ -327,10 +327,9 @@
                                         <div class="col col-md-3"><label for="teacher"
                                                 class="form-control-label">Proffessor</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Teacher"
-                                                class="standardSelect form-control" id="professeur_update" tabindex="1">
+                                            <select data-placeholder="Choose Teacher" class="form-control" id="professeur_update" tabindex="1">
                                                 <% listuser.forEach(function(listuser) { %>
-                                                <option value="<%= listuser.m_code %>"><%= listuser.username %></option>
+                                                <option value="<%= listuser.username %>"><%= listuser.username %></option>
                                                 <% }); %>
                                             </select>
                                             <span id="np" style="color:red;font-size: smaller;display:none;">Entrez Nom
