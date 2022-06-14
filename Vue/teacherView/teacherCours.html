@@ -68,13 +68,11 @@
                             <% listcours.forEach(listcours=> { %>
                                 <li class="dropdown menu-item-has-children">
                                     <i class="fa fa-bookmark"></i>
-                                    <a href="/teacherCours/<%= listcours.name_Cours %>"
-                                        onclick="getdataGP('/getdataGP','<%= listcours.name_Cours %>')" id="obg-item">
+                                    <a href="/teacherCours/<%= listcours.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcours.name_Cours %>')" id="obg-item">
                                         <%= listcours.name_Cours%>
                                     </a>
                                 </li>
-
-                                <%}); %>
+                            <%}); %>
                         </ul>
                     </li>
                     <li>
@@ -101,8 +99,6 @@
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-
-
 
                     </div>
                 </div>
@@ -1274,7 +1270,7 @@
                                     class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
-                                            <div class="feedbaa" alert alert-danger text-center" role="alert" id="error"
+                                            <div class="feedbaa alert alert-danger text-center" role="alert" id="error"
                                                 style="display: none;color:red"></small>
                                                 <small class="alert alert-success text-center" role="alert" id="success"
                                                     style="display: none;color:green"></small>
@@ -1332,14 +1328,6 @@
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="../assets/basetemplate/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../assets/basetemplate/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../assets/basetemplate/vendors/pdfmake/build/vfs_fonts.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
     <script>
         jQuery(document).ready(function () {
