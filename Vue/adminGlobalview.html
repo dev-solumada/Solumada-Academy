@@ -166,8 +166,6 @@
                             <center>
                                 <small class="alert-danger" id="error"
                                     style="display: none;color:red"></small>
-                                <small class="alert-success" id="success"
-                                    style="display: none;color:green"></small>
                             </center>
                             <div class="card-body">
                                 <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
@@ -178,9 +176,15 @@
                                             <th>Numbering</th>
                                             <th>Cours Level</th>
                                             <th>
-                                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalPoint">
-                                                        <i class="fa fa-plus"></i>
-                                                </button>Point
+                                                <div class="d-flex justify-content-evenly">
+                                                    <div>
+                                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalPoint">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                     </div>
+                                                    <div>Point</div>
+                                                </div>
+                                                </div>
                                             </th>
                                             <th>
                                                 <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalGraduation">

@@ -248,7 +248,7 @@ $(document).on('click', '#saveUpdateUser', function(){
     })
 });
 
-
+// Function to delete User
 $(document).on('click', '.btnDeleteUser', function()
 {
     column = $(this).closest('tr');
@@ -312,6 +312,8 @@ $(document).on('click', '.btnDeleteUser', function()
     )
 });
 
+
+// Function to get user data from backend before to delete it
 function getuserAndDelete(id)
 {
 
@@ -373,7 +375,7 @@ function getuserAndDelete(id)
     )
 }
 
-
+// Function to reset all Modal form
 function resetForm(action)
 {
     switch(action){
@@ -383,6 +385,7 @@ function resetForm(action)
             $('#m_code').val('');
             $('#num_agent').val('');
             $('#user_type').val('');
+            $('#errorAddUser').css('display', 'none');
             break;
         case 'update':
             $('#name_update').val('');
@@ -390,6 +393,7 @@ function resetForm(action)
             $('#m_code_update').val('');
             $('#num_agent_update').val('');
             $('#user_type_update').val('');
+            $('#errorUpdateUser').css('display', 'none');
             break;
     }
 }
