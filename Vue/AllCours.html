@@ -63,28 +63,27 @@
                     </a>
                   </li>
                   <li class="menu-item-has-children active dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="menu-icon fa fa-book"></i>My Cours</a
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Cours</a>
                     <ul class="sub-menu children dropdown-menu">
-                      <% cours.forEach(cours => { %>
                         <li class="dropdown menu-item-has-children">
-                          <i class="fa fa-bookmark"></i>
-                          <a href="/teacherCours/<%= cours.name_Cours %>" 
-                            onclick="getdataGP('/getdataGP','<%= cours.name_Cours %>')"
-                             id="obg-item"><%= cours.name_Cours%></a>
+                            <i class="fa fa-bookmark"></i><a id="obg-item">Obligatory</a>
+                            <ul class="sub-menu children" id="dropdownCoursObligatory">
+
+                            </ul>
                         </li>
-                        
-                      <%});
-                      %>
+
+                        <li class="menuCours">
+                            <i class="fa fa-bookmark-o"></i><a class="obg-item" href="">Optional</a>
+                            <ul class="sub-menu children" id="dropdownCoursOptional">
+
+                            </ul>
+                        </li>
+
+                        <li class="menuCours"><i class="fa fa-bookmark"></i><a href="/listeCours">All Cours</a></li>
+
                     </ul>
-                  </li>
+                </li>
                   <li>
                     <a href="/teacherGlobalView">
                       <i class="menu-icon fa fa-eye"></i>Global view
