@@ -34,6 +34,11 @@ let userDatatable = $("#userTable").DataTable({
 });
 
 
+function searchOnDatatable(datatable, value)
+{
+    datatable.search(value).draw();
+}
+
 $('#deleteSelectedUser').on('click', function(e)
     {
         var rows_selected = userDatatable.column(0).checkboxes.selected();
@@ -154,7 +159,12 @@ $('#saveUser').on("click", function()
                     $('#closeModal').click();
                     if (result.isConfirmed) {
                         userDatatable.ajax.reload(null, false);
-                        userDatatable.page(currentPage).draw('page');
+                        searchOnDatatable(datatable=userDatatable, value=response);
+                        setTimeout(function() { 
+                            userDatatable.search('').draw();
+                            userDatatable.ajax.reload(null, false);
+                            userDatatable.page(currentPage).draw('page');
+                        }, 3000);
                     }
                 })
             }
@@ -221,8 +231,12 @@ $(document).on('click', '#saveUpdateUser', function(){
                     confirmButtonText: 'Ok',
                   }).then((result) => {
                     if (result.isConfirmed) {
-                        userDatatable.ajax.reload(null, false);
-                        userDatatable.page(currentPage).draw('page');
+                        searchOnDatatable(datatable=userDatatable, value=response);
+                        setTimeout(function() { 
+                            userDatatable.search('').draw();
+                            userDatatable.ajax.reload(null, false);
+                            userDatatable.page(currentPage).draw('page');
+                        }, 2000);
                     }
                 });
                 $('#closeModalUpdate').click();

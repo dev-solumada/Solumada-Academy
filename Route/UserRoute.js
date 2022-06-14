@@ -732,10 +732,8 @@ routeExp.route("/allCoursLists").get(async function (req, res) {
         .then(async () => {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' }).select("name_Cours");
             var listcourFac = await CoursModel.find({ type: 'facultatif' }).select("name_Cours");
-            // var listUser = await UserSchema.find({ validation: true });
             data = { listcourOblig: listcourOblig, listcourFac:listcourFac };
             var data = JSON.stringify(data);
-            console.log(data);
             res.send(data);
         });
 
@@ -938,7 +936,6 @@ routeExp.route("/getCours").post(async function (req, res) {
 
 //Update User
 routeExp.route("/updatecours").post(async function (req, res) {
-    console.log(req.body);
     var id = req.body.id;
     var name_Cours = req.body.name_Cours;
     var date_Commenc = req.body.date_Commenc;
