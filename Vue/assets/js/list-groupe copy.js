@@ -263,31 +263,20 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var selectedValue = ''
-
-                jQuery('.prensentSelect').change(function(evt, params){
-                    jQuery('.absentSelect').html(''); //Clear
-                    jQuery('.prensentSelect option:not(:selected)')
-                        .clone()
-                        .appendTo('.absentSelect')
-
+                jQuery('.prensentSelect').on('change', function (evt, params) {
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
                     console.log("selectedV ", selectedValue);
+                });
 
-                })
 
-                jQuery('.absentSelect').change(function(evt, params){
+                jQuery(document).ready(function () {
                     jQuery(".absentSelect").chosen({
                         disable_search_threshold: 10,
                         no_results_text: "Oops, nothing found!",
                         width: "100%"
                     });
                 });
-                // jQuery(".absentSelect").chosen({
-                //     disable_search_threshold: 10,
-                //     no_results_text: "Oops, nothing found!",
-                //     width: "100%"
-                // });
 
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").trigger("chosen:updated");
