@@ -46,19 +46,9 @@ function sendRequest(url, groupeVal, cours) {
     http.send("groupe=" + groupeVal + "&cours=" + cours);
 }
 
-//table.style.display = "none";
-// function getdataGPLoad() {
-//     var cours = document.getElementById('cours').value;
-//     console.log("cours ", cours);
-//     //table.style.display = "block";
-//     sendRequestLoad('/groupe', groupeVal, cours);
-// }
-
-//table.style.display = "none";
 function getdataGPLoad(url) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
-    console.log("groupeVal ", groupeVal);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -66,11 +56,11 @@ function getdataGPLoad(url) {
                 window.location = "/listeCours/" + cours;
             }
             else {
-                window.location = "/listeCours/" + cours + "?select-group=" + groupeVal;
+                window.location = "/listeCours/" + cours + "?select-group=" + groupeId.value;
             }
         }
     };
-    http.send("groupe=" + groupeVal + "&cours=" + cours.value);
+    http.send("groupe=" + groupeId.value + "&cours=" + cours.value);
 }
 
 
@@ -272,7 +262,6 @@ function sendRequestPresence(url, gpe, cours) {
 
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
-                    console.log("selectedV ", selectedValue);
 
                 })
 

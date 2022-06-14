@@ -663,8 +663,6 @@ routeExp.route("/addcours").post(async function (req, res) {
     var date_Commenc = req.body.date_Commenc;
     var typeCours = req.body.typeCours;
     var professeur = req.body.professeur;
-    console.log(req.body);
-    console.log("professeur == ", professeur);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -756,7 +754,6 @@ routeExp.route("/allUsers").get(async function (req, res) {
             .then(async () => {
                 var allusers = await UserSchema.find().select("username m_code num_agent type_util");
                 users = JSON.stringify(allusers);
-                console.log(users);
                 res.send(users);
             });
     }
@@ -912,7 +909,6 @@ routeExp.route("/getCours").post(async function (req, res) {
 
 //Update User
 routeExp.route("/updatecours").post(async function (req, res) {
-    console.log(req.body);
     var id = req.body.id;
     var name_Cours = req.body.name_Cours;
     var date_Commenc = req.body.date_Commenc;
@@ -1043,7 +1039,6 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                     }
                 }
             ])
-            console.log("coursM ", coursM);
             res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
@@ -1084,8 +1079,7 @@ routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
                     }
                 }
             ])
-            console.log("coursM ", coursM);
-            res.render("./back/ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("./back/ListeCours.html", { coursM:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
     //     res.redirect("/");
@@ -1143,7 +1137,6 @@ routeExp.route("/newmembre").post(async function (req, res) {
 routeExp.route("/groupe").post(async function (req, res) {
     var groupe = req.body.groupe
     var cours = req.body.cours
-    console.log("groupe ", groupe, cours);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1173,7 +1166,7 @@ routeExp.route("/groupe").post(async function (req, res) {
                 }
             ])
             var coursM = await CoursModel.find({ $or: [{ name_Cours: cours }] })
-            res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre, time: time, parcours: parcours, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            res.render("ListeCours.html", {  ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre, time: time, parcours: parcours, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             
         });
 
@@ -1363,14 +1356,13 @@ routeExp.route("/addxlsx").get(async function (req, res) {
             };
             var liste = []
             parseExcel("./Vue/assets/listeUser.xls").forEach(element => {
-                console.log(element.data);
                 liste.push(element.data)
             });
 
             var listUser = await UserSchema.find({ validation: true });
             var passdefault = "solumada0000";
             var value = liste[0]
-            console.log("name: ",value.length);
+            //console.log("name: ",value.length);
             for (let i = 137; i < value.length; i++) {
 
                 var user = value[i];
@@ -1386,9 +1378,9 @@ routeExp.route("/addxlsx").get(async function (req, res) {
                 var list = await UserSchema.find({ validation: true })
                 if (list[i+4].name == user.NOM) {
                     
-                    console.log("liste ", list[i].name);
-                    console.log("new_emp ", user.NOM);
-                    console.log("new_emp ", user.PRENOM);
+                    // console.log("liste ", list[i].name);
+                    // console.log("new_emp ", user.NOM);
+                    // console.log("new_emp ", user.PRENOM);
                     //await UserSchema.findOneAndUpdate({name: user.NOM}, { firstname: user.PRENOM });
                 }
                 for (let i = 0; i < list.length; i++) {
