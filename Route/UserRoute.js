@@ -1380,13 +1380,14 @@ routeExp.route("/addxlsx").get(async function (req, res) {
             };
             var liste = []
             parseExcel("./Vue/assets/listeUser.xls").forEach(element => {
+
                 liste.push(element.data)
             });
 
             var listUser = await UserSchema.find({ validation: true });
             var passdefault = "solumada0000";
             var value = liste[0]
-            //console.log("name: ",value.length);
+
             for (let i = 137; i < value.length; i++) {
 
                 var user = value[i];
