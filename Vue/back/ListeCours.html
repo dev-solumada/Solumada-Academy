@@ -476,7 +476,9 @@
                                                                                         <%= tabl.user %>
                                                                                     </option>
                                                                                     <% } %>
-                                                                                        <% }); %>
+                                                                                        <% }); 
+                                                                                        console.log("ccc ", ParcoursAbsent);
+                                                                                        %>
                                                                         </select>
                                                                     </td>
                                                                     <td class="text-center">
@@ -485,7 +487,7 @@
                                                                             <button type="button"
                                                                                 class="btn px-2 btn-sm btn-warning"
                                                                                 type="button" id="delete"
-                                                                                onclick="getParcours('/getParcours','<%= JSON.stringify(ParcoursAbsent._id) %>')"
+                                                                                onclick="getParcours('/getParcoursUpdate','<%= JSON.stringify(ParcoursAbsent._id) %>')"
                                                                                 class="btn btn-sm btn-warning"
                                                                                 data-toggle="modal"
                                                                                 data-target="#parcoursModalUpdate">
