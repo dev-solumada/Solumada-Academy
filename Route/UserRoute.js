@@ -293,6 +293,7 @@ routeExp.route("/dropuser").post(async function (req, res) {
         .then(async () => {
             try {
                 await UserSchema.findOneAndDelete({ username: email });
+                var cgn=  await CGNModel.deleteMany({ username: email });
                 res.send("success");
             } catch (err) {
                 console.log(err);
@@ -1042,6 +1043,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                     }
                 }
             ])
+            console.log("coursM ", coursM);
             res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
@@ -1053,41 +1055,41 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
 routeExp.route("/listeCoursBack/:cours").get(async function (req, res) {
     var session = req.session;
     var nomCours = req.params.cours;
-    if (session.type_util == "Admin") {
-        mongoose
-            .connect(
-                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-                {
-                    useUnifiedTopology: true,
-                    UseNewUrlParser: true,
-                }
-            )
-            .then(async () => {
 
-                var listgroupe = await GroupeModel.find({ cours: nomCours });
-                var listUser = await UserSchema.find({ cours: nomCours });
-                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
-                var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                var time = await EmplTemp.find({ cours: nomCours });
+    //if (session.type_util == "Admin") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
 
-                parcours = await ParcoursModel.find({ cours: nomCours });
-
+            var listgroupe = await GroupeModel.find({ cours: nomCours });
+            var listUser = await UserSchema.find({ cours: nomCours });
+            var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+            var listcourFac = await CoursModel.find({ type: 'facultatif' });
+            var time = await EmplTemp.find({ cours: nomCours });
             var coursM = await CoursModel.find({ $or: [{ name_Cours: nomCours }] })
-                var ParcoursAbsent = await ParcoursModel.aggregate([
-                    { $match: { $or: [{ cours: nomCours }] } },
-                    {
-                        $group: {
-                            _id:
-                                { cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
-                            tabl: { $push: { user: "$user", presence: "$presence" } }
-                        }
+            parcours = await ParcoursModel.find({ cours: nomCours });
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+                { $match: { $or: [{ cours: nomCours }] } },
+                {
+                    $group: {
+                        _id:
+                            { week: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                        tabl: { $push: { user: "$user", presence: "$presence" } }
                     }
-                ])
-                res.render("./AvecBack/ListeCours.html", { cours_prof: coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
-            });
-    } else {
-        res.redirect("/");
-    }
+                }
+            ])
+            console.log("coursM ", coursM);
+            res.render("./back/ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+        });
+    // } else {
+    //     res.redirect("/");
+    // }
 });
 
 //Post Add new membre in groupe

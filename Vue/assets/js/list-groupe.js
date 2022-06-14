@@ -54,7 +54,7 @@ function sendRequest(url, groupeVal, cours) {
 //     sendRequestLoad('/groupe', groupeVal, cours);
 // }
 
-
+//table.style.display = "none";
 function getdataGPLoad(url) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -214,12 +214,13 @@ function anuler() {
 }
 function anulerBack() {
     var cours = document.getElementById("cours").value;
-    window.location = "/listeCours/" + cours
+    window.location = "/listeCoursBack/" + cours
 }
 
 
 var present = document.getElementById('present')
 var absent = document.getElementById('absent')
+
 function groupePresence(sel) {
     for (let index = 0; index < ('#present option').length; index++) {
         const element = ('#present option')[index];
@@ -265,8 +266,8 @@ function sendRequestPresence(url, gpe, cours) {
                 jQuery('.prensentSelect').on('change', function (evt, params) {
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
+                    console.log("selectedV ", selectedValue);
                 });
-
 
 
                 jQuery(document).ready(function () {
@@ -276,8 +277,6 @@ function sendRequestPresence(url, gpe, cours) {
                         width: "100%"
                     });
                 });
-
-                var val = 'developpeur.solumada@gmail.com';
 
                 jQuery('.absentSelect').on('change', function (evt, params) {
                     jQuery('select option .absentSelect[value="developpeur.solumada@gmail.com"]').attr("selected", true);
