@@ -176,20 +176,24 @@
                                             <th>Numbering</th>
                                             <th>Cours Level</th>
                                             <th>
-                                                <div class="d-flex justify-content-evenly">
+                                                <div class="d-flex justify-content-around">
+                                                    <div>Points</div>
                                                     <div>
-                                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalPoint">
+                                                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalPoint">
                                                             <i class="fa fa-plus"></i>
                                                         </button>
                                                      </div>
-                                                    <div>Point</div>
                                                 </div>
                                                 </div>
                                             </th>
                                             <th>
-                                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalGraduation">
+                                                <div class="d-flex justify-content-around">
+                                                    <div>Graduations</div>
+                                                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalGraduation">
                                                         <i class="fa fa-plus"></i>
-                                                </button>Graduation</th>
+                                                    </button>
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -226,7 +230,7 @@
                                                             <% });
                                                             var table = membre.tabl %>    
                                                         </select>
-                                                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="getPoint('/updatePoint','<%= JSON.stringify(table) %>')" 
+                                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" onclick="getPoint('/updatePoint','<%= JSON.stringify(table) %>')" 
                                                         >
                                                         <i class="fa fa-plus"></i>
                                                     </button>
@@ -246,7 +250,7 @@
                                                             <% });
                                                             var donne = membre.tabl%>   
                                                         </select>
-                                                        <button class="btn btn-sm btn-success" data-toggle="modal"onclick="getGrad('/updateGrad','<%= JSON.stringify(donne) %>')"
+                                                        <button class="btn btn-sm btn-secondary" data-toggle="modal"onclick="getGrad('/updateGrad','<%= JSON.stringify(donne) %>')"
                                                              >
                                                             <i class="fa fa-plus"></i>
                                                         </button>
