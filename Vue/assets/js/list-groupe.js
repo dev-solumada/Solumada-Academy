@@ -10,7 +10,7 @@ var select_jour = document.getElementById("sjour");
 var timeStart = document.getElementById("timeS");
 var timeEnd = document.getElementById("timeE");
 
-var week_cptDel = document.getElementById("week_cptDel");
+var week_cptD = document.getElementById("week_cptDelB");
 var weekDate = document.getElementById("weekDate");
 var timeSDel = document.getElementById("timeSDel");
 var timeEDel = document.getElementById("timeEDel");
@@ -510,7 +510,13 @@ function deleteE(url, deleteMembre) {
     http.send("id=" + deleteMembre);
 }
 
-
+function format(input) {
+    var pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+    if (!input || !input.match(pattern)) {
+      return null;
+    }
+    return input.replace(pattern, '$2/$3/$1');
+  };
 function getParcours(url, id) {
     var param = JSON.parse(id)
     console.log("cccccc",param );
@@ -520,14 +526,20 @@ function getParcours(url, id) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText)
-            console.log("data ", data);
+            console.log("data ", data[0]);
             var dateFormat = new Date(data[0]._id.date).toLocaleDateString("fr")
-            //console.log("dateFormat",new Date(dateFormat).toLocaleDateString());
-            week_cptDel.value = data[0]._id.week
-            weekDate.value = dateFormat
+            //console.log("dateFormat",dateFormat)
+            // //new Date(dateFormat).toLocaleDateString());
+            const [day, month, year] = dateFormat.split('/');
+            const result = `${year}-${month}-${day}`;
+            // console.log("dateFormat",result)
+            console.log("week ", data[0]._id.week);
+            document.getElementById("week_cptDelB").value="week_4";
+            weekDate.value = result
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
+            console.log("week ", week_cptD.value);
             //console.log("data[0]._id ",data._id.date.toLocaleDateString("fr") );
         }
     };
