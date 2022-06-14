@@ -1231,7 +1231,6 @@
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
             });
             var activeTab = localStorage.getItem('activeTab');
-            alert(activeTab);
             if(activeTab){
                 $('#myTab a[href="' + activeTab + '"]').tab('show');
             }
