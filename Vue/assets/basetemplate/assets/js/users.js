@@ -235,7 +235,6 @@ $(document).on('click', '#saveUpdateUser', function(){
                         searchOnDatatable(datatable=userDatatable, value=response);
                         setTimeout(function() { 
                             userDatatable.search('').draw();
-                            alert(currentPage);
                             userDatatable.page(currentPage).draw('page');
                         }, 3000);
                     }
