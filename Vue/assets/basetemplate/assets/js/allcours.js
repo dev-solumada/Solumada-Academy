@@ -27,7 +27,9 @@ let coursDataTable = $('#CoursTable').DataTable(
             "targets": 2,
             "render": function(data)
                     {
-                        return  (""+ new Date(data).getDay() + "/" + new Date(data).getMonth() + "/" + new Date(data).getFullYear());
+                        var date = new Date(data);
+                        var month = date.getUTCMonth() + 1;
+                        return  (date.getUTCDay() + "/" + month + "/" + date.getUTCFullYear());
                     }
             } 
         ]
@@ -110,8 +112,13 @@ $(document).on('click', '.btnUpdateCours', function()
                         $('#cours_id').val(cours._id);
                         $('#nameCours_update').val(cours.name_Cours);
                         $('#typeCours_update').val(cours.type);
-                        $('#date_Commenc_update').val(new Date(cours.date_Commenc).toISOString().split('T')[0]);
-                        $('#professeur_update').val(cours.professeur);
+                        var date = new Date(cours.date_Commenc);
+                        var day = date.getUTCDay();
+                        var month = date.getUTCMonth();
+                        var year = date.getUTCFullYear();
+                        date = `${day}/${month + 1}/${year}`;
+                        alert(date);
+                        $('#date_Commenc_update').val(date);
                     },
                 error: function(err){
                         alert(JSON.stringify(err));
