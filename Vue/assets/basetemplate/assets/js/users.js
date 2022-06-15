@@ -23,11 +23,11 @@ let userDatatable = $("#userTable").DataTable({
                     }
                 ],
     'columnDefs':  [
-                        {
-                            'targets': 0,
-                            'className': 'select-checkbox',
-                            'checkboxes':  { 'selectRow': true }
-                        }
+                        { 'targets': 0, 'className': 'select-checkbox', 'checkboxes':  { 'selectRow': true } },
+                        { 'targets': 1, 'width': '20%' },
+                        { 'targets': 2, 'width': '20%' },
+                        { 'targets': 3, 'width': '15%' },
+                        { 'targets': 4, 'width': '15%' }
                     ],
     'select':  { 'style': 'multi' },
     'order': [[0, 'asc']]
