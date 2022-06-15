@@ -334,7 +334,6 @@
 
                                                             <% time.forEach(function(time) { %>
                                                                 <tr>
-
                                                                     <td>
                                                                         <%= time.jours %>
                                                                     </td>
@@ -407,8 +406,14 @@
                                                         </thead>
                                                         <tbody>
 
-                                                            <% ParcoursAbsent.forEach(function(ParcoursAbsent) { %>
+                                                            <% ParcoursAbsent.forEach(function(ParcoursAbsent) { 
+                                                                console.log("Parcours ", ParcoursAbsent);
+                                                                %>
                                                                 <tr>
+                                                                    <td>
+                                                                        <%= ParcoursAbsent._id.week
+                                                                            %>
+                                                                    </td>
                                                                     <td>
                                                                         <%= ParcoursAbsent._id.date.toLocaleDateString("fr")
                                                                             %>
