@@ -116,7 +116,7 @@ $(document).on('click', '.btnUpdateCours', function()
                         var day = date.getUTCDay();
                         var month = date.getUTCMonth();
                         var year = date.getUTCFullYear();
-                        date = `${day}/${month}/${year}`;
+                        date = `${day}/${month + 1}/${year}`;
                         alert(date);
                         $('#date_Commenc_update').val(date);
                     },
