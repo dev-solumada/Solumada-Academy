@@ -102,7 +102,7 @@
                     <li class="dropdown menu-item-has-children">
                         <i class="fa fa-bookmark"></i>
                         <a href="/teacherCours/<%= listcours.name_Cours %>" onclick="getdataGP('/getdataGP','<%= listcours.name_Cours %>')" id="obg-item">
-                            <%= listcours.name_Cours%>
+                            <%= listcours.name_Cours %>
                         </a>
                     </li>
                 <%}); %>
@@ -258,8 +258,7 @@
                                                                                             { %>
                                                                                             <option
                                                                                                 value="<%= listgroupe.name_Groupe %>">
-                                                                                                <%= listgroupe.name_Groupe
-                                                                                                    %>
+                                                                                                <%= listgroupe.name_Groupe %>
                                                                                             </option>
                                                                                             <% }); %>
                                                                                     </select>
@@ -364,9 +363,6 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-
-
-
                                                             <% time.forEach(function(time) { %>
                                                                 <tr>
                                                                     <td>
@@ -441,14 +437,8 @@
                                                         </thead>
                                                         <tbody>
 
-                                                            <% ParcoursAbsent.forEach(function(ParcoursAbsent) { 
-                                                                console.log("Parcours ", ParcoursAbsent);
-                                                                %>
+                                                            <% ParcoursAbsent.forEach(function(ParcoursAbsent) { %>
                                                                 <tr>
-                                                                    <td>
-                                                                        <%= ParcoursAbsent._id.week
-                                                                            %>
-                                                                    </td>
                                                                     <td>
                                                                         <%= ParcoursAbsent._id.date.toLocaleDateString("fr")
                                                                             %>
@@ -463,6 +453,9 @@
                                                                         <%= ParcoursAbsent._id.groupe %>
                                                                     </td>
                                                                     <td>
+                                                                        <%= ParcoursAbsent._id.groupe %>
+                                                                    </td>
+                                                                    <td>
                                                                         <select data-placeholder=""
                                                                             class="form-control standardSelect"
                                                                             tabindex="1">
@@ -472,8 +465,8 @@
                                                                                     <option value="">
                                                                                         <%= tabl.user %>
                                                                                     </option>
-                                                                                    <% } %>
-                                                                                        <% }); %>
+                                                                                 <% } %>
+                                                                            <% }); %>
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -486,8 +479,8 @@
                                                                                     <option value="">
                                                                                         <%= tabl.user %>
                                                                                     </option>
-                                                                                    <% } %>
-                                                                                        <% }); %>
+                                                                                <% } %>
+                                                                            <% }); %>
                                                                         </select>
                                                                     </td>
                                                                     <td class="text-center">
@@ -1371,16 +1364,12 @@
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
             });
+            
+
             var activeTab = localStorage.getItem('activeTab');
             if(activeTab){
                 $('#myTab a[href="' + activeTab + '"]').tab('show');
             }
-
-            jQuery(".standardSelect").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
         });
     </script>
 

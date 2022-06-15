@@ -484,7 +484,7 @@ routeExp.route("/groupeTeacher").post(async function (req, res) {
         .then(async () => {
             var listcours = await CoursModel.find({ professeur: req.session.nomProf });
             var listgroupe = await GroupeModel.find({ cours: cours });
-            membre = await CGNModel.find({ cours: cours, groupe: groupe })
+            var membre = await CGNModel.find({ cours: cours, groupe: groupe })
 
             var listUser = await UserSchema.find({ cours: cours });
 
