@@ -8,6 +8,7 @@ const UserCGN = mongoose.Schema({
    groupe: String,
    niveau: String,
    point: String,
-   graduation: String
+   graduation: String,
+   professeur: String
 })
 module.exports = mongoose.model('UserCGN', UserCGN);

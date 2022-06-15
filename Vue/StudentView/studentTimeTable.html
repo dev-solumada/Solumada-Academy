@@ -148,30 +148,38 @@
                                 <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Week date</th>
+                                            <th>Cours</th>
+                                            <th>Day</th>
                                             <th>Group Name</th>
                                             <th>Start At</th>
                                             <th>End At</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% time.forEach(function(time) { %>
+                                        <% time.forEach(function(time0) { 
+                                            time0.forEach(function(time1){ %>
                                             <tr>
 
                                                 <td>
-                                                    <%= time.jours %>
+                                                    <%= time1.cours %>
                                                 </td>
                                                 <td>
-                                                    <%= time.groupe %>
+                                                    <%= time1.jours %>
                                                 </td>
                                                 <td>
-                                                    <%= time.heureStart %>
+                                                    <%= time1.groupe %>
                                                 </td>
                                                 <td>
-                                                    <%= time.heureFin %>
+                                                    <%= time1.heureStart %>
                                                 </td>
+
+                                                <td>
+                                                    <%= time1.heureFin %>
+                                                </td>
+
+
                                             </tr>
-                                            <% }); %>
+                                            <% }); }); %>
                                         
                                     </tbody>
                                 </table>
@@ -181,7 +189,8 @@
                 </div>
             </div>
         </div>
-    </div><!-- /#right-panel -->
+    </div>
+    <!-- /#right-panel -->
 
     <!-- Right Panel -->
 

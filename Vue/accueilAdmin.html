@@ -30,11 +30,7 @@
     />
     <link rel="stylesheet" href="./assets/basetemplate/assets/css/style.css" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -95,7 +91,7 @@
                     <li class="sub-menu-item">
                       <i class="fa fa-arrow-circle-o-right"></i
                       ><a
-                        href="/listeCoursBack/<%= listcourOblig.name_Cours %>"
+                        href="/listeCours/<%= listcourOblig.name_Cours %>"
                         onclick="getdataGP('/getdataGP','<%= listcourOblig.name_Cours %>' ,'<%= listcourOblig.type %>')"
                       >
                         <%= listcourOblig.name_Cours %></a
@@ -113,7 +109,7 @@
                     <li class="sub-menu-item">
                       <i class="fa fa-arrow-circle-o-right"></i
                       ><a
-                        href="/listeCoursBack/<%= listcourFac.name_Cours %>"
+                        href="/listeCours/<%= listcourFac.name_Cours %>"
                         onclick="getdataGP('/getdataGP','<%= listcourFac.name_Cours %>' ,'<%= listcourFac.type %>')"
                         ><%= listcourFac.name_Cours %></a
                       >
