@@ -4,6 +4,13 @@
 
     /*  Data Table
     -------------*/
+	
+
+	$('#tableGroupTeacher').DataTable({
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		scrollY:        '50vh',
+        scrollCollapse: true,
+    });
 
     $('#bootstrap-data-table-gold').DataTable({
         lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],

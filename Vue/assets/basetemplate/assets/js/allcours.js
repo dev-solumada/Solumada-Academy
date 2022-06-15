@@ -31,7 +31,7 @@ let coursDataTable = $('#CoursTable').DataTable(
                         var date = new Date(data);
                         var month = date.getUTCMonth() + 1;
                         return  (date.getUTCDay() + "/" + month + "/" + date.getUTCFullYear());
-                    }
+                    },
             } 
         ]
     }
@@ -117,7 +117,6 @@ $(document).on('click', '.btnUpdateCours', function()
                         var month = date.getUTCMonth();
                         var year = date.getUTCFullYear();
                         date = `${day}/${month + 1}/${year}`;
-                        alert(date);
                         $('#date_Commenc_update').val(date);
                     },
                 error: function(err){
