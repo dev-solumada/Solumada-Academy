@@ -33,7 +33,7 @@ let userDatatable = $("#userTable").DataTable({
 
 });
 
-
+// Function to filter table by the new  perofrmed action value
 function searchOnDatatable(datatable, value)
 {
     datatable.search(value).draw();
@@ -126,6 +126,7 @@ $('#btnCreateUser').on('click', function()
 
 $('#saveUser').on("click", function()
 {
+    currentPage = parseInt(userDatatable.page.info().page);
     formAddData = {
             name: $('#name').val(),
             email: $('#email').val(),
@@ -162,7 +163,6 @@ $('#saveUser').on("click", function()
                         searchOnDatatable(datatable=userDatatable, value=response);
                         setTimeout(function() { 
                             userDatatable.search('').draw();
-                            userDatatable.ajax.reload(null, false);
                             userDatatable.page(currentPage).draw('page');
                         }, 3000);
                     }
@@ -174,7 +174,6 @@ $('#saveUser').on("click", function()
 
 
 $(document).on('click', '.btnUpdateUser', function(){
-    currentPage = parseInt(userDatatable.page.info().page);
     column = $(this).closest('tr');
     email = column.find('td:eq(1)').text();
     $.ajax(
@@ -201,7 +200,7 @@ $(document).on('click', '.btnUpdateUser', function(){
 
 
 $(document).on('click', '#saveUpdateUser', function(){
-
+    currentPage = parseInt(userDatatable.page.info().page);
     formUpdateData = {
         id : $('#user_id').val(),
         username: $('#name_update').val(),
@@ -231,15 +230,15 @@ $(document).on('click', '#saveUpdateUser', function(){
                     confirmButtonText: 'Ok',
                   }).then((result) => {
                     if (result.isConfirmed) {
+                        userDatatable.ajax.reload(null, false);
                         searchOnDatatable(datatable=userDatatable, value=response);
                         setTimeout(function() { 
                             userDatatable.search('').draw();
-                            userDatatable.ajax.reload(null, false);
+                            alert(currentPage);
                             userDatatable.page(currentPage).draw('page');
-                        }, 2000);
+                        }, 3000);
                     }
-                });
-                $('#closeModalUpdate').click();
+                });                
             }
         },
         error: function(response){
@@ -311,69 +310,6 @@ $(document).on('click', '.btnDeleteUser', function()
         }
     )
 });
-
-
-// Function to get user data from backend before to delete it
-function getuserAndDelete(id)
-{
-
-    $.ajax(
-        {
-            url : "/getuser",
-            method: 'post',
-            dataType: 'json',
-            data: {id: id},
-            success: function(user){
-                    var user_email = user.username
-                    var txt = "Are you sure to delete " + user_email +"?";
-                        Swal.fire({
-                            title: 'Delete User',
-                            text: txt,
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: 'red',
-                            cancelButtonColor: 'green',
-                            confirmButtonText: 'Yes, delete it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    url: '/dropuser',
-                                    method: 'post',
-                                    data: { email: user_email },
-                                    success: function(response){
-                                        responsetxt = user_email + ' Deleted successfully';
-                                        Swal.fire({
-                                            position: 'center',
-                                            icon: 'success',
-                                            title: responsetxt,
-                                            showConfirmButton: false,
-                                            timer: 1600
-                                        });
-                                        window.location = "/listeUser";
-                                    },
-                                    error: function(response){
-                                        Swal.fire({
-                                            position: 'top-center',
-                                            icon: 'error',
-                                            title: response,
-                                            showConfirmButton: false,
-                                            timer: 1600
-                                        });
-                                    }
-                                })
-                            }
-                        })
-                },
-            error: function(err){
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: response
-                });
-            }
-        }
-    )
-}
 
 // Function to reset all Modal form
 function resetForm(action)
