@@ -12,10 +12,11 @@ let coursDataTable = $('#CoursTable').DataTable(
             // {"data": "_id"},
             {"data": "name_Cours"},
             {"data": "professeur"},
+            {"data": ""},
             {"data": "date_Commenc"},
             {"data": "type"},
             {"defaultContent": "\
-                                <div class='btn-group' role='group' aria-label='Basic mixed styles example'>\
+                                <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
                                     <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateCours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#updateCours' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                     <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteCours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                 </div>\
@@ -24,7 +25,7 @@ let coursDataTable = $('#CoursTable').DataTable(
         ],
         "columnDefs": [ 
             {
-            "targets": 2,
+            "targets": 3,
             "render": function(data)
                     {
                         var date = new Date(data);
@@ -73,7 +74,6 @@ $("#saveCours").on("click", function()
                 resetCoursForm(action='addCours');
                 getCoursList();
                 responsetxt = response + ' Saved successfully';
-                $('#closeAddCoursModal').click();
                 Swal.fire(
                     'Cours Saved',
                     responsetxt,
@@ -149,7 +149,6 @@ $(document).on('click', '#saveUpdateCours', function(){
                 resetCoursForm(action='updateCours');
                 responsetxt = "cours " + response + ' Updated successfully';
                 getCoursList();
-                $('#closeCoursModal').click();
                 Swal.fire(
                     'Cours Updated',
                     responsetxt,
@@ -248,6 +247,7 @@ function resetCoursForm(action)
             $('#typeCours').val('');
             $('#professeur').val('');
             $('#errorAddCour').css('display', 'none');
+            $('#closeCoursModal').click();
             break;
         case 'updateCours':
             $('#cours_id').val('');
@@ -256,6 +256,7 @@ function resetCoursForm(action)
             $('#typeCours_update').val('');
             $('#professeur_update').val('');
             $('#errorUpdateCour').css('display', 'none');
+            $('#closeAddCoursModal').click();
             break;
     }
 }
