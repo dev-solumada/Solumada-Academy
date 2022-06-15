@@ -10,6 +10,7 @@ let userDatatable = $("#userTable").DataTable({
     'columns': [
                     {'data': '_id'},
                     {'data': 'username'},
+                    {'data': 'name'},
                     {'data': 'm_code'},
                     {'data': 'num_agent'},
                     {'data': 'type_util'},
