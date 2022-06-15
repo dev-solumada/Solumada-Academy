@@ -522,16 +522,20 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
             )
             .then(async () => {
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
+                
+                //await CGNModel.updateMany({ cours: "Problem solving and decision making" }, { professeur: req.session.nomProf})
+                
                 var membre = await CGNModel.aggregate([
-                    { $match: { $or: [{ cours: cours[0].name_Cours }] } },
+                    { $match: { $or: [{ professeur: cours[0].professeur }] } },
                     {
                         $group: {
                             _id:
-                                { cours: "$cours", username: "$username", m_code: "$mcode", num_agent: "$num_agent" },
+                                {username: "$username", m_code: "$mcode", num_agent: "$num_agent", professeur: "$professeur" },
                             tabl: { $push: { id: "$_id", cours: "$cours",niveau: "$niveau", point: "$point", graduation: "$graduation" } }
                         }
                     }
                 ])
+                
                 var point =  await Point.find({ validation: true });
                 var grad =  await Graduation.find({ validation: true });
                 res.render("./teacherView/teacherGlobalView.html", { point:point, grad:grad, membre: membre, cours: cours});
@@ -587,12 +591,14 @@ routeExp.route("/studentTimeTable").get(async function (req, res) {
             const element = cgn[i];
             groupe.push(element.groupe)
         }
+
         var time = []
         for (let j = 0; j < groupe.length; j++) {
             const element = groupe[j];
-            time = await EmplTemp.find({ $or: [{ groupe: element }]  });
+            time.push(await EmplTemp.find({ $or: [{ groupe: element }]  })) ;
             
         }
+
         res.render("./StudentView/studentTimeTable.html", {time: time});
     }
     else {
@@ -709,6 +715,9 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
             var cours = await CoursModel.find({ validation: true });
+
+
+
             res.render("AllCours.html", { cours : cours, listuser: listUser,listcourOblig: listcourOblig, listcourFac:listcourFac })
 
         });
@@ -1144,6 +1153,8 @@ routeExp.route("/newmembre").post(async function (req, res) {
                 } else {
 
                     var user = await UserSchema.find({ username: listeUser[index] });
+                    var getProf = await CoursModel.find({ $or: [{ name_Cours: cours }] });
+                    console.log("get", getProf[0].professeur);
                     var mcode = ""
                     var num_agent = ""
                     var firstname = ""
@@ -1159,7 +1170,8 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         username: listeUser[index],
                         num_agent: num_agent,
                         mcode: mcode,
-                        firstname: firstname
+                        firstname: firstname,
+                        professeur: getProf[0].professeur
                     };
                     await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
                     await CGNModel(new_membre).save();
