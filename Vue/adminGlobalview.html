@@ -159,7 +159,12 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-success rounded btn-sm"  id="saveChange"><small><i class="fa fa-save"></i> Save Change</small></button>
+                                    <button type="button" onclick="saveAll()" class="btn btn-success rounded btn-sm"  id="saveChange">
+                                        <small>
+                                            <i class="fa fa-save"></i> 
+                                            Save Change
+                                        </small>
+                                    </button>
                                     <strong class="card-title my-auto">Global View</strong>
                                 </div>
                             </div>
@@ -222,7 +227,7 @@
                                                         <input type="hidden" id="custId" name="custId" value="<%= membre._id.point %>">
                                                         <select class="form-control" id="selectPoints">
                                                             <%  if (membre._id.point) {%>
-                                                                <option class="text-center" value=""><%= membre._id.point %></option>
+                                                                <option class="text-center" value="<%= membre._id.m_code %>"><%= membre._id.point %></option>
                                                                 
                                                                 <%}%>
                                                             <% point.forEach(function(point) { %>
