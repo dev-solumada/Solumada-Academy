@@ -27,8 +27,8 @@ var coursM = []
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'developpeur.solumada@gmail.com',
-        pass: 'S0!um2d2'
+        user: 'onisoa.solumada@gmail.com',
+        pass: 'mtgbvuiinvwsplrx'
     }
 });
 function sendEmail(receiver, subject, text) {
@@ -348,6 +348,7 @@ routeExp.route("/login").post(async function (req, res) {
 //Add employee
 routeExp.route("/addemp").post(async function (req, res) {
     var name = req.body.name;
+    var firstname = req.body.firstname;
     var email = req.body.email;
     var m_code = req.body.m_code;
     var num_agent = req.body.num_agent;
@@ -365,8 +366,10 @@ routeExp.route("/addemp").post(async function (req, res) {
                 res.send("error");
             } else {
                 var passdefault = randomPassword();
+                console.log("email", email);
                 var new_emp = {
                     name: name,
+                    firstname : firstname,
                     username: email,
                     password: passdefault,
                     m_code: m_code,
@@ -374,7 +377,7 @@ routeExp.route("/addemp").post(async function (req, res) {
                     type_util: type_util
                 };
                 await UserSchema(new_emp).save();
-                sendEmail(email, "Authentification Academy solumada", htmlRender("onisoa.solumada@gmail.com", passdefault));
+                sendEmail(email, "Authentification Academy solumada", htmlRender(email, passdefault));
                 res.send(email);
             }
         });
@@ -705,7 +708,8 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
-            res.render("AllCours.html", { listuser: listUser,listcourOblig: listcourOblig, listcourFac:listcourFac })
+            var cours = await CoursModel.find({ validation: true });
+            res.render("AllCours.html", { cours : cours, listuser: listUser,listcourOblig: listcourOblig, listcourFac:listcourFac })
 
         });
 
@@ -1046,6 +1050,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
         )
         .then(async () => {
 
+            console.log("nomCours", nomCours);
             var listgroupe = await GroupeModel.find({ cours: nomCours });
             var listUser = await UserSchema.find({ cours: nomCours });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
@@ -1065,7 +1070,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 
             ])
 
-            coursM = [{professeur: "Rojoval"}]
+            coursM = [{professeur: "Rojovola"}]
             res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
     // } else {
