@@ -229,6 +229,7 @@ function groupePresence(sel) {
 }
 
 var selectAbsPres = []
+var selectAbs = []
 function sendRequestPresence(url, gpe, cours) {
     var cours = document.getElementById('cours').value;
     var http = new XMLHttpRequest();
@@ -242,7 +243,7 @@ function sendRequestPresence(url, gpe, cours) {
                 errorP.innerHTML = "This day at this time is already occupied or you must fill in the field";
             } else {
                 result = JSON.parse(this.responseText)
-                function_foreach(result, absent)
+                //function_foreach(result, absent)
                 function_foreach(result, present)
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").chosen({
@@ -253,6 +254,7 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var selectedValue = ''
+                var selectedValueAbs = ''
 
                 jQuery('.prensentSelect').change(function(evt, params){
                     jQuery('.absentSelect').html(''); //Clear
@@ -264,14 +266,21 @@ function sendRequestPresence(url, gpe, cours) {
                     selectAbsPres.push(selectedValue)
 
                 })
+                console.log("selectAbsPres", selectAbsPres);
 
-                jQuery('.absentSelect').change(function(evt, params){
-                    jQuery(".absentSelect").chosen({
-                        disable_search_threshold: 10,
-                        no_results_text: "Oops, nothing found!",
-                        width: "100%"
-                    });
-                });
+                //var selectedValue = ''
+                // jQuery('.absentSelect').change(function(evt, params){
+                //     jQuery(".absentSelect").chosen({
+                //         disable_search_threshold: 10,
+                //         no_results_text: "Oops, nothing found!",
+                //         width: "100%"
+                //     });
+                //     console.log('params', params);
+                    
+                // });
+
+
+                
                 // jQuery(".absentSelect").chosen({
                 //     disable_search_threshold: 10,
                 //     no_results_text: "Oops, nothing found!",

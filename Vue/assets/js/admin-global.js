@@ -110,3 +110,8 @@ function saveGBack(url, grad) {
     http.send("grad=" + grad)// + "&cours=" + cours);
     
 }
+
+function saveAll() {
+    console.log("coursP.value");  
+}
+
