@@ -29,6 +29,11 @@ function getdataGP() {
 }
 
 
+if(groupeId.value ==""){
+    table.style.display = "none";
+    addmbre.style.display = "none";
+}
+
 function sendRequest(url, groupeVal, cours) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -167,13 +172,19 @@ function add_new_parcours() {
             present.push(option.value);
         }
     }
-    var absent = [];
-    for (var option of document.getElementById('absent').options) {
-        if (option.selected) {
-            absent.push(option.value);
+    var absentList = [];
+    // for (var option of document.getElementById('absent').options) {
+    //     if (option.selected) {
+    //         absent.push(option.value);
+    //     }
+    // }
+    for (let i = 0; i < absent.length; i++) {
+        if (absent.options[i].value) {
+            absentList.push(absent.options[i].value)
+            
         }
     }
-    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present, absent, week.value);
+    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present, absentList, week.value);
 }
 
 function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent, week) {
@@ -266,7 +277,6 @@ function sendRequestPresence(url, gpe, cours) {
                     selectAbsPres.push(selectedValue)
 
                 })
-                console.log("selectAbsPres", selectAbsPres);
 
                 //var selectedValue = ''
                 // jQuery('.absentSelect').change(function(evt, params){
