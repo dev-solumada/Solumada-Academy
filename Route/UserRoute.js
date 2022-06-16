@@ -1163,7 +1163,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
         )
         .then(async () => {
             for (let index = 0; index < listeUser.length; index++) {
-                if (await CGNModel.findOne({ $or: [{ cours: cours, groupe: name_groupe, username: listeUser[index] }] })) {
+                if (await CGNModel.findOne({ $or: [{ groupe: name_groupe, username: listeUser[index] }] })) {
                     res.send("error");
                 } else {
 
@@ -1190,6 +1190,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                     };
                     await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
                     await CGNModel(new_membre).save();
+                    //await ForeignK(new_membre).save();
                 }
             }
             res.send("new membre ok");
