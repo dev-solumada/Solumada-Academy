@@ -264,6 +264,9 @@
                                                                                         name="select-group"
                                                                                         id="select-group">
 
+                                                                                        <option value="">
+                                                                                            Choose group
+                                                                                        </option>
                                                                                         <% listgroupe.forEach(function(listgroupe)
                                                                                             { %>
                                                                                             <option
@@ -285,7 +288,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-12 my-auto">
-                                                            <button class="btn btn-sm btn-dark rounded" type="button"
+                                                            <button class="btn btn-sm btn-dark rounded" type="button" id="addmbre"
                                                                 data-toggle="modal" data-target="#addMemeber"><small><i
                                                                         class="fa fa-plus"></i> Add
                                                                     member</small></button>
@@ -1144,7 +1147,6 @@
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Add absent" id="absent" name="absent" multiple
                                                 class="form-control absentSelect" tabindex="1">
-                                                <option value=""></option>
 
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
