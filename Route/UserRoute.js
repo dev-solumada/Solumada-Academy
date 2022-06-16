@@ -15,6 +15,8 @@ const session = require('express-session');
 const Point = require("../Models/Point");
 const Graduation = require("../Models/Graduation");
 
+const ForeignK = require("../Models/WithForeignK");
+
 var membre = [{
     cours: '',
     groupe: '',
@@ -714,24 +716,23 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
-            var cours = await CoursModel.find({ validation: true });
+            //var cours = await CoursModel.find({ validation: true });
             var coursM = await CoursModel.aggregate( [
                 {
-                  "$lookup":
+                  $lookup:
                     {
-                      "from": "CGNModel",
-                      "localField": "name_Cours",
-                      "foreignField": "cours",
-                      "as": "inventory_docs"
+                      from: "CGNModel",
+                      localField: "name_Cours",
+                      foreignField: "cours",
+                      as: "inventory_docs"
                     }
                }
              ] )
             var cngModel = await CGNModel.find({ validation: true });
             console.log("coursM", coursM[0]);
             console.log("cours", cngModel[0].cours);
-            console.log("coursM", coursM[0].name_Cours);
 
-            res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac })
+            //res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac })
 
         });
 
@@ -883,6 +884,7 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
                     }
                 }
             ])
+
             var point =  await Point.find({ validation: true });
             var grad =  await Graduation.find({ validation: true });
             res.render("adminGlobalview.html", {grad: grad, point: point, membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
