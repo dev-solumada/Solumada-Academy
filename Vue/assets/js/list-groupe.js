@@ -29,6 +29,11 @@ function getdataGP() {
 }
 
 
+if(groupeId.value ==""){
+    tableGroupAdmin.style.display = "none";
+    addmbre.style.display = "none";
+}
+
 function sendRequest(url, groupeVal, cours) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -167,13 +172,19 @@ function add_new_parcours() {
             present.push(option.value);
         }
     }
-    var absent = [];
-    for (var option of document.getElementById('absent').options) {
-        if (option.selected) {
-            absent.push(option.value);
+    var absentList = [];
+    // for (var option of document.getElementById('absent').options) {
+    //     if (option.selected) {
+    //         absent.push(option.value);
+    //     }
+    // }
+    for (let i = 0; i < absent.length; i++) {
+        if (absent.options[i].value) {
+            absentList.push(absent.options[i].value)
+            
         }
     }
-    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present, absent, week.value);
+    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present, absentList, week.value);
 }
 
 function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent, week) {
@@ -229,6 +240,7 @@ function groupePresence(sel) {
 }
 
 var selectAbsPres = []
+var selectAbs = []
 function sendRequestPresence(url, gpe, cours) {
     var cours = document.getElementById('cours').value;
     var http = new XMLHttpRequest();
@@ -242,7 +254,7 @@ function sendRequestPresence(url, gpe, cours) {
                 errorP.innerHTML = "This day at this time is already occupied or you must fill in the field";
             } else {
                 result = JSON.parse(this.responseText)
-                function_foreach(result, absent)
+                //function_foreach(result, absent)
                 function_foreach(result, present)
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").chosen({
@@ -253,6 +265,7 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var selectedValue = ''
+                var selectedValueAbs = ''
 
                 jQuery('.prensentSelect').change(function(evt, params){
                     jQuery('.absentSelect').html(''); //Clear
@@ -265,13 +278,19 @@ function sendRequestPresence(url, gpe, cours) {
 
                 })
 
-                jQuery('.absentSelect').change(function(evt, params){
-                    jQuery(".absentSelect").chosen({
-                        disable_search_threshold: 10,
-                        no_results_text: "Oops, nothing found!",
-                        width: "100%"
-                    });
-                });
+                //var selectedValue = ''
+                // jQuery('.absentSelect').change(function(evt, params){
+                //     jQuery(".absentSelect").chosen({
+                //         disable_search_threshold: 10,
+                //         no_results_text: "Oops, nothing found!",
+                //         width: "100%"
+                //     });
+                //     console.log('params', params);
+                    
+                // });
+
+
+                
                 // jQuery(".absentSelect").chosen({
                 //     disable_search_threshold: 10,
                 //     no_results_text: "Oops, nothing found!",
@@ -294,13 +313,13 @@ function add_membre() {
     //var list = listU.value;
     var groupeVal = groupeId.value
     var cours = document.getElementById('cours').value;
-
     var list = [];
     for (var option of document.getElementById('listUserC').options) {
         if (option.selected) {
             list.push(option.value);
         }
     }
+    console.log("cours", list);
 
     sendRequest1('/newmembre', list, groupeVal, cours);
 }

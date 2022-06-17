@@ -264,6 +264,9 @@
                                                                                         name="select-group"
                                                                                         id="select-group">
 
+                                                                                        <option value="">
+                                                                                            Choose group
+                                                                                        </option>
                                                                                         <% listgroupe.forEach(function(listgroupe)
                                                                                             { %>
                                                                                             <option
@@ -285,13 +288,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-12 my-auto">
-                                                            <button class="btn btn-sm btn-dark rounded" type="button"
+                                                            <button class="btn btn-sm btn-dark rounded" type="button" id="addmbre"
                                                                 data-toggle="modal" data-target="#addMemeber"><small><i
                                                                         class="fa fa-plus"></i> Add
                                                                     member</small></button>
                                                         </div>
                                                     </div>
-                                                    <table id="tableGroupAdmin" name="table"
+                                                    <table id="tableGroupAdmin" name="table" 
                                                         class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
@@ -1144,7 +1147,6 @@
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Add absent" id="absent" name="absent" multiple
                                                 class="form-control absentSelect" tabindex="1">
-                                                <option value=""></option>
 
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
@@ -1240,20 +1242,31 @@
     <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
     <script>
         jQuery(document).ready(function () {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            var activeTab = localStorage.getItem('activeTab');
-            if(activeTab){
-                $('#myTab a[href="' + activeTab + '"]').tab('show');
-            }
-
             jQuery(".standardSelect").chosen({
                 disable_search_threshold: 10,
                 no_results_text: "Oops, nothing found!",
                 width: "100%"
             });
-        });
+
+
+            // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            //     localStorage.setItem('activeTab', $(e.target).attr('href'));
+            // });
+            // var activeTab = localStorage.getItem('activeTab');
+            // if(activeTab){
+            //     $('#myTab a[href="' + activeTab + '"]').tab('show');
+            // }
+
+        })
+
+
+        jQuery(document).ready(function () {
+                    jQuery(".prensentSelect").chosen({
+                        disable_search_threshold: 10,
+                        no_results_text: "Oops, nothing found!",
+                        width: "100%"
+                    });
+                });
     </script>
 
 </body>
