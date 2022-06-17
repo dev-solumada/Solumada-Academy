@@ -52,16 +52,17 @@ function sendRequest(url, groupeVal, cours) {
 }
 
 function getdataGPLoad(url) {
+    var cours = document.getElementById("cours");
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (groupeId.value == "") {
-                window.location = "/listeCours/" + cours;
+                window.location = "/listeCours/" + cours.value;
             }
             else {
-                window.location = "/listeCours/" + cours + "?select-group=" + groupeId.value;
+                window.location = "/listeCours/" + cours.value + "?select-group=" + groupeId.value;
             }
         }
     };
@@ -210,12 +211,12 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
 
 
 function anuler() {
-    var cours = document.getElementById("cours").value;
-    window.location = "/listeCours/" + cours
+    var cours = document.getElementById("cours");
+    window.location = "/listeCours/" + cours.value
 }
 function anulerBack() {
-    var cours = document.getElementById("cours").value;
-    window.location = "/listeCoursBack/" + cours
+    var cours = document.getElementById("cours");
+    window.location = "/listeCoursBack/" + cours.value
 }
 
 
@@ -334,10 +335,11 @@ function sendRequest1(url, username, groupeVal, cours) {
             if (this.responseText == "error") {
                 successMbre.style.display = "none";
                 errorMbre.style.display = "block";
-                errorMbre.innerHTML = "Employee is already registered";
+                errorMbre.innerHTML = "Membre is already registered";
             } else {
                 errorMbre.style.display = "none";
-                successMbre.innerHTML = "Employee registered successfuly";
+                successMbre.style.display = "block";
+                successMbre.innerHTML = "Membre registered successfuly";
             }
         }
     };
