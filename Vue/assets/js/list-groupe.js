@@ -313,13 +313,13 @@ function add_membre() {
     //var list = listU.value;
     var groupeVal = groupeId.value
     var cours = document.getElementById('cours').value;
-
     var list = [];
     for (var option of document.getElementById('listUserC').options) {
         if (option.selected) {
             list.push(option.value);
         }
     }
+    console.log("cours", list);
 
     sendRequest1('/newmembre', list, groupeVal, cours);
 }

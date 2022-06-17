@@ -717,24 +717,20 @@ routeExp.route("/listeCours").get(async function (req, res) {
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var listUser = await UserSchema.find({ validation: true });
             var cours = await CoursModel.find({ validation: true });
-            var coursM = await CoursModel.aggregate( [
+            var coursM = await ForeignK.aggregate( [
                 {
                   $lookup:
                     {
-                        from: "UserCGN",
-                        localField: "name_Cours",
-                        foreignField:"cours",
-                        // let: {cours: "$name_Cours"},
-                        // pipeline: [{$match:{$expr:{$eq:["$cours", "$$cours"]}}}],
-                    //   let: {nomc:{$toString:"$_id"}},
-                    //   pipeline: [{$match:{$expr:{$eq:["$nom_c", "$$nomc"]}}}],
-                        as:"Cours"
+                      from: "CoursModel",
+                      localField: "cours",
+                      foreignField: "_id",
+                      as: "inventory_docs"
                     }
                }
              ] )
             var cngModel = await CGNModel.find({ validation: true });
-            console.log("coursM", coursM[0]);
-            //console.log("cours", cngModel[0]);
+            console.log("coursM", coursM);
+            console.log("cours", cngModel[0].cours);
 
             res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac })
 
@@ -1067,7 +1063,7 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
     var session = req.session;
     var nomCours = req.params.cours;
 
-    //if (session.type_util == "Admin") {
+    if (session.type_util == "Admin") {
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1078,13 +1074,18 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
         )
         .then(async () => {
 
-            console.log("nomCours", nomCours);
+            //var nomCours = await CoursModel.find({$or: [{ name_Cours: nomCours }] });
+
+
             var listgroupe = await GroupeModel.find({ cours: nomCours });
             var listUser = await UserSchema.find({ cours: nomCours });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
             var listcourFac = await CoursModel.find({ type: 'facultatif' });
             var time = await EmplTemp.find({ cours: nomCours });
             var coursM = await CoursModel.find({ $or: [{ name_Cours: nomCours }] })
+            console.log("nomCours", nomCours);
+            console.log("nomCours", coursM);
+
             parcours = await ParcoursModel.find({ cours: nomCours });
             var ParcoursAbsent = await ParcoursModel.aggregate([
                 { $match: { $or: [{ cours: nomCours }] } },
@@ -1098,12 +1099,12 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 
             ])
 
-            coursM = [{professeur: "Rojovola"}]
-            res.render("ListeCours.html", { cours_prof:coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+            //coursM = [{professeur: "Rojovola"}]
+            res.render("ListeCours.html", {  ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
-    // } else {
-    //     res.redirect("/");
-    // }
+    } else {
+        res.redirect("/");
+    }
 });
 
 //Liste cours
@@ -1157,6 +1158,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
     var username = req.body.username
     var cours = req.body.cours
     const listeUser = username.split(",");
+    console.log("cours ======== ", listeUser);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1172,7 +1174,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                 } else {
 
                     var user = await UserSchema.find({ username: listeUser[index] });
-                    var getProf = await CoursModel.find({ $or: [{ name_Cours: cours }] });
+                    var getProf = await CoursModel.find({ $or: [{ _id: cours }] });
                     console.log("get", getProf[0].professeur);
                     var mcode = ""
                     var num_agent = ""
@@ -1192,9 +1194,9 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         firstname: firstname,
                         professeur: getProf[0].professeur
                     };
-                    await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
-                    await CGNModel(new_membre).save();
-                    //await ForeignK(new_membre).save();
+                    // await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
+                    // await CGNModel(new_membre).save();
+                    await ForeignK(new_membre).save();
                 }
             }
             res.send("new membre ok");
@@ -1234,7 +1236,9 @@ routeExp.route("/groupe").post(async function (req, res) {
                     }
                 }
             ])
-            var coursM = await CoursModel.find({ $or: [{ name_Cours: cours }] })
+            var coursM = await CoursModel.find({ $or: [{ _id: cours }] })
+            console.log("cours", cours);
+            console.log("coursM", coursM);
             res.render("ListeCours.html", {  ParcoursAbsent: ParcoursAbsent, coursM: coursM, membre: membre, time: time, parcours: parcours, cours: cours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             
         });
