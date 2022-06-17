@@ -1775,6 +1775,12 @@ routeExp.route("/deleteEmploi").post(async function (req, res) {
 //get getParcours
 routeExp.route("/getParcours").post(async function (req, res) {
     var cours = req.body.cours;
+    var groupe = req.body.groupe;
+    var heureStart = req.body.heureStart;
+    var heureFin = req.body.heureFin;
+    var date = req.body.date;
+    var week = req.body.week;
+    console.log("getParcours", cours, groupe, heureStart, heureFin, date, week);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1786,7 +1792,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
         .then(async () => {
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
-                { $match: { $or: [{ cours: cours }] } },
+                { $match: { $or: [{ cours: cours}, {week: week}, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
                 {
                     $group: {
                         _id:
@@ -1795,6 +1801,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
                     }
                 }
             ])
+            console.log("ParcoursAbsent == ", ParcoursAbsent);
             res.send(ParcoursAbsent);
         });
 })

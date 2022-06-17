@@ -543,7 +543,7 @@ function getParcours(url, id) {
     console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
-    week_cptD.val = "week_2";
+    //week_cptD.val = "week_2";
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -553,7 +553,7 @@ function getParcours(url, id) {
             const [day, month, year] = dateFormat.split('/');
             const result = `${year}-${month}-${day}`;
             console.log("week ", data[0]._id.week);
-            console.log("week_cptD ", week_cptD);
+            //§console.log("week_cptD ", week_cptD);
             week_cptD.value =  data[0]._id.week;
             weekDate.value = result
             timeSDel.value = data[0]._id.heureStart
