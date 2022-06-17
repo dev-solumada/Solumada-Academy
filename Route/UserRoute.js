@@ -175,13 +175,13 @@ routeExp.route("/accueilAdminBack").get(async function (req, res) {
 
 
 //reset password
-routeExp.route("/resetPwd").get(async function (req, res) {
+routeExp.route("/resetPWD").get(async function (req, res) {
     //Reset password
     var session = req.session;
     if (session.mailconfirm) {
         res.redirect("/code");
     } else {
-        res.render("resetPWD.html", { err: "" });
+        res.render("resetPwd.html", { err: "" });
     }//
 
 });
