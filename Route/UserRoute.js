@@ -881,6 +881,40 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
     }
 });
 
+// Get GlobalViewData From Ajax
+routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
+    var session = req.session;
+    if (session.type_util == "Admin") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            // var point =  await Point.find({ validation: true });
+            // var grad =  await Graduation.find({ validation: true });
+            var members = await CGNModel.aggregate([
+                {
+                    $group: {
+                        _id:
+                            { username: "$username", firstname: "$firstname", m_code: "$mcode", num_agent: "$num_agent" , point: "$point", graduation: "$graduation"},
+                        tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours" } }
+                    }
+                }
+            ])
+            members = JSON.stringify(members);
+            res.send(members);
+        });
+
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
 //getuser
 routeExp.route("/getuser").post(async function (req, res) {
     var email = req.body.email;

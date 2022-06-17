@@ -12,7 +12,7 @@ let coursDataTable = $('#CoursTable').DataTable(
             // {"data": "_id"},
             {"data": "name_Cours"},
             {"data": "professeur"},
-            {"data": ""},
+            // {"data": ""},
             {"data": "date_Commenc"},
             {"data": "type"},
             {"defaultContent": "\
@@ -25,7 +25,7 @@ let coursDataTable = $('#CoursTable').DataTable(
         ],
         "columnDefs": [ 
             {
-            "targets": 3,
+            "targets": 2,
             "render": function(data)
                     {
                         var date = new Date(data);

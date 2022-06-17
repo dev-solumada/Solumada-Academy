@@ -3,13 +3,13 @@ let column, id, usernam, m_code, num_agent, type_util;
 let currentPage, userIdToDelete;
 
 let userDatatable = $("#userTable").DataTable({
-    'ajax': {
+    ajax: {
         'url': '/allUsers',
         'dataSrc': '',
     },
-    'columns': [
+    columns: [
                     {'data': '_id'},
-                    {'data': 'username'},
+                    {'data': null, 'render': function(users){ return(users.username);}},
                     {'data': 'name'},
                     {'data': 'm_code'},
                     {'data': 'num_agent'},
@@ -22,15 +22,15 @@ let userDatatable = $("#userTable").DataTable({
                                         "
                     }
                 ],
-    'columnDefs':  [
+    columnDefs:  [
                         { 'targets': 0, 'className': 'select-checkbox', 'checkboxes':  { 'selectRow': true } },
                         { 'targets': 1, 'width': '20%' },
                         { 'targets': 2, 'width': '20%' },
                         { 'targets': 3, 'width': '15%' },
                         { 'targets': 4, 'width': '15%' }
                     ],
-    'select':  { 'style': 'multi' },
-    'order': [[0, 'asc']]
+    select:  { 'style': 'multi' },
+    order: [[0, 'asc']]
 
 });
 
