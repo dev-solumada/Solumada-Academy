@@ -558,7 +558,7 @@ function getParcours(url, id) {
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
-            console.log("data[0]._id", data[0].tabl);
+            console.log("data[0]._id", data[0].tabl[i].present);
             for (let i = 0; i < data[0].tabl.length; i++) {
                 
                 if (data[0].tabl[i].present == true) {
