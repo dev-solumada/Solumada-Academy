@@ -548,7 +548,7 @@ function getParcours(url, id) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText)
-            console.log("data ", data[0]);
+            console.log("data ", data);
             var dateFormat = new Date(data[0]._id.date).toLocaleDateString("fr")
             const [day, month, year] = dateFormat.split('/');
             const result = `${year}-${month}-${day}`;
