@@ -905,13 +905,13 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
 
 // Class for format data
 class Employee {
-    constructor(email, m_code, number, courslevel, point, grade) {
-        this.email = email;
-        this.m_code = m_code;
-        this.number = number;
-        this.courslevel = courslevel;
-        this.point = point;
-        this.grade = grade;
+    constructor(email, m_code, number, coursAndlevel, empoint, grade) {
+        this.emp_email = email;
+        this.emp_m_code = m_code;
+        this.emp_number = number;
+        this.emp_courslevel = coursAndlevel;
+        this.emp_point = empoint;
+        this.emp_grade = grade;
     }
 };
 
@@ -928,14 +928,14 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
             }
         )
         .then(async () => {
-            // var point =  await Point.find({ validation: true });
-            // var grad =  await Graduation.find({ validation: true });
+            var point =  await Point.find({ validation: true });
+            var grad =  await Graduation.find({ validation: true });
             try {
                 var members = await CGNModel.aggregate([
                     {
                         $group: {
                             _id:
-                                { username: "$username", firstname: "$firstname", m_code: "$mcode", num_agent: "$num_agent" , point: "$point", graduation: "$graduation"},
+                                { username: "$username", firstname: "$firstname", m_code: "$mcode", num_agent: "$num_agent" , points: "$point", graduations: "$graduation"},
                             tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours" } }
                         }
                     }
@@ -943,13 +943,29 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
     
                 var data = [];
                 members.forEach(member => {
-                    var email = member._id.username;
-                    var m_code = member._id.m_code;
-                    var number = member._id.num_agent;
-                    var courslevel = [];
-                    var point = [];
-                    var grade = [];
-                    var personne = new Employee(email=email,number=number, m_code=m_code, courslevel=courslevel, point=point, grade=grade);
+                    // console.log(member);
+                    var member_email = member._id.username;
+                    var member_m_code = member._id.m_code;
+                    var member_number = member._id.num_agent;
+                    var member_courslevel = [];
+                    var member_userpoints = [];
+                    var member_grades = [];
+
+                    // var pointsData = members._id.points;
+                    // var gradesData = members._id.graduations;
+                    var coursLevelsData = member.tabl;
+                    console.log(coursLevelsData);
+
+                    // pointsData.forEach(point => { member_userpoints.$push(point); });
+                    // gradesData.forEach(grade => { member_grades.push(grade); });
+                    coursLevelsData.forEach(courLevel => {
+                        var str = '';
+                        if(courLevel.cours){str = str + courLevel.cours + ' - '};
+                        if(courLevel.niveau){str = str + courLevel.niveau};
+                        member_courslevel.push(str);
+                    });
+
+                    var personne = new Employee(email=member_email, number=member_number, m_code=member_m_code, coursAndlevel=member_courslevel, empoint=member_userpoints, grade=member_grades);
                     data.push(personne);
                 });
                 console.log(data);
