@@ -10,12 +10,12 @@ var select_jour = document.getElementById("sjour");
 var timeStart = document.getElementById("timeS");
 var timeEnd = document.getElementById("timeE");
 
-var week_cptD = document.getElementById("week_cptDelB");
+var week_cptUp = document.getElementById("week_cptUpdat");
 var weekDate = document.getElementById("weekDate");
 var timeSDel = document.getElementById("timeSDel");
 var timeEDel = document.getElementById("timeEDel");
 var gpeDel = document.getElementById("gpeDel");
-var presentDel = document.getElementById("presentDel");
+var presentUpd = document.getElementById("presentUpd");
 var absentDel = document.getElementById("absentDel");
 
 if (queryString.length != 0) {
@@ -552,20 +552,45 @@ function getParcours(url, id) {
             var dateFormat = new Date(data[0]._id.date).toLocaleDateString("fr")
             const [day, month, year] = dateFormat.split('/');
             const result = `${year}-${month}-${day}`;
-            console.log("week ", data[0]._id.week);
-            //§console.log("week_cptD ", week_cptD);
-            week_cptD.value =  data[0]._id.week;
+
+            week_cptUp.value =  data[0]._id.week;
             weekDate.value = result
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
-            console.log("week ", week_cptD.value);
-            //console.log("data[0]._id ",data._id.date.toLocaleDateString("fr") );
+            console.log("data[0]._id", data[0].tabl);
+            for (let i = 0; i < data[0].tabl.length; i++) {
+                
+                if (data[0].tabl[i].present == true) {
+                    console.log("true", data[0].tabl[i].present );
+                }else{
+                    console.log("false", data[0].tabl[i]);
+
+                }
+                
+            }
         }
     };
     http.send("cours=" + param.cours+ "&week=" + param.week + "&groupe=" + param.groupe + "&heureStart=" + param.heureStart + "&heureFin=" + param.heureFin + "&date=" + param.date );
 }
 
+
+function groupePresenceUdp(sel) {
+    for (let index = 0; index < ('#present option').length; index++) {
+        const element = ('#present option')[index];
+        present.remove(element);
+    }
+
+    for (let index = 0; index < ('#absent option').length; index++) {
+        const element = ('#absent option')[index];
+        absent.remove(element);
+    }
+    jQuery(document).ready(function () {
+        jQuery(".prensentSelect").trigger("chosen:updated");
+    });
+
+    sendRequestPresence('/presence', sel.value, cours);
+}
 
 var parcours = ""
 var cours_data = ""
