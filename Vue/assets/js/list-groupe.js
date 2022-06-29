@@ -212,6 +212,7 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
 
 function anuler() {
     var cours = document.getElementById("cours");
+    console.log("cours == ", cours);
     window.location = "/listeCours/" + cours.value
 }
 function anulerBack() {
@@ -412,6 +413,7 @@ function update_membre(url, id, userLevel) {
     http.send("id=" + id + "&userLevel=" + userLevel);
 }
 function showNotif(text) {
+    var cours = document.getElementById('cours').value;
     const notif = document.querySelector('.notification');
     notif.innerHTML = text;
     notif.style.display = 'block';

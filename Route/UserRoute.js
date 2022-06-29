@@ -423,6 +423,7 @@ routeExp.route("/teacherHome").get(async function (req, res) {
             )
             .then(async () => {
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
+                console.log("teacherHome", cours);
                 res.render("./teacherView/teacherHome.html", { cours: cours });
             });
     }
@@ -624,23 +625,24 @@ routeExp.route("/studentInfo").get(async function (req, res) {
 // Thierry All cours
 routeExp.route("/allCours").get(async function (req, res) {
     var session = req.session;
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            var allCours = await CoursModel.find({ validation: true });
-            res.send(JSON.stringify(allCours));
-        });
+    if (session.type_util == "Admin") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var allCours = await CoursModel.find({ validation: true });
+                res.send(JSON.stringify(allCours));
+            });
 
 
-    // } else {
-    //     res.redirect("/");
-    // }
+    } else {
+        res.redirect("/");
+    }
 });
 
 
@@ -704,52 +706,52 @@ routeExp.route("/addcours").post(async function (req, res) {
 routeExp.route("/listeCours").get(async function (req, res) {
     var session = req.session;
     if (session.type_util == "Admin") {
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
-            var listcourFac = await CoursModel.find({ type: 'facultatif' });
-            var listUser = await UserSchema.find({ validation: true });
-            //var cours = await CoursModel.find({ validation: true });
-            var coursM = await CoursModel.aggregate([
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
                 {
-                  $lookup: {
-                    from: "usercgns",
-                    localField: "name_Cours",
-                    foreignField: "cours",
-                    as: "nbrePartic"
-                  }
-                },
-                {
-                 $addFields: {
-                   countDishes: {
-                     $size: "$nbrePartic"
-                   }
-                 }
-                },
-                {
-                 $match: {
-                   countDishes: {
-                     $gt: 5
-                   }
-                 }
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
                 }
-              ])
-            console.log("coursM", coursM);
-            //console.log("cours", cngModel[0]);
-            var cours = JSON.stringify(coursM)
-            //res.send(cours)
-            res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac, coursM: coursM })
+            )
+            .then(async () => {
+                var listcourOblig = await CoursModel.find({ type: 'obligatoire' });
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var listUser = await UserSchema.find({ validation: true });
+                var coursM = await CoursModel.aggregate([
+                    {
+                    $lookup: {
+                        from: "usercgns",
+                        localField: "name_Cours",
+                        foreignField: "cours",
+                        as: "nbrePartic"
+                    }
+                    },
+                    {
+                    $addFields: {
+                    countDishes: {
+                        $size: "$nbrePartic"
+                    }
+                    }
+                    },
+                    {
+                    $match: {
+                    countDishes: {
+                        $gt: 5
+                    }
+                    }
+                    }
+                ])
+                for (let j = 0; j < coursM.length; j++) {
+                    const element2 = coursM[j];
+                    c = await CoursModel.findOneAndUpdate({ name_Cours: element2.name_Cours }, { nbrePart: element2.countDishes})
+                }
 
-        });
+                var coursliste1 = await CoursModel.find({ validation: true })
+                var cours = JSON.stringify(coursliste1)
+                res.render("AllCours.html", { cours : cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac:listcourFac, coursM: coursM })
 
-
+            });
     } else {
         res.redirect("/");
     }
@@ -1087,7 +1089,6 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
         )
         .then(async () => {
 
-            console.log("nomCours", nomCours);
             var listgroupe = await GroupeModel.find({ cours: nomCours });
             var listUser = await UserSchema.find({ cours: nomCours });
             var listcourOblig = await CoursModel.find({ type: 'obligatoire' });

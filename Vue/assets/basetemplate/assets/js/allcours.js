@@ -12,8 +12,8 @@ let coursDataTable = $('#CoursTable').DataTable(
             // {"data": "_id"},
             {"data": "name_Cours"},
             {"data": "professeur"},
-            //{"data": ""},
             {"data": "date_Commenc"},
+            {"data": "nbrePart"},
             {"data": "type"},
             {"defaultContent": "\
                                 <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
@@ -120,7 +120,8 @@ $(document).on('click', '.btnUpdateCours', function()
                         $('#date_Commenc_update').val(date);
                     },
                 error: function(err){
-                        alert(JSON.stringify(err));
+                        //alert(JSON.stringify(err));
+                        console.log("err", JSON.stringify(err));
                 }
             }
         )
@@ -167,7 +168,8 @@ $(document).on('click', '#saveUpdateCours', function(){
             }
         },
         error: function(response){
-            alert(JSON.stringify(response));
+            //alert(JSON.stringify(response));
+            console.log("error", JSON.stringify(response));
         }
     })
 });
@@ -289,7 +291,8 @@ function getCoursList()
                 },
             error: function(error)
                 {
-                    alert(error);
+                    //alert(error);
+                    console.log("error", error);
                 }      
         }
     );

@@ -5,7 +5,8 @@ const Cours = mongoose.Schema({
     date_Commenc: Date,
     professeur: String,
     type: String,
-    name_c: String
+    name_c: String,
+    nbrePart: Number
 })
 
 module.exports = mongoose.model('dataCours', Cours);
