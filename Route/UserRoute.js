@@ -691,7 +691,8 @@ routeExp.route("/addcours").post(async function (req, res) {
                     name_Cours: name_Cours,
                     date_Commenc: date_Commenc,
                     type: typeCours,
-                    professeur: professeur
+                    professeur: professeur,
+                    nbrePart: 0
                 };
                 await UserSchema.findOneAndUpdate({ username: professeur }, { type_util: "Professeur"})
                 await CoursModel(new_cours).save();
@@ -877,7 +878,7 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
 //Global view
 routeExp.route("/adminGlobalview").get(async function (req, res) {
     var session = req.session;
-    if (session.type_util == "Admin") {
+    //if (session.type_util == "Admin") {
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -905,10 +906,10 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
             res.render("adminGlobalview.html", {grad: grad, point: point, membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //getuser
