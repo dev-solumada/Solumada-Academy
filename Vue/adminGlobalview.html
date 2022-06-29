@@ -159,7 +159,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-                                    <button type="button" onclick="saveAll()" class="btn btn-success rounded btn-sm"  id="saveChange">
+
+                                    <button onclick="saveAll()" class="btn btn-success rounded btn-sm"  id="saveChange">
                                         <small>
                                             <i class="fa fa-save"></i> 
                                             Save Change
@@ -201,7 +202,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="get-table">
                                         <% membre.forEach(function(membre) { %>
                                             <tr>
                                                 <td>
@@ -219,19 +220,19 @@
                                                             <% membre.tabl.forEach(function(tabl) { %>
                                                                 <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.niveau %></option>
                                                             <% }); %>     
-                                                    </select>
+                                                        </select>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="hidden" id="custId" name="custId" value="<%= membre._id.point %>">
+                                                        <input type="hidden" id="custId" name="custId" value="<%= membre._id.m_code %>">
                                                         <select class="form-control" id="selectPoints">
                                                             <%  if (membre._id.point) {%>
                                                                 <option class="text-center" value="<%= membre._id.m_code %>"><%= membre._id.point %></option>
                                                                 
                                                                 <%}%>
                                                             <% point.forEach(function(point) { %>
-                                                                <option class="text-center" value="<%= point.point %>"><%= point.point %></option>
+                                                                <option class="text-center" value="<%= membre._id.m_code %>"><%= point.point %></option>
                                                             <% });
                                                             var table = membre.tabl %>    
                                                         </select>

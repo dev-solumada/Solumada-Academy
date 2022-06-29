@@ -1867,3 +1867,23 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
             }
         });
 })
+
+
+//admin global js
+
+for (var i = 0, row; row = table.rows[i]; i++) {
+    //iterate trough columns
+
+        var x = row.cells[0].childNodes[0];
+        var y = row.cells[1].childNodes[0];
+        var z = row.cells[2].childNodes[0];
+    //    for (var j = 0, col; col = row.cells[j]; j++) {
+    //       // do something
+    //       //console.log("table.rows[i]", table.rows[i]);
+    //       //console.log("bootstrap-data-table-export", row.cells[j].textContent.replace(/\s/g, ''));
+    //       console.log("bootstrap-data-table-export", row.cells[j].childNodes[1].value.replace(/\s/g, ''));
+    //       console.log("jjjjjjjjjjjjjjjjjjjj");
+    //     }
+        console.log(x, y, z);
+        console.log("iiiiiiiiiiiiiiiiiiiiii");
+    }
