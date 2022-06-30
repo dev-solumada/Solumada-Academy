@@ -560,14 +560,13 @@ function getParcours(url, id) {
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
-            console.log("data[0]._id", data[0].tabl[i].present);
             for (let i = 0; i < data[0].tabl.length; i++) {
-                
-                if (data[0].tabl[i].present == true) {
-                    console.log("true", data[0].tabl[i].present );
+                var pres = JSON.parse(JSON.stringify(data[0].tabl[i]))
+                console.log("data[0]._id", pres.presence );
+                if (pres.presence == true) {
+                    console.log("true", pres );
                 }else{
-                    console.log("false", data[0].tabl[i]);
-
+                    console.log("****", pres);
                 }
                 
             }
