@@ -228,11 +228,11 @@
                                                         <input type="hidden" id="custId" name="custId" value="<%= membre._id.m_code %>">
                                                         <select class="form-control" id="selectPoints">
                                                             <%  if (membre._id.point) {%>
-                                                                <option class="text-center" value="<%= membre._id.m_code %>"><%= membre._id.point %></option>
+                                                                <option class="text-center" value="<%= membre._id.point %>"><%= membre._id.point %></option>
                                                                 
                                                                 <%}%>
                                                             <% point.forEach(function(point) { %>
-                                                                <option class="text-center" value="<%= membre._id.m_code %>"><%= point.point %></option>
+                                                                <option class="text-center" value="<%= point.point %>"><%= point.point %></option>
                                                             <% });
                                                             var table = membre.tabl %>    
                                                         </select>
@@ -247,7 +247,7 @@
                                                     <div class="input-group">
                                                         <select class="form-control " id="selectGrad">
                                                             <%  if (membre._id.graduation) {%>
-                                                                <option class="text-center" value=""><%= membre._id.graduation %></option>
+                                                                <option class="text-center" value="<%= membre._id.graduation %>"><%= membre._id.graduation %></option>
                                                                 
                                                                 <%}%>
                                                             <% grad.forEach(function(grad) {

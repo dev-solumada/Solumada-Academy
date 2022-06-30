@@ -1887,3 +1887,12 @@ for (var i = 0, row; row = table.rows[i]; i++) {
         console.log(x, y, z);
         console.log("iiiiiiiiiiiiiiiiiiiiii");
     }
+
+
+    //Nouveau database mongoose
+
+    //mongodb+srv://solumada:solumada123456@cluster0.1s3el.mongodb.net/?retryWrites=true&w=majority
+
+    //Ancien database
+
+    //"mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"

@@ -1205,7 +1205,6 @@ routeExp.route("/newmembre").post(async function (req, res) {
                     };
                     await UserSchema.findOneAndUpdate({ username: listeUser[index] }, { type_util: "Participant"})
                     await CGNModel(new_membre).save();
-                    //await ForeignK(new_membre).save();
                 }
             }
             res.send("new membre ok");
@@ -1876,6 +1875,38 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
             try {
                 await ParcoursModel.deleteMany({ cours: cours, groupe:groupe, heureStart: heureStart, heureFin:heureFin, date:date});
                 res.send("success");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+        });
+})
+
+
+
+
+
+
+//delete parcours
+routeExp.route("/point_grad").post(async function (req, res) {
+    var value = req.body.point;
+    var todata = JSON.parse(value)
+    console.log("value",  todata)//JSON.stringify(value) );
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                for (let i = 0; i < todata.length; i++) {
+                    const element = todata[i];
+                    await CGNModel.findOneAndUpdate({ username: element.mail }, { point: element.point, graduation: element.grad })
+                }
+                console.log("Point and Graduation sucess");
             } catch (err) {
                 console.log(err);
                 res.send(err);
