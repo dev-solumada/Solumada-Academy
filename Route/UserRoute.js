@@ -615,7 +615,8 @@ routeExp.route("/studentInfo").get(async function (req, res) {
     if (session.type_util == "Participant") {
         var name = session.name;
         var m_code = session.m_code
-        res.render("./StudentView/studentInfo.html", { name: name, m_code: m_code, num: session.num_agent });
+        var user = await CGNModel.findOne({ $or: [{ mcode: m_code }] })
+        res.render("./StudentView/studentInfo.html", { user: user, name: name, m_code: m_code, num: session.num_agent });
     } else {
         res.redirect("/");
     }
