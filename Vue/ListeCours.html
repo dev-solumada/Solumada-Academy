@@ -952,9 +952,8 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add present" id="presentUpd" name="present" multiple
-                                                class="form-control prensentSelect" tabindex="1">
-                                                <option value=""></option>
+                                            <select data-placeholder="Add present" multiple id="presentUpd" 
+                                            class="form-control " tabindex="1">   
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
                                                 field is required</small>
@@ -965,9 +964,8 @@
                                         <div class="col col-md-3"><label for="abscent"
                                                 class=" form-control-label">Absent</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add absent" id="absentDel" name="absent" multiple
+                                            <select data-placeholder="Add absent" id="absentUpdate" name="absent" multiple
                                                 class="form-control absentSelect" tabindex="1">
-                                                <option value=""></option>
 
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
@@ -980,7 +978,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="anuler()"
                                 data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="save_time_update()"
+                            <button class="btn-submit btn btn-success" type="button" onclick="save_parcours_update()"
                                 id="saveUser">Save Change</button>
                         </div>
                     </div>
@@ -1239,6 +1237,7 @@
 
     <script src="../assets/js/list-groupe.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -1264,9 +1263,16 @@
 
         })
 
-
+        
         jQuery(document).ready(function () {
                     jQuery(".prensentSelect").chosen({
+                        disable_search_threshold: 10,
+                        no_results_text: "Oops, nothing found!",
+                        width: "100%"
+                    });
+                });
+        jQuery(document).ready(function () {
+                    jQuery(".prensentSelectUpd").chosen({
                         disable_search_threshold: 10,
                         no_results_text: "Oops, nothing found!",
                         width: "100%"

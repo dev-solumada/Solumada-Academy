@@ -267,37 +267,17 @@ function sendRequestPresence(url, gpe, cours) {
                 });
 
                 var selectedValue = ''
-                var selectedValueAbs = ''
 
                 jQuery('.prensentSelect').change(function(evt, params){
                     jQuery('.absentSelect').html(''); //Clear
                     jQuery('.prensentSelect option:not(:selected)')
                         .clone()
                         .appendTo('.absentSelect')
-
                     selectedValue = params.selected;
                     selectAbsPres.push(selectedValue)
 
                 })
 
-                //var selectedValue = ''
-                // jQuery('.absentSelect').change(function(evt, params){
-                //     jQuery(".absentSelect").chosen({
-                //         disable_search_threshold: 10,
-                //         no_results_text: "Oops, nothing found!",
-                //         width: "100%"
-                //     });
-                //     console.log('params', params);
-                    
-                // });
-
-
-                
-                // jQuery(".absentSelect").chosen({
-                //     disable_search_threshold: 10,
-                //     no_results_text: "Oops, nothing found!",
-                //     width: "100%"
-                // });
 
                 jQuery(document).ready(function () {
                     jQuery(".prensentSelect").trigger("chosen:updated");
@@ -481,6 +461,7 @@ function save_time_update() {
 }
 
 function sendRequestTimeUpdate(url, time_tab, jours, grpe, timeStart, timeEnd) {
+    console.log("selectAbsPresUpd", selectAbsPresUpd);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -540,12 +521,28 @@ function format(input) {
     }
     return input.replace(pattern, '$2/$3/$1');
   };
+
+
+var presentU = document.getElementById('presentUpd')
+var absentU = document.getElementById('absentUpdate')
+var selectAbsPresUpd = []
+
+//get value Parcours to udpate
 function getParcours(url, id) {
     var param = JSON.parse(id)
     console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     //week_cptD.val = "week_2";
+    for (let index = 0; index < ('#presentUpd option').length; index++) {
+        const element = ('#presentUpd option')[index];
+        presentU.remove(element);
+    }
+
+    for (let index = 0; index < ('#absentUpdate option').length; index++) {
+        const element = ('#absentUpdate option')[index];
+        absentU.remove(element);
+    }
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -560,19 +557,108 @@ function getParcours(url, id) {
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
+            jQuery(document).ready(function () {
+                jQuery("#presentUpd").chosen({
+                    disable_search_threshold: 10,
+                    no_results_text: "Oops, nothing found!",
+                    width: "100%"
+                });
+            });
             for (let i = 0; i < data[0].tabl.length; i++) {
                 var pres = JSON.parse(JSON.stringify(data[0].tabl[i]))
                 console.log("data[0]._id", pres.presence );
                 if (pres.presence == true) {
-                    console.log("true", pres );
+                    var id = pres.id
+                    var listUpdP= pres.id
+                    console.log("id ==== ", id);
+                    //ajout email dans le dropdown 
+                    jQuery('#presentUpd').append(`<option value="${id}">
+                        ${pres.user}</option>`);
+                    //selectionner les emails qui sont présent 
+                    jQuery('select').find(`option[value="${id}"]`).attr("selected", "selected");
+
+
                 }else{
-                    console.log("****", pres);
+                    var id = pres.id
+                    var listUpdP= pres.user
+                    jQuery('#presentUpd').append(`<option value="${id}">
+                        ${listUpdP}</option>`);
+                    jQuery('#absentUpdate').append(`<option value="${id}">
+                        ${listUpdP}</option>`);
                 }
+                var selected = [];
+                for (var option of document.getElementById('presentUpd').options){
+                    if (option.selected) {
+                        selected.push(option.value);
+                    }
+                }
+
+                var selectedValue = ''
+
+                jQuery('#presentUpd').change(function(evt, listUpdP){
+                    jQuery('#absentUpdate').html(''); //Clear
+                    jQuery('#presentUpd option:not(:selected)')
+                        .clone()
+                        .appendTo('#absentUpdate')
+                    selectedValue = listUpdP.selected;
+                    selectAbsPresUpd.push(selectedValue)
+
+                })
                 
             }
         }
     };
     http.send("cours=" + param.cours+ "&week=" + param.week + "&groupe=" + param.groupe + "&heureStart=" + param.heureStart + "&heureFin=" + param.heureFin + "&date=" + param.date );
+}
+
+var presentUpd = []
+var absentUpd = []
+
+//update save change for parcours
+function save_parcours_update() {
+    var week = week_cptUp.value
+    var timeSUpd = timeSDel.value
+    var timeEUpd = timeEDel.value 
+    var groupe =  gpeDel.value
+    console.log("value to update ", week, timeSUpd, timeEUpd, groupe );
+
+    for (var option of document.getElementById('presentUpd').options)
+    {
+        if (option.selected) {
+            presentUpd.push(option.value);
+        }
+    }
+
+    let selectElementAbs = document.querySelectorAll('[id=absentUpdate]');
+    let optionValuesAbs = [...selectElementAbs[0].options].map(o => absentUpd.push(o.value) )
+
+    console.log("presentUpd ****", presentUpd);
+    console.log("absentUpd ===  ", absentUpd);
+    sendRequestParcoursUpdate('/update_parcours', week, timeSUpd,timeEUpd, groupe, presentUpd, absentUpd);
+}
+
+function sendRequestParcoursUpdate(url, week, timeSUpd, timeEUpd, groupe, presentUpd, absentUpd) {
+    var cours = document.getElementById('cours').value;
+    var http = new XMLHttpRequest();
+    console.log("presentUpd sendRequestParcoursUpdate", presentUpd);
+    console.log("absentUpd sendRequestParcoursUpdate  ", absentUpd);
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText == "error" || week == "" || timeSUpd == "" || timeEUpd == "" || groupe == "" || presentUpd == "" || absentUpd == "" ) {
+                successTT.style.display = "none";
+                errorTT.style.display = "block";
+                errorTT.innerHTML = "This day at this time is already occupied or you must fill in the field";
+            } else {
+                successTT.style.display = "block";
+                errorTT.style.display = "none";
+                successTT.innerHTML = "Time is successfully update ";
+                //window.location = "/listeCours/" + cours
+            }
+        }
+    };
+    http.send("week=" + week + "&timeSUpd=" + timeSUpd + "&timeEUpd=" + timeEUpd + "&groupe=" + groupe + "&presentUpd=" + presentUpd + "&absentUpd=" + absentUpd);
 }
 
 
@@ -636,3 +722,4 @@ function deleteP(url,  cours,  groupe, heureS, heureF, date) {
     };
     http.send("cours=" + cours + "&groupe=" + groupe + "&heureStart=" + heureS + "&heureFin=" + heureF + "&date=" + date );
 }
+
