@@ -8,5 +8,6 @@ const User = mongoose.Schema({
    m_code: String,
    num_agent: String,
    type_util: String,
+   occupation: Array
 })
 module.exports = mongoose.model('datauser', User);

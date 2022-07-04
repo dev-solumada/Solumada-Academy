@@ -6,28 +6,28 @@ var AddPoint = document.getElementById('AddPoint')
 var AddGrad = document.getElementById('AddGrad')
 var custId = document.getElementById('custId')
 
-function getPoint(url, id) {
-    var http = new XMLHttpRequest();
-    http.open("POST", url, true);
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    var data = JSON.parse(id);
-    http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText == "error") {
-                success.style.display = "none";
-                error.style.display = "block";
-                error.innerHTML = "Point is already registered";
-            }
-            else {
-                success.style.display = "block";
-                error.style.display = "none";
-                success.innerHTML = this.responseText;
-            }
-        }
-    };
-    http.send("id=" + data[0].id + "&point=" + coursP.value)
+// function getPoint(url, id) {
+//     var http = new XMLHttpRequest();
+//     http.open("POST", url, true);
+//     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//     var data = JSON.parse(id);
+//     http.onreadystatechange = function () {
+//         if (this.readyState == 4 && this.status == 200) {
+//             if (this.responseText == "error") {
+//                 success.style.display = "none";
+//                 error.style.display = "block";
+//                 error.innerHTML = "Point is already registered";
+//             }
+//             else {
+//                 success.style.display = "block";
+//                 error.style.display = "none";
+//                 success.innerHTML = this.responseText;
+//             }
+//         }
+//     };
+//     http.send("id=" + data[0].id + "&point=" + coursP.value)
     
-}
+// }
 
 
 function anuler() {

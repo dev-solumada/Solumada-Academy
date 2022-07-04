@@ -10,7 +10,7 @@ var select_jour = document.getElementById("sjour");
 var timeStart = document.getElementById("timeS");
 var timeEnd = document.getElementById("timeE");
 
-var week_cptUp = document.getElementById("week_cptUpdat");
+//var week_cptUp = document.getElementById("week_cptUpdat");
 var weekDate = document.getElementById("weekDate");
 var timeSDel = document.getElementById("timeSDel");
 var timeEDel = document.getElementById("timeEDel");
@@ -161,7 +161,6 @@ function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
 
 
 function add_new_parcours() {
-    var week = document.getElementById("week_cpt");
     var date = document.getElementById("week");
     var grpe = document.getElementById("gpeCreate");
     var timeStart = document.getElementById("timeSCreate");
@@ -185,10 +184,10 @@ function add_new_parcours() {
             
         }
     }
-    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present, absentList, week.value);
+    sendRequestParcours('/addparcours', date.value, grpe.value, timeStart.value, timeEnd.value, cours.value, present, absentList);
 }
 
-function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent, week) {
+function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -206,18 +205,13 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
         }
     };
 
-    http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&present=" + present + "&absent=" + absent + "&week=" + week);
+    http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&present=" + present + "&absent=" + absent);
 }
 
 
 function anuler() {
     var cours = document.getElementById("cours");
-    console.log("cours == ", cours);
     window.location = "/listeCours/" + cours.value
-}
-function anulerBack() {
-    var cours = document.getElementById("cours");
-    window.location = "/listeCoursBack/" + cours.value
 }
 
 
@@ -301,8 +295,6 @@ function add_membre() {
             list.push(option.value);
         }
     }
-    console.log("cours", list);
-
     sendRequest1('/newmembre', list, groupeVal, cours);
 }
 
@@ -461,7 +453,6 @@ function save_time_update() {
 }
 
 function sendRequestTimeUpdate(url, time_tab, jours, grpe, timeStart, timeEnd) {
-    console.log("selectAbsPresUpd", selectAbsPresUpd);
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -530,7 +521,6 @@ var selectAbsPresUpd = []
 //get value Parcours to udpate
 function getParcours(url, id) {
     var param = JSON.parse(id)
-    console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     //week_cptD.val = "week_2";
@@ -547,16 +537,19 @@ function getParcours(url, id) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText)
-            console.log("data ", data);
             var dateFormat = new Date(data[0]._id.date).toLocaleDateString("fr")
             const [day, month, year] = dateFormat.split('/');
             const result = `${year}-${month}-${day}`;
 
-            week_cptUp.value =  data[0]._id.week;
+            //week_cptUp.value =  data[0]._id.week;
             weekDate.value = result
             timeSDel.value = data[0]._id.heureStart
             timeEDel.value = data[0]._id.heureFin
             gpeDel.value = data[0]._id.groupe
+
+            jQuery('#gpeDel').append(`<option value="${data[0]._id.groupe}">
+            ${data[0]._id.groupe}</option>`);
+
             jQuery(document).ready(function () {
                 jQuery("#presentUpd").chosen({
                     disable_search_threshold: 10,
@@ -566,11 +559,9 @@ function getParcours(url, id) {
             });
             for (let i = 0; i < data[0].tabl.length; i++) {
                 var pres = JSON.parse(JSON.stringify(data[0].tabl[i]))
-                console.log("data[0]._id", pres.presence );
                 if (pres.presence == true) {
                     var id = pres.id
                     var listUpdP= pres.id
-                    console.log("id ==== ", id);
                     //ajout email dans le dropdown 
                     jQuery('#presentUpd').append(`<option value="${id}">
                         ${pres.user}</option>`);
@@ -616,11 +607,11 @@ var absentUpd = []
 
 //update save change for parcours
 function save_parcours_update() {
-    var week = week_cptUp.value
+    //var week = week_cptUp.value
     var timeSUpd = timeSDel.value
     var timeEUpd = timeEDel.value 
     var groupe =  gpeDel.value
-    console.log("value to update ", week, timeSUpd, timeEUpd, groupe );
+    var dateUpd = weekDate.value
 
     for (var option of document.getElementById('presentUpd').options)
     {
@@ -632,16 +623,12 @@ function save_parcours_update() {
     let selectElementAbs = document.querySelectorAll('[id=absentUpdate]');
     let optionValuesAbs = [...selectElementAbs[0].options].map(o => absentUpd.push(o.value) )
 
-    console.log("presentUpd ****", presentUpd);
-    console.log("absentUpd ===  ", absentUpd);
-    sendRequestParcoursUpdate('/update_parcours', week, timeSUpd,timeEUpd, groupe, presentUpd, absentUpd);
+    sendRequestParcoursUpdate('/update_parcours', week, dateUpd, timeSUpd,timeEUpd, groupe, presentUpd, absentUpd);
 }
 
-function sendRequestParcoursUpdate(url, week, timeSUpd, timeEUpd, groupe, presentUpd, absentUpd) {
+function sendRequestParcoursUpdate(url, week, dateUpd, timeSUpd, timeEUpd, groupe, presentUpd, absentUpd) {
     var cours = document.getElementById('cours').value;
     var http = new XMLHttpRequest();
-    console.log("presentUpd sendRequestParcoursUpdate", presentUpd);
-    console.log("absentUpd sendRequestParcoursUpdate  ", absentUpd);
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
@@ -658,7 +645,7 @@ function sendRequestParcoursUpdate(url, week, timeSUpd, timeEUpd, groupe, presen
             }
         }
     };
-    http.send("week=" + week + "&timeSUpd=" + timeSUpd + "&timeEUpd=" + timeEUpd + "&groupe=" + groupe + "&presentUpd=" + presentUpd + "&absentUpd=" + absentUpd);
+    http.send("week=" + week + "&dateUpd=" + dateUpd + "&timeSUpd=" + timeSUpd + "&timeEUpd=" + timeEUpd + "&groupe=" + groupe + "&presentUpd=" + presentUpd + "&absentUpd=" + absentUpd);
 }
 
 
@@ -687,7 +674,6 @@ var heureF = ""
 var date = ""
 function getparcDelete(url, id) {
     var param = JSON.parse(id)
-    console.log("cccccc",param );
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -723,3 +709,12 @@ function deleteP(url,  cours,  groupe, heureS, heureF, date) {
     http.send("cours=" + cours + "&groupe=" + groupe + "&heureStart=" + heureS + "&heureFin=" + heureF + "&date=" + date );
 }
 
+
+
+
+{/* <option value="">Choose groupe</option>
+<% listgroupe.forEach(function(listgroupe) { %>
+    <option value="<%= listgroupe.name_Groupe %>">
+        <%= listgroupe.name_Groupe %>
+    </option>
+<% }); %> */}

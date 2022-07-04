@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const Parcours = mongoose.Schema({
-    week: String,
     date: Date,
     groupe: String,
     heureStart: String,
