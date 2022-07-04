@@ -443,7 +443,6 @@
                                                     <table id="parcours" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th>Week</th>
                                                                 <th>Date</th>
                                                                 <th>Start At</th>
                                                                 <th>End At</th>
@@ -457,9 +456,6 @@
 
                                                             <% ParcoursAbsent.forEach(function(ParcoursAbsent) { %>
                                                                 <tr>
-                                                                    <td>
-                                                                        <%= ParcoursAbsent._id.week %>
-                                                                    </td>
                                                                     <td>
                                                                         <%= ParcoursAbsent._id.date.toLocaleDateString("fr")
                                                                             %>
@@ -848,7 +844,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" 
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button" onclick="save_time_update()"
                                 id="saveUser">Save Change</button>
@@ -879,24 +875,6 @@
                                                 <small class="alert alert-success text-center" role="alert"
                                                     id="successparcD" style="display: none;color:green"></small>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="week">Week </label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Week" id="week_cptUpdat" class="form-control">
-                                                <option value="week_1">Week 1</option>
-                                                <option value="week_2">Week 2</option>
-                                                <option value="week_3">Week 3</option>
-                                                <option value="week_4">Week 4</option>
-                                                <option value="week_5">Week 5</option>
-                                            </select>
-                                            <small id="cour_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
                                         </div>
                                     </div>
 
@@ -934,13 +912,7 @@
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" id="gpeDel"
-                                                onchange="groupePresenceUpd(this)" class="form-control">
-                                                <option value="">Choose groupe</option>
-                                                <% listgroupe.forEach(function(listgroupe) { %>
-                                                    <option value="<%= listgroupe.name_Groupe %>">
-                                                        <%= listgroupe.name_Groupe %>
-                                                    </option>
-                                                <% }); %>
+                                                 class="form-control">
                                             </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
@@ -1005,7 +977,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="deleteEmploi()"> Yes, delete
                                 it!</button>
-                            <button type="button" class="btn btn-success" onclick="anuler()" data-dismiss="modal">No,
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" data-dismiss="modal">No,
                                 cancel</button>
                         </div>
                     </div>
@@ -1034,7 +1006,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="deleteParcours()"> Yes, delete
                                 it!</button>
-                            <button type="button" class="btn btn-success" onclick="anuler()" data-dismiss="modal">No,
+                            <button type="button" class="btn btn-success"  data-dismiss="modal">No,
                                 cancel</button>
                         </div>
                     </div>
@@ -1064,23 +1036,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="week">Week </label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Week" id="week_cpt" class="standardSelect">
-                                                <option value="week_1">Week 1</option>
-                                                <option value="week_2">Week 2</option>
-                                                <option value="week_3">Week 3</option>
-                                                <option value="week_4">Week 4</option>
-                                                <option value="week_5">Week 5</option>
-                                            </select>
-                                            <small id="cour_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -1159,7 +1114,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                            <button type="button" class="btn btn-danger"
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button" onclick="add_new_parcours()"
                                 id="saveParcours">Save</button>
@@ -1213,7 +1168,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-rounded btn-danger" onclick="anuler()"
+                            <button type="button" class="btn btn-rounded btn-danger" data-bs-dismiss="modal"
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-rounded btn-success" type="button" onclick="add_membre()"
                                 id="saveUser">Save</button>
