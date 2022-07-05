@@ -1301,6 +1301,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
     var absent = req.body.absent
     const presentArray = present.split(",");
     const absentArray = absent.split(",");
+    console.log("date ", date,  group, cours, heurdebut, heurfin, present, absent  );
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",

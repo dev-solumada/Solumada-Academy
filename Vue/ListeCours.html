@@ -368,7 +368,8 @@
                                                         style="width: 100%;">
                                                         <thead>
                                                             <tr>
-                                                                <th>Week</th>
+                                                                <th>Date</th>
+                                                                <th>Day</th>
                                                                 <th>Group</th>
                                                                 <th>Starting Time</th>
                                                                 <th>Ending Time</th>
@@ -380,6 +381,9 @@
                                                             <% time.forEach(function(time) { %>
                                                                 <tr>
 
+                                                                    <td>
+                                                                        <%= time.date %>
+                                                                    </td>
                                                                     <td>
                                                                         <%= time.jours %>
                                                                     </td>
