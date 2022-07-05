@@ -188,6 +188,7 @@ function add_new_parcours() {
 }
 
 function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present, absent) {
+    
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -201,11 +202,14 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
                 successparc.style.display = "block";
                 errorparc.style.display = "none";
                 successparc.innerHTML = "Groupe " + this.responseText + " registered successfuly";
+                
+                
             }
         }
     };
 
     http.send("date=" + date + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&present=" + present + "&absent=" + absent);
+
 }
 
 
@@ -214,6 +218,10 @@ function anuler() {
     window.location = "/listeCours/" + cours.value
 }
 
+function anulerTeach() {
+    var cours = document.getElementById("cours");
+    window.location = "/teacherCours/" + cours.value
+}
 
 var present = document.getElementById('present')
 var absent = document.getElementById('absent')

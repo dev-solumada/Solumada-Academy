@@ -354,7 +354,8 @@
                                                         style="width: 100%;">
                                                         <thead>
                                                             <tr>
-                                                                <th>Week</th>
+                                                                <th>Date</th>
+                                                                <th>Day</th>
                                                                 <th>Group</th>
                                                                 <th>Starting Time</th>
                                                                 <th>Ending Time</th>
@@ -364,6 +365,9 @@
                                                         <tbody>
                                                             <% time.forEach(function(time) { %>
                                                                 <tr>
+                                                                    <td>
+                                                                        <%= time.date %>
+                                                                    </td>
                                                                     <td>
                                                                         <%= time.jours %>
                                                                     </td>
@@ -1170,31 +1174,15 @@
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id="errorP"
-                                                    style="display: none;color:red"></small>
+                                                <small class="alert alert-danger text-center" role="alert"
+                                                    id="errorparc" style="display: none;color:red"></small>
                                                 <small class="alert alert-success text-center" role="alert"
-                                                    id="successP" style="display: none;color:green"></small>
+                                                    id="successparc" style="display: none;color:green"></small>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="week">Week </label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Week" id="week_cpt" class="standardSelect">
-                                                <option value="week_1">Week 1</option>
-                                                <option value="week_2">Week 2</option>
-                                                <option value="week_3">Week 3</option>
-                                                <option value="week_4">Week 4</option>
-                                                <option value="week_5">Week 5</option>
-                                            </select>
-                                            <small id="cour_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
+
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="week">Date </label>
@@ -1203,12 +1191,11 @@
                                             <input id="week" type="date" class="form-control">
                                         </div>
                                     </div>
-
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeS" class="form-control">
+                                            <input type="time" id="timeSCreate" class="form-control">
                                             <small id="startTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -1218,7 +1205,7 @@
                                         <div class="col col-md-3"><label for="groupName" class="form-control-label">End
                                                 At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeE" class="form-control">
+                                            <input type="time" id="timeECreate" class="form-control">
                                             <small id="endTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -1229,9 +1216,9 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="gpe"
-                                                onchange="groupePresence(this)" class="form-control standardSelect">
-                                                <option value=""></option>
+                                            <select data-placeholder="Choose Group" id="gpeCreate"
+                                                onchange="groupePresence(this)" class="standardSelect">
+                                                <option value="">Choose groupe</option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
                                                         <%= listgroupe.name_Groupe %>
@@ -1263,7 +1250,6 @@
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Add absent" id="absent" name="absent" multiple
                                                 class="form-control absentSelect" tabindex="1">
-                                                <option value=""></option>
 
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
@@ -1274,7 +1260,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                            <button type="button" class="btn btn-danger" onclick="anulerTeach"
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button" onclick="add_new_parcours()"
                                 id="saveParcours">Save</button>
@@ -1282,7 +1268,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="addMemeber" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -1339,33 +1324,53 @@
     </div>
     <!-- Right Panel -->
 
-    <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
 
     <script src="../assets/js/list-groupe.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
     <script>
         jQuery(document).ready(function () {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            jQuery(".standardSelect").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
             });
-            
 
-            var activeTab = localStorage.getItem('activeTab');
-            if(activeTab){
-                $('#myTab a[href="' + activeTab + '"]').tab('show');
-            }
-        });
+
+            // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            //     localStorage.setItem('activeTab', $(e.target).attr('href'));
+            // });
+            // var activeTab = localStorage.getItem('activeTab');
+            // if(activeTab){
+            //     $('#myTab a[href="' + activeTab + '"]').tab('show');
+            // }
+
+        })
+
+        
+        jQuery(document).ready(function () {
+                    jQuery(".prensentSelect").chosen({
+                        disable_search_threshold: 10,
+                        no_results_text: "Oops, nothing found!",
+                        width: "100%"
+                    });
+                });
+        jQuery(document).ready(function () {
+                    jQuery(".prensentSelectUpd").chosen({
+                        disable_search_threshold: 10,
+                        no_results_text: "Oops, nothing found!",
+                        width: "100%"
+                    });
+                });
     </script>
 
   </body>
