@@ -357,7 +357,7 @@ async function login(username, pwd, session, res) {
                             session.occupation_particip = element;
                         }
                     }
-                    res.redirect("/teachParticipHome")//, { prof_occ: prof_occ, part_occ: part_occ });
+                    res.redirect("/teacherHome")//, { prof_occ: prof_occ, part_occ: part_occ });
                 } else
                 if (logger.type_util == "Professeur") {
                     session.occupation_prof = logger.type_util;
@@ -461,12 +461,9 @@ routeExp.route("/teacherHome").get(async function (req, res) {
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
                 if (session.occupation_particip) {
                     var particip = session.occupation_particip
-                    
                 } else {
                     var particip = ""
-                    
                 }
-
                 res.render("./teacherView/teacherHome.html", { particip: particip, cours: cours });
             });
     }
@@ -593,7 +590,16 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
 routeExp.route("/studentHome").get(async function (req, res) {
     var session = req.session;
     if (session.occupation_particip == "Participant") {
-        res.render("./StudentView/studentHome.html");
+
+        if (session.occupation_prof) {
+            var prof = session.occupation_prof
+            
+        } else {
+            var prof = ""
+            
+        }
+
+        res.render("./StudentView/studentHome.html", { prof: prof });
     }
     else {
         res.redirect("/");
