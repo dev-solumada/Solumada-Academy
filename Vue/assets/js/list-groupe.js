@@ -4,6 +4,7 @@ var listU = document.getElementById('listUserC');
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const groupSelect = urlParams.get('select-group');
+
 const end = urlParams.get('end');
 var gpe = document.getElementById("gpe");
 var select_jour = document.getElementById("sjour");
@@ -21,7 +22,8 @@ var absentDel = document.getElementById("absentDel");
 if (queryString.length != 0) {
     groupeId.value = groupSelect;
 }
-    var groupeVal = groupeId.value;
+
+var groupeVal = groupeId.value;
 function getdataGP() {
     var cours = document.getElementById('cours').value;
     table.style.display = "block";
@@ -70,6 +72,23 @@ function getdataGPLoad(url) {
 }
 
 
+function getdataGPLoadProf(url) {
+    var cours = document.getElementById("cours");
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (groupeId.value == "") {
+                window.location = "/teacherCours/" + cours.value;
+            }
+            else {
+                window.location = "/teacherCours/" + cours.value + "?select-group=" + groupeId.value;
+            }
+        }
+    };
+    http.send("groupe=" + groupeId.value + "&cours=" + cours.value);
+}
 function add_new_groupe() {
     var newgroupe = document.getElementById("groupeNew").value;
     var cours = document.getElementById("cours").value;

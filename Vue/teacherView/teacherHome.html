@@ -1,214 +1,175 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-  <!--<![endif]-->
+<!--<![endif]-->
 
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Solumada Academy | Teacher - Home</title>
-    <meta name="description" content="Sufee Admin - HTML5 Admin Template" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Solumada Academy | Teacher - Home</title>
+  <meta name="description" content="Sufee Admin - HTML5 Admin Template" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="apple-touch-icon" href="../assets/basetemplate/images/logo.jpg" />
-    <link rel="shortcut icon" href="../assets/basetemplate/images/logo.jpg" />
+  <link rel="apple-touch-icon" href="../assets/basetemplate/images/logo.jpg" />
+  <link rel="shortcut icon" href="../assets/basetemplate/images/logo.jpg" />
 
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/font-awesome/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/themify-icons/css/themify-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/jqvmap/dist/jqvmap.min.css"
-    />
+  <link rel="stylesheet" href="../assets/basetemplate/vendors/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/basetemplate/vendors/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../assets/basetemplate/vendors/themify-icons/css/themify-icons.css" />
+  <link rel="stylesheet" href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css" />
+  <link rel="stylesheet" href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css" />
+  <link rel="stylesheet" href="../assets/basetemplate/vendors/jqvmap/dist/jqvmap.min.css" />
 
-    <link rel="stylesheet" href="../assets/basetemplate/assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/basetemplate/assets/css/style.css" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800"
-      rel="stylesheet"
-      type="text/css"
-    />
-  </head>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css" />
+</head>
 
-  <body>
-    <!-- Left Panel -->
+<body>
+  <!-- Left Panel -->
 
-    <aside id="left-panel" class="left-panel">
-      <nav class="navbar navbar-expand-sm navbar-default">
-        <div class="navbar-header">
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#main-menu"
-            aria-controls="main-menu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <i class="fa fa-bars"></i>
-          </button>
-          <a class="navbar-brand" href="./"
-            ><img src="../assets/basetemplate/images/logo.jpg" alt="Logo"
-          /></a>
-          <a class="navbar-brand hidden" href="./"
-            ><img src="../assets/basetemplate/images/logo2.png" alt="Logo"
-          /></a>
-        </div>
+  <aside id="left-panel" class="left-panel">
+    <nav class="navbar navbar-expand-sm navbar-default">
+      <div class="navbar-header">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
+          aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="./"><img src="../assets/basetemplate/images/logo.jpg" alt="Logo" /></a>
+        <a class="navbar-brand hidden" href="./"><img src="../assets/basetemplate/images/logo2.png" alt="Logo" /></a>
+      </div>
 
-        <div id="main-menu" class="main-menu collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <h3 class="menu-title text-center">MENU</h3>
-            <!-- /.menu-title -->
-            <li>
-              <a href="/teacherHome">
-                <i class="menu-icon fa fa-home"></i>Home
-              </a>
-            </li>
-            <li class="menu-item-has-children active dropdown">
-              <a
-                href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="menu-icon fa fa-book"></i>My Cours</a
-              >
-              <ul class="sub-menu children dropdown-menu">
-                <% cours.forEach(cours => { %>
-                  <li class="dropdown menu-item-has-children">
-                    <i class="fa fa-bookmark"></i>
-                    <a href="/teacherCours/<%= cours.name_Cours %>" 
-                      onclick="getdataGP('/getdataGP','<%= cours.name_Cours %>')"
-                       id="obg-item"><%= cours.name_Cours%></a>
-                  </li>
-                  
-                <%});
-                %>
-              </ul>
-            </li>
-            <li>
-              <a href="/teacherGlobalView">
-                <i class="menu-icon fa fa-eye"></i>Global view
-              </a>
-            </li>
-          </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </nav>
-    </aside>
-    <!-- /#left-panel -->
+      <div id="main-menu" class="main-menu collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <h3 class="menu-title text-center">MENU</h3>
+          <!-- /.menu-title -->
+          <li>
+            <a href="/teacherHome">
+              <i class="menu-icon fa fa-home"></i>Home
+            </a>
+          </li>
+          <li class="menu-item-has-children active dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="menu-icon fa fa-book"></i>My Cours</a>
+            <ul class="sub-menu children dropdown-menu">
+              <% cours.forEach(cours=> { %>
+                <li class="dropdown menu-item-has-children">
+                  <i class="fa fa-bookmark"></i>
+                  <a href="/teacherCours/<%= cours.name_Cours %>"
+                    onclick="getdataGP('/getdataGP','<%= cours.name_Cours %>')" id="obg-item">
+                    <%= cours.name_Cours%>
+                  </a>
+                </li>
 
-    <!-- Left Panel -->
+                <%}); %>
+            </ul>
+          </li>
+          <li>
+            <a href="/teacherGlobalView">
+              <i class="menu-icon fa fa-eye"></i>Global view
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </nav>
+  </aside>
+  <!-- /#left-panel -->
 
-    <!-- Right Panel -->
+  <!-- Left Panel -->
 
-    <div id="right-panel" class="right-panel">
-      <!-- Header-->
-      <header id="header" class="header">
-        <div class="header-menu">
-          <div class="col-sm-7">
-            <a id="menuToggle" class="menutoggle pull-left"
-              ><i class="fa fa fa-tasks"></i
-            ></a>
-            <!-- <div class="header-left">
+  <!-- Right Panel -->
+
+  <div id="right-panel" class="right-panel">
+    <!-- Header-->
+    <header id="header" class="header">
+      <div class="header-menu">
+        <div class="col-sm-7">
+          <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+          <!-- <div class="header-left">
 
                     </div> -->
-          </div>
+        </div>
 
-          <div class="col-sm-5">
-            <div class="user-area dropdown float-right">
-              <a
-                href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <img
-                  class="user-avatar rounded-circle"
-                  src="../assets/basetemplate/images/admin.jpg"
-                  alt="User Avatar"
-                />
-              </a>
+        <div class="col-sm-5">
+          <div class="user-area dropdown float-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img class="user-avatar rounded-circle" src="../assets/basetemplate/images/admin.jpg" alt="User Avatar" />
+            </a>
 
-              <div class="user-menu dropdown-menu">
-                <a class="nav-link" href="#"
-                  ><i class="fa fa-user"></i> My Profile</a
-                >
+            <div class="user-menu dropdown-menu">
+              <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
 
-                <a class="nav-link" href="/resetPWD"><i class="fa fa-user"></i> reset password</a>
+              <a class="nav-link" href="/resetPWD"><i class="fa fa-user"></i> reset password</a>
 
 
-                <!-- <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
+              <!-- <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a> -->
 
-                <a class="nav-link" href="/logout"
-                  ><i class="fa fa-power-off"></i> Logout</a
-                >
-              </div>
+              <a class="nav-link" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
             </div>
+          </div>
 
-            <!-- <div class="username justify-content-end">
+          <!-- <div class="username justify-content-end">
                         Andy Solumada
                     </div> -->
-          </div>
         </div>
-      </header>
-      <!-- /header -->
-      <!-- Header-->
+      </div>
+    </header>
+    <!-- /header -->
+    <!-- Header-->
 
-      <div class="content mt-3">
-        <!-- add Content here -->
-        <div class="col-lg-12">
-          <div class="card" style="height: 85vh">
-            <div class="card-body d-flex text-center justify-content-center">
-              <div class="m-auto">
-                <h3 class="text-center">
-                  Welcome to <br />
-                  Solumada Academie
-                </h3>
+    <div class="content mt-3">
+      <!-- add Content here -->
+      <input type="hidden" name="partic " id="val_particp" value="<%= particip %>">
+      <div class="col-lg-12">
+        <div class="card" style="height: 85vh">
+          <div class="card-body d-flex text-center justify-content-center">
+            <div class="m-auto">
+              <h3 class="text-center">
+                Welcome to <br />
+                Solumada Academie
+              </h3>
+              <div class="container " id="particip" >
+                <div class="row hidden-md-up">
+                  <div class="col-md-6">
+                    <div class="card" style="width: 18rem;">
+                      <div class="card-body" >
+                        <a href="/studentHome" class="card-link" id="click_particip">
+                          <h5 class="card-title" > Switch to PARTICIPANT</h5>
+                        </a>
+                        </div>
+                    </div>
+                  </div>
+                </div><br>
               </div>
             </div>
           </div>
         </div>
-        <!-- all content here -->
       </div>
-      <!-- .content -->
+      <!-- all content here -->
     </div>
-    <!-- /#right-panel -->
+    <!-- .content -->
+  </div>
+  <!-- /#right-panel -->
 
-    <!-- Right Panel -->
+  <!-- Right Panel -->
 
-    <script src="../assets/js/list-groupe.js"></script>
-    <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../assets/basetemplate/assets/js/main.js"></script>
+  <script src="../assets/js/list-groupe.js"></script>
+  <script src="../assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
+  <script src="../assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="../assets/basetemplate/vendors/chart.js/dist/Chart.bundle.min.js"></script>
-    <script src="../assets/basetemplate/assets/js/dashboard.js"></script>
-    <script src="../assets/basetemplate/assets/js/widgets.js"></script>
-    <script src="../assets/basetemplate/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="../assets/basetemplate/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <script src="../assets/basetemplate/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/part-stud.js"></script>
 
-  </body>
+  <script src="../assets/basetemplate/vendors/chart.js/dist/Chart.bundle.min.js"></script>
+  <script src="../assets/basetemplate/assets/js/dashboard.js"></script>
+  <script src="../assets/basetemplate/assets/js/widgets.js"></script>
+  <script src="../assets/basetemplate/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+  <script src="../assets/basetemplate/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+  <script src="../assets/basetemplate/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+
+</body>
 </html>
