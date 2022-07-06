@@ -346,7 +346,6 @@ async function login(username, pwd, session, res) {
             });
             if (logger) {
                 if (logger.occupation.length > 1) {
-                    console.log("superieur à 0", logger.occupation.length);
                     for (let i = 0; i < logger.occupation.length; i++) {
                         const element = logger.occupation[i];
                         if (element == "Professeur") {
@@ -406,7 +405,6 @@ routeExp.route("/addemp").post(async function (req, res) {
                 res.send("error");
             } else {
                 var passdefault = randomPassword();
-                console.log("email", email);
                 var new_emp = {
                     name: name,
                     firstname: firstname,
@@ -461,7 +459,15 @@ routeExp.route("/teacherHome").get(async function (req, res) {
             )
             .then(async () => {
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
-                res.render("./teacherView/teacherHome.html", { cours: cours });
+                if (session.occupation_particip) {
+                    var particip = session.occupation_particip
+                    
+                } else {
+                    var particip = ""
+                    
+                }
+
+                res.render("./teacherView/teacherHome.html", { particip: particip, cours: cours });
             });
     }
     else {
@@ -562,8 +568,6 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
             )
             .then(async () => {
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
-                //await CGNModel.updateMany({ cours: "Problem solving and decision making" }, { professeur: req.session.nomProf})
-                console.log("cours ", cours[0].professeur);
                 var membre = await CGNModel.aggregate([
                     { $match: { $or: [{ professeur: cours[0].professeur }] } },
                     {
@@ -574,7 +578,6 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
                         }
                     }
                 ])
-                console.log("membre ", membre);
 
                 var point = await Point.find({ validation: true });
                 var grad = await Graduation.find({ validation: true });
@@ -744,16 +747,11 @@ routeExp.route("/addcours").post(async function (req, res) {
                     nbrePart: 0
                 };
                 var user = await UserSchema.findOne({ $or: [{ username: professeur }] })
-                console.log("user ", user.occupation.length);
 
 
                 if (user.occupation.indexOf('Professeur') === -1) {
                     await UserSchema.findOneAndUpdate({ username: professeur },   { $push: { occupation: "Professeur" } })
                 } 
-                // else {
-                //     console.log('⛔️ value is in array');
-                //   }
-
                 await CoursModel(new_cours).save();
                 res.send(name_Cours);
             }
@@ -1177,7 +1175,6 @@ routeExp.route("/newmembre").post(async function (req, res) {
 
                     var user = await UserSchema.find({ username: listeUser[index] });
                     var getProf = await CoursModel.find({ $or: [{ name_Cours: cours }] });
-                    console.log("get", getProf[0].professeur);
                     var mcode = ""
                     var num_agent = ""
                     var firstname = ""
@@ -1297,7 +1294,6 @@ routeExp.route("/addparcours").post(async function (req, res) {
     var absent = req.body.absent
     const presentArray = present.split(",");
     const absentArray = absent.split(",");
-    console.log("date ", date,  group, cours, heurdebut, heurfin, present, absent  );
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1753,7 +1749,6 @@ routeExp.route("/update_parcours").post(async function (req, res) {
     
     const listeUserPres = presentUpd.split(",");
     const listeUserAbs = absentUpd.split(",");
-    console.log("parcours upd week", week, "date ",  dateUpd  , "timeS ",timeSUpd, "timeE ", timeEUpd, "groupe ", groupe, listeUserPres, listeUserAbs);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1765,12 +1760,10 @@ routeExp.route("/update_parcours").post(async function (req, res) {
         .then(async () => {
 
             for (let i = 0; i < listeUserPres.length; i++) {
-                console.log("listeUserPres ", listeUserPres[i]);
                 await ParcoursModel.findOneAndUpdate({ _id: listeUserPres[i] }, { week: week, date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: true})
                 
             }
             for (let j = 0; j < listeUserAbs.length; j++) {
-                console.log("listeUserAbs ", listeUserAbs[j]);
                 await ParcoursModel.findOneAndUpdate({ _id: listeUserAbs[j] }, { week: week, date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: false})
                 
             }
@@ -1826,7 +1819,6 @@ routeExp.route("/getParcours").post(async function (req, res) {
     var heureFin = req.body.heureFin;
     var date = req.body.date;
     var week = req.body.week;
-    console.log("getParcours", cours, groupe, heureStart, heureFin, date, week);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1860,7 +1852,6 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
-    console.log("cours", week, cours, groupe, heureStart, heureFin, date);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1883,8 +1874,6 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
             ])
 
             var AllParcours = await ParcoursModel.find({ validation: true })
-            console.log("Parcours ", ParcoursAbsent);
-            console.log("AllParcours ", AllParcours);
             res.send(ParcoursAbsent);
         });
 })
@@ -1920,8 +1909,7 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
 //delete parcours
 routeExp.route("/point_grad").post(async function (req, res) {
     var value = req.body.point;
-    var todata = JSON.parse(value)
-    console.log("value", todata)//JSON.stringify(value) );
+    var todata = JSON.parse(value);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1936,54 +1924,9 @@ routeExp.route("/point_grad").post(async function (req, res) {
                     const element = todata[i];
                     await CGNModel.findOneAndUpdate({ username: element.mail }, { point: element.point, graduation: element.grad })
                 }
-                console.log("Point and Graduation sucess");
             } catch (err) {
                 console.log(err);
                 res.send(err);
             }
         });
 })
-
-// routeExp.route("/occupationAdd").get(async function (req, res) {
-//     mongoose
-//         .connect(
-//             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-//             {
-//                 useUnifiedTopology: true,
-//                 UseNewUrlParser: true,
-//             }
-//         )
-//         .then(async () => {
-
-//             var listUser = await UserSchema.find({ validation: true });
-//             //await UserSchema.findOneAndUpdate({ username: element.mail }, { point: element.point, graduation: element.grad })
-//             console.log("listUser ", listUser.length);
-//             for (let i = 0; i < listUser.length; i++) {
-//                 const element = listUser[i];
-//                 var c = []
-//                 c.push(listUser[i].type_util)
-//                 await UserSchema.findOneAndUpdate({ username: listUser[i].username }, { occupation: c })
-//                 console.log("listUser[i] ",listUser[i]);
-//                 //await UserSchema.findOneAndUpdate({ username: element.mail }, { point: element.point, graduation: element.grad })
-//             }
-//         });
-// })
-
-// routeExp.route("/addProf").get(async function (req, res) {
-//     mongoose
-//         .connect(
-//             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-//             {
-//                 useUnifiedTopology: true,
-//                 UseNewUrlParser: true,
-//             }
-//         )
-//         .then(async () => {
-
-//             await CGNModel.updateMany(
-//                 { "cours" : "Excel" },
-//                 { $set: { "professeur" : "m.rom.romuald.optimumsolutions@gmail.com" } }
-//              );
-//              console.log("finish");
-//         });
-// })
