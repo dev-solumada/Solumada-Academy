@@ -12,7 +12,6 @@
     <title>Admin | Global View</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="apple-touch-icon" href="./assets/basetemplate/images/logo.jpg">
     <link rel="shortcut icon" href="./assets/basetemplate/images/logo.jpg">
 
@@ -174,7 +173,7 @@
                                     style="display: none;color:red"></small>
                             </center>
                             <div class="card-body">
-                                <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                <table id="AdminglobalViewDatatable" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Email</th>
@@ -202,66 +201,8 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody id="get-table">
-                                        <% membre.forEach(function(membre) { %>
-                                            <tr>
-                                                <td>
-                                                    <%= membre._id.username %>
-                                                </td>
-                                                <td>
-                                                    <%= membre._id.m_code %>
-                                                </td>
-                                                <td>
-                                                    <%= membre._id.num_agent %>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <select class="form-control selectNiveau">
-                                                            <% membre.tabl.forEach(function(tabl) { %>
-                                                                <option class="text-center" value="1"><%= tabl.cours %> - <%= tabl.niveau %></option>
-                                                            <% }); %>     
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="hidden" id="custId" name="custId" value="<%= membre._id.m_code %>">
-                                                        <select class="form-control" id="selectPoints">
-                                                            <%  if (membre._id.point) {%>
-                                                                <option class="text-center" value="<%= membre._id.point %>"><%= membre._id.point %></option>
-                                                                
-                                                                <%}%>
-                                                            <% point.forEach(function(point) { %>
-                                                                <option class="text-center" value="<%= point.point %>"><%= point.point %></option>
-                                                            <% });
-                                                            var table = membre.tabl %>    
-                                                        </select>
-                                                    
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <select class="form-control " id="selectGrad">
-                                                            <%  if (membre._id.graduation) {%>
-                                                                <option class="text-center" value="<%= membre._id.graduation %>"><%= membre._id.graduation %></option>
-                                                                
-                                                                <%}%>
-                                                            <% grad.forEach(function(grad) {
-                                                                %>
-                                                                <option class="text-center" value="<%= grad.graduation %>"> <%= grad.graduation %></option>
-                                                            <% });
-                                                            var donne = membre.tabl%>   
-                                                        </select>
-                                                        <button class="btn btn-sm btn-secondary" data-toggle="modal"onclick="getGrad('/updateGrad','<%= JSON.stringify(donne) %>')"
-                                                             >
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                        <!--button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalChangeGraduation">
-                                                            <i class="fa fa-edit"></i></button-->
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <% }); %>
+                                    <tbody>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -456,28 +397,20 @@
     <!-- Right Panel -->
 
 
+    <script src="../assets/basetemplate/assets/js/main.js"></script>
+
     <script src="./assets/basetemplate/vendors/jquery/dist/jquery.min.js"></script>
     <script src="./assets/basetemplate/vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="./assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/basetemplate/assets/js/main.js"></script>
 
     <script src="./assets/js/admin-global.js"></script>
+    <!-- <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 
-    <script src="./assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="./assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="./assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="./assets/basetemplate/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="./assets/basetemplate/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="./assets/basetemplate/vendors/pdfmake/build/vfs_fonts.js"></script>
-    <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="./assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-    <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
-    <script
-  src="https://code.jquery.com/jquery-3.6.0.slim.js"
-  integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
-  crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+  <script src="./assets/basetemplate/assets/js/adminGlobalview.js"></script>
 
 <script>
     $(document).ready(function() {
