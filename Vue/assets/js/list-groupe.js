@@ -7,9 +7,10 @@ const groupSelect = urlParams.get('select-group');
 
 const end = urlParams.get('end');
 var gpe = document.getElementById("gpe");
-var select_jour = document.getElementById("sjour");
+var selectJour = document.getElementById("sjour");
 var timeStart = document.getElementById("timeS");
 var timeEnd = document.getElementById("timeE");
+var dateTimeUpdate = document.getElementById("dateTimeUpdate");
 
 //var week_cptUp = document.getElementById("week_cptUpdat");
 var weekDate = document.getElementById("weekDate");
@@ -155,10 +156,11 @@ function save_time() {
     var timeStart = document.getElementById("timeStart").value;
     var timeEnd = document.getElementById("timeEnd").value;
     var cours = document.getElementById("cours").value;
-    sendRequestTime('/EmplTemp', jour, grpe, timeStart, timeEnd, cours);
+    var date_time = document.getElementById("date_time").value;
+    sendRequestTime('/EmplTemp', jour, grpe, timeStart, timeEnd, cours, date_time);
 }
 
-function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
+function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours, date_time) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -175,7 +177,7 @@ function sendRequestTime(url, jours, grpe, timeStart, timeEnd, cours) {
             }
         }
     };
-    http.send("jours=" + jours + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours);
+    http.send("jours=" + jours + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&cours=" + cours + "&date_time=" + date_time);
 }
 
 
@@ -459,14 +461,26 @@ function deleteM(url, deleteMembre) {
 
 var time_tab = ""
 function gettime(url, id) {
+    gpe.value = "";
+    selectJour.value = ""
+    timeStart.value = ""
+    timeEnd.value = ""
+    time_tab = "";
+    dateTimeUpdate.value = ""
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
+            var dateFormat = new Date(data.date).toLocaleDateString("fr")
+            const [day, month, year] = dateFormat.split('/');
+            const result = `${year}-${month}-${day}`;
+
+            dateTimeUpdate.value = result
             gpe.value = data.groupe;
-            select_jour.value = data.jours
+            selectJour.value = data.jours
+            console.log("data===", data.date);
             timeStart.value = data.heureStart
             timeEnd.value = data.heureFin
             time_tab = data._id;
@@ -476,10 +490,10 @@ function gettime(url, id) {
 }
 
 function save_time_update() {
-    sendRequestTimeUpdate('/update_time',time_tab, select_jour.value, gpe.value, timeStart.value, timeEnd.value);
+    sendRequestTimeUpdate('/update_time',time_tab, selectJour.value, gpe.value, timeStart.value, timeEnd.value, dateTimeUpdate.value);
 }
 
-function sendRequestTimeUpdate(url, time_tab, jours, grpe, timeStart, timeEnd) {
+function sendRequestTimeUpdate(url, time_tab, jours, grpe, timeStart, timeEnd, date) {
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -496,7 +510,7 @@ function sendRequestTimeUpdate(url, time_tab, jours, grpe, timeStart, timeEnd) {
             }
         }
     };
-    http.send("id=" + time_tab + "&jours=" + jours + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd);
+    http.send("id=" + time_tab + "&jours=" + jours + "&group=" + grpe + "&heurdebut=" + timeStart + "&heurfin=" + timeEnd + "&date=" + date);
 }
 
 var timeDel = ""

@@ -607,6 +607,8 @@ routeExp.route("/studentHome").get(async function (req, res) {
 });
 
 
+
+
 // student Group
 routeExp.route("/studentGroup").get(async function (req, res) {
     var session = req.session;
@@ -1335,6 +1337,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
     var cours = req.body.cours
     var heurdebut = req.body.heurdebut
     var heurfin = req.body.heurfin
+    var date_time = req.body.date_time
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1352,7 +1355,8 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
                     groupe: group,
                     jours: jours,
                     heureStart: heurdebut,
-                    heureFin: heurfin
+                    heureFin: heurfin,
+                    date: date_time
                 };
                 await EmplTemp(new_emploi).save();
                 res.send(new_emploi.groupe + " at " + new_emploi.heureStart + " is successfuly saved");
@@ -1800,6 +1804,7 @@ routeExp.route("/update_time").post(async function (req, res) {
     var group = req.body.group;
     var heurdebut = req.body.heurdebut;
     var heurfin = req.body.heurfin;
+    var date = req.body.date;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1809,7 +1814,7 @@ routeExp.route("/update_time").post(async function (req, res) {
             }
         )
         .then(async () => {
-            await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
+            await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin, date: date });
             res.send("Time updated successfully");
         })
 })
