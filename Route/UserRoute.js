@@ -949,6 +949,91 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
     }
 });
 
+// Class for format data
+class Employee {
+    constructor(email, m_code, number, coursAndlevel, empoint, grade) {
+        this.emp_email = email;
+        this.emp_m_code = m_code;
+        this.emp_number = number;
+        this.emp_courslevel = coursAndlevel;
+        this.emp_point = empoint;
+        this.emp_grade = grade;
+    }
+};
+
+// Get GlobalViewData From Ajax
+routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
+    var session = req.session;
+    if (session.occupation_adm == "adm") {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            
+            try {
+                var members = await CGNModel.aggregate([
+                    {
+                        $group: {
+                            _id:{ username: "$username", firstname: "$firstname", m_code: "$mcode", num_agent: "$num_agent" , point: "$point", graduation: "$graduation"},
+                            tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours" } }
+                        }
+                    }
+                ]);
+
+                var points =  await Point.find({ validation: true });
+                var grades =  await Graduation.find({ validation: true });
+    
+                var data = [];
+                members.forEach(member => {
+                    var member_email = member._id.username;
+                    var member_m_code = member._id.m_code;
+                    var member_number = member._id.num_agent;
+                    var member_point = member._id.point;
+                    var member_gradudation = member._id.graduation;
+                    var member_courslevel = [];
+                    var member_userpoints = [];
+                    var member_grades = [];
+
+                    if(member_point != null)
+                        {member_userpoints.push(member_point);}
+                    else 
+                        {member_userpoints.push("None");}
+                    if(member_gradudation!=null)
+                        {member_grades.push(member_gradudation);}
+                    else 
+                        {member_grades.push("None");}
+                    var coursLevelsData = member.tabl;
+                    coursLevelsData.forEach(courLevel => {
+                        var str = '';
+                        if(courLevel.cours){str = str + courLevel.cours + ' - '};
+                        if(courLevel.niveau){str = str + courLevel.niveau};
+                        member_courslevel.push(str);
+                    });
+
+                    points.forEach(point => {member_userpoints.push(point.point)});
+                    grades.forEach(grade => {member_grades.push(grade.graduation)});
+
+                    var personne = new Employee(email=member_email, number=member_number, m_code=member_m_code, coursAndlevel=member_courslevel, emp_point=member_userpoints, emp_grade=member_grades);
+                    data.push(personne);
+                });
+                data = JSON.stringify(data);
+                res.send(data);
+            } catch (error) {
+                console.log(error);
+            }
+        });
+
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
 //getuser
 routeExp.route("/getuser").post(async function (req, res) {
     var email = req.body.email;
