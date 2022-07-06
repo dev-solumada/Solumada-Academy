@@ -15,8 +15,6 @@ const session = require('express-session');
 const Point = require("../Models/Point");
 const Graduation = require("../Models/Graduation");
 
-const ForeignK = require("../Models/WithForeignK");
-
 var membre = [{
     cours: '',
     groupe: '',
@@ -349,12 +347,13 @@ async function login(username, pwd, session, res) {
             if (logger) {
                 if (logger.occupation.length > 1) {
                     console.log("superieur à 0", logger.occupation.length);
-                    var prof_occ = ""
-                    var part_occ = ""
                     for (let i = 0; i < logger.occupation.length; i++) {
                         const element = logger.occupation[i];
                         if (element == "Professeur") {
                             session.occupation_prof = element;
+                            session.nomProf = logger.username;
+                            session.m_code = logger.m_code;
+                            session.num_agent = logger.num_agent;
                         }else if (element == "Participant"){
                             session.occupation_particip = element;
                         }
@@ -362,7 +361,7 @@ async function login(username, pwd, session, res) {
                     res.redirect("/teachParticipHome")//, { prof_occ: prof_occ, part_occ: part_occ });
                 } else
                 if (logger.type_util == "Professeur") {
-                    session.occupation_prof = logger.type_util;;
+                    session.occupation_prof = logger.type_util;
                     session.m_code = logger.m_code;
                     session.nomProf = logger.username;
                     session.num_agent = logger.num_agent;
@@ -563,9 +562,8 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
             )
             .then(async () => {
                 var cours = await CoursModel.find({ professeur: req.session.nomProf });
-
                 //await CGNModel.updateMany({ cours: "Problem solving and decision making" }, { professeur: req.session.nomProf})
-
+                console.log("cours ", cours[0].professeur);
                 var membre = await CGNModel.aggregate([
                     { $match: { $or: [{ professeur: cours[0].professeur }] } },
                     {
@@ -576,6 +574,7 @@ routeExp.route("/teacherGlobalView").get(async function (req, res) {
                         }
                     }
                 ])
+                console.log("membre ", membre);
 
                 var point = await Point.find({ validation: true });
                 var grad = await Graduation.find({ validation: true });
@@ -603,11 +602,8 @@ routeExp.route("/studentHome").get(async function (req, res) {
 routeExp.route("/teachParticipHome").get(async function (req, res) {
     var session = req.session;
     if (session.occupation_particip == "Participant" && session.occupation_prof == "Professeur") {
-        res.render("./StudentProf.html", {part_occ: session.occupation_particip, prof_occ: session.occupation_prof });
+        res.render("StudentProf.html", {part_occ: session.occupation_particip, prof_occ: session.occupation_prof });
     }
-    // if (session.occupation_particip == "Participant") {
-    //     res.render("./StudentView/studentHome.html");
-    // }
     else {
         res.redirect("/");
     }
@@ -1970,5 +1966,24 @@ routeExp.route("/point_grad").post(async function (req, res) {
 //                 console.log("listUser[i] ",listUser[i]);
 //                 //await UserSchema.findOneAndUpdate({ username: element.mail }, { point: element.point, graduation: element.grad })
 //             }
+//         });
+// })
+
+// routeExp.route("/addProf").get(async function (req, res) {
+//     mongoose
+//         .connect(
+//             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+//             {
+//                 useUnifiedTopology: true,
+//                 UseNewUrlParser: true,
+//             }
+//         )
+//         .then(async () => {
+
+//             await CGNModel.updateMany(
+//                 { "cours" : "Excel" },
+//                 { $set: { "professeur" : "m.rom.romuald.optimumsolutions@gmail.com" } }
+//              );
+//              console.log("finish");
 //         });
 // })

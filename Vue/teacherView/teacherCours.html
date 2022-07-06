@@ -550,7 +550,7 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" onclick="anuler()"
+                            <button type="button" class="btn btn-secondary" onclick="anulerTeach()"
                                 data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-success" onclick="updateMembre()">Save Change</button>
                         </div>
@@ -1003,24 +1003,6 @@
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">
-                                            <label for="week">Week </label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Week" id="week_cptDel" class="standardSelect">
-                                                <option value="week_1">Week 1</option>
-                                                <option value="week_2">Week 2</option>
-                                                <option value="week_3">Week 3</option>
-                                                <option value="week_4">Week 4</option>
-                                                <option value="week_5">Week 5</option>
-                                            </select>
-                                            <small id="cour_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
                                             <label for="week">Date </label>
                                         </div>
                                         <div class="col col-md-9">
@@ -1053,8 +1035,7 @@
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" id="gpeDel"
-                                                onchange="groupePresence(this)" class="standardSelect">
-                                                <option value=""></option>
+                                                 class="form-control">
                                             </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
@@ -1066,9 +1047,8 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add present" id="presentDel" name="present" multiple
-                                                class="form-control prensentSelect" tabindex="1">
-                                                <option value=""></option>
+                                            <select data-placeholder="Add present" multiple id="presentUpd" 
+                                            class="form-control " tabindex="1">   
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
                                                 field is required</small>
@@ -1079,9 +1059,8 @@
                                         <div class="col col-md-3"><label for="abscent"
                                                 class=" form-control-label">Absent</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add absent" id="absentDel" name="absent" multiple
+                                            <select data-placeholder="Add absent" id="absentUpdate" name="absent" multiple
                                                 class="form-control absentSelect" tabindex="1">
-                                                <option value=""></option>
 
                                             </select>
                                             <small id="level" style="color: red; font-size: smaller; display:none;">This
@@ -1092,9 +1071,9 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anulerTeach()"
+                            <button type="button" class="btn btn-danger" onclick="anuler()"
                                 data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="save_time_update()"
+                            <button class="btn-submit btn btn-success" type="button" onclick="save_parcours_update()"
                                 id="saveUser">Save Change</button>
                         </div>
                     </div>

@@ -32,7 +32,6 @@ function getdataGP() {
 
 
 if(groupeId.value ==""){
-    console.log("groupeId.value ", groupeId.value);
     tableGroupAdmin.style.display = "none";
     addmbre.style.display = "none";
 }
