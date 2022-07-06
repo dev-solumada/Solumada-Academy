@@ -607,18 +607,6 @@ routeExp.route("/studentHome").get(async function (req, res) {
 });
 
 
-//Accueil Utilisateur qui est Participant et Professeur en même temps
-routeExp.route("/teachParticipHome").get(async function (req, res) {
-    var session = req.session;
-    if (session.occupation_particip == "Participant" && session.occupation_prof == "Professeur") {
-        res.render("StudentProf.html", {part_occ: session.occupation_particip, prof_occ: session.occupation_prof });
-    }
-    else {
-        res.redirect("/");
-    }
-});
-
-
 // student Group
 routeExp.route("/studentGroup").get(async function (req, res) {
     var session = req.session;
