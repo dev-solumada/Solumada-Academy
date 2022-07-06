@@ -1,0 +1,69 @@
+<% ParcoursAbsent.forEach(function(ParcoursAbsent) { %>
+    <tr>
+        <td>
+            <%= ParcoursAbsent._id.date.toLocaleDateString("fr")
+                %>
+        </td>
+        <td>
+            <%= ParcoursAbsent._id.heureStart %>
+        </td>
+        <td>
+            <%= ParcoursAbsent._id.heureFin %>
+        </td>
+        <td>
+            <%= ParcoursAbsent._id.groupe %>
+        </td>
+        <td>
+            <select data-placeholder=""
+                class="form-control standardSelect"
+                tabindex="1">
+                <% ParcoursAbsent.tabl.forEach(function(tabl)
+                    { %>
+                    <% if(tabl.presence){ %>
+                        <option value="">
+                            <%= tabl.user %>
+                        </option>
+                     <% } %>
+                <% }); %>
+            </select>
+        </td>
+        <td>
+            <select data-placeholder=""
+                class="form-control standardSelect"
+                tabindex="1">
+                <% ParcoursAbsent.tabl.forEach(function(tabl)
+                    { %>
+                    <% if(tabl.presence==false){ %>
+                        <option value="">
+                            <%= tabl.user %>
+                        </option>
+                    <% } %>
+                <% }); %>
+            </select>
+        </td>
+        <td class="text-center">
+            <div class="btn-group" role="group"
+                aria-label="Basic mixed styles example">
+                
+                <button type="button"
+                    class="btn px-2 btn-sm btn-warning"
+                    type="button" id="delete"
+                    onclick="getParcours('/getParcours','<%= JSON.stringify(ParcoursAbsent._id) %>')"
+                    class="btn btn-sm btn-warning"
+                    data-toggle="modal"
+                    data-target="#parcoursModalUpdate">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button"
+                    class="btn px-2 btn-sm btn-danger"
+                    type="button"
+                    onclick="getparcDelete('/getParcours', '<%= JSON.stringify(ParcoursAbsent._id) %>')"
+                    class="btn btn-sm btn-warning"
+                    data-toggle="modal" 
+                    data-target="#parcoursModalDelete">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <% }); %>
