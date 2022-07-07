@@ -909,7 +909,7 @@ routeExp.route("/adminGraduation").get(async function (req, res) {
 //Global view
 routeExp.route("/adminGlobalview").get(async function (req, res) {
     var session = req.session;
-    if (session.occupation_adm == "adm") {
+    // if (session.occupation_adm == "adm") {
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -937,10 +937,10 @@ routeExp.route("/adminGlobalview").get(async function (req, res) {
             res.render("adminGlobalview.html", { grad: grad, point: point, membre: membre, listcourOblig: listcourOblig, listcourFac: listcourFac });
         });
 
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 // Class for format data
@@ -958,7 +958,7 @@ class Employee {
 // Get GlobalViewData From Ajax
 routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
     var session = req.session;
-    if (session.occupation_adm == "adm") {
+    // if (session.occupation_adm == "adm") {
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1022,10 +1022,10 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
             }
         });
 
-    }
-    else {
-        res.redirect("/");
-    }
+    // }
+    // else {
+    //     res.redirect("/");
+    // }
 });
 
 //getuser
@@ -1687,6 +1687,7 @@ routeExp.route("/updateGrad").post(async function (req, res) {
 routeExp.route("/savePoint").post(async function (req, res) {
     //var id = req.body.id;
     var point = req.body.point;
+    console.log("point ", point);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1703,8 +1704,8 @@ routeExp.route("/savePoint").post(async function (req, res) {
                     point: point
                 };
                 await Point(new_point).save();
-
-                res.send(point);
+                
+                res.send(JSON.stringify(point) );
             }
         })
 })

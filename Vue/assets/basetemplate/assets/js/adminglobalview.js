@@ -43,3 +43,73 @@ let AdminglobalViewDatatable = $('#AdminglobalViewDatatable').DataTable(
                   ],
     }
 );
+
+
+
+// Reset the Point Modal Form
+// function resetPointForm(action)
+// {
+//     $('#cancelPoint').click();
+//     switch(action){
+//         case 'addPoint':
+//             $('#AddPoint').val('');
+//             $('#errorAddPoint').css('display', 'none');
+//             $('#cancelPoint').click();
+//             break;
+//         // case 'updatePoint':
+//         //     $('#point_id').val('');
+//         //     $('#AddPoint').val('');
+//         //     $('#errorUpdatePoint').css('display', 'none');
+//         //     $('#cancelPoint').click();
+//         //     break;
+//     }
+// }
+
+
+
+
+// // Function to Save new Point
+// $("#savePoint").on("click", function()
+// {
+//     AddPointData = {
+//             point: $('#AddPoint').val()
+//         }
+
+//     $.ajax({
+//         url: '/savePoint',
+//         method: 'post',
+//         data: AddPointData,
+//         success: function(response)
+//         {
+//             if(response == 'error')
+//             {
+//                 $('#errorAddPoint').css('display', 'block');
+//                 $('#errorAddPoint').html('<strong>'+response+'</strong>' + ': Point already exist');
+//             }
+//             else {
+//                 resetPointForm(action='addPoint');
+//                 responsetxt = response + ' Saved successfully';
+//                 Swal.fire(
+//                     'Point Saved',
+//                     responsetxt,
+//                     'success',
+//                     {
+//                     confirmButtonText: 'Ok',
+//                 });
+//                 // .then((result) => {
+//                 //   $('#cancelPoint').click();
+//                 //   if (result.isConfirmed) {
+//                 //     AdminglobalViewDatatable.ajax.reload(null, false);
+//                 //       searchOnDatatable(datatable=AdminglobalViewDatatable, value=response);
+//                 //       setTimeout(function() { 
+//                 //         AdminglobalViewDatatable.search('').draw();
+//                 //         AdminglobalViewDatatable.page(currentPage).draw('page');
+//                 //       }, 3000);
+//                 //   }
+//                 // });
+//             }
+//         }
+//     });
+// });
+
+
