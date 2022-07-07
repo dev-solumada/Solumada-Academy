@@ -74,28 +74,28 @@ $("#savePoint").on("click", function()
 );
 
 
-$("#saveGraduation").on("click", function()
+$("#btnGrad").on("click", function()
     {
-        PointData = { newpoint: $('#newGraduation').val() }
+        GradData = { newgrad: $('#AddGrad').val() }
         $.ajax({
-            url: '/savePoint',
+            url: '/saveGrad',
             method: 'post',
-            data: PointData,
+            data: GradData,
             success: function(response){
               if(response == "success")
               {
                 Swal.fire({
                   icon: 'success',
-                  title: 'New Point Saved',
-                  text: `Point ${PointData.newpoint} saved successfully`,
+                  title: 'New Graduation Saved',
+                  text: `Graduation ${GradData.newgrad} saved successfully`,
                 });
-                clearPointForm();
+                clearGradForm();
                 AdminglobalViewDatatable.ajax.reload(null, false);
               }else{
                 Swal.fire({
                   icon: 'error',
                   title: 'Error',
-                  text: 'this point already exist!',
+                  text: 'this Graduation already exist!',
                 });
               }
             }
@@ -109,4 +109,11 @@ function clearPointForm()
 {
     $('#newPoint').val('');
     $('#closePointModal').click();
+}
+
+
+function clearGradForm()
+{
+    $('#AddGrad').val('');
+    $('#cancelGrad').click();
 }
