@@ -1,6 +1,7 @@
 const express = require('express');
 const routeExp = express.Router();
 const mongoose = require('mongoose');
+const fs = require('fs');
 // solumada-academy : academy123456
 
 const UserSchema = require("../Models/User");
@@ -1056,9 +1057,7 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
                 ]);
 
                 var points =  await Point.find({ validation: true });
-                console.log(points);
                 var grades =  await Graduation.find({ validation: true });
-                console.log(grades);
                 
                 var data = [];
                 members.forEach(member => {
@@ -1793,7 +1792,7 @@ routeExp.route("/savePoint").post(async function (req, res) {
 //Save Graduation
 routeExp.route("/saveGrad").post(async function (req, res) {
     //var id = req.body.id;
-    var grad = req.body.grad;
+    var grad = req.body.newgrad;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1811,7 +1810,7 @@ routeExp.route("/saveGrad").post(async function (req, res) {
                 };
                 await Graduation(new_graduation).save();
 
-                res.send(grad);
+                res.send("success");
             }
         })
 })
@@ -2091,6 +2090,50 @@ routeExp.route("/point_grad").post(async function (req, res) {
             } catch (err) {
                 console.log(err);
                 res.send(err);
+            }
+        });
+})
+
+
+
+//Backup DataBase
+
+routeExp.route("/point_grad").get(async function (req, res) {
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                var user = await UserSchema.find({ validation: true });
+                var coursM = await CoursModel.find({ validation: true });
+                var groupM = await GroupeModel.find({ validation: true });
+                var niveauM = await NiveauModel.find({ validation: true });
+                var parcours = await ParcoursModel.find({ validation: true });
+                var emplDTp = await EmplTemp.find({ validation: true });
+                var point = await Point.find({ validation: true });
+                var grad = await Graduation.find({ validation: true });
+                var cgnM = await CGNModel.find({ validation: true });
+                
+                  
+                //var data = fs.readFileSync("data.json");
+                var myObject = []
+                myObject.push({"cours": coursM}, {"group": groupM}, 
+                {"user": user}, {"niveau": niveauM}, {"parcours": parcours}, 
+                {"emplDTp": emplDTp}, {"point": point}, {"grad": grad}, {"cgnM": cgnM});
+                  
+                var newData2 = JSON.stringify(myObject);
+                fs.writeFile("./Route/BackUpData/data.json", newData2, (err) => {
+                  if (err) throw err;
+                  console.log("New data added");
+                }); 
+            } catch (err) {
+                console.log(err);
+                res.send(data)
             }
         });
 })
