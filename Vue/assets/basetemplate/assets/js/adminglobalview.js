@@ -43,3 +43,70 @@ let AdminglobalViewDatatable = $('#AdminglobalViewDatatable').DataTable(
                   ],
     }
 );
+
+$("#savePoint").on("click", function()
+    {
+        PointData = { newpoint: $('#newPoint').val() }
+        $.ajax({
+            url: '/savePoint',
+            method: 'post',
+            data: PointData,
+            success: function(response){
+              if(response == "success")
+              {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'New Point Saved',
+                  text: `Point ${PointData.newpoint} saved successfully`,
+                });
+                clearPointForm();
+                AdminglobalViewDatatable.ajax.reload(null, false);
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'this point already exist!',
+                });
+              }
+            }
+        });
+    }
+);
+
+
+$("#saveGraduation").on("click", function()
+    {
+        PointData = { newpoint: $('#newGraduation').val() }
+        $.ajax({
+            url: '/savePoint',
+            method: 'post',
+            data: PointData,
+            success: function(response){
+              if(response == "success")
+              {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'New Point Saved',
+                  text: `Point ${PointData.newpoint} saved successfully`,
+                });
+                clearPointForm();
+                AdminglobalViewDatatable.ajax.reload(null, false);
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'this point already exist!',
+                });
+              }
+            }
+        });
+    }
+);
+
+
+
+function clearPointForm()
+{
+    $('#newPoint').val('');
+    $('#closePointModal').click();
+}

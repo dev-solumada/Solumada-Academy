@@ -512,6 +512,82 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
 });
 
 
+class Parcours {
+    constructor(cour_name, group_name, start_time, end_time, date, present, absent)
+    {
+        this.cour_name = cour_name;
+        this.group_name = group_name;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.date = date;
+        this.present = present;
+        this.absent = absent;
+    }
+}
+
+
+// Cours Proffesseur Ajax
+routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
+    var session = req.session;
+    var cours = req.params.cours;
+    if (session.occupation_prof == "Professeur") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                try {
+                    var ParcoursAbsent = await ParcoursModel.aggregate([
+                        { $match: { $or: [{ cours: cours }] } },
+                        {
+                            $group: {
+                                _id:
+                                    { weed: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                                tabl: { $push: { user: "$user", presence: "$presence", _id: "$_id" } }
+                            }
+                        }
+                    ]);
+                    data = [];
+
+                    ParcoursAbsent.forEach(parcours => {
+                        var coursName = parcours._id.cours;
+                        var groupName = parcours._id.groupe;
+                        var startTime = parcours._id.heureStart;
+                        var endTime = parcours._id.heureFin;
+                        var date = new Date(parcours._id.date);
+                        date = date.toLocaleDateString();
+                        var memberAbsence = parcours.tabl;
+                        var absents = [];
+                        var presents = [];
+
+                        memberAbsence.forEach(abs => {
+                            if(abs.presence == true){ presents.push(abs.user); }
+                            else { absents.push(abs.user); }
+                        });
+
+                        var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
+                        console.log(prcs);
+                        data.push(prcs);
+                    });
+                    res.send(JSON.stringify(data));
+                } catch (error) {
+                    console.log(error);
+                }
+
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
+
+
 //Liste membre par groupe
 routeExp.route("/groupeTeacher").post(async function (req, res) {
     var groupe = req.body.groupe
@@ -980,8 +1056,10 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
                 ]);
 
                 var points =  await Point.find({ validation: true });
+                console.log(points);
                 var grades =  await Graduation.find({ validation: true });
-    
+                console.log(grades);
+                
                 var data = [];
                 members.forEach(member => {
                     var member_email = member._id.username;
@@ -1686,7 +1764,10 @@ routeExp.route("/updateGrad").post(async function (req, res) {
 //Save point
 routeExp.route("/savePoint").post(async function (req, res) {
     //var id = req.body.id;
-    var point = req.body.point;
+    // var point = req.body.point;
+    var point = req.body.newpoint;
+    console.log(point);
+
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1703,8 +1784,7 @@ routeExp.route("/savePoint").post(async function (req, res) {
                     point: point
                 };
                 await Point(new_point).save();
-
-                res.send(point);
+                res.send("success");
             }
         })
 })

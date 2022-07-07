@@ -224,7 +224,6 @@ function sendRequestParcours(url, date, grpe, timeStart, timeEnd, cours, present
                 errorparc.style.display = "none";
                 successparc.innerHTML = "Groupe " + this.responseText + " registered successfuly";
                 
-                
             }
         }
     };
@@ -260,7 +259,6 @@ function groupePresence(sel) {
     jQuery(document).ready(function () {
         jQuery(".prensentSelect").trigger("chosen:updated");
     });
-
     sendRequestPresence('/presence', sel.value, cours);
 }
 
@@ -310,8 +308,6 @@ function sendRequestPresence(url, gpe, cours) {
     };
     http.send("gpe=" + gpe + "&cours=" + cours)
 }
-
-
 
 
 function add_membre() {
