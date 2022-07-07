@@ -38,4 +38,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
             }
         ]
     }
-)
+);
+
+
+

@@ -488,20 +488,7 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
                 var listgroupe = await GroupeModel.find({ cours: cours });
                 var listUser = await UserSchema.find({ cours: cours });
 
-                var time = await EmplTemp.find({ cours: cours });
-                var parcours = await ParcoursModel.find({ cours: cours });
-
-                var ParcoursAbsent = await ParcoursModel.aggregate([
-                    { $match: { $or: [{ cours: cours }] } },
-                    {
-                        $group: {
-                            _id:
-                                { weed: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
-                            tabl: { $push: { user: "$user", presence: "$presence", _id: "$_id" } }
-                        }
-                    }
-                ])
-                res.render("./teacherView/teacherCours.html", { parcours: parcours, listUser: listUser, ParcoursAbsent: ParcoursAbsent, time: time, membre: membre, listgroupe: listgroupe, listcours: listcours, cours: cours });
+                res.render("./teacherView/teacherCours.html", { listUser: listUser, membre: membre, listgroupe: listgroupe, listcours: listcours, cours: cours });
             });
     }
     else {
@@ -509,6 +496,28 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
     }
 });
 
+// Timetable Proffesseur Ajax
+routeExp.route("/teacherTimeTable/:cours").get(async function (req, res) {
+    var session = req.session;
+    var cours = req.params.cours;
+    if (session.occupation_prof == "Professeur") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+                var time = await EmplTemp.find({ cours: cours });
+                res.send(JSON.stringify(time));
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
 
 class Parcours {
     constructor(cour_name, group_name, start_time, end_time, date, present, absent)
@@ -523,8 +532,7 @@ class Parcours {
     }
 }
 
-
-// Cours Proffesseur Ajax
+// Parcours Proffesseur Ajax
 routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
     var session = req.session;
     var cours = req.params.cours;
@@ -569,7 +577,6 @@ routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
                         });
 
                         var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
-                        console.log(prcs);
                         data.push(prcs);
                     });
                     res.send(JSON.stringify(data));
@@ -1419,14 +1426,16 @@ routeExp.route("/groupe").post(async function (req, res) {
 });
 
 
-//Add emploi du temps
+//Add emploie du temps
 routeExp.route("/EmplTemp").post(async function (req, res) {
-    var jours = req.body.jours
-    var group = req.body.group
-    var cours = req.body.cours
-    var heurdebut = req.body.heurdebut
-    var heurfin = req.body.heurfin
-    mongoose
+    var jours = req.body.jours;
+    var group = req.body.group;
+    var cours = req.body.cours;
+    var heurdebut = req.body.timeStart;
+    var heurfin = req.body.timeEnd;
+    
+    try {
+        mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
             {
@@ -1446,9 +1455,14 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
                     heureFin: heurfin
                 };
                 await EmplTemp(new_emploi).save();
-                res.send(new_emploi.groupe + " at " + new_emploi.heureStart + " is successfuly saved");
+                res.send('success');
+
             }
         });
+    } catch (error) {
+        console.log(error);
+        res.send('error');
+    }
 
 });
 
@@ -1458,7 +1472,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
     var date = req.body.date
     var group = req.body.group
     var cours = req.body.cours
-    var heurdebut = req.body.heurdebut
+    var heurdebut = req.body.timeStart
     var heurfin = req.body.heurfin
     var present = req.body.present
     var absent = req.body.absent
@@ -1873,6 +1887,7 @@ routeExp.route("/deleteMb").post(async function (req, res) {
 //get time
 routeExp.route("/gettime").post(async function (req, res) {
     var id = req.body.id;
+    console.log(id);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1894,7 +1909,10 @@ routeExp.route("/update_time").post(async function (req, res) {
     var group = req.body.group;
     var heurdebut = req.body.heurdebut;
     var heurfin = req.body.heurfin;
-    mongoose
+    console.log(req.body);
+    res.send('success');
+    try {
+        mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
             {
@@ -1905,7 +1923,10 @@ routeExp.route("/update_time").post(async function (req, res) {
         .then(async () => {
             await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
             res.send("Time updated successfully");
-        })
+        });
+    } catch (error) {
+        res.send("error");
+    }
 })
 
 
