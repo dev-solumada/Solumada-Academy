@@ -1092,6 +1092,7 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
                     var personne = new Employee(email=member_email, number=member_number, m_code=member_m_code, coursAndlevel=member_courslevel, emp_point=member_userpoints, emp_grade=member_grades);
                     data.push(personne);
                 });
+                // console.log("data ", data);
                 data = JSON.stringify(data);
                 res.send(data);
             } catch (error) {
@@ -2072,7 +2073,8 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
 //delete parcours
 routeExp.route("/point_grad").post(async function (req, res) {
     var value = req.body.point;
-    var todata = JSON.parse(value);
+    //var todata = JSON.parse(value);
+    console.log("todata ", value);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2083,10 +2085,12 @@ routeExp.route("/point_grad").post(async function (req, res) {
         )
         .then(async () => {
             try {
-                for (let i = 0; i < todata.length; i++) {
-                    const element = todata[i];
-                    await CGNModel.findOneAndUpdate({ username: element.mail }, { point: element.point, graduation: element.grad })
+                for (let i = 0; i < value.length; i++) {
+                    const element = value[i];
+                    await CGNModel.updateMany({ username: element.mail }, { $set: { point: element.point, graduation: element.grad }})
+
                 }
+                res.send("success")
             } catch (err) {
                 console.log(err);
                 res.send(err);

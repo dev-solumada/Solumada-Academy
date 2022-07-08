@@ -1,3 +1,5 @@
+
+
 let AdminglobalViewDatatable = $('#AdminglobalViewDatatable').DataTable(
     {
       ajax:     {
@@ -16,15 +18,18 @@ let AdminglobalViewDatatable = $('#AdminglobalViewDatatable').DataTable(
                         var coursLevels = `<div class='input-group'><select class='form-control selectNiveau'>${options}</select></div>`;
                         return coursLevels;
                       }},
-                      {'data': 'emp_point', 'render': function(emp_point){
+                      {'data': 'emp_point', 'render': function(emp_point, i){
+                        console.log("emp_point", emp_point);
                         var points = "";
-                        var user_point = `<option value=${emp_point[0]} class='text-center' selected>${emp_point[0]}</option>`;
+                        i = 0
+                        i = i + 1
+                        var user_point = `<option value=${emp_point[0]} class='text-center'>${emp_point[0]}</option>`;
                         points = points + user_point;
                         delete emp_point[0];
                         emp_point.forEach(point => {
                           points = points + `<option value=${point} class='text-center'>${point}</option>`;
                         });
-                        var points_data = `<div class='input-group'><select class='form-control selectNiveau'>${points}</select></div>`;
+                        var points_data = `<div class='input-group'><select class='form-control selectNiveau selectPoint' >${points}</select></div>`;
                         return points_data;
                       }},
                       {'data': 'emp_grade', 'render': function(emp_grade){
@@ -41,6 +46,56 @@ let AdminglobalViewDatatable = $('#AdminglobalViewDatatable').DataTable(
 
 
                   ],
+    }
+);
+
+$("#saveChange").on("click", function()
+    {
+        //
+    var table = document.getElementById("get-table");
+    //iterate trough rows
+    //console.log(table);
+    var row
+    var val=[];
+   for (var i = 0, row; row = table.rows[i]; i++) {
+
+        var x = row.cells[0].innerText;
+        var y = row.cells[1].innerText;
+        var z = row.cells[2].innerText;
+        var b = row.cells[4].childNodes[0].childNodes[0]//.childNodes[1]//.childNodes[3]
+        var point = b.options[b.options.selectedIndex].value;
+        var c = row.cells[5].childNodes[0].childNodes[0]
+        var grad = c.options[c.options.selectedIndex].value;
+        var obj = {};
+        var pair ={mail : x, m_code: y, numb: z, point: point, grad: grad};// {mail: x.replace(/(^"|"$)/g, ''),m_coe: y, numb: z};
+        obj = {...obj, ...pair};
+        val.push(obj)
+    }
+    
+    PointData =  { point: val }
+        $.ajax({
+            url: '/point_grad',
+            method: 'post',
+            data: PointData,
+            success: function(response){
+              if(response == "success")
+              {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'New Point Saved',
+                  text: `Point saved successfully`,
+                });
+                clearPointForm();
+                AdminglobalViewDatatable.ajax.reload(null, false);
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'this point already exist!',
+                });
+              }
+            }
+        });
     }
 );
 
@@ -88,7 +143,7 @@ $("#btnGrad").on("click", function()
                   icon: 'success',
                   title: 'New Graduation Saved',
                   text: `Graduation ${GradData.newgrad} saved successfully`,
-                });
+                }) ;
                 clearGradForm();
                 AdminglobalViewDatatable.ajax.reload(null, false);
               }else{
@@ -103,6 +158,13 @@ $("#btnGrad").on("click", function()
     }
 );
 
+$("#point").on("click", function()
+    {
+      currentPage = parseInt(AdminglobalViewDatatable.page.info().page);
+      
+    }
+);
+
 
 
 function clearPointForm()
@@ -110,6 +172,8 @@ function clearPointForm()
     $('#newPoint').val('');
     $('#closePointModal').click();
 }
+
+
 
 
 function clearGradForm()
