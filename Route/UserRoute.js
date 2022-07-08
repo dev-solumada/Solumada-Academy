@@ -2145,23 +2145,24 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
-    mongoose
-        .connect(
-            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-            {
-                useUnifiedTopology: true,
-                UseNewUrlParser: true,
-            }
-        )
-        .then(async () => {
-            try {
-                await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
-                res.send("success");
-            } catch (err) {
-                console.log(err);
-                res.send(err);
-            }
-        });
+    console.log(req.body);
+    // mongoose
+    //     .connect(
+    //         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    //         {
+    //             useUnifiedTopology: true,
+    //             UseNewUrlParser: true,
+    //         }
+    //     )
+    //     .then(async () => {
+    //         try {
+    //             await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
+    //             res.send("success");
+    //         } catch (err) {
+    //             console.log(err);
+    //             res.send(err);
+    //         }
+    //     });
 })
 
 

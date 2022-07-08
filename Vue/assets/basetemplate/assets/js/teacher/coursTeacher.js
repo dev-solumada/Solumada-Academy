@@ -151,54 +151,64 @@ $(document).on('click', '.btnDeleteCours', function(){
             var startTimeDelete = column.find('td:eq(1)').text();
             var endTimeDelete = column.find('td:eq(2)').text();
             var groupNameDelete = column.find('td:eq(3)').text();
-            var presentDelete = column.find('td:eq(4)').find("select").text();
-            var absentDelete = column.find('td:eq(5)').find("select").text();
+            // var presentDelete = column.find('td:eq(4)').find("select").text();
+            // var absentDelete = column.find('td:eq(5)').find("select").text();
+            // var presentslistfiltered = [];
+            // var absentslistfiltered = [];
+            
+            // if (presentDelete != "")
+            // {
+            //     presentDelete = presentDelete.split(".com");
+            //     presentDelete.forEach(item =>{
+            //         var newItem = '' + item + '.com';
+            //         presentslistfiltered.push(newItem);
+            //     });
+            //     presentslistfiltered.splice(-1);
+            // }
+
+            // if (absentDelete != "")
+            // {
+            //     absentDelete = absentDelete.split(".com");
+            //     absentDelete.forEach(item =>{
+            //         var newItem = '' + item + '.com';
+            //         absentslistfiltered.push(newItem);
+            //     });
+            //     absentslistfiltered.splice(-1);
+            // }
 
             parcoursDeleteData = {
+                cours: arg,
                 date: date,
-                startTimeDelete: startTimeDelete,
-                endTimeDelete: endTimeDelete,
-                groupNameDelete: groupNameDelete,
-                presentDelete: presentDelete,
-                absentDelete: absentDelete
+                heureStart: startTimeDelete,
+                heureFin: endTimeDelete,
+                groupe: groupNameDelete,
             }
-            alert(JSON.stringify(parcoursDeleteData));
-            // Swal.fire(
-            //     'Success',
-            //     "Parcours deleted",
-            //     'success',
-            //     {
-            //     confirmButtonText: 'Ok',
-            //   });
-            // $.ajax({
-            //     url: '/deleteParcours',
-            //     method: 'post',
-            //     data: { name_Cours: coursName },
-            //     success: function(coursName){
 
-            //         responsetxt = "Cours " + coursName + ' Deleted successfully';
-            //         Swal.fire({
-            //             position: 'center',
-            //             icon: 'success',
-            //             title: responsetxt,
-            //             showConfirmButton: false,
-            //             timer: 1700
-            //         });
-            //         coursDataTable.ajax.reload(null, false);
-            //         getCoursList();
-            //         coursDataTable.search('').draw();
-            //         coursDataTable.page(currentPage).draw('page');
-            //     },
-            //     error: function(response){
-            //         Swal.fire({
-            //             position: 'top-center',
-            //             icon: 'error',
-            //             title: response,
-            //             showConfirmButton: false,
-            //             timer: 1700
-            //         });
-            //     }
-            // });
+            $.ajax({
+                url: '/deleteParcours',
+                method: 'post',
+                data: parcoursDeleteData,
+                success: function(res){
+                    responsetxt = "Parcours deleted successfully!";
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: responsetxt,
+                        showConfirmButton: false,
+                        timer: 1700
+                    });
+                    parcoursDataTable.ajax.reload(null, false);
+                },
+                error: function(response){
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: response,
+                        showConfirmButton: false,
+                        timer: 1700
+                    });
+                }
+            });
         }
     })
 });
