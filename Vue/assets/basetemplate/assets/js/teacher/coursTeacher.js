@@ -18,9 +18,9 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
             {'data': 'present', 'render': function(present){
                         var presenceOptionData = '';
                         present.forEach(element => {
-                            presenceOptionData = presenceOptionData + `<option>${element}</option>`;
+                            presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element}">${element}</option>`;
                         });
-                        presentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
+                        presentOptions = `<select data-placeholder="Choose One" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
                         return presentOptions;
                     }
         },
@@ -28,7 +28,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
             {
                 var absentOptionData = '';
                 absent.forEach(element => {
-                    absentOptionData = absentOptionData + `<option>${element}</option>`
+                    absentOptionData = absentOptionData + `<option value="${element}">${element}</option>`
                 });
                 absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
                 return absentOptions;
@@ -36,7 +36,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
         },
             {"defaultContent": "\
                                 <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateCours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#updateCours' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateCours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                     <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteCours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                 </div>\
                                 "
@@ -46,7 +46,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 );
 
 
-$("#gpeCreate").on('change', function(){
+$("#groupParcours").on('change', function(){
     groupMemberList = [];
     var groupName = $("#groupParcours").val();
     var groupMemberData = { gpe: groupName, cours:arg };
@@ -54,15 +54,12 @@ $("#gpeCreate").on('change', function(){
         url: "/presence",
         data: groupMemberData,
         method: "post",
-        beforeSend: function(){ 
-            $("#present").empty();
-        },
         success: function(response){ 
             response.forEach(element => {
-                groupMemberList.push(element._id);
-                $('#present').append(`<option value="${element._id}">${element.username}</option>`);
+                groupMemberList.push(element.username);
+                $('#presentParcours').append(`<option value="${element.username}">${element.username}</option>`);
             });
-            $("#present").chosen({
+            $("#presentParcours").chosen({
                 disable_search_threshold: 10,
                 no_results_text: "Oops, nothing found!",
                 width: "100%"
@@ -81,15 +78,146 @@ $("#saveParcours").on('click', function()
     var endAtParcours = $("#timeEndParcours").val();
     var groupNameParcours = $("#groupParcours").val();
     var presentParcours = $("#presentParcours").val();
+    var absentParcours = [];
+    groupMemberList.forEach(member => {
+        if (presentParcours.indexOf(member) === -1) {absentParcours.push(member);}
+    });
+
     var parcoursData = {
-        date: dateParcours,
-        start: startAtParcours,
-        endAt: endAtParcours,
-        group: groupNameParcours,
-        present: presentParcours
+        dateNewParcours: dateParcours,
+        timestartAt: startAtParcours,
+        timeEndAt: endAtParcours,
+        cours: arg,
+        groupParcoursName: groupNameParcours,
+        present: presentParcours,
+        absent: absentParcours
     }
+
     alert(JSON.stringify(parcoursData));
+    $.ajax({
+        url: "/Teacheraddparcours",
+        method: "post",
+        data: parcoursData,
+        success: function(res) 
+        { 
+            if(res == "exist"){
+                Swal.fire(
+                    'Error',
+                    "this parcours already exist!",
+                    'info',
+                    {
+                    confirmButtonText: 'Ok',
+                });
+            }else{
+                Swal.fire(
+                    'Parcours Saved',
+                    'New parcours saved successfully!',
+                    'success',
+                    {
+                    confirmButtonText: 'Ok',
+                });
+                clearParcoursForm('add');
+                parcoursDataTable.ajax.reload(null, false);
+            }
+        },
+        error: function(err) { 
+            Swal.fire(
+                'Error',
+                `${err}`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            })
+         }
+    });
 });
+
+
+
+// delete parcours
+$(document).on('click', '.btnDeleteCours', function(){
+    Swal.fire({
+        title: 'Delete Parcours',
+        text: "Are you sure do delete this parcours?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'red',
+        cancelButtonColor: 'green',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var column = $(this).closest('tr');
+            var date = column.find('td:eq(0)').text();
+            var startTimeDelete = column.find('td:eq(1)').text();
+            var endTimeDelete = column.find('td:eq(2)').text();
+            var groupNameDelete = column.find('td:eq(3)').text();
+            var presentDelete = column.find('td:eq(4)').find("select").text();
+            var absentDelete = column.find('td:eq(5)').find("select").text();
+
+            parcoursDeleteData = {
+                date: date,
+                startTimeDelete: startTimeDelete,
+                endTimeDelete: endTimeDelete,
+                groupNameDelete: groupNameDelete,
+                presentDelete: presentDelete,
+                absentDelete: absentDelete
+            }
+            alert(JSON.stringify(parcoursDeleteData));
+            // Swal.fire(
+            //     'Success',
+            //     "Parcours deleted",
+            //     'success',
+            //     {
+            //     confirmButtonText: 'Ok',
+            //   });
+            // $.ajax({
+            //     url: '/deleteParcours',
+            //     method: 'post',
+            //     data: { name_Cours: coursName },
+            //     success: function(coursName){
+
+            //         responsetxt = "Cours " + coursName + ' Deleted successfully';
+            //         Swal.fire({
+            //             position: 'center',
+            //             icon: 'success',
+            //             title: responsetxt,
+            //             showConfirmButton: false,
+            //             timer: 1700
+            //         });
+            //         coursDataTable.ajax.reload(null, false);
+            //         getCoursList();
+            //         coursDataTable.search('').draw();
+            //         coursDataTable.page(currentPage).draw('page');
+            //     },
+            //     error: function(response){
+            //         Swal.fire({
+            //             position: 'top-center',
+            //             icon: 'error',
+            //             title: response,
+            //             showConfirmButton: false,
+            //             timer: 1700
+            //         });
+            //     }
+            // });
+        }
+    })
+});
+
+function clearParcoursForm(action)
+{
+    switch(action)
+    {
+        case 'add':
+            $("#formAddPacours").each(function(){ this.reset(); });
+            $("#cancelAddParcours").click();
+        case 'update':
+            $("#formUpdatePacours").each(function(){ this.reset(); });
+            $("#cancelUpdateParcours").click();
+    }
+}
+
+
+
 
 
 

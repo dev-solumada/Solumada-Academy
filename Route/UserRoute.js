@@ -1526,17 +1526,17 @@ routeExp.route("/addparcours").post(async function (req, res) {
 
 //Add parcours Thierry
 routeExp.route("/Teacheraddparcours").post(async function (req, res) {
-    var date = req.body.date
-    var group = req.body.group
-    var cours = req.body.cours
-    var heurdebut = req.body.timeStart
-    var heurfin = req.body.heurfin
-    var present = req.body.present
-    var absent = req.body.absent
-    const presentArray = present.split(",");
-    const absentArray = absent.split(",");
-    console.log("date ", date,  group, cours, heurdebut, heurfin, present, absent  );
-    mongoose
+    var date = req.body.dateNewParcours;
+    var group = req.body.groupParcoursName;
+    var cours = req.body.cours;
+    var heurdebut = req.body.timestartAt;
+    var heurfin = req.body.timeEndAt;
+    var presentArray = req.body.present;
+    var absentArray = req.body.absent;
+    console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
+    res.send('success');
+    try {
+        mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
             {
@@ -1546,7 +1546,7 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
         )
         .then(async () => {
             if ((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut, heureFin: heurfin }] })) || date == "" || group == "" || heurdebut == "" || heurfin == "" || cours == "") {
-                res.send("error");
+                res.send("exist");
             } else {
                 for (let index = 0; index < presentArray.length; index++) {
                     var new_parcours = {
@@ -1573,10 +1573,12 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                     await ParcoursModel(new_parcours).save();
 
                 }
-                res.send(new_parcours.cours + " at " + new_parcours.heureStart + " is successfuly saved");
-
+                res.send("success");
             }
         });
+    } catch (error) {
+        res.send(error);
+    }
 
 });
 
