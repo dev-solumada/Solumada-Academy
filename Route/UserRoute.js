@@ -675,6 +675,7 @@ routeExp.route("/studentHome").get(async function (req, res) {
             var prof = ""
             
         }
+        console.log("prof", prof);
 
         res.render("./StudentView/studentHome.html", { prof: prof });
     }
