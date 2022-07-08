@@ -1469,6 +1469,63 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
 
 //Add parcours
 routeExp.route("/addparcours").post(async function (req, res) {
+    var date = req.body.date;
+    var group = req.body.group;
+    var cours = req.body.cours;
+    var heurdebut = req.body.timeStart;
+    var heurfin = req.body.heurfin;
+    var present = req.body.present;
+    var absent = req.body.absent;
+    const presentArray = present.split(",");
+    const absentArray = absent.split(",");
+    console.log("date ", date,  group, cours, heurdebut, heurfin, present, absent  );
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if ((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut, heureFin: heurfin }] })) || date == "" || group == "" || heurdebut == "" || heurfin == "" || cours == "") {
+                res.send("error");
+            } else {
+                for (let index = 0; index < presentArray.length; index++) {
+                    var new_parcours = {
+                        cours: cours,
+                        groupe: group,
+                        date: date,
+                        heureStart: heurdebut,
+                        heureFin: heurfin,
+                        presence: true,
+                        user: presentArray[index],
+                    };
+                    await ParcoursModel(new_parcours).save();
+                }
+                for (let index = 0; index < absentArray.length; index++) {
+                    var new_parcours = {
+                        cours: cours,
+                        groupe: group,
+                        date: date,
+                        heureStart: heurdebut,
+                        heureFin: heurfin,
+                        presence: false,
+                        user: absentArray[index]
+                    };
+                    await ParcoursModel(new_parcours).save();
+
+                }
+                res.send(new_parcours.cours + " at " + new_parcours.heureStart + " is successfuly saved");
+
+            }
+        });
+
+});
+
+
+//Add parcours Thierry
+routeExp.route("/Teacheraddparcours").post(async function (req, res) {
     var date = req.body.date
     var group = req.body.group
     var cours = req.body.cours
@@ -1526,8 +1583,8 @@ routeExp.route("/addparcours").post(async function (req, res) {
 
 //Add parcours
 routeExp.route("/presence").post(async function (req, res) {
-    var groupe = req.body.gpe
-    var cours = req.body.cours
+    var groupe = req.body.gpe;
+    var cours = req.body.cours;
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -1909,8 +1966,6 @@ routeExp.route("/update_time").post(async function (req, res) {
     var group = req.body.group;
     var heurdebut = req.body.heurdebut;
     var heurfin = req.body.heurfin;
-    console.log(req.body);
-    res.send('success');
     try {
         mongoose
         .connect(
@@ -1922,9 +1977,10 @@ routeExp.route("/update_time").post(async function (req, res) {
         )
         .then(async () => {
             await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
-            res.send("Time updated successfully");
+            res.send("success");
         });
     } catch (error) {
+        console.log(error);
         res.send("error");
     }
 })

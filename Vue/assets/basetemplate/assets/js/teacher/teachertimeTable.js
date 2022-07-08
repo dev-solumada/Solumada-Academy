@@ -97,7 +97,6 @@ $(document).on('click','.UpdateTeacherTimeTable', function()
             method: 'post',
             data: updateTimeTableDataId,
             success: function(res) {
-                alert(JSON.stringify(res));
                 $("#id-timetable-update").val(res._id);
                 $("#select-jour-update").val(res.jours);
                 $('#select-groupe-update').val(res.groupe);
@@ -106,7 +105,15 @@ $(document).on('click','.UpdateTeacherTimeTable', function()
                 teacherTimeTableDataTable.ajax.reload(null, false);
                 
             },
-            error: function(res) { alert(JSON.stringify(res));}
+            error: function(res) { 
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Error occured when deleting TimeTable!',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+            }
     });
 });
 
@@ -222,17 +229,17 @@ $("#saveTeacherTimeTable").on('click', function()
 
 
 
-// Reset the Cours Modal Form
+// Reset the Time table Modal Form
 function resetTimeTableForm(action)
 {
     switch(action){
         case 'add':
-            $('#formAddTimeTable').each(function(){this.reset();});
+            $('#formAddTimeTable').each(function(){ this.reset(); });
             $('#closetimeTableModal').click();
             break;
         case 'update':
-            $('#formUpdateTimeTable').each(function(){this.reset();});
-            $('#closetimeTableModal').click();
+            $('#formUpdateTimeTable').each(function(){ this.reset(); });
+            $('#closetimeUpdateTableModal').click();
             break;
     }
 }

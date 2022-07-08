@@ -2,6 +2,10 @@
 var currentUrl = window.location.href;
 var arg = currentUrl.split('/');
 arg = $(arg).get(-1);
+var groupMemberList = [];
+var groupMemberPresentList = [];
+var groupMemberAbsentList = [];
+
 
 var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
@@ -14,18 +18,19 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
             {'data': 'present', 'render': function(present){
                         var presenceOptionData = '';
                         present.forEach(element => {
-                            presenceOptionData = presenceOptionData + `<option>${element}</option>`
+                            presenceOptionData = presenceOptionData + `<option>${element}</option>`;
                         });
-                        presentOptions = `<select data-placeholder="" class="prensentSelect form-control" tabindex="1">${presenceOptionData}</select>`;
+                        presentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
                         return presentOptions;
                     }
         },
-            {'data': 'absent', 'render': function(absent){
+            {'data': 'absent', 'render': function(absent)
+            {
                 var absentOptionData = '';
                 absent.forEach(element => {
                     absentOptionData = absentOptionData + `<option>${element}</option>`
                 });
-                absentOptions = `<select data-placeholder="" class="prensentSelect form-control" tabindex="1">${absentOptionData}</select>`;
+                absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
                 return absentOptions;
             }
         },
@@ -39,6 +44,56 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
         ]
     }
 );
+
+
+$("#gpeCreate").on('change', function(){
+    groupMemberList = [];
+    var groupName = $("#groupParcours").val();
+    var groupMemberData = { gpe: groupName, cours:arg };
+    $.ajax({
+        url: "/presence",
+        data: groupMemberData,
+        method: "post",
+        beforeSend: function(){ 
+            $("#present").empty();
+        },
+        success: function(response){ 
+            response.forEach(element => {
+                groupMemberList.push(element._id);
+                $('#present').append(`<option value="${element._id}">${element.username}</option>`);
+            });
+            $("#present").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+        },
+        error: function(error){ alert(JSON.stringify(error)); }
+    });
+    alert(JSON.stringify(groupMember));
+
+});
+
+$("#saveParcours").on('click', function()
+{
+    var dateParcours = $("#dateParcours").val();
+    var startAtParcours = $("#timeStartParcours").val();
+    var endAtParcours = $("#timeEndParcours").val();
+    var groupNameParcours = $("#groupParcours").val();
+    var presentParcours = $("#presentParcours").val();
+    var parcoursData = {
+        date: dateParcours,
+        start: startAtParcours,
+        endAt: endAtParcours,
+        group: groupNameParcours,
+        present: presentParcours
+    }
+    alert(JSON.stringify(parcoursData));
+});
+
+
+
+
 
 
 
