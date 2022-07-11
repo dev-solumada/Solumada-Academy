@@ -853,11 +853,21 @@
                                         </div>
                                     </div>
                                     <div class="row form-group">
+                                        <div class="col col-md-3"><label for="group_name"
+                                                class="form-control-label">Group Name</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" class="form-control"  id="groupNameUpdate">
+                                            <small id="cour_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="week">Date </label>
                                         </div>
                                         <div class="col col-md-9">
-                                            <input id="dateParcours" type="date" class="form-control">
+                                            <input id="dateUpdateParcours" type="date" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -874,26 +884,8 @@
                                         <div class="col col-md-3"><label for="groupName" class="form-control-label">End
                                                 At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeEndParcours" class="form-control">
+                                            <input type="time" id="timeEndUpdateParcours" class="form-control">
                                             <small id="endTime_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="group_name"
-                                                class="form-control-label">Group Name</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="groupParcours" class="standardSelect">
-                                                <option value="">Choose groupe</option>
-                                                <% listgroupe.forEach(function(listgroupe) { %>
-                                                    <option value="<%= listgroupe.name_Groupe %>">
-                                                        <%= listgroupe.name_Groupe %>
-                                                    </option>
-                                                    <% }); %>
-                                            </select>
-                                            <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
                                         </div>
@@ -984,9 +976,7 @@
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-    <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
+    <!-- <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script> -->
     <script src="../assets/basetemplate/assets/js/teacher/coursTeacher.js"></script>
     <script src="../assets/basetemplate/assets/js/teacher/teachertimeTable.js"></script>
     <script>

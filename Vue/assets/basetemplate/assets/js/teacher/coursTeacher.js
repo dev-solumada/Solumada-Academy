@@ -46,6 +46,11 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 );
 
 
+function searchOnDatatable(datatable, value)
+{
+    datatable.search(value).draw();
+}
+
 $("#groupParcours").on('change', function(){
     groupMemberList = [];
     var groupName = $("#groupParcours").val();
@@ -93,14 +98,13 @@ $("#saveParcours").on('click', function()
         absent: absentParcours
     }
 
-    alert(JSON.stringify(parcoursData));
     $.ajax({
         url: "/Teacheraddparcours",
         method: "post",
         data: parcoursData,
         success: function(res) 
         { 
-            if(res == "exist"){
+            if(res === "exist"){
                 Swal.fire(
                     'Error',
                     "this parcours already exist!",
@@ -108,7 +112,9 @@ $("#saveParcours").on('click', function()
                     {
                     confirmButtonText: 'Ok',
                 });
+                
             }else{
+                $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                 Swal.fire(
                     'Parcours Saved',
                     'New parcours saved successfully!',
@@ -117,7 +123,6 @@ $("#saveParcours").on('click', function()
                     confirmButtonText: 'Ok',
                 });
                 clearParcoursForm('add');
-                parcoursDataTable.ajax.reload(null, false);
             }
         },
         error: function(err) { 
@@ -153,9 +158,10 @@ $(document).on('click', '.btnUpdateParcours', function(){
         url: '/getParcours',
         method: 'post',
         data: parcoursUpdateData,
+        dataType: 'json',
         success: function(res){
-            $('#timeStartUpdateParcours').val(res.heureStart);
-            
+            alert(JSON.stringify(res._id));
+
         },
         error: function(response){
             Swal.fire({
@@ -210,7 +216,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
             //     });
             //     absentslistfiltered.splice(-1);
             // }
-
+            date = date = date.split('/').reverse().join('-');
             parcoursDeleteData = {
                 cours: arg,
                 date: date,
@@ -229,10 +235,9 @@ $(document).on('click', '.btnDeleteParcours', function(){
                         position: 'center',
                         icon: 'success',
                         title: responsetxt,
-                        showConfirmButton: false,
-                        timer: 1700
+                        showConfirmButton: true,
                     });
-                    parcoursDataTable.ajax.reload(null, false);
+                    $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                 },
                 error: function(response){
                     Swal.fire({
