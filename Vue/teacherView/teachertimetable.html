@@ -1,0 +1,43 @@
+<% time.forEach(function(time) { %>
+    <tr>
+        <td>
+            <%= time.date %>
+        </td>
+        <td>
+            <%= time.jours %>
+        </td>
+        <td>
+            <%= time.groupe %>
+        </td>
+        <td>
+            <%= time.heureStart %>
+        </td>
+        <td>
+            <%= time.heureFin %>
+        </td>
+        <td class="text-center">
+            <div class="btn-group" role="group"
+                aria-label="Basic mixed styles example">
+                <button type="button"
+                    class="btn px-2 btn-sm btn-warning"
+                    type="button" id="delete"
+                    onclick="gettime('/gettime','<%= time._id %>')"
+                    class="btn btn-sm btn-warning"
+                    data-toggle="modal"
+                    data-target="#timeTableModalUpdate">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button"
+                    class="btn px-2 btn-sm btn-danger"
+                    type="button" id="delete"
+                    onclick="gettimeDelete('/gettimedelete','<%= time._id %>')"
+                    class="btn btn-sm btn-warning"
+                    data-toggle="modal"
+                    data-target="#deleteTimeTable">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </td>
+
+    </tr>
+    <% }); %>

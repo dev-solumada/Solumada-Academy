@@ -48,6 +48,8 @@
       rel="stylesheet"
       type="text/css"
     />
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body>
@@ -342,11 +344,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table id="timeTable" class="table table-striped table-bordered"
+                                                    <table id="teachertimeTable" class="table table-striped table-bordered"
                                                         style="width: 100%;">
                                                         <thead>
                                                             <tr>
-                                                                <th>Date</th>
+                                                                <th >ID</th>
                                                                 <th>Day</th>
                                                                 <th>Group</th>
                                                                 <th>Starting Time</th>
@@ -355,49 +357,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <% time.forEach(function(time) { %>
-                                                                <tr>
-                                                                    <td>
-                                                                        <%= time.date %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= time.jours %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= time.groupe %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= time.heureStart %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= time.heureFin %>
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        <div class="btn-group" role="group"
-                                                                            aria-label="Basic mixed styles example">
-                                                                            <button type="button"
-                                                                                class="btn px-2 btn-sm btn-warning"
-                                                                                type="button" id="delete"
-                                                                                onclick="gettime('/gettime','<%= time._id %>')"
-                                                                                class="btn btn-sm btn-warning"
-                                                                                data-toggle="modal"
-                                                                                data-target="#timeTableModalUpdate">
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </button>
-                                                                            <button type="button"
-                                                                                class="btn px-2 btn-sm btn-danger"
-                                                                                type="button" id="delete"
-                                                                                onclick="gettimeDelete('/gettimedelete','<%= time._id %>')"
-                                                                                class="btn btn-sm btn-warning"
-                                                                                data-toggle="modal"
-                                                                                data-target="#deleteTimeTable">
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </td>
-
-                                                                </tr>
-                                                                <% }); %>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -410,7 +370,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-dark btn-sm rounded" type="button"
+                                                        <button class="btn btn-dark btn-sm rounded" id="addParcours" type="button"
                                                             data-toggle="modal" data-target="#parcoursModal"><small><i
                                                                     class="fa fa-plus"></i> parcours</small></button>
                                                         <strong class="card-title my-auto">Parcours</strong>
@@ -605,87 +565,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Time Table Update Modal -->
-            <div class="modal fade" id="timeTableModalUpdate" tabindex="-1" role="dialog"
-                aria-labelledby="largeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">Update Time Table<Table></Table>
-                            </h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card-body card-block">
-                                <form id="form" action="/" enctype="multipart/form-data" class="form-horizontal"
-                                    autocomplete="off">
-                                    <div class="row form-group">
-                                        <div class="col-12">
-                                            <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id="errorTT"
-                                                    style="display: none;color:red"></small>
-                                                <small class="alert alert-success text-center" role="alert"
-                                                    id="successTT" style="display: none;color:green"></small>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row form-group mb-2">
-                                        <div class="col col-md-3">
-                                            <strong>Group Name</strong>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="gpe" id="gpe" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="weekday"
-                                                class="form-control-label">Date</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose day" class="form-control standardSelect"
-                                                id="sjour" tabindex="1">
-                                                <option value="lundi">lundi</option>
-                                                <option value="mardi">mardi</option>
-                                                <option value="mercredi">mercredi</option>
-                                                <option value="jeudi">jeudi</option>
-                                                <option value="vendredi">vendredi</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="groupName"
-                                                class="form-control-label">Start At</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="time" id="timeS" class="form-control">
-                                            <small id="startTime_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">End
-                                                At</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="time" id="timeE" class="form-control">
-                                            <small id="endTime_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" 
-                                data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="save_time_update()"
-                                id="saveUser">Save Change</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End time Update Table Modal -->
             <div class="modal fade" id="tameTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -696,7 +575,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/" enctype="multipart/form-data" class="form-horizontal"
+                                <form id="formAddTimeTable" action="/" enctype="multipart/form-data" class="form-horizontal"
                                     autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
@@ -763,175 +642,101 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" 
+                            <button type="button" class="btn btn-danger" id="closetimeTableModal"
                                 data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="save_time()"
-                                id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button"
+                                id="saveTimeTable">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Time Table Update Modal -->
-            <div class="modal fade" id="parcoursModalUpdate" tabindex="-1" role="dialog"
-                aria-labelledby="largeModalLabel" aria-hidden="true">
+            <!-- Update time table -->
+            <div class="modal fade" id="UpdatetimeTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">Update Parcours<Table></Table>
+                            <h5 class="modal-title" id="largeModalLabel">Update Time Table<Table></Table>
                             </h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
-                                    class="form-horizontal" autocomplete="off">
+                                <form id="formUpdateTimeTable" enctype="multipart/form-data" class="form-horizontal"
+                                    autocomplete="off">
                                     <div class="row form-group">
-                                        <div class="col-12">
-                                            <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert"
-                                                    id="errorparcD" style="display: none;color:red"></small>
-                                                <small class="alert alert-success text-center" role="alert"
-                                                    id="successparcD" style="display: none;color:green"></small>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="week">Date </label>
-                                        </div>
-                                        <div class="col col-md-9">
-                                            <input id="weekDate" type="date" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="groupName"
-                                                class="form-control-label">Start At</label></div>
+                                        <div class="col col-md-3"><label for="timeStart-update" style="display: none;"
+                                                class="form-control-label">Id</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeSDel" class="form-control">
-                                            <small id="startTime_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
+                                            <input type="hidden" id="id-timetable-update" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">End
-                                                At</label></div>
+                                        <div class="col col-md-3"><label for="weekday"
+                                                class="form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeEDel" class="form-control">
-                                            <small id="endTime_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
+                                            <select data-placeholder="Choose day" class="form-control" id="select-jour-update" tabindex="1">
+                                                <option value=""></option>
+                                                <option value="lundi">lundi</option>
+                                                <option value="mardi">mardi</option>
+                                                <option value="mercredi">mercredi</option>
+                                                <option value="jeudi">jeudi</option>
+                                                <option value="vendredi">vendredi</option>
+                                            </select>
                                         </div>
                                     </div>
-
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="gpeDel"
-                                                 class="form-control">
+                                            <select data-placeholder="Choose Group" id="select-groupe-update"
+                                                class="form-control">
+                                                <option value=""></option>
+                                                <% listgroupe.forEach(function(listgroupe) { %>
+                                                    <option value="<%= listgroupe.name_Groupe %>">
+                                                        <%= listgroupe.name_Groupe %>
+                                                    </option>
+                                                    <% }); %>
                                             </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
                                         </div>
                                     </div>
-
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="present"
-                                                class=" form-control-label">Present</label></div>
+                                        <div class="col col-md-3"><label for="timeStart-update"
+                                                class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add present" multiple id="presentUpd" 
-                                            class="form-control " tabindex="1">   
-                                            </select>
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
-                                                field is required</small>
+                                            <input type="time" id="timeStart-update" class="form-control">
+                                            <small id="startTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
-
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="abscent"
-                                                class=" form-control-label">Absent</label></div>
+                                        <div class="col col-md-3"><label for="timeEnd-update" class="form-control-label">End
+                                                At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add absent" id="absentUpdate" name="absent" multiple
-                                                class="form-control absentSelect" tabindex="1">
-
-                                            </select>
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
-                                                field is required</small>
+                                            <input type="time" id="timeEnd-update" class="form-control">
+                                            <small id="endTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" 
+                            <button type="button" class="btn btn-danger" id="closetimeUpdateTableModal"
                                 data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="save_parcours_update()"
-                                id="saveUser">Save Change</button>
+                            <button class="btn-submit btn btn-success" type="button"
+                                id="saveTeacherTimeTable">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- delete time table -->
-            <!-- delete time table -->
-            <div class="modal fade" id="parcoursModalDelete" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-                tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="feedback align-items-center">
-                            <center>
-                                <small class="alert-danger" id="errorDelete" style="display: none;color:red"></small>
-                                <small class="alert-success" id="successDelete"
-                                    style="display: none;color:green"></small>
-                            </center>
-                        </div>
-                        <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-light" id="staticBackdropLabel">Delete this Parcours Table</h5>
-                        </div>
-                        <div class="modal-body">
-                            <strong class="text-center">Are you sure to delete this Parcours?</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="deleteParcours()"> Yes, delete
-                                it!</button>
-                            <button type="button" class="btn btn-success"  data-dismiss="modal">No,
-                                cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end delete time table -->
+            <!-- End Update Time table -->
 
-            <!-- delete time table -->
-            <div class="modal fade" id="deleteTimeTable" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-                tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="feedback align-items-center">
-                            <center>
-                                <small class="alert-danger" id="errorDelete" style="display: none;color:red"></small>
-                                <small class="alert-success" id="successDelete"
-                                    style="display: none;color:green"></small>
-                            </center>
-                        </div>
-                        <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-light" id="staticBackdropLabel">Delete this Time Table</h5>
-                        </div>
-                        <div class="modal-body">
-                            <strong class="text-center">Are you sure to delete this Time Table?</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="deleteEmploi()"> Yes, delete
-                                it!</button>
-                            <button type="button" class="btn btn-success"  data-dismiss="modal">No,
-                                cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end delete time table -->
             <div class="modal fade" id="parcoursModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -942,7 +747,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                <form id="formAddPacours" enctype="multipart/form-data"
                                     class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
@@ -954,21 +759,19 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="week">Date </label>
                                         </div>
                                         <div class="col col-md-9">
-                                            <input id="week" type="date" class="form-control">
+                                            <input id="dateParcours" type="date" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeSCreate" class="form-control">
+                                            <input type="time" id="timeStartParcours" class="form-control">
                                             <small id="startTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -978,7 +781,7 @@
                                         <div class="col col-md-3"><label for="groupName" class="form-control-label">End
                                                 At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeECreate" class="form-control">
+                                            <input type="time" id="timeEndParcours" class="form-control">
                                             <small id="endTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -989,8 +792,8 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="gpeCreate"
-                                                onchange="groupePresence(this)" class="standardSelect">
+
+                                            <select data-placeholder="Choose Group" id="groupParcours" class="standardSelect">
                                                 <option value="">Choose groupe</option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
@@ -1008,39 +811,109 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add present" id="present" name="present" multiple
-                                                class="form-control prensentSelect" tabindex="1">
-                                                <option value=""></option>
-                                            </select>
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
-                                                field is required</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="abscent"
-                                                class=" form-control-label">Absent</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add absent" id="absent" name="absent" multiple
-                                                class="form-control absentSelect" tabindex="1">
-
-                                            </select>
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
-                                                field is required</small>
+                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple></select>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" 
-                                data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_new_parcours()"
+                            <button type="button" class="btn btn-danger" id="cancelAddParcours" data-dismiss="modal">Cancel</button>
+                            <button class="btn-submit btn btn-success" type="button"
                                 id="saveParcours">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="UpdateparcoursModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="largeModalLabel">Update Parcours<Table></Table>
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body card-block">
+                                <form id="formUpdatePacours" enctype="multipart/form-data"
+                                    class="form-horizontal" autocomplete="off">
+                                    <div class="row form-group">
+                                        <div class="col-12">
+                                            <div class="feedback align-items-center">
+                                                <small class="alert alert-danger text-center" role="alert"
+                                                    id="errorparc" style="display: none;color:red"></small>
+                                                <small class="alert alert-success text-center" role="alert"
+                                                    id="successparc" style="display: none;color:green"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="week">Date </label>
+                                        </div>
+                                        <div class="col col-md-9">
+                                            <input id="dateParcours" type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="groupName"
+                                                class="form-control-label">Start At</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="time" id="timeStartUpdateParcours" class="form-control">
+                                            <small id="startTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="groupName" class="form-control-label">End
+                                                At</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="time" id="timeEndParcours" class="form-control">
+                                            <small id="endTime_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="group_name"
+                                                class="form-control-label">Group Name</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <select data-placeholder="Choose Group" id="groupParcours" class="standardSelect">
+                                                <option value="">Choose groupe</option>
+                                                <% listgroupe.forEach(function(listgroupe) { %>
+                                                    <option value="<%= listgroupe.name_Groupe %>">
+                                                        <%= listgroupe.name_Groupe %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                            <small id="cour_err"
+                                                style="color: red; font-size: smaller; display:none;">This field is
+                                                required</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="present"
+                                                class=" form-control-label">Present</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple></select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="cancelUpdateParcours" data-dismiss="modal">Cancel</button>
+                            <button class="btn-submit btn btn-success" type="button"
+                                id="saveParcours">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal fade" id="addMemeber" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -1095,14 +968,14 @@
             </div>
         </div>
     </div>
+    </div>
     <!-- Right Panel -->
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="../assets/js/list-groupe.js"></script>
-
+    <!-- <script src="../assets/js/list-groupe.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -1111,6 +984,7 @@
     <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
     <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
     <script src="../assets/basetemplate/assets/js/teacher/coursTeacher.js"></script>
+    <script src="../assets/basetemplate/assets/js/teacher/teachertimeTable.js"></script>
     <script>
         jQuery(document).ready(function () {
             jQuery(".standardSelect").chosen({
