@@ -1524,7 +1524,6 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
     console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
-    res.send('success');
     try {
         mongoose
         .connect(
@@ -2056,6 +2055,7 @@ routeExp.route("/deleteEmploi").post(async function (req, res) {
 })
 
 
+
 //get getParcours
 routeExp.route("/getParcours").post(async function (req, res) {
     var cours = req.body.cours;
@@ -2082,7 +2082,14 @@ routeExp.route("/getParcours").post(async function (req, res) {
                         tabl: { $push: { user: "$user", presence: "$presence", id: "$_id" } }
                     }
                 }
-            ])
+            ]);
+            var userList = [];
+            console.log(JSON.stringify(ParcoursAbsent));
+            ParcoursAbsent.forEach(parcours => { 
+                console.log(`cours: ${parcours._id.cours}, groupName: ${parcours._id.groupe} heureStart: ${parcours._id.heureStart} heureEnd: ${parcours._id.heureFin} date: ${parcours._id.date}`);
+                (parcours.tabl.user).forEach(user => { userList.push(user) })
+            
+            }); 
             res.send(ParcoursAbsent);
         });
 })
@@ -2091,12 +2098,13 @@ routeExp.route("/getParcours").post(async function (req, res) {
 //get getParcoursUpdate
 routeExp.route("/getParcoursUpdate").post(async function (req, res) {
     var cours = req.body.cours;
-    var week = req.body.week;
+    // var week = req.body.week;
     var groupe = req.body.groupe;
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
-    mongoose
+    try {
+        mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
             {
@@ -2111,7 +2119,7 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { week: week, cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
+                            { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
                         tabl: { $push: { user: "$user", presence: "$presence" } }
                     }
                 }
@@ -2120,6 +2128,9 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
             var AllParcours = await ParcoursModel.find({ validation: true })
             res.send(ParcoursAbsent);
         });
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 
@@ -2131,24 +2142,23 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
     var heureFin = req.body.heureFin;
     var date = req.body.date;
     console.log(req.body);
-    res.send('success');
-    // mongoose
-    //     .connect(
-    //         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    //         {
-    //             useUnifiedTopology: true,
-    //             UseNewUrlParser: true,
-    //         }
-    //     )
-    //     .then(async () => {
-    //         try {
-    //             await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
-    //             res.send("success");
-    //         } catch (err) {
-    //             console.log(err);
-    //             res.send(err);
-    //         }
-    //     });
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
+                res.send("success");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+        });
 })
 
 
