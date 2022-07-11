@@ -2073,8 +2073,8 @@ routeExp.route("/getParcours").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
-    var week = req.body.week;
-    console.log("getParcours", cours, groupe, heureStart, heureFin, date, week);
+    // var week = req.body.week;
+    console.log(JSON.stringify(req.body));
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2090,7 +2090,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { week: week, cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
+                            { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
                         tabl: { $push: { user: "$user", presence: "$presence", id: "$_id" } }
                     }
                 }
@@ -2146,6 +2146,7 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
     var heureFin = req.body.heureFin;
     var date = req.body.date;
     console.log(req.body);
+    res.send('success');
     // mongoose
     //     .connect(
     //         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",

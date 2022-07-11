@@ -36,8 +36,8 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
         },
             {"defaultContent": "\
                                 <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateCours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                    <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteCours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                    <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                 </div>\
                                 "
             }
@@ -132,10 +132,45 @@ $("#saveParcours").on('click', function()
     });
 });
 
+// Update parcours
+$(document).on('click', '.btnUpdateParcours', function(){
 
+    var column = $(this).closest('tr');
+    var date = column.find('td:eq(0)').text();
+    var startTimeDelete = column.find('td:eq(1)').text();
+    var endTimeDelete = column.find('td:eq(2)').text();
+    var groupNameDelete = column.find('td:eq(3)').text();
+
+    parcoursUpdateData = {
+        cours: arg,
+        date: date,
+        heureStart: startTimeDelete,
+        heureFin: endTimeDelete,
+        groupe: groupNameDelete,
+    }
+
+    $.ajax({
+        url: '/getParcours',
+        method: 'post',
+        data: parcoursUpdateData,
+        success: function(res){
+            $('#timeStartUpdateParcours').val(res.heureStart);
+            
+        },
+        error: function(response){
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: response,
+                showConfirmButton: false,
+                timer: 1700
+            });
+        }
+    });
+});
 
 // delete parcours
-$(document).on('click', '.btnDeleteCours', function(){
+$(document).on('click', '.btnDeleteParcours', function(){
     Swal.fire({
         title: 'Delete Parcours',
         text: "Are you sure do delete this parcours?",
@@ -225,6 +260,8 @@ function clearParcoursForm(action)
             $("#cancelUpdateParcours").click();
     }
 }
+
+
 
 
 
