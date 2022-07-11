@@ -473,7 +473,7 @@ routeExp.route("/teacherHome").get(async function (req, res) {
     }
 });
 
-//Cours professeur
+// Cours professeur
 routeExp.route("/teacherCours/:cours").get(async function (req, res) {
     var session = req.session;
     var cours = req.params.cours;
@@ -1419,7 +1419,7 @@ routeExp.route("/groupe").post(async function (req, res) {
 //Add emploie du temps
 routeExp.route("/EmplTemp").post(async function (req, res) {
     var jours = req.body.jours;
-    var group = req.body.group;
+    var group = req.body.groupe;
     var cours = req.body.cours;
     var heurdebut = req.body.timeStart;
     var heurfin = req.body.timeEnd;

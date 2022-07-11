@@ -46,6 +46,7 @@ $("#saveTimeTable").on('click', function(){
         timeEnd: $('#timeEnd').val(),
         cours: arg,
     }
+    alert(JSON.stringify(newTimeTableData));
     $.ajax({
         url: "/EmplTemp",
         method: "post",
@@ -54,7 +55,6 @@ $("#saveTimeTable").on('click', function(){
             {
                 if(response == 'success')
                 {
-                    resetTimeTableForm(action='add');
                     responsetxt = 'Time Table Saved successfully';
                     Swal.fire(
                         'Success',
@@ -62,12 +62,10 @@ $("#saveTimeTable").on('click', function(){
                         'success',
                         {
                         confirmButtonText: 'Ok',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            teacherTimeTableDataTable.ajax.reload(null, false);
-                            searchOnDatatable(datatable=teacherTimeTableDataTable, value=newTimeTableData.groupe);
-                        }
                     });
+                    $("#teachertimeTable").DataTable().ajax.reload(null, false);
+                    searchOnDatatable(teacherTimeTableDataTable, $('#select-gpe').val());
+                    resetTimeTableForm(action='add');
                 }else{
                     Swal.fire(
                         'Error',
@@ -99,21 +97,63 @@ $(document).on('click','.UpdateTeacherTimeTable', function()
             success: function(res) {
                 $("#id-timetable-update").val(res._id);
                 $("#select-jour-update").val(res.jours);
-                $('#select-groupe-update').val(res.groupe);
-                $('#timeStart-update').val(res.heureStart);
-                $('#timeEnd-update').val(res.heureFin);
-                teacherTimeTableDataTable.ajax.reload(null, false);
-                
+                $("#timetablegroupupdate").val(res.groupe);
+                $("#timeStart-update").val(res.heureStart);
+                $("#timeEnd-update").val(res.heureFin);
             },
             error: function(res) { 
                 Swal.fire({
                     position: 'top-center',
                     icon: 'error',
-                    title: 'Error occured when deleting TimeTable!',
+                    title: 'Error occured!',
                     showConfirmButton: false,
                     timer: 1700
                 });
             }
+    });
+});
+
+
+// Save Update Time Table
+$("#saveTeacherUpdateTimeTable").on('click', function()
+{
+
+    var updateTimetableData = {
+        id: $("#id-timetable-update").val(),
+        jours:  $("#select-jour-update").val(),
+        group: $('#select-groupe-update').val(),
+        heurdebut: $('#timeStart-update').val(),
+        heurfin: $('#timeEnd-update').val()
+    }
+
+    $.ajax({
+        url: "/update_time",
+        method: "post",
+        data: updateTimetableData,
+        success: function(res)
+        {
+            if(res === "success")
+            {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Time table updated successfuly!',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+                $("#teachertimeTable").DataTable().ajax.reload(null, false);
+                searchOnDatatable(teacherTimeTableDataTable, $("#id-timetable-update").val());
+                resetTimeTableForm('update');
+            }else{
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Error occured!',
+                    showConfirmButton: false,
+                    timer: 1700
+                });
+            }
+        }
     });
 });
 
@@ -155,7 +195,9 @@ $(document).on('click','.deleteTimeTable', function()
                                         showConfirmButton: false,
                                         timer: 1700
                                     });
-                                    teacherTimeTableDataTable.ajax.reload(null, false);
+                                    $("#teachertimeTable").DataTable().ajax.reload(null, false);
+                                    teacherTimeTableDataTable.search('').draw();
+
                                 }else{
                                     Swal.fire({
                                         position: 'top-center',
@@ -184,49 +226,6 @@ $(document).on('click','.deleteTimeTable', function()
             error: function(res) { alert(JSON.stringify(res));}
     });
 });
-
-
-// Update Time Table
-$("#saveTeacherTimeTable").on('click', function()
-{
-    var updateTimeTableData = {
-        id: $("#id-timetable-update").val(),
-        jour: $("#select-jour-update").val(),
-        group: $('#select-groupe-update').val(),
-        heuredebut: $('#timeStart-update').val(),
-        heurfin: $('#timeEnd-update').val(),
-    }
-    $.ajax(
-            {
-                url: "/update_time",
-                method: 'post',
-                data: updateTimeTableData,
-                success: function(res)
-                {
-                    if(res == 'success')
-                    {
-                        resetTimeTableForm('update');
-                        Swal.fire(
-                            'Update Successful',
-                            'Timetable updated successfully',
-                            'success',
-                            {
-                            confirmButtonText: 'Ok',
-                        });
-                    }else{
-                        Swal.fire(
-                            'Error',
-                            'Error occured when updateting timetable!',
-                            'error',
-                            {
-                            confirmButtonText: 'Ok',
-                        });
-                    }
-                }
-            }
-        );
-});
-
 
 
 // Reset the Time table Modal Form

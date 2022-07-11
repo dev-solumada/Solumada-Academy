@@ -339,7 +339,7 @@
                                                         <button class="btn btn-dark btn-sm rounded" type="button"
                                                             data-toggle="modal" data-target="#tameTableModal"><small><i
                                                                     class="fa fa-plus"></i> time Table</small></button>
-                                                        <h4 class="my-auto">Date: 16/02/2022</h4>
+                                                        <h4 class="my-auto"></h4>
                                                         <strong class="card-title my-auto">Time Table</strong>
                                                     </div>
                                                 </div>
@@ -589,9 +589,8 @@
                                         <div class="col col-md-3"><label for="weekday"
                                                 class="form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose day" class="form-control standardSelect"
-                                                id="select-jour" tabindex="1">
-                                                <option value=""></option>
+                                            <select  class="form-control" id="select-jour"  tabindex="1">
+                                                <option value="" disabled selected>Choose Day</option>
                                                 <option value="lundi">lundi</option>
                                                 <option value="mardi">mardi</option>
                                                 <option value="mercredi">mercredi</option>
@@ -604,9 +603,8 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="select-gpe"
-                                                class="form-control standardSelect">
-                                                <option value=""></option>
+                                            <select id="select-gpe" class="form-control">
+                                                <option value="" disabled selected>Choose Group</option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
                                                         <%= listgroupe.name_Groupe %>
@@ -676,7 +674,6 @@
                                                 class="form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose day" class="form-control" id="select-jour-update" tabindex="1">
-                                                <option value=""></option>
                                                 <option value="lundi">lundi</option>
                                                 <option value="mardi">mardi</option>
                                                 <option value="mercredi">mercredi</option>
@@ -687,16 +684,16 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="group_name"
-                                                class="form-control-label">Group Name</label></div>
+                                                class="form-control-label">Group Name</label>
+                                        </div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="select-groupe-update"
+                                            <select data-placeholder="Choose Group" id="timetablegroupupdate"
                                                 class="form-control">
-                                                <option value=""></option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
                                                         <%= listgroupe.name_Groupe %>
                                                     </option>
-                                                    <% }); %>
+                                                <% }); %>
                                             </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
@@ -730,7 +727,7 @@
                             <button type="button" class="btn btn-danger" id="closetimeUpdateTableModal"
                                 data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button"
-                                id="saveTeacherTimeTable">Save</button>
+                                id="saveTeacherUpdateTimeTable">Save</button>
                         </div>
                     </div>
                 </div>
