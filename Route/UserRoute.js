@@ -1573,8 +1573,12 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
         )
         .then(async () => {
             if ((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut, heureFin: heurfin }] })) || date == "" || group == "" || heurdebut == "" || heurfin == "" || cours == "") {
+                
+                console.log("errreur");
                 res.send("exist");
             } else {
+                console.log("non erreur");
+                console.log("presentArray ", presentArray);
                 for (let index = 0; index < presentArray.length; index++) {
                     var new_parcours = {
                         cours: cours,
@@ -1585,6 +1589,7 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                         presence: true,
                         user: presentArray[index],
                     };
+                    console.log("new_parcours", new_parcours);
                     await ParcoursModel(new_parcours).save();
                 }
                 for (let index = 0; index < absentArray.length; index++) {
