@@ -1,15 +1,15 @@
 
 var currentUrl = window.location.href;
 var arg = currentUrl.split('/');
-arg = $(arg).get(-1);
+var cour_name = $(arg).get(-1);
+
 var groupMemberList = [];
 var groupMemberPresentList = [];
 var groupMemberAbsentList = [];
 
-
 var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
-        "ajax": { "url": `/teacherParcours/${arg}`, "dataSrc": "" },
+        "ajax": { "url": `/teacherParcours/${cour_name}`, "dataSrc": "" },
         "columns": [
             {'data': 'date'},
             {'data': 'start_time'},
@@ -96,7 +96,7 @@ $("#saveParcours").on('click', function()
         dateNewParcours: dateParcours,
         timestartAt: startAtParcours,
         timeEndAt: endAtParcours,
-        cours: arg,
+        cours: cour_name,
         groupParcoursName: groupNameParcours,
         present: presentParcours,
         absent: absentParcours
@@ -150,7 +150,7 @@ $(document).on('click', '.btnUpdateParcours', function(){
     var endTimeDelete = column.find('td:eq(2)').text();
     var groupNameDelete = column.find('td:eq(3)').text();
     parcoursUpdateData = {
-        cours: arg,
+        cours: cour_name,
         date: date,
         heureStart: startTimeDelete,
         heureFin: endTimeDelete,
@@ -248,7 +248,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
             // }
             date = date = date.split('/').reverse().join('-');
             parcoursDeleteData = {
-                cours: arg,
+                cours: cour_name,
                 date: date,
                 heureStart: startTimeDelete,
                 heureFin: endTimeDelete,

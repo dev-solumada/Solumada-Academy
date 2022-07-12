@@ -1,11 +1,11 @@
 var currentUrl = window.location.href;
 var arg = currentUrl.split('/');
-arg = $(arg).get(-1);
+var cour_name = $(arg).get(-1);
 
 
 var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
     {
-        "ajax": { "url": `/teacherTimeTable/${arg}`, "dataSrc": "" },
+        "ajax": { "url": `/teacherTimeTable/${cour_name}`, "dataSrc": "" },
         "columns": [
             {'data': "_id"},
             {'data': 'jours'},
@@ -37,9 +37,8 @@ $("#saveTimeTable").on('click', function(){
         groupe: $('#select-gpe').val(),
         timeStart: $('#timeStart').val(),
         timeEnd: $('#timeEnd').val(),
-        cours: arg,
+        cours: cour_name,
     }
-    alert(JSON.stringify(newTimeTableData));
     $.ajax({
         url: "/EmplTemp",
         method: "post",
