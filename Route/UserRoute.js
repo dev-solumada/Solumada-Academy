@@ -503,7 +503,7 @@ routeExp.route("/teacherCours/:cours").get(async function (req, res) {
 routeExp.route("/teacherTimeTable/:cours").get(async function (req, res) {
     var session = req.session;
     var cours = req.params.cours;
-    if (session.occupation_prof == "Professeur") {
+    if (session.occupation_prof == "Professeur" || session.occupation_adm == "adm") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -514,6 +514,7 @@ routeExp.route("/teacherTimeTable/:cours").get(async function (req, res) {
             )
             .then(async () => {
                 var time = await EmplTemp.find({ cours: cours });
+                console.log("time ", time);
                 res.send(JSON.stringify(time));
             });
     }
@@ -1311,7 +1312,6 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 }
 
             ])
-            console.log("ParcoursAbsent", ParcoursAbsent);
 
             coursM = [{ professeur: "Rojovola" }]
             res.render("ListeCours.html", { cours_prof: coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
@@ -1461,6 +1461,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
     var cours = req.body.cours;
     var heurdebut = req.body.timeStart;
     var heurfin = req.body.timeEnd;
+    var date_time = req.body.date_time;
     
     try {
         mongoose
