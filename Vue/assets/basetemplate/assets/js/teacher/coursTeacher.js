@@ -160,7 +160,7 @@ $(document).on('click', '.btnUpdateParcours', function(){
         data: parcoursUpdateData,
         dataType: 'json',
         success: function(res){
-            alert(JSON.stringify(res._id));
+            alert(res._id.users);
 
         },
         error: function(response){

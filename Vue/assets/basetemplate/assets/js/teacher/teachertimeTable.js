@@ -20,16 +20,9 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
                                 `
             }
         ],
-        "columnDefs": [
-            {
-                'target': 0,
-                'visible': false,
-                'searchable': false,
-            }
-        ]
     }
 );
-
+// teacherTimeTableDataTable.column(0).visible(false);
 
 
 function searchOnDatatable(datatable, value)
