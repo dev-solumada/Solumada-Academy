@@ -1305,12 +1305,13 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
                 {
                     $group: {
                         _id:
-                            { week: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                            {cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
                         tabl: { $push: { user: "$user", presence: "$presence", _id: "$_id"  } }
                     }
                 }
 
             ])
+            console.log("ParcoursAbsent", ParcoursAbsent);
 
             coursM = [{ professeur: "Rojovola" }]
             res.render("ListeCours.html", { cours_prof: coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
@@ -2065,6 +2066,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
+    console.log("cours", cours, groupe, heureStart, heureFin);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2076,17 +2078,22 @@ routeExp.route("/getParcours").post(async function (req, res) {
         .then(async () => {
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
-                { $match: { $or: [{ cours: cours }] } },//, {week: week}, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
-                {
-                    $group: {
+
+                { $match: { $or: [{ cours: cours }, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
+                
+                {    $group: {
                         _id:
                             { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
                         tabl: { $push: { user: "$user", presence: "$presence", id: "$_id" } }
                     }
                 }
             ]);
-            console.log("here are the users>>>");
-            console.log(JSON.stringify(ParcoursAbsent));
+            console.log("here are the users>>>", ParcoursAbsent);
+            //console.log(JSON.stringify(ParcoursAbsent));
+            ParcoursAbsent.forEach(element => {
+            console.log("sans stringify ", element);
+                
+            });
             res.send(ParcoursAbsent);
         });
 })
@@ -2122,9 +2129,9 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
                 }
             ])
 
-            var AllParcours = await ParcoursModel.find({ validation: true })
-            console.log("Parcours ", ParcoursAbsent);
-            console.log("AllParcours ", AllParcours);
+            //var AllParcours = await ParcoursModel.find({ validation: true })
+            console.log("Parcours ", ParcoursAbsent[0].tabl);
+            //console.log("AllParcours ", AllParcours);
             res.send(ParcoursAbsent);
         });
     } catch (error) {
