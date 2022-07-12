@@ -5,6 +5,7 @@ var coursName = $(arg).get(-1);
 var currentGroupName = "";
 var firstShow = true;
 $("#teacherSelectGroup").on('change', function(){
+    $("#addMememberToGroupTeacher").css("display", "block");
     var newGgroupeName = $("#teacherSelectGroup").val();
     if (newGgroupeName != currentGroupName && firstShow == true)
     {
