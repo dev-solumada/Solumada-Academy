@@ -158,7 +158,7 @@ $(document).on('click', '.btnUpdateParcours', function(){
     }
 
     $.ajax({
-        url: '/getParcoursUpdate',
+        url: '/getParcours',
         method: 'post',
         data: parcoursUpdateData,
         dataType: 'json',

@@ -1426,6 +1426,41 @@ routeExp.route("/groupe").post(async function (req, res) {
 });
 
 
+class Member
+{
+    constructor(username, mcode, numAgent, level)
+    {
+        this.username = username;
+        this.mcode = mcode;
+        this.numAgent = numAgent;
+        this.level = level;
+
+    }
+}
+// Member group Thierry
+routeExp.route("/groupemember/:cours/:groupe").get(async function (req, res) {
+    var groupe = req.params.groupe;
+    var cours = req.params.cours;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var members = await CGNModel.find({ cours: cours, groupe: groupe })
+            members.forEach(member =>{
+                console.log(`username: ${member.username} mcode: ${member.mcode} numAgent: ${member.numAgent} level: ${member.niveau}`);
+            });
+            res.send(members);
+
+        });
+
+});
+
+
 //Add emploie du temps
 routeExp.route("/EmplTemp").post(async function (req, res) {
     var jours = req.body.jours;
