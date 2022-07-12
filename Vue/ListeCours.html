@@ -291,42 +291,6 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <% membre.forEach(function(membre) { %>
-                                                                <tr>
-
-                                                                    <td>
-                                                                        <%= membre.username %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= membre.mcode %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= membre.num_agent %>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%= membre.niveau %>
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        <div class="btn-group" role="group"
-                                                                            aria-label="Basic mixed styles example">
-                                                                            <button type="button"
-                                                                                class="btn px-2 btn-sm btn-warning"
-                                                                                data-toggle="modal"
-                                                                                onclick="getmembre('/getmembre','<%= membre._id %>')"
-                                                                                data-target="#editmember">
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </button>
-                                                                            <button type="button"
-                                                                                class="btn px-2 btn-sm btn-danger rounded-end deleteUser"
-                                                                                onclick="getmbDelete('/getmembreD','<%= membre._id %>')"
-                                                                                data-toggle="modal"
-                                                                                data-target="#deletemember">
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <% }); %>
                                                         </tbody>
                                                     </table>
                                                 </div>
