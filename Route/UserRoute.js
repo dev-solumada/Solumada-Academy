@@ -1378,8 +1378,8 @@ routeExp.route("/newmembre").post(async function (req, res) {
 
 //Liste membre par groupe
 routeExp.route("/groupe").post(async function (req, res) {
-    var groupe = req.body.groupe;
-    var cours = req.body.cours;
+    var groupe = req.body.groupe
+    var cours = req.body.cours
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2083,7 +2083,13 @@ routeExp.route("/getParcours").post(async function (req, res) {
                     }
                 }
             ]);
-            console.log(ParcoursAbsent.tabl.presence);
+            var userList = [];
+            console.log(JSON.stringify(ParcoursAbsent));
+            ParcoursAbsent.forEach(parcours => { 
+                console.log(`cours: ${parcours._id.cours}, groupName: ${parcours._id.groupe} heureStart: ${parcours._id.heureStart} heureEnd: ${parcours._id.heureFin} date: ${parcours._id.date}`);
+                (parcours.tabl.user).forEach(user => { userList.push(user) })
+            
+            }); 
             res.send(ParcoursAbsent);
         });
 })
