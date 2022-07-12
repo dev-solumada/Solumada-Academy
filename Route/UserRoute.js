@@ -2094,7 +2094,8 @@ routeExp.route("/getParcours").post(async function (req, res) {
                     }
                 }
             ]);
-            console.log(ParcoursAbsent.tabl.presence);
+            console.log("here are the users>>>");
+            console.log(JSON.stringify(ParcoursAbsent));
             res.send(ParcoursAbsent);
         });
 })
@@ -2133,17 +2134,6 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
             var AllParcours = await ParcoursModel.find({ validation: true })
             console.log("Parcours ", ParcoursAbsent);
             console.log("AllParcours ", AllParcours);
-
-            var userList = [];
-            console.log(JSON.stringify(ParcoursAbsent));
-            ParcoursAbsent.forEach(parcours => { 
-                console.log(`cours: ${parcours._id.cours}, groupName: ${parcours._id.groupe} heureStart: ${parcours._id.heureStart} heureEnd: ${parcours._id.heureFin} date: ${parcours._id.date}`);
-                var users = parcours.tabl.user;
-                users.forEach(user => {
-                    userList.push(user);
-                });
-            
-            });
             res.send(ParcoursAbsent);
         });
     } catch (error) {

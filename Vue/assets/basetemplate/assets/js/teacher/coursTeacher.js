@@ -45,6 +45,10 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
     }
 );
 
+$("#addParcours").on('click', function(){
+    $("#dateParcours").val("");
+    (".standardSelect").val("");
+});
 
 function searchOnDatatable(datatable, value)
 {
@@ -145,7 +149,6 @@ $(document).on('click', '.btnUpdateParcours', function(){
     var startTimeDelete = column.find('td:eq(1)').text();
     var endTimeDelete = column.find('td:eq(2)').text();
     var groupNameDelete = column.find('td:eq(3)').text();
-
     parcoursUpdateData = {
         cours: arg,
         date: date,
@@ -155,13 +158,40 @@ $(document).on('click', '.btnUpdateParcours', function(){
     }
 
     $.ajax({
-        url: '/getParcours',
+        url: '/getParcoursUpdate',
         method: 'post',
         data: parcoursUpdateData,
         dataType: 'json',
         success: function(res){
-            alert(res._id.users);
-
+            var data = JSON.parse(JSON.stringify(res));
+            $("#presentParcoursUpdate").find("option").remove().end();
+            $("#groupUpdateParcours").val(data[0]._id.groupe);
+            // alert(data[0]._id.date);
+            $("#dateUpdateParcours").val(data[0]._id.date);
+            $("#timeStartUpdateParcours").val(data[0]._id.heureStart);
+            $("#timeEndUpdateParcours").val(data[0]._id.heureFin);
+            var users = data[0].tabl;
+            
+            users.forEach(user =>{
+                if(user.presence == true)
+                {
+                    var option = `<option value="${user.user}" selected>${user.user}<option>`;
+                    $("#presentParcoursUpdate").append(option);
+                }else{
+                    var option = `<option value="${user.user}">${user.user}<option>`;
+                    $("#presentParcoursUpdate").append(option);
+                }
+            });
+            $("#presentParcoursUpdate").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+            $("#presentParcoursUpdate").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
         },
         error: function(response){
             Swal.fire({
