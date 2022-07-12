@@ -173,7 +173,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
-
                                     <button onclick="saveAll()" class="btn btn-success rounded btn-sm" id="saveChange">
                                         <small>
                                             <i class="fa fa-save"></i>
@@ -181,6 +180,18 @@
                                         </small>
                                     </button>
                                     <strong class="card-title my-auto">Global View</strong>
+
+                                    <div>
+                                        <button class="btn btn-sm btn-success" id="point" data-toggle="modal"
+                                            data-target="#ModalPoint">
+                                            <i class="fa fa-plus"></i> Point
+                                        </button>
+
+                                        <button class="btn btn-sm btn-success" data-toggle="modal"
+                                        data-target="#ModalGraduation">
+                                        <i class="fa fa-plus"></i> Graduation
+                                    </button>
+                                    </div>
                                 </div>
                             </div>
                             <center>
@@ -197,29 +208,19 @@
                                             <th>
                                                 <div class="d-flex justify-content-around">
                                                     <div>Points</div>
-                                                    <div>
-                                                        <button class="btn btn-sm btn-success" data-toggle="modal"
-                                                            data-target="#ModalPoint">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
                                                 </div>
-                            </div>
-                            </th>
-                            <th>
-                                <div class="d-flex justify-content-around">
-                                    <div>Graduations</div>
-                                    <button class="btn btn-sm btn-success" data-toggle="modal"
-                                        data-target="#ModalGraduation">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="d-flex justify-content-around">
+                                                    <div>Graduations</div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                <tbody id="get-table">
 
-                            </tbody>
+                                </tbody>
                             </table>
                         </div>
 
@@ -313,8 +314,7 @@
     <script src="./assets/basetemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./assets/basetemplate/assets/js/main.js"></script>
 
-    <script src="./assets/js/admin-global.js"></script>
-    <!-- <script src="./assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script> -->
+    <!-- <script src="./assets/js/admin-global.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
