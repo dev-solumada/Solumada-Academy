@@ -808,7 +808,7 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple></select>
+                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple="multiple"></select>
                                         </div>
                                     </div>
                                 </form>
@@ -849,7 +849,14 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" class="form-control"  id="groupNameUpdate">
+                                            <select data-placeholder="Choose Group" id="groupUpdateParcours" class="form-control">
+                                                <option value="">Choose groupe</option>
+                                                <% listgroupe.forEach(function(listgroupe) { %>
+                                                    <option value="<%= listgroupe.name_Groupe %>">
+                                                        <%= listgroupe.name_Groupe %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -888,7 +895,7 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple></select>
+                                            <select name="presentMemeber" id="presentParcoursUpdate" data-placeholder="Add present" class="StandardSelect" multiple></select>
                                         </div>
                                     </div>
                                 </form>
