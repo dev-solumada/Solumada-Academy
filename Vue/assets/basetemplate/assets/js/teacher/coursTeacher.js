@@ -173,6 +173,8 @@ $(document).on('click', '.btnUpdateParcours', function(){
             var users = data[0].tabl;
             
             users.forEach(user =>{
+                console.log("");
+                    console.log("userrrr ", user);
                 if(user.presence == true)
                 {
                     var option = `<option value="${user.user}" selected>${user.user}<option>`;
