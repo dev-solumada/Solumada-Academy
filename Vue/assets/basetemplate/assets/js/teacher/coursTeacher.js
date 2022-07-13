@@ -1,4 +1,3 @@
-
 var currentUrl = window.location.href;
 var arg = currentUrl.split('/');
 var cour_name = $(arg).get(-1);
@@ -11,10 +10,10 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
         "ajax": { "url": `/teacherParcours/${cour_name}`, "dataSrc": "" },
         "columns": [
-            {'data': 'date'},
-            {'data': 'start_time'},
-            {'data': 'end_time'},
-            {'data': 'group_name'},
+            {'data': 'date', 'render': function(date){ if(!date){ return ""; }else{ return date; } }},
+            {'data': 'start_time', 'render': function(start_time){ if(!start_time){ return ""; }else{ return start_time; } }},
+            {'data': 'end_time', 'render': function(end_time){ if(!end_time){ return ""; }else{ return end_time; } }},
+            {'data': 'group_name', 'render': function(group_name){ if(!group_name){ return ""; }else{ return group_name; } }},
             {'data': 'present', 'render': function(present){
                         var presenceOptionData = '';
                         present.forEach(element => {
@@ -47,7 +46,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 
 $("#addParcours").on('click', function(){
     $("#dateParcours").val("");
-    (".standardSelect").val("");
+
 });
 
 function searchOnDatatable(datatable, value)
@@ -56,23 +55,21 @@ function searchOnDatatable(datatable, value)
 }
 
 $("#groupParcours").on('change', function(){
-    groupMemberList = [];
+    var groupMemberList = [];
     var groupName = $("#groupParcours").val();
-    var groupMemberData = { gpe: groupName, cours:arg };
+    var groupMemberData = { gpe: groupName, cours:cour_name };
     $.ajax({
         url: "/presence",
         data: groupMemberData,
         method: "post",
         success: function(response){ 
+            $("#presentParcours").empty();
+            
             response.forEach(element => {
                 groupMemberList.push(element.username);
                 $('#presentParcours').append(`<option value="${element.username}">${element.username}</option>`);
             });
-            $("#presentParcours").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
+            
         },
         error: function(error){ alert(JSON.stringify(error)); }
     });
@@ -166,8 +163,9 @@ $(document).on('click', '.btnUpdateParcours', function(){
             var data = JSON.parse(JSON.stringify(res));
             $("#presentParcoursUpdate").find("option").remove().end();
             $("#groupUpdateParcours").val(data[0]._id.groupe);
-            // alert(data[0]._id.date);
-            $("#dateUpdateParcours").val(data[0]._id.date);
+            var date = data[0]._id.date;
+            date = date.split("/").reverse().join("-");
+            $("#dateUpdateParcours").val(date);
             $("#timeStartUpdateParcours").val(data[0]._id.heureStart);
             $("#timeEndUpdateParcours").val(data[0]._id.heureFin);
             var users = data[0].tabl;
@@ -181,16 +179,6 @@ $(document).on('click', '.btnUpdateParcours', function(){
                     var option = `<option value="${user.user}">${user.user}<option>`;
                     $("#presentParcoursUpdate").append(option);
                 }
-            });
-            $("#presentParcoursUpdate").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
-            $("#presentParcoursUpdate").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
             });
         },
         error: function(response){
@@ -283,15 +271,20 @@ $(document).on('click', '.btnDeleteParcours', function(){
     })
 });
 
+$("#cancelAddParcours").on('click', function(){
+    $("#formAddPacours").trigger("reset");
+    $("#presentParcours").empty();
+});
+
 function clearParcoursForm(action)
 {
     switch(action)
     {
         case 'add':
-            $("#formAddPacours").each(function(){ this.reset(); });
+            $("#formAddPacours").trigger("reset");
             $("#cancelAddParcours").click();
         case 'update':
-            $("#formUpdatePacours").each(function(){ this.reset(); });
+            $("#formUpdatePacours").reset();
             $("#cancelUpdateParcours").click();
     }
 }

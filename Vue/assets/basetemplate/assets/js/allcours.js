@@ -177,8 +177,8 @@ $(document).on('click', '#saveUpdateCours', function(){
 // Function to Delete Cours
 $(document).on('click', '.btnDeleteCours', function()
 {
-    column = $(this).closest('tr');
-    name_Cours = column.find('td:eq(0)').text();
+    var column = $(this).closest('tr');
+    var name_Cours = column.find('td:eq(0)').text();
     $.ajax(
         {
             url : "/getCours",

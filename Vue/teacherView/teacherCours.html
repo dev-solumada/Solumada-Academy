@@ -246,7 +246,6 @@
                                                                         </div>
                                                                         <div class="col col-8">
                                                                             <div class="d-flex d-inline-flex">
-                                                                                <!-- <form action="" method="get"> -->
                                                                                     <select
                                                                                         class="form-control"
                                                                                         name="select-group"
@@ -260,11 +259,6 @@
                                                                                             </option>
                                                                                         <% }); %>
                                                                                     </select>
-                                                                                    <!-- <button onclick="getdataGPLoad('/groupe')"
-                                                                                        class="ml-1 btn btn-sm btn-secondary rounded">
-                                                                                        <small>Load</small>
-                                                                                    </button> -->
-                                                                                <!-- </form> -->
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -285,6 +279,7 @@
                                                             class="table table-striped table-bordered">
                                                             <thead>
                                                                 <tr>
+                                                                    <th>Id</th>
                                                                     <th>Username</th>
                                                                     <th>M Code</th>
                                                                     <th>Numbering</th>
@@ -294,7 +289,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr >
-                                                                    <td colspan="5" class="text-center" style="background-color:antiquewhite">No Data to display, please select group</td>
+                                                                    <td colspan="6" class="text-center" style="background-color:antiquewhite">No Data to display, please select group</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -414,43 +409,6 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="deletemember" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-                tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-light" id="staticBackdropLabel">Remove Member from {{group
-                                name}}</h5>
-                        </div>
-                        <div class="modal-body">
-                            <strong class="text-center">Are you sure to remove {{username}} from this group?</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="deleteMembre()"> Yes, remove!</button>
-                            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="anuler()">No,
-                                cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             
             <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
@@ -463,31 +421,21 @@
                             <div class="card-body card-block">
                                 <form id="form" enctype="multipart/form-data" class="form-horizontal"
                                     autocomplete="off">
-
-                                    <input type="hidden" name="" id="cours" value="<%= cours %>">
                                     <div class="row form-group">
-                                        <div class="col-12">
-                                            <div class="feedback align-items-center">
-                                                <small class="alert alert-danger text-center" role="alert" id="error"
-                                                    style="display: none;color:red"></small>
-                                                <small class="alert alert-success text-center" role="alert" id="success"
-                                                    style="display: none;color:green"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col col-md-3"><label for="groupName"
+
+                                        <div class="col col-md-3"><label for="newgroupName"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="groupeNew" placeholder="Group Name"
+                                            <input type="text" id="newgroupName" placeholder="Group Name"
                                                 class="form-control">
                                             <small id="eg" style="color: red; font-size: smaller; display:none;">This
                                                 field is required</small>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" onclick="anuler()"
+                                        <button type="button" class="btn btn-danger"
                                             data-dismiss="modal">Cancel</button>
-                                        <button class="btn-submit btn btn-success" type="button"
-                                            onclick="add_new_groupe()" id="saveUser">Save</button>
+                                        <button class="btn-submit btn btn-success" type="button" id="saveNewGroup">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -735,14 +683,14 @@
                                             <label for="week">Date </label>
                                         </div>
                                         <div class="col col-md-9">
-                                            <input id="dateParcours" type="date" class="form-control">
+                                            <input id="dateParcours" type="date" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeStartParcours" class="form-control">
+                                            <input type="time" id="timeStartParcours" class="form-control" required>
                                             <small id="startTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -763,7 +711,7 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="groupParcours" class="standardSelect">
+                                            <select data-placeholder="Choose Group" id="groupParcours" class="form-control" required>
                                                 <option value="">Choose groupe</option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
@@ -781,7 +729,7 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple="multiple"></select>
+                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple required></select>
                                         </div>
                                     </div>
                                 </form>
@@ -868,7 +816,7 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="presentMemeber" id="presentParcoursUpdate" data-placeholder="Add present" class="StandardSelect" multiple></select>
+                                            <select name="presentMemeber" id="presentParcoursUpdate" data-placeholder="Add present" class="form-control" multiple></select>
                                         </div>
                                     </div>
                                 </form>
@@ -888,13 +836,13 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">Group Name<Table></Table>
+                            <h5 class="modal-title teacherAddMemberLabel" id="largeModalLabel"><Table></Table>
                             </h5>
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
 
-                                <form id="form" action="" method="post" enctype="multipart/form-data"
+                                <form id="formAddMember" action="" method="post" enctype="multipart/form-data"
                                     class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
@@ -909,14 +857,10 @@
                                         <div class="col col-md-3"><label for="group_name" class="form-control-label">New
                                                 Members</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="listUserC" name="listUserC"
-                                                multiple class="form-control standardSelect" tabindex="1">
+                                            <select data-placeholder="Choose Group" id="listUserToAddMember" name="listUserC"
+                                                multiple class="form-control memberSelect" tabindex="1">
                                                 <option value=""></option>
-                                                <% listUser.forEach(function(listUser) { %>
-                                                    <option value="<%= listUser.username %>">
-                                                        <%= listUser.username %>
-                                                    </option>
-                                                    <% }); %>
+                                                
                                             </select>
                                             <small id="cour_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
@@ -927,10 +871,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                            <button type="button" class="btn btn-danger closeAddMember"
                                 data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_membre()"
-                                id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-success" type="button"
+                                id="saveNewMemberList">Save</button>
                         </div>
                     </div>
                 </div>
