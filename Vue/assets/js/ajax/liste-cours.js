@@ -573,3 +573,19 @@ $(document).on('click', '.btnUpdateParcoursDataT', function(){
         }
     });
 });
+
+
+
+// Add member to current selected group
+$("#addmbre").on('click', function(){
+    var gpn = $("#select-gpe").val();
+    $(".teacherAddMemberLabel").html(gpn);
+
+});
+
+
+// Envent listener on select group
+$("#select-gpe").on('change', function(){
+    $("#addmbre").css("display", "block");
+    refreshData();
+});
