@@ -202,6 +202,7 @@ $(document).on('click', '.btnUpdateUser', function(){
 
 $(document).on('click', '#saveUpdateUser', function(){
     currentPage = parseInt(userDatatable.page.info().page);
+    console.log("currentPage", currentPage);
     formUpdateData = {
         id : $('#user_id').val(),
         username: $('#name_update').val(),

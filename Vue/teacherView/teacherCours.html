@@ -29,10 +29,8 @@
       href="../assets/basetemplate/vendors/flag-icon-css/css/flag-icon.min.css"
     />
     <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link
-      rel="stylesheet"
-      href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css"
-    />
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="../assets/basetemplate/vendors/selectFX/css/cs-skin-elastic.css"/>
     <link
       rel="stylesheet"
       href="../assets/basetemplate/vendors/jqvmap/dist/jqvmap.min.css"
@@ -237,7 +235,7 @@
                                                     <div class="row d-flex justify-content-between mb-3">
                                                         <div class="col-sm-12 col-lg-4 align-items-start">
                                                             <div class="groupselect">
-                                                                <form action="#">
+                                                                <form>
                                                                     <div
                                                                         class="row form-group align-items-center justify-content-start">
                                                                         <div class="col col-4">
@@ -255,7 +253,8 @@
                                                                                             { %>
                                                                                             <option
                                                                                                 value="<%= listgroupe.name_Groupe %>">
-                                                                                                <%= listgroupe.name_Groupe %>
+                                                                                                <%= listgroupe.name_Groupe
+                                                                                                    %>
                                                                                             </option>
                                                                                         <% }); %>
                                                                                     </select>
@@ -401,14 +400,13 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" onclick="anuler()"
+                            <button type="button" class="btn btn-secondary" 
                                 data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-success" onclick="updateMembre()">Save Change</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             
             <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
@@ -478,7 +476,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="anuler()"
+                            <button type="button" class="btn btn-danger" 
                                 data-dismiss="modal">Cancel</button>
                             <!-- <button class="btn-submit btn btn-success" type="button" id="btns" onclick="add_new_employee()">Save</button> -->
                             <button class="btn-submit btn btn-success" type="button" onclick="add_membre()"
