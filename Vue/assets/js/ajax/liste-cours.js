@@ -8,6 +8,7 @@ var currentGroupName = "";
 var firstShow = true;
 
 console.log("cours", arg);
+
 var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
         "ajax": { "url": `/teacherParcours/${arg}`, "dataSrc": "" },
@@ -46,6 +47,12 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
     }
 );
 
+
+$("#addParcours").on('click', function(){
+    $("#dateParcours").val("");
+    (".standardSelect").val("");
+});
+
 $("#saveGroupe").on("click", function()
 {
     GroupData = { newgroupe: $('#groupeNew').val(), cours: $('#cours').val()}
@@ -78,13 +85,27 @@ $("#saveGroupe").on("click", function()
 }
 );
 
+
+$(document).ready(function () {
+    $(".standardSelect").chosen({
+        disable_search_threshold: 10,
+        no_results_text: "Oops, nothing found!",
+        width: "100%"
+    });
+})
+
+
 $("#select-group").on("change", function()
 {
+        $("#addmbre").css("display", "block");
         var newGgroupeName = $("#select-group").val();
         console.log("newGgroupeName ", newGgroupeName);
         if (newGgroupeName != currentGroupName && firstShow == true)
         {
-            var url = `/groupemember/${coursName}/${newGgroupeName}`;
+            $("#table-container").empty();
+            var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+            $("#table-container").append(tableData);
+            var url = `/groupemember/${arg}/${newGgroupeName}`;
             $("#tableGroupAdmin").DataTable({
                 "ajax": {"url": `${url}`, "dataSrc":"" },
                 "columns": [
@@ -107,7 +128,7 @@ $("#select-group").on("change", function()
             $("#table-container").empty();
             var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
             $("#table-container").append(tableData);
-            var url = `/groupemember/${coursName}/${newGgroupeName}`;
+            var url = `/groupemember/${arg}/${newGgroupeName}`;
             $("#tableGroupAdmin").DataTable({
                 "ajax": {"url": `${url}`, "dataSrc":"" },
                 "columns": [
@@ -134,16 +155,16 @@ $("#select-group").on("change", function()
 
 
 
-$('#select-group').change(function(){
-    $.ajax({
-        url: "/",
-        dataType:"html",
-        type: "post",
-        success: function(data){
-           $('#artist').append(data);
-        }
-    });
-});
+// $('#select-group').change(function(){
+//     $.ajax({
+//         url: "/",
+//         dataType:"html",
+//         type: "post",
+//         success: function(data){
+//            $('#artist').append(data);
+//         }
+//     });
+// });
 function clearForm()
 {
     $('#groupeNew').val('');
