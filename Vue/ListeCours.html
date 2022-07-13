@@ -258,11 +258,6 @@
                                                                                         id="select-group">
 
                                                                                     </select>
-                                                                                    <button
-                                                                                        onclick="getdataGPLoad('/groupe')"
-                                                                                        class="ml-1 btn btn-sm btn-secondary rounded">
-                                                                                        <small>Load</small>
-                                                                                    </button>
                                                                                 </form>
                                                                             </div>
                                                                         </div>
@@ -272,10 +267,9 @@
                                                         </div>
                                                         <div class="col-12 my-auto">
                                                             <button class="btn btn-sm btn-dark rounded" type="button"
-                                                                id="addmbre" data-toggle="modal"
+                                                                id="addmbre" data-toggle="modal" style="display: none;"
                                                                 data-target="#addMemeber"><small><i
-                                                                        class="fa fa-plus"></i> Add
-                                                                    member</small></button>
+                                                                        class="fa fa-plus"></i> Add member</small></button>
                                                         </div>
                                                     </div>
                                                     <div id="table-container">
@@ -449,16 +443,6 @@
 
                                     <input type="hidden" name="" id="cours" value="<%= cours %>">
                                     <div class="row form-group">
-                                        <div class="col-12">
-                                            <!-- <div class="feedback align-items-center">
-                                                <center>
-                                                    <small class="alert-danger" id="errorGrpe"
-                                                        style="display: none;color:red"></small>
-                                                    <small class="alert-success" id="successGrpe"
-                                                        style="display: none;color:green"></small>
-                                                </center>
-                                            </div> -->
-                                        </div>
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
@@ -470,9 +454,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger"
-                                            data-dismiss="modal">Cancel</button>
+                                            data-dismiss="modal" id="cancelGroupe">Cancel</button>
                                         <button class="btn-submit btn btn-success" type="button"
-                                            onclick="add_new_groupe()" id="saveUser">Save</button>
+                                        id="saveGroupe">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -850,6 +834,7 @@
                 </div>
             </div>
             <!-- end delete time table -->
+            
             <div class="modal fade" id="parcoursModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -860,7 +845,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
+                                <form id="formAddPacours" enctype="multipart/form-data"
                                     class="form-horizontal" autocomplete="off">
                                     <div class="row form-group">
                                         <div class="col-12">
@@ -872,21 +857,19 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="week">Date </label>
                                         </div>
                                         <div class="col col-md-9">
-                                            <input id="week" type="date" class="form-control">
+                                            <input id="dateParcours" type="date" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeSCreate" class="form-control">
+                                            <input type="time" id="timeStartParcours" class="form-control">
                                             <small id="startTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -896,7 +879,7 @@
                                         <div class="col col-md-3"><label for="groupName" class="form-control-label">End
                                                 At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeECreate" class="form-control">
+                                            <input type="time" id="timeEndParcours" class="form-control">
                                             <small id="endTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -907,8 +890,8 @@
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="gpeCreate"
-                                                onchange="groupePresence(this)" class="standardSelect">
+
+                                            <select data-placeholder="Choose Group" id="groupParcours" class="standardSelect">
                                                 <option value="">Choose groupe</option>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
@@ -926,39 +909,20 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add present" id="present" name="present" multiple
-                                                class="form-control prensentSelect" tabindex="1">
-                                                <option value=""></option>
-                                            </select>
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
-                                                field is required</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="abscent"
-                                                class=" form-control-label">Absent</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Add absent" id="absent" name="absent" multiple
-                                                class="form-control absentSelect" tabindex="1">
-
-                                            </select>
-                                            <small id="level" style="color: red; font-size: smaller; display:none;">This
-                                                field is required</small>
+                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple="multiple"></select>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_new_parcours()"
+                            <button type="button" class="btn btn-danger" id="cancelAddParcours" data-dismiss="modal">Cancel</button>
+                            <button class="btn-submit btn btn-success" type="button"
                                 id="saveParcours">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="addMemeber" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -987,7 +951,7 @@
                                                 Members</label></div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" id="listUserC" name="listUserC"
-                                                multiple class="form-control standardSelect  selectMbre" tabindex="1">
+                                                multiple class="form-control standardSelect" tabindex="1">
                                                 <option value=""></option>
                                                 <% listUser.forEach(function(listUser) { %>
                                                     <option value="<%= listUser.username %>">
@@ -1030,41 +994,39 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
     <script src="../assets/basetemplate/assets/js/main.js"></script>
-
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="../assets/basetemplate/vendors/chosen/chosen.jquery.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
     <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+
     <script src="../assets/basetemplate/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
     <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.17/sweetalert2.min.js"></script>
     <script src="../assets/js/ajax/liste-cours.js"></script>
-    <script src="../assets/js/list-groupe.js"></script>
     <script>
-        jQuery(document).ready(function () {
-            jQuery(".standardSelect").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
+        // jQuery(document).ready(function () {
+        //     jQuery(".standardSelect").chosen({
+        //         disable_search_threshold: 10,
+        //         no_results_text: "Oops, nothing found!",
+        //         width: "100%"
+        //     });
 
 
-            // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-            //     localStorage.setItem('activeTab', $(e.target).attr('href'));
-            // });
-            // var activeTab = localStorage.getItem('activeTab');
-            // if(activeTab){
-            //     $('#myTab a[href="' + activeTab + '"]').tab('show');
-            // }
+        //     // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        //     //     localStorage.setItem('activeTab', $(e.target).attr('href'));
+        //     // });
+        //     // var activeTab = localStorage.getItem('activeTab');
+        //     // if(activeTab){
+        //     //     $('#myTab a[href="' + activeTab + '"]').tab('show');
+        //     // }
 
-        })
+        // })
 
 
         jQuery(document).ready(function () {

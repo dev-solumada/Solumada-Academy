@@ -2119,20 +2119,19 @@ routeExp.route("/getParcours").post(async function (req, res) {
 
             var ParcoursAbsent = await ParcoursModel.aggregate([
 
-                { $match: { $or: [{ cours: cours }, {groupe: groupe}, {heureStart: heureStart}, {heureFin: heureFin}, {date: date}] } },
+                { $match: {cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin } 
                 
-                {    $group: {
-                        _id:
-                            { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
-                        tabl: { $push: { user: "$user", presence: "$presence", id: "$_id" } }
-                    }
+                }, 
+                {
+                    $group: {_id:
+                        { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
+                        tabl: { $push: { user: "$user", presence: "$presence", id: "$_id" } }}
                 }
+
             ]);
             console.log("here are the users>>>", ParcoursAbsent);
-            //console.log(JSON.stringify(ParcoursAbsent));
             ParcoursAbsent.forEach(element => {
-            console.log("sans stringify ", element);
-                
+              console.log("sans stringify ", element);
             });
             res.send(ParcoursAbsent);
         });
