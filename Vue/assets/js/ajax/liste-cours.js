@@ -110,12 +110,12 @@ $("#select-group").on("change", function () {
                 { 'data': 'username' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
-                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {
                     'defaultContent': "\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                            <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                         </div>\
                                         "},
 
@@ -138,8 +138,8 @@ $("#select-group").on("change", function () {
                 {
                     'defaultContent': "\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                            <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                         </div>\
                                         "},
 
@@ -455,10 +455,14 @@ $(document).on('click', '.btnUpdateParcoursDataT', function () {
         dataType: 'json',
         success: function (res) {
             var data = JSON.parse(JSON.stringify(res));
+            console.log("data === ", data);
             $("#presentParcoursUpdate").find("option").remove().end();
             $("#groupUpdateParcours").val(data[0]._id.groupe);
             // alert(data[0]._id.date);
-            $("#dateUpdateParcours").val(data[0]._id.date);
+            var date = data[0]._id.date;
+            date = date.split("/").reverse().join("-");
+            $("#dateUpdateParcours").val(date);
+            //$("#dateUpdateParcours").val(data[0]._id.date);
             $("#timeStartUpdateParcours").val(data[0]._id.heureStart);
             $("#timeEndUpdateParcours").val(data[0]._id.heureFin);
             var users = data[0].tabl;
@@ -582,8 +586,8 @@ function refreshData() {
                 {
                     'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                     </div>\
                                     "},
 
@@ -606,8 +610,8 @@ function refreshData() {
                 {
                     'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                     </div>\
                                     "},
 
@@ -743,4 +747,111 @@ $("#saveParcoursCreate").on('click', function () {
                 })
         }
     });
+});
+
+
+// delete parcours
+$(document).on('click', '.btnDeleteParcours', function(){
+    Swal.fire({
+        title: 'Delete Parcours',
+        text: "Are you sure do delete this parcours?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'red',
+        cancelButtonColor: 'green',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var column = $(this).closest('tr');
+            var date = column.find('td:eq(0)').text();
+            var startTimeDelete = column.find('td:eq(1)').text();
+            var endTimeDelete = column.find('td:eq(2)').text();
+            var groupNameDelete = column.find('td:eq(3)').text();
+            date = date = date.split('/').reverse().join('-');
+            parcoursDeleteData = {
+                cours: arg,
+                date: date,
+                heureStart: startTimeDelete,
+                heureFin: endTimeDelete,
+                groupe: groupNameDelete,
+            }
+
+            $.ajax({
+                url: '/deleteParcours',
+                method: 'post',
+                data: parcoursDeleteData,
+                success: function(res){
+                    responsetxt = "Parcours deleted successfully!";
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: responsetxt,
+                        showConfirmButton: true,
+                    });
+                    $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+                },
+                error: function(response){
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: response,
+                        showConfirmButton: false,
+                        timer: 1700
+                    });
+                }
+            });
+        }
+    })
+});
+
+
+
+// Remove member group from current selected group on datatable
+$(document).on('click', ".removeToGroup", function(){
+    var col = $(this).closest('tr');
+    //var idToDelete = col.find('td:eq(0)').text();
+    var memberMail = col.find('td:eq(1)').text();
+    var groupName = $("#select-group").val();
+    Swal.fire({
+        title: 'Remove Group Member',
+        text: `Are you sure to remove ${memberMail} from ${groupName} ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'red',
+        cancelButtonColor: 'green',
+        confirmButtonText: `Yes, I'm sure!`,
+    }).then((result) => {
+            // var deletememberData = {id: idToDelete };
+            var deletememberData = {id: memberMail, groupe: groupName };
+            console.log("deletememberData ", deletememberData);
+            if (result.isConfirmed)
+            {
+                $.ajax({
+                    url: '/deleteMbAdmin',
+                    method: 'post',
+                    data: deletememberData,
+                    success: function(res){
+                        refreshData();
+                        resetTeacherAddMemberForm();
+                        responsetxt = `Member ${memberMail} removed from ${groupName} successfully`;
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: responsetxt,
+                            showConfirmButton: false,
+                            timer: 1700
+                        });
+                    },
+                    error: function(err){
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: "Error occured when perform this action please try again later!",
+                            showConfirmButton: false,
+                            timer: 1700
+                        });
+                    }
+                })
+            }
+    })
 });
