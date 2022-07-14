@@ -248,16 +248,32 @@
                                                                         class="row form-group align-items-center justify-content-start">
                                                                         <div class="col col-4">
                                                                             <label class=" form-label"
-                                                                                for="select-group">Group Name </label>
+                                                                                for="select-group">Group Name 1 </label>
                                                                         </div>
                                                                         <div class="col col-8">
                                                                             <div class="d-flex d-inline-flex">
                                                                                 <form action="" method="get">
-                                                                                    <select
+                                                                                    <!-- <select
                                                                                         class="form-control standardSelect"
                                                                                         name="select-group"
                                                                                         id="select-group">
 
+                                                                                    </select> -->
+
+
+                                                                                    <select
+                                                                                        class="form-control"
+                                                                                        name="select-group"
+                                                                                        id="select-group">
+                                                                                        <option value="" disabled selected>Choose Group</option>
+                                                                                        <% listgroupe.forEach(function(listgroupe)
+                                                                                            { %>
+                                                                                            <option
+                                                                                                value="<%= listgroupe.name_Groupe %>">
+                                                                                                <%= listgroupe.name_Groupe
+                                                                                                    %>
+                                                                                            </option>
+                                                                                        <% }); %>
                                                                                     </select>
                                                                                 </form>
                                                                             </div>
@@ -466,47 +482,6 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="largeModalLabel">New Group</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card-body card-block">
-                                <form id="form" action="/addemp" method="post" enctype="multipart/form-data"
-                                    class="form-horizontal" autocomplete="off">
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="type_cour"
-                                                class="form-control-label">Member</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Cours" multiple
-                                                class="form-control standardSelect" tabindex="1">
-                                                <option value=""></option>
-                                                <% listUser.forEach(function(listUser) { %>
-                                                    <option value="<%= listUser.name_Cours %>">
-                                                        <%= listUser.username %>
-                                                    </option>
-                                                    <% }); %>
-                                            </select>
-                                            <small id="cour_err"
-                                                style="color: red; font-size: smaller; display:none;">This field is
-                                                required</small>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-success" type="button" onclick="add_membre()"
-                                id="saveUser">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Time Table Modal -->
             <div class="modal fade" id="timeTableModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
@@ -951,7 +926,7 @@
                                         <div class="col col-md-3"><label for="group_name" class="form-control-label">New
                                                 Members</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose Group" id="listUserC" name="listUserC"
+                                            <select data-placeholder="Choose Group" id="listUserToAddMember" name="listUserC"
                                                 multiple class="form-control standardSelect memberSelect" tabindex="1">
                                                 <option value=""></option>
                                                 <% listUser.forEach(function(listUser) { %>
@@ -969,10 +944,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-rounded btn-danger" data-bs-dismiss="modal"
+                            <button type="button" class="btn btn-rounded btn-danger closeAddMember" data-bs-dismiss="modal"
                                 data-dismiss="modal">Cancel</button>
-                            <button class="btn-submit btn btn-rounded btn-success" type="button" onclick="add_membre()"
-                                id="saveUser">Save</button>
+                            <button class="btn-submit btn btn-rounded btn-success" type="button" 
+                                id="saveNewMemberList">Save</button>
                         </div>
                     </div>
                 </div>
