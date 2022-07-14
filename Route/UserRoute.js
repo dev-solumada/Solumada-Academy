@@ -2141,6 +2141,7 @@ routeExp.route("/update_parcours").post(async function (req, res) {
         .then(async () => {
 
             for (let i = 0; i < listeUserPres.length; i++) {
+                console.log("listeUserPres[i]", listeUserPres[i]);
                 await ParcoursModel.findOneAndUpdate({ _id: listeUserPres[i] }, { week: week, date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: true})
                 
             }
