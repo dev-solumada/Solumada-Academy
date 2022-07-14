@@ -134,7 +134,7 @@ $("#select-group").on("change", function () {
                 { 'data': 'username' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
-                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {
                     'defaultContent': "\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
@@ -582,7 +582,7 @@ function refreshData() {
                 { 'data': 'username' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
-                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {
                     'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
@@ -606,7 +606,7 @@ function refreshData() {
                 { 'data': 'username' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
-                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {
                     'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
@@ -854,4 +854,45 @@ $(document).on('click', ".removeToGroup", function(){
                 })
             }
     })
+});
+
+
+
+
+$("#saveLevel").on('click', function(){
+    var memberMail = col.find('td:eq(1)').text();
+    var groupName = $("#select-group").val();
+    var addLevelData = {
+        memberMail: memberMail,
+        groupe: groupName,
+        level: $("#coursLevel").val()
+    }
+    
+    $.ajax({
+        url: "/addLevelToMemberAdmin",
+        method: "post",
+        data: addLevelData,
+        success: function(res){
+            Swal.fire(
+                'Level Saved',
+                `Level added successfuly!`,
+                'success',
+                {
+                confirmButtonText: 'Ok',
+            });
+            $("#coursLevel").val("");
+            $("#cancelLevel").click();
+            $("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
+        },
+        error: function(err){
+            Swal.fire(
+                'Error',
+                `Error occured when adding level!`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            });
+        }
+    })
+    
 });
