@@ -1683,6 +1683,7 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                         await ParcoursModel(new_parcours).save();
                     }
                 }
+                if (absentArray){
                 if (absentArray.length > 0) {
                     for (let index = 0; index < absentArray.length; index++) {
                         var new_parcours = {
@@ -1697,6 +1698,8 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                         await ParcoursModel(new_parcours).save();
     
                     }
+                }
+
                 }
                 res.send("success");
             }
@@ -2069,6 +2072,30 @@ routeExp.route("/deleteMb").post(async function (req, res) {
 })
 
 
+//delete membre admin
+routeExp.route("/deleteMbAdmin").post(async function (req, res) {
+    var id = req.body.id;
+    var groupe = req.body.groupe;
+    console.log(id, groupe);
+    console.log("req.body ", req.body);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await CGNModel.findOneAndDelete({ mcode: id, groupe: groupe });
+                res.send("success");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+        });
+})
 //get time
 routeExp.route("/gettime").post(async function (req, res) {
     var id = req.body.id;
