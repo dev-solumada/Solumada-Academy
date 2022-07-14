@@ -2163,8 +2163,6 @@ routeExp.route("/update_parcoursajax").post(async function (req, res) {
     var listeUserPres = req.body.present;
     var listeUserAbs = req.body.absent;
     var dateUpd = req.body.dateNewParcours;
-    
-    console.log(req.body);
 
     mongoose
         .connect(

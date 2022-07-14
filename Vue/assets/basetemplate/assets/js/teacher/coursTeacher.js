@@ -46,7 +46,6 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 
 $("#addParcours").on('click', function(){
     $("#dateParcours").val("");
-
 });
 
 function searchOnDatatable(datatable, value)

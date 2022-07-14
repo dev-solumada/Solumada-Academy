@@ -14,23 +14,35 @@ $("#addMememberToGroupTeacher").on('click', function(){
 
 
 // Create Group
-$("saveNewGroup").on('click', function(){
+$("#saveNewGroup").on('click', function(){
     var newgroupData = { 
         newgroupe: $("#newgroupName").val(), 
         cours: coursName,
     };
-    alert(newgroupData);
-    // $.ajax({
-    //     url: "/addgroupe",
-    //     method: 'post',
-    //     data: newgroupData,
-    //     success: function(res){
-    //         alert(data);
-    //     },
-    //     error: function(res){
-    //         alert(data);
-    //     }
-    // });
+    alert(JSON.stringify(newgroupData));
+    $.ajax({
+        url: "/addgroupe",
+        method: 'post',
+        data: newgroupData,
+        success: function(res){
+            Swal.fire(
+                'Group created',
+                `Group ${$("#newgroupName").val()} saved successfuly`,
+                'success',
+                {
+                confirmButtonText: 'Ok',
+            });
+        },
+        error: function(res){
+            Swal.fire(
+                'Error',
+                `Error occured when creating group ${$("#newgroupName").val()}`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            });
+        }
+    });
 });
 
 // Refresh all data on group page 

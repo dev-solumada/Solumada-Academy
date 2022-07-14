@@ -109,7 +109,6 @@ $(document).on('click','.UpdateTeacherTimeTable', function()
 // Save Update Time Table
 $("#saveTeacherUpdateTimeTable").on('click', function()
 {
-
     var updateTimetableData = {
         id: $("#id-timetable-update").val(),
         jours:  $("#select-jour-update").val(),
