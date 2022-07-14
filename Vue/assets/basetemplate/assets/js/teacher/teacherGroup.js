@@ -87,6 +87,7 @@ function refreshData()
                 {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "" }else{ return niveau; }}},
                 {'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-success addLevel' class='btn btn-sm btn-success' data-toggle='modal' data-target='#addLevel' data-bs-whatever='@getbootstrap'><i class='fa fa-plus'></i></button>\
                                         <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                     </div>\
                                     "},
@@ -203,6 +204,7 @@ $("#saveLevel").on('click', function(){
                 {
                 confirmButtonText: 'Ok',
             });
+            $("#coursLevel").val("");
             $("#cancelLevel").click();
             $("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
         },
