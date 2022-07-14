@@ -174,10 +174,10 @@ $(document).on('click', '.btnUpdateParcours', function(){
             users.forEach(user =>{
                 if(user.presence === true)
                 {
-                    var option = `<option value="${user.user}" selected>${user.user}<option>`;
+                    var option = `<option value="${user.id}" selected>${user.user}<option>`;
                     $("#presentParcoursUpdate").append(option);
                 }else{
-                    var option = `<option value="${user.user}">${user.user}<option>`;
+                    var option = `<option value="${user.id}">${user.user}<option>`;
                     $("#presentParcoursUpdate").append(option);
                 }
             });
@@ -225,6 +225,8 @@ $("#saveUpdateParcours").on('click', function(){
         method: "post",
         data: parcoursDataUpdate,
         success: function(res){
+            $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+            clearParcoursForm("update");
             Swal.fire(
                 'Parcours Saved',
                 'Parcours updated successfully!',
@@ -232,6 +234,7 @@ $("#saveUpdateParcours").on('click', function(){
                 {
                 confirmButtonText: 'Ok',
             });
+
         },
         error: function(err){
             Swal.fire(
@@ -334,9 +337,11 @@ function clearParcoursForm(action)
     {
         case 'add':
             $("#formAddPacours").trigger("reset");
+            $("#presentParcours").empty();
             $("#cancelAddParcours").click();
         case 'update':
-            $("#formUpdatePacours").reset();
+            $("#formUpdatePacours").trigger("reset");
+            $("#presentParcoursUpdate").empty();
             $("#cancelUpdateParcours").click();
     }
 }
