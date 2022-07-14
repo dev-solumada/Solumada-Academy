@@ -77,6 +77,7 @@ $("#groupParcours").on('change', function(){
 
 });
 
+
 $("#saveParcours").on('click', function()
 {
     var dateParcours = $("#dateParcours").val();
@@ -171,9 +172,7 @@ $(document).on('click', '.btnUpdateParcours', function(){
             var users = data[0].tabl;
             
             users.forEach(user =>{
-                console.log("");
-                    console.log("userrrr ", user);
-                if(user.presence == true)
+                if(user.presence === true)
                 {
                     var option = `<option value="${user.user}" selected>${user.user}<option>`;
                     $("#presentParcoursUpdate").append(option);
@@ -191,6 +190,57 @@ $(document).on('click', '.btnUpdateParcours', function(){
                 showConfirmButton: false,
                 timer: 1700
             });
+        }
+    });
+});
+
+$("#saveUpdateParcours").on('click', function(){
+    var gpnmUpdate = $("#groupUpdateParcours").val();
+    var dateUpdate = $("#dateUpdateParcours").val();
+    var timeStartUpdate = $("#timeStartUpdateParcours").val();
+    var timeEndUpdate = $("#timeEndUpdateParcours").val();
+    var presentParcours = $("#presentParcoursUpdate").val();
+    var absentParcours = [];
+    var updateMemberList = [];
+
+    $("#presentParcoursUpdate option").each(function(){
+        var options = $(this).val();
+        if (options != ''){ updateMemberList.push(options); }
+    });
+    updateMemberList.forEach(member => {
+        if (presentParcours.indexOf(member) === -1) {absentParcours.push(member);}
+    });
+
+    var parcoursDataUpdate = {
+        dateNewParcours: dateUpdate,
+        timestartAt: timeStartUpdate,
+        timeEndAt: timeEndUpdate,
+        // cours: cour_name,
+        groupParcoursName: gpnmUpdate,
+        present: presentParcours,
+        absent: absentParcours
+    }
+    $.ajax({
+        url: "/update_parcoursajax",
+        method: "post",
+        data: parcoursDataUpdate,
+        success: function(res){
+            Swal.fire(
+                'Parcours Saved',
+                'Parcours updated successfully!',
+                'success',
+                {
+                confirmButtonText: 'Ok',
+            });
+        },
+        error: function(err){
+            Swal.fire(
+                'Error',
+                `Error occured when perform this action!`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            })
         }
     });
 });

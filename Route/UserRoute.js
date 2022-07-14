@@ -2152,6 +2152,43 @@ routeExp.route("/update_parcours").post(async function (req, res) {
             res.send("Parcours updated successfully");
         })
 })
+
+// update parcours Thierry
+routeExp.route("/update_parcoursajax").post(async function (req, res) {
+   
+    // var week = req.body.week;
+    var timeSUpd = req.body.timestartAt;
+    var timeEUpd = req.body.timeEndAt;
+    var groupe = req.body.groupParcoursName;
+    var listeUserPres = req.body.present;
+    var listeUserAbs = req.body.absent;
+    var dateUpd = req.body.dateNewParcours;
+    
+    console.log(req.body);
+
+    // mongoose
+    //     .connect(
+    //         "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    //         {
+    //             useUnifiedTopology: true,
+    //             UseNewUrlParser: true,
+    //         }
+    //     )
+    //     .then(async () => {
+
+    //         for (let i = 0; i < listeUserPres.length; i++) {
+    //             await ParcoursModel.findOneAndUpdate({ _id: listeUserPres[i] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: true})
+                
+    //         }
+    //         for (let j = 0; j < listeUserAbs.length; j++) {
+    //             await ParcoursModel.findOneAndUpdate({ _id: listeUserAbs[j] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: false})
+                
+    //         }
+    //         // await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
+            res.send("success");
+    //     });
+})
+
 //get membre
 routeExp.route("/gettimedelete").post(async function (req, res) {
     var id = req.body.id;
