@@ -32,6 +32,8 @@ $("#saveNewGroup").on('click', function(){
                 {
                 confirmButtonText: 'Ok',
             });
+            $("#cancelGroup").click();
+            $("#newgroupName").val("");
         },
         error: function(res){
             Swal.fire(
