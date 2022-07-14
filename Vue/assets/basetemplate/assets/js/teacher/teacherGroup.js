@@ -1,4 +1,3 @@
-
 var currentUrl = window.location.href;
 var arg = currentUrl.split('/');
 var coursName = $(arg).get(-1);
@@ -15,11 +14,11 @@ $("#addMememberToGroupTeacher").on('click', function(){
 
 // Create Group
 $("#saveNewGroup").on('click', function(){
+    var gpn = $("#newgroupName").val();
     var newgroupData = { 
-        newgroupe: $("#newgroupName").val(), 
+        newgroupe: gpn, 
         cours: coursName,
     };
-    alert(JSON.stringify(newgroupData));
     $.ajax({
         url: "/addgroupe",
         method: 'post',
@@ -32,6 +31,7 @@ $("#saveNewGroup").on('click', function(){
                 {
                 confirmButtonText: 'Ok',
             });
+            $("#teacherSelectGroup").append(`<option value="${gpn}">${gpn}</option>`);
             $("#cancelGroup").click();
             $("#newgroupName").val("");
         },
