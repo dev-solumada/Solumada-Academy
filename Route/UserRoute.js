@@ -2525,3 +2525,25 @@ routeExp.route("/groupe/:cours/:groupe").get(async function (req, res) {
         });
 
 });
+
+
+
+// Thierry add Level
+routeExp.route("/addLevelToMemberAdmin").post(async function (req, res) {
+    var id = req.body.id;
+    var userLevel = req.body.level;
+    console.log("req.body", req.body);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            //await CGNModel.findOneAndUpdate({ _id: id }, { niveau: userLevel });
+            
+            res.send("success");
+        })
+})
