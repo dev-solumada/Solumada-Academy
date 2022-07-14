@@ -573,3 +573,151 @@ $(document).on('click', '.btnUpdateParcoursDataT', function(){
         }
     });
 });
+
+
+
+// Add member to current selected group
+$("#addmbre").on('click', function(){
+    var gpn = $("#select-gpe").val();
+    $(".teacherAddMemberLabel").html(gpn);
+
+});
+
+
+// Envent listener on select group
+$("#select-gpe").on('change', function(){
+    $("#addmbre").css("display", "block");
+    refreshData();
+});
+
+
+// Save new member to group
+$("#saveNewMemberList").on('click', function(){
+    var newMbList = [];
+    var userToAddList = $("#listUserToAddMember").val();
+    userToAddList.forEach(user => newMbList.push(user));
+    var newMemberData = { 
+                            groupeName: $("#select-group").val(),
+                            coursName: arg,
+                            newMemberList: newMbList,
+                        }
+    $.ajax({
+        url: "/newmembreajax",
+        method: "post",
+        data: newMemberData,
+        success: function(res){
+            Swal.fire(
+                'Members Saved',
+                `Members saved on group ${$("#select-group").val()}`,
+                'success',
+                {
+                confirmButtonText: 'Ok',
+            });
+            refreshData();
+            resetTeacherAddMemberForm();
+        },
+        error: function(err){
+            Swal.fire(
+                'Error',
+                `Error occured when save member saved on group ${$("#teacherSelectGroup").val()}`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            });
+        }
+    })
+});
+
+
+
+// Reset add Member Form
+function resetTeacherAddMemberForm()
+{
+    $(".closeAddMember").click();
+    $("#listUserToAddMember").prop("selected", false);
+}
+
+
+
+// Refresh all data on group page 
+function refreshData()
+{
+    setAddMemberList();
+    var newGgroupeName = $("#select-group").val();
+    if (newGgroupeName != currentGroupName && firstShow == true)
+    {
+        var url = `/groupemember/${arg}/${newGgroupeName}`;
+        $("#tableGroupAdmin").DataTable({
+            "ajax": {"url": `${url}`, "dataSrc":"" },
+            "columns": [
+                {'data': '_id'},
+                {'data': 'username'},
+                {'data': 'mcode'},
+                {'data': 'num_agent'},
+                {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
+                {'defaultContent': "\
+                                    <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                    </div>\
+                                    "},
+
+            ]
+        });
+        currentGroupName = newGgroupeName;
+        firstShow = false;
+    }else if(newGgroupeName != currentGroupName && firstShow == false){
+        $("#table-container").empty();
+        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        $("#table-container").append(tableData);
+        var url = `/groupemember/${coursName}/${newGgroupeName}`;
+        $("#GroupTeacherDatatable").DataTable({
+            "ajax": {"url": `${url}`, "dataSrc":"" },
+            "columns": [
+                {'data': '_id'},
+                {'data': 'username'},
+                {'data': 'mcode'},
+                {'data': 'num_agent'},
+                {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "" }else{ return niveau; }}},
+                {'defaultContent': "\
+                                    <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                    </div>\
+                                    "},
+
+            ]
+        });
+        currentGroupName = newGgroupeName;
+    }else{
+        $("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
+    }
+}
+
+
+// Get list user and set exclude existing member and set it to select option list
+function setAddMemberList()
+{
+    $("#listUserC").empty();
+    var gpn = $("#teacherSelectGroup").val();
+     dataToSend = {cours: coursName, groupe: gpn};
+     $.ajax({
+        url: "/getMemberAndAllUserList",
+        method: "post",
+        dataType: 'json',
+        data: dataToSend,
+        success: function(res)
+                    {
+                        res.forEach(element => {
+                            options = `<option value="${element}">${element}</option>`;
+                            $("#listUserToAddMember").append(options);
+                        });
+                        $(".memberSelect").chosen({
+                            disable_search_threshold: 10,
+                            no_results_text: "Oops, nothing found!",
+                            width: "100%"
+                        });
+                    },
+        error: function(err){
+            alert("error");
+        }
+     });
+}
