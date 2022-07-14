@@ -1863,6 +1863,25 @@ routeExp.route("/updatemembre").post(async function (req, res) {
 })
 
 
+// Thierry add Level
+routeExp.route("/addLevelToMember").post(async function (req, res) {
+    var id = req.body.id;
+    var userLevel = req.body.level;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            await CGNModel.findOneAndUpdate({ _id: id }, { niveau: userLevel });
+            res.send("success");
+        })
+})
+
+
 //get membre
 routeExp.route("/getmembre").post(async function (req, res) {
     var id = req.body.id;

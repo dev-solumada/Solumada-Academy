@@ -63,7 +63,8 @@ function refreshData()
                 {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-success addLevel' class='btn btn-sm btn-success' data-toggle='modal' data-target='#addLevel' data-bs-whatever='@getbootstrap'><i class='fa fa-plus'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                     </div>\
                                     "},
 
@@ -101,6 +102,7 @@ function refreshData()
 // Envent listener on select group
 $("#teacherSelectGroup").on('change', function(){
     $("#addMememberToGroupTeacher").css("display", "block");
+    $("#addLevelToGroupTeacher").css("display", "block");
     refreshData();
 });
 
@@ -171,6 +173,51 @@ $("#saveNewMemberList").on('click', function(){
     })
 });
 
+
+// Add level
+$(document).on('click', ".addLevel", function(){
+    var col = $(this).closest('tr');
+    var memberMail = col.find('td:eq(1)').text();
+    var idToAddLevel = col.find('td:eq(0)').text();
+    $(".userNameLevel").text(`Add Level to ${memberMail}`);
+    $("#labelCourLevel").text(`${coursName} Level`);
+    $("#idLevel").val(idToAddLevel);
+});
+
+
+$("#saveLevel").on('click', function(){
+    var addLevelData = {
+        id: $("#idLevel").val(),
+        level: $("#coursLevel").val()
+    }
+
+    $.ajax({
+        url: "/addLevelToMember",
+        method: "post",
+        data: addLevelData,
+        success: function(res){
+            Swal.fire(
+                'Level Saved',
+                `Level added successfuly!`,
+                'success',
+                {
+                confirmButtonText: 'Ok',
+            });
+            $("#cancelLevel").click();
+            $("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
+        },
+        error: function(err){
+            Swal.fire(
+                'Error',
+                `Error occured when adding level!`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            });
+        }
+    })
+    
+});
 
 // Remove member group from current selected group on datatable
 $(document).on('click', ".removeToGroup", function(){

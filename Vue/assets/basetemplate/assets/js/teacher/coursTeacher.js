@@ -35,8 +35,8 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
         },
             {"defaultContent": "\
                                 <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
-                                    <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours'  class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                    <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                 </div>\
                                 "
             }

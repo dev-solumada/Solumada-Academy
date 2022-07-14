@@ -262,7 +262,7 @@
                                                                 </form>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12 my-auto">
+                                                        <div class="col-12 my-auto d-flex d-inline-flex">
                                                             <button class="btn btn-sm btn-dark rounded" type="button" id="addMememberToGroupTeacher" style="display: none;"
                                                                 data-toggle="modal" data-target="#addMemeber">
                                                                 <small>
@@ -368,7 +368,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="editmember" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+            <!-- <div class="modal fade" id="editmember" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
                 tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -404,7 +404,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
                 aria-hidden="true">
@@ -432,6 +432,40 @@
                                         <button type="button" class="btn btn-danger"
                                             data-dismiss="modal">Cancel</button>
                                         <button class="btn-submit btn btn-success" type="button" id="saveNewGroup">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="addLevel" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title userNameLevel" id="largeModalLabel"></h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body card-block">
+                                <form id="form" enctype="multipart/form-data" class="form-horizontal"
+                                    autocomplete="off">
+                                    <div class="row form-group">
+                                            <input type="hidden" id="idLevel" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="newgroupName"
+                                                class="form-control-label" id="labelCourLevel"></label></div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" id="coursLevel" placeholder="Cours Level" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" id="cancelLevel"
+                                            data-dismiss="modal">Cancel</button>
+                                        <button class="btn-submit btn btn-success" type="button" id="saveLevel">Save</button>
                                     </div>
                                 </form>
                             </div>
