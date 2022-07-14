@@ -253,13 +253,6 @@
                                                                         <div class="col col-8">
                                                                             <div class="d-flex d-inline-flex">
                                                                                 <form action="" method="get">
-                                                                                    <!-- <select
-                                                                                        class="form-control standardSelect"
-                                                                                        name="select-group"
-                                                                                        id="select-group">
-
-                                                                                    </select> -->
-
 
                                                                                     <select
                                                                                         class="form-control"
@@ -353,7 +346,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-dark btn-sm rounded" type="button"
+                                                        <button class="btn btn-dark btn-sm rounded" type="button" id="addParcours"
                                                             data-toggle="modal" data-target="#parcoursModal"><small><i
                                                                     class="fa fa-plus"></i> parcours</small></button>
                                                         <strong class="card-title my-auto">Parcours</strong>
@@ -894,7 +887,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" id="cancelAddParcours" data-dismiss="modal">Cancel</button>
                             <button class="btn-submit btn btn-success" type="button"
-                                id="saveParcours">Save</button>
+                                id="saveParcoursCreate">Save</button>
                         </div>
                     </div>
                 </div>
@@ -984,12 +977,12 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.17/sweetalert2.min.js"></script>
     <script>
-        // jQuery(document).ready(function () {
-        //     jQuery(".standardSelect").chosen({
-        //         disable_search_threshold: 10,
-        //         no_results_text: "Oops, nothing found!",
-        //         width: "100%"
-        //     });
+        // // jQuery(document).ready(function () {
+        // //     jQuery(".presentParcours").chosen({
+        // //         disable_search_threshold: 10,
+        // //         no_results_text: "Oops, nothing found!",
+        // //         width: "100%"
+        // //     });
 
 
         //     // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {

@@ -4,6 +4,7 @@ var currentUrl = window.location.href;
 var arg = currentUrl.split('/');
 arg = $(arg).get(-1);
 
+var groupMemberList = [];
 var currentGroupName = "";
 var firstShow = true;
 
@@ -13,30 +14,32 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
         "ajax": { "url": `/teacherParcours/${arg}`, "dataSrc": "" },
         "columns": [
-            {'data': 'date'},
-            {'data': 'start_time'},
-            {'data': 'end_time'},
-            {'data': 'group_name'},
-            {'data': 'present', 'render': function(present){
-                        var presenceOptionData = '';
-                        present.forEach(element => {
-                            presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element}">${element}</option>`;
-                        });
-                        presentOptions = `<select data-placeholder="Choose One" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
-                        return presentOptions;
-                    }
-        },
-            {'data': 'absent', 'render': function(absent)
+            { 'data': 'date' },
+            { 'data': 'start_time' },
+            { 'data': 'end_time' },
+            { 'data': 'group_name' },
             {
-                var absentOptionData = '';
-                absent.forEach(element => {
-                    absentOptionData = absentOptionData + `<option value="${element}">${element}</option>`
-                });
-                absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
-                return absentOptions;
-            }
-        },
-            {"defaultContent": "\
+                'data': 'present', 'render': function (present) {
+                    var presenceOptionData = '';
+                    present.forEach(element => {
+                        presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element}">${element}</option>`;
+                    });
+                    presentOptions = `<select data-placeholder="Choose One" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
+                    return presentOptions;
+                }
+            },
+            {
+                'data': 'absent', 'render': function (absent) {
+                    var absentOptionData = '';
+                    absent.forEach(element => {
+                        absentOptionData = absentOptionData + `<option value="${element}">${element}</option>`
+                    });
+                    absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
+                    return absentOptions;
+                }
+            },
+            {
+                "defaultContent": "\
                                 <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
                                     <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcoursDataT' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                     <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
@@ -48,38 +51,35 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 );
 
 
-$("#addParcours").on('click', function(){
+$("#addParcours").on('click', function () {
     $("#dateParcours").val("");
-    (".standardSelect").val("");
 });
 
-$("#saveGroupe").on("click", function()
-{
-    GroupData = { newgroupe: $('#groupeNew').val(), cours: $('#cours').val()}
+$("#saveGroupe").on("click", function () {
+    GroupData = { newgroupe: $('#groupeNew').val(), cours: $('#cours').val() }
 
     console.log("save goupre");
-            $("#select-gpe").append(new Option("Hello", "1"));
+    $("#select-gpe").append(new Option("Hello", "1"));
     $.ajax({
         url: '/addgroupe',
         method: 'post',
         data: GroupData,
-        success: function(response){
-          if(response == "error")
-          {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'this groupe is already exist!',
-            });
-          }else{
-            Swal.fire({
-              icon: 'success',
-              title: 'New Point Saved',
-              text: `Point ${GroupData.newgroupe} saved successfully`,
-            });
-            clearForm();
-            getGroupeList()
-          }
+        success: function (response) {
+            if (response == "error") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'this groupe is already exist!',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'New Point Saved',
+                    text: `Point ${GroupData.newgroupe} saved successfully`,
+                });
+                clearForm();
+                getGroupeList()
+            }
         }
     });
 }
@@ -95,62 +95,62 @@ $(document).ready(function () {
 })
 
 
-$("#select-group").on("change", function()
-{
-        $("#addmbre").css("display", "block");
-        var newGgroupeName = $("#select-group").val();
-        console.log("newGgroupeName ", newGgroupeName);
-        if (newGgroupeName != currentGroupName && firstShow == true)
-        {
-            $("#table-container").empty();
-            var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
-            $("#table-container").append(tableData);
-            var url = `/groupemember/${arg}/${newGgroupeName}`;
-            $("#tableGroupAdmin").DataTable({
-                "ajax": {"url": `${url}`, "dataSrc":"" },
-                "columns": [
-                    {'data': 'username'},
-                    {'data': 'mcode'},
-                    {'data': 'num_agent'},
-                    {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "None" } }},
-                    {'defaultContent': "\
+$("#select-group").on("change", function () {
+    $("#addmbre").css("display", "block");
+    var newGgroupeName = $("#select-group").val();
+    console.log("newGgroupeName ", newGgroupeName);
+    if (newGgroupeName != currentGroupName && firstShow == true) {
+        $("#table-container").empty();
+        var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        $("#table-container").append(tableData);
+        var url = `/groupemember/${arg}/${newGgroupeName}`;
+        $("#tableGroupAdmin").DataTable({
+            "ajax": { "url": `${url}`, "dataSrc": "" },
+            "columns": [
+                { 'data': 'username' },
+                { 'data': 'mcode' },
+                { 'data': 'num_agent' },
+                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                {
+                    'defaultContent': "\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
                                             <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                             <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                         </div>\
                                         "},
-    
-                ]
-            });
-            currentGroupName = newGgroupeName;
-            firstShow = false;
-        }else if(newGgroupeName != currentGroupName && firstShow == false){
-            $("#table-container").empty();
-            var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
-            $("#table-container").append(tableData);
-            var url = `/groupemember/${arg}/${newGgroupeName}`;
-            $("#tableGroupAdmin").DataTable({
-                "ajax": {"url": `${url}`, "dataSrc":"" },
-                "columns": [
-                    {'data': 'username'},
-                    {'data': 'mcode'},
-                    {'data': 'num_agent'},
-                    {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "None" } }},
-                    {'defaultContent': "\
+
+            ]
+        });
+        currentGroupName = newGgroupeName;
+        firstShow = false;
+    } else if (newGgroupeName != currentGroupName && firstShow == false) {
+        $("#table-container").empty();
+        var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        $("#table-container").append(tableData);
+        var url = `/groupemember/${arg}/${newGgroupeName}`;
+        $("#tableGroupAdmin").DataTable({
+            "ajax": { "url": `${url}`, "dataSrc": "" },
+            "columns": [
+                { 'data': 'username' },
+                { 'data': 'mcode' },
+                { 'data': 'num_agent' },
+                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                {
+                    'defaultContent': "\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
                                             <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                             <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                         </div>\
                                         "},
-    
-                ]
-            });
-            currentGroupName = newGgroupeName;
-        }else{
-            $("#tableGroupAdmin").DataTable().ajax.reload(null, false);
-        }
-        
-    });
+
+            ]
+        });
+        currentGroupName = newGgroupeName;
+    } else {
+        $("#tableGroupAdmin").DataTable().ajax.reload(null, false);
+    }
+
+});
 
 
 
@@ -165,17 +165,15 @@ $("#select-group").on("change", function()
 //         }
 //     });
 // });
-function clearForm()
-{
+function clearForm() {
     $('#groupeNew').val('');
     $('#cancelGroupe').click();
 }
 
 
 // Get all cours List from the Database and diplay asyncronously on menu
-function getGroupeList()
-{
-    CoursData = { cours: $('#cours').val()}
+function getGroupeList() {
+    CoursData = { cours: $('#cours').val() }
     $.ajax(
         {
 
@@ -183,23 +181,20 @@ function getGroupeList()
             method: 'post',
             dataType: 'json',
             data: CoursData,
-            success: function(data1)
-                {
-                    $('#select-group').empty();
-                    $("#select-group").append(`<option value="">
+            success: function (data1) {
+                $('#select-group').empty();
+                $("#select-group").append(`<option value="">
                     Choose groupe
                     </option>`);
-                    $.each(data1, function(key, value)
-                    {
-                        $("#select-group").append(`<option value="${data1[key].name_Groupe}">
+                $.each(data1, function (key, value) {
+                    $("#select-group").append(`<option value="${data1[key].name_Groupe}">
                         ${data1[key].name_Groupe}
                    </option>`);
-                    });
-                },
-            error: function(error)
-                {
-                    console.log("error", error);
-                }
+                });
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
         }
     );
 }
@@ -210,12 +205,13 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
     {
         "ajax": { "url": `/teacherTimeTable/${arg}`, "dataSrc": "" },
         "columns": [
-            {'data': "_id"},
-            {'data': 'jours'},
-            {'data': 'groupe'},
-            {'data': 'heureStart'},
-            {'data': 'heureFin'},
-            {"defaultContent": `
+            { 'data': "_id" },
+            { 'data': 'jours' },
+            { 'data': 'groupe' },
+            { 'data': 'heureStart' },
+            { 'data': 'heureFin' },
+            {
+                "defaultContent": `
                                 <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic mixed styles example">
                                     <button class="btn px-2 btn-sm btn-warning rounded UpdateTeacherTimeTable" type="button"data-toggle="modal" data-target="#UpdatetimeTableModal"><i class="fa fa-edit"></i></button>
                                     <button type="button"  class="btn px-2 btn-sm btn-danger deleteTimeTable"><i class="fa fa-trash"></i></button>
@@ -228,69 +224,64 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
 
 
 
-function searchOnDatatable(datatable, value)
-{
+function searchOnDatatable(datatable, value) {
     currentPage = datatable.page();
     datatable.search(value).draw();
 }
-$("#saveTimeTable").on('click', function(){
+$("#saveTimeTable").on('click', function () {
     var newTimeTableData = {
         jours: $('#select-jour').val(),
         groupe: $('#select-gpe').val(),
         timeStart: $('#timeStart').val(),
         timeEnd: $('#timeEnd').val(),
         cours: arg,
-        date_time : $('#date_time').val(),
+        date_time: $('#date_time').val(),
     }
     //alert(JSON.stringify(newTimeTableData));
     $.ajax({
         url: "/EmplTemp",
         method: "post",
         data: newTimeTableData,
-        success: function(response)
-            {
-                if(response == 'success')
-                {
-                    responsetxt = 'Time Table Saved successfully';
-                    Swal.fire(
-                        'Success',
-                        responsetxt,
-                        'success',
-                        {
+        success: function (response) {
+            if (response == 'success') {
+                responsetxt = 'Time Table Saved successfully';
+                Swal.fire(
+                    'Success',
+                    responsetxt,
+                    'success',
+                    {
                         confirmButtonText: 'Ok',
                     });
-                    $("#teachertimeTable").DataTable().ajax.reload(null, false);
-                    searchOnDatatable(teacherTimeTableDataTable, $('#select-gpe').val());
-                    resetTimeTableForm(action='add');
-                }else{
-                    Swal.fire(
-                        'Error',
-                        'Failed to save Time Table',
-                        'error',
-                        {
+                $("#teachertimeTable").DataTable().ajax.reload(null, false);
+                searchOnDatatable(teacherTimeTableDataTable, $('#select-gpe').val());
+                resetTimeTableForm(action = 'add');
+            } else {
+                Swal.fire(
+                    'Error',
+                    'Failed to save Time Table',
+                    'error',
+                    {
                         confirmButtonText: 'Ok',
                     })
-                }
-            },
-        error: function(response)
-            {
-                alert(response);
             }
+        },
+        error: function (response) {
+            alert(response);
+        }
     });
 });
 
 
 
 // Reset the Time table Modal Form
-function resetTimeTableForm(action)
-{
-    switch(action){
+function resetTimeTableForm(action) {
+    switch (action) {
         case 'add':
-            $('#formAddTimeTable').each(function(){ this.reset(); });
+            $('#formAddTimeTable').each(function () { this.reset(); });
             $('#closetimeTableModal').click();
             break;
         case 'update':
-            $('#formUpdateTimeTable').each(function(){ this.reset(); });
+            $('#formUpdateTimeTable').each(function () { this.reset(); });
             $('#closetimeUpdateTableModal').click();
             break;
     }
@@ -298,24 +289,23 @@ function resetTimeTableForm(action)
 
 
 // Update Time Table
-$(document).on('click','.UpdateTeacherTimeTable', function()
-{
+$(document).on('click', '.UpdateTeacherTimeTable', function () {
     var column = $(this).closest('tr');
     var id = column.find('td:eq(0)').text();
-    var updateTimeTableDataId = { id:id };
+    var updateTimeTableDataId = { id: id };
     $.ajax(
         {
             url: "/gettime",
             method: 'post',
             data: updateTimeTableDataId,
-            success: function(res) {
+            success: function (res) {
                 $("#id-timetable-update").val(res._id);
                 $("#select-jour-update").val(res.jours);
                 $("#timetablegroupupdate").val(res.groupe);
                 $("#timeStart-update").val(res.heureStart);
                 $("#timeEnd-update").val(res.heureFin);
             },
-            error: function(res) { 
+            error: function (res) {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'error',
@@ -324,17 +314,16 @@ $(document).on('click','.UpdateTeacherTimeTable', function()
                     timer: 1700
                 });
             }
-    });
+        });
 });
 
 
 // Save Update Time Table
-$("#saveTeacherUpdateTimeTable").on('click', function()
-{
+$("#saveTeacherUpdateTimeTable").on('click', function () {
 
     var updateTimetableData = {
         id: $("#id-timetable-update").val(),
-        jours:  $("#select-jour-update").val(),
+        jours: $("#select-jour-update").val(),
         group: $('#select-groupe-update').val(),
         heurdebut: $('#timeStart-update').val(),
         heurfin: $('#timeEnd-update').val()
@@ -344,10 +333,8 @@ $("#saveTeacherUpdateTimeTable").on('click', function()
         url: "/update_time",
         method: "post",
         data: updateTimetableData,
-        success: function(res)
-        {
-            if(res === "success")
-            {
+        success: function (res) {
+            if (res === "success") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'success',
@@ -358,7 +345,7 @@ $("#saveTeacherUpdateTimeTable").on('click', function()
                 $("#teachertimeTable").DataTable().ajax.reload(null, false);
                 searchOnDatatable(teacherTimeTableDataTable, $("#id-timetable-update").val());
                 resetTimeTableForm('update');
-            }else{
+            } else {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'error',
@@ -373,17 +360,16 @@ $("#saveTeacherUpdateTimeTable").on('click', function()
 
 
 // Delete Time Table
-$(document).on('click','.deleteTimeTable', function()
-{
+$(document).on('click', '.deleteTimeTable', function () {
     var column = $(this).closest('tr');
     var id = column.find('td:eq(0)').text();
-    var updateTimeTableDataId = { id:id };
+    var updateTimeTableDataId = { id: id };
     $.ajax(
         {
             url: "/gettime",
             method: 'post',
             data: updateTimeTableDataId,
-            success: function(res) {
+            success: function (res) {
                 Swal.fire({
                     title: 'Delete TimeTable',
                     text: 'Are you sure to delete this?',
@@ -398,10 +384,9 @@ $(document).on('click','.deleteTimeTable', function()
                             url: '/deleteEmploi',
                             method: 'post',
                             data: { id: res._id },
-                            success: function(response){
+                            success: function (response) {
 
-                                if(response=="success")
-                                {
+                                if (response == "success") {
                                     responsetxt = "TimeTable Deleted successfully";
                                     Swal.fire({
                                         position: 'center',
@@ -413,7 +398,7 @@ $(document).on('click','.deleteTimeTable', function()
                                     $("#teachertimeTable").DataTable().ajax.reload(null, false);
                                     teacherTimeTableDataTable.search('').draw();
 
-                                }else{
+                                } else {
                                     Swal.fire({
                                         position: 'top-center',
                                         icon: 'error',
@@ -424,7 +409,7 @@ $(document).on('click','.deleteTimeTable', function()
                                 }
 
                             },
-                            error: function(response){
+                            error: function (response) {
                                 Swal.fire({
                                     position: 'top-center',
                                     icon: 'error',
@@ -438,77 +423,16 @@ $(document).on('click','.deleteTimeTable', function()
                 })
 
             },
-            error: function(res) { alert(JSON.stringify(res));}
-    });
+            error: function (res) { alert(JSON.stringify(res)); }
+        });
 });
 
 
 
-
-$("#saveParcours").on('click', function()
-{
-    var dateParcours = $("#dateParcours").val();
-    var startAtParcours = $("#timeStartParcours").val();
-    var endAtParcours = $("#timeEndParcours").val();
-    var groupNameParcours = $("#groupParcours").val();
-    var presentParcours = $("#presentParcours").val();
-    var absentParcours = [];
-    groupMemberList.forEach(member => {
-        if (presentParcours.indexOf(member) === -1) {absentParcours.push(member);}
-    });
-
-    var parcoursData = {
-        dateNewParcours: dateParcours,
-        timestartAt: startAtParcours,
-        timeEndAt: endAtParcours,
-        cours: cour_name,
-        groupParcoursName: groupNameParcours,
-        present: presentParcours,
-        absent: absentParcours
-    }
-
-    $.ajax({
-        url: "/Teacheraddparcours",
-        method: "post",
-        data: parcoursData,
-        success: function(res) 
-        { 
-            if(res === "exist"){
-                Swal.fire(
-                    'Error',
-                    "this parcours already exist!",
-                    'info',
-                    {
-                    confirmButtonText: 'Ok',
-                });
-                
-            }else{
-                $("#parcoursDatatable").DataTable().ajax.reload(null, false);
-                Swal.fire(
-                    'Parcours Saved',
-                    'New parcours saved successfully!',
-                    'success',
-                    {
-                    confirmButtonText: 'Ok',
-                });
-                clearParcoursForm('add');
-            }
-        },
-        error: function(err) { 
-            Swal.fire(
-                'Error',
-                `${err}`,
-                'error',
-                {
-                confirmButtonText: 'Ok',
-            })
-         }
-    });
-});
 
 
 // Update parcours
-$(document).on('click', '.btnUpdateParcoursDataT', function(){
+$(document).on('click', '.btnUpdateParcoursDataT', function () {
 
     var column = $(this).closest('tr');
     var date = column.find('td:eq(0)').text();
@@ -529,7 +453,7 @@ $(document).on('click', '.btnUpdateParcoursDataT', function(){
         method: 'post',
         data: parcoursUpdateData,
         dataType: 'json',
-        success: function(res){
+        success: function (res) {
             var data = JSON.parse(JSON.stringify(res));
             $("#presentParcoursUpdate").find("option").remove().end();
             $("#groupUpdateParcours").val(data[0]._id.groupe);
@@ -538,15 +462,14 @@ $(document).on('click', '.btnUpdateParcoursDataT', function(){
             $("#timeStartUpdateParcours").val(data[0]._id.heureStart);
             $("#timeEndUpdateParcours").val(data[0]._id.heureFin);
             var users = data[0].tabl;
-            
-            users.forEach(user =>{
+
+            users.forEach(user => {
                 console.log("");
-                    console.log("userrrr ", user);
-                if(user.presence == true)
-                {
+                console.log("userrrr ", user);
+                if (user.presence == true) {
                     var option = `<option value="${user.user}" selected>${user.user}<option>`;
                     $("#presentParcoursUpdate").append(option);
-                }else{
+                } else {
                     var option = `<option value="${user.user}">${user.user}<option>`;
                     $("#presentParcoursUpdate").append(option);
                 }
@@ -562,7 +485,7 @@ $(document).on('click', '.btnUpdateParcoursDataT', function(){
                 width: "100%"
             });
         },
-        error: function(response){
+        error: function (response) {
             Swal.fire({
                 position: 'top-center',
                 icon: 'error',
@@ -577,7 +500,7 @@ $(document).on('click', '.btnUpdateParcoursDataT', function(){
 
 
 // Add member to current selected group
-$("#addmbre").on('click', function(){
+$("#addmbre").on('click', function () {
     var gpn = $("#select-gpe").val();
     $(".teacherAddMemberLabel").html(gpn);
 
@@ -585,45 +508,45 @@ $("#addmbre").on('click', function(){
 
 
 // Envent listener on select group
-$("#select-gpe").on('change', function(){
+$("#select-gpe").on('change', function () {
     $("#addmbre").css("display", "block");
     refreshData();
 });
 
 
 // Save new member to group
-$("#saveNewMemberList").on('click', function(){
+$("#saveNewMemberList").on('click', function () {
     var newMbList = [];
     var userToAddList = $("#listUserToAddMember").val();
     userToAddList.forEach(user => newMbList.push(user));
-    var newMemberData = { 
-                            groupeName: $("#select-group").val(),
-                            coursName: arg,
-                            newMemberList: newMbList,
-                        }
+    var newMemberData = {
+        groupeName: $("#select-group").val(),
+        coursName: arg,
+        newMemberList: newMbList,
+    }
     $.ajax({
         url: "/newmembreajax",
         method: "post",
         data: newMemberData,
-        success: function(res){
+        success: function (res) {
             Swal.fire(
                 'Members Saved',
                 `Members saved on group ${$("#select-group").val()}`,
                 'success',
                 {
-                confirmButtonText: 'Ok',
-            });
+                    confirmButtonText: 'Ok',
+                });
             refreshData();
             resetTeacherAddMemberForm();
         },
-        error: function(err){
+        error: function (err) {
             Swal.fire(
                 'Error',
                 `Error occured when save member saved on group ${$("#teacherSelectGroup").val()}`,
                 'error',
                 {
-                confirmButtonText: 'Ok',
-            });
+                    confirmButtonText: 'Ok',
+                });
         }
     })
 });
@@ -631,33 +554,36 @@ $("#saveNewMemberList").on('click', function(){
 
 
 // Reset add Member Form
-function resetTeacherAddMemberForm()
-{
+function resetTeacherAddMemberForm() {
     $(".closeAddMember").click();
+    console.log("close");
     $("#listUserToAddMember").prop("selected", false);
 }
 
 
 
 // Refresh all data on group page 
-function refreshData()
-{
+function refreshData() {
     setAddMemberList();
     var newGgroupeName = $("#select-group").val();
-    if (newGgroupeName != currentGroupName && firstShow == true)
-    {
+
+    if (newGgroupeName != currentGroupName && firstShow == true) {
+        $("#table-container").empty();
+        var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        $("#table-container").append(tableData);
         var url = `/groupemember/${arg}/${newGgroupeName}`;
         $("#tableGroupAdmin").DataTable({
-            "ajax": {"url": `${url}`, "dataSrc":"" },
+            "ajax": { "url": `${url}`, "dataSrc": "" },
             "columns": [
-                {'data': '_id'},
-                {'data': 'username'},
-                {'data': 'mcode'},
-                {'data': 'num_agent'},
-                {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
-                {'defaultContent': "\
+                { 'data': 'username' },
+                { 'data': 'mcode' },
+                { 'data': 'num_agent' },
+                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                {
+                    'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                     </div>\
                                     "},
 
@@ -665,59 +591,156 @@ function refreshData()
         });
         currentGroupName = newGgroupeName;
         firstShow = false;
-    }else if(newGgroupeName != currentGroupName && firstShow == false){
+    } else if (newGgroupeName != currentGroupName && firstShow == false) {
         $("#table-container").empty();
-        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
         $("#table-container").append(tableData);
-        var url = `/groupemember/${coursName}/${newGgroupeName}`;
-        $("#GroupTeacherDatatable").DataTable({
-            "ajax": {"url": `${url}`, "dataSrc":"" },
+        var url = `/groupemember/${arg}/${newGgroupeName}`;
+        $("#tableGroupAdmin").DataTable({
+            "ajax": { "url": `${url}`, "dataSrc": "" },
             "columns": [
-                {'data': '_id'},
-                {'data': 'username'},
-                {'data': 'mcode'},
-                {'data': 'num_agent'},
-                {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "" }else{ return niveau; }}},
-                {'defaultContent': "\
+                { 'data': 'username' },
+                { 'data': 'mcode' },
+                { 'data': 'num_agent' },
+                { 'data': 'niveau', 'render': function (niveau) { if (!niveau) { return "None" } } },
+                {
+                    'defaultContent': "\
                                     <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                        <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                        <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                     </div>\
                                     "},
 
             ]
         });
         currentGroupName = newGgroupeName;
-    }else{
-        $("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
+    } else {
+        $("#tableGroupAdmin").DataTable().ajax.reload(null, false);
     }
+
+
+
+
 }
 
 
 // Get list user and set exclude existing member and set it to select option list
-function setAddMemberList()
-{
+function setAddMemberList() {
     $("#listUserC").empty();
-    var gpn = $("#teacherSelectGroup").val();
-     dataToSend = {cours: coursName, groupe: gpn};
-     $.ajax({
+    var gpn = $("#select-group").val();
+    dataToSend = { cours: arg, groupe: gpn };
+    $.ajax({
         url: "/getMemberAndAllUserList",
         method: "post",
         dataType: 'json',
         data: dataToSend,
-        success: function(res)
-                    {
-                        res.forEach(element => {
-                            options = `<option value="${element}">${element}</option>`;
-                            $("#listUserToAddMember").append(options);
-                        });
-                        $(".memberSelect").chosen({
-                            disable_search_threshold: 10,
-                            no_results_text: "Oops, nothing found!",
-                            width: "100%"
-                        });
-                    },
-        error: function(err){
+        success: function (res) {
+            res.forEach(element => {
+                options = `<option value="${element}">${element}</option>`;
+                $("#listUserToAddMember").append(options);
+            });
+            $(".memberSelect").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+        },
+        error: function (err) {
             alert("error");
         }
-     });
+    });
 }
+
+
+
+
+$("#groupParcours").on("change", function () {
+
+    console.log("groupeee");
+    //var groupMemberList = [];
+    var groupName = $("#groupParcours").val();
+    var groupMemberData = { gpe: groupName, cours: arg };
+
+    $.ajax({
+        url: "/presence",
+        data: groupMemberData,
+        method: "post",
+        success: function (response) {
+            $("#presentParcours").empty();
+
+            response.forEach(element => {
+                groupMemberList.push(element.username);
+                $('#presentParcours').append(`<option value="${element.username}">${element.username}</option>`)
+            });
+            $(document).ready(function () {
+                $("#presentParcours").chosen({
+                    disable_search_threshold: 10,
+                    no_results_text: "Oops, nothing found!",
+                    width: "100%"
+                });})
+            $('#presentParcours').trigger("chosen:updated");
+        },
+        error: function (error) { alert(JSON.stringify(error)); }
+    });
+    //alert(JSON.stringify(groupMember));
+});
+
+$("#saveParcoursCreate").on('click', function () {
+    console.log("saveParcoursCreate", groupMemberList);
+    var dateParcours = $("#dateParcours").val();
+    var startAtParcours = $("#timeStartParcours").val();
+    var endAtParcours = $("#timeEndParcours").val();
+    var groupNameParcours = $("#groupParcours").val();
+    var presentParcours = $("#presentParcours").val();
+    var absentParcours = [];
+    groupMemberList.forEach(member => {
+        if (presentParcours.indexOf(member) === -1) { absentParcours.push(member); }
+    });
+
+    var parcoursData = {
+        dateNewParcours: dateParcours,
+        timestartAt: startAtParcours,
+        timeEndAt: endAtParcours,
+        cours: arg,
+        groupParcoursName: groupNameParcours,
+        present: presentParcours,
+        absent: absentParcours
+    }
+
+    $.ajax({
+        url: "/Teacheraddparcours",
+        method: "post",
+        data: parcoursData,
+        success: function (res) {
+            if (res === "exist") {
+                Swal.fire(
+                    'Error',
+                    "this parcours already exist!",
+                    'info',
+                    {
+                        confirmButtonText: 'Ok',
+                    });
+
+            } else {
+                $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+                Swal.fire(
+                    'Parcours Saved',
+                    'New parcours saved successfully!',
+                    'success',
+                    {
+                        confirmButtonText: 'Ok',
+                    });
+                clearParcoursForm('add');
+            }
+        },
+        error: function (err) {
+            Swal.fire(
+                'Error',
+                `${err}`,
+                'error',
+                {
+                    confirmButtonText: 'Ok',
+                })
+        }
+    });
+});
