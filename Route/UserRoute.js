@@ -1669,6 +1669,7 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                 console.log("errreur");
                 res.send("exist");
             } else {
+                
                 if (presentArray.length > 0) {
                     for (let index = 0; index < presentArray.length; index++) {
                         var new_parcours = {
@@ -1683,24 +1684,21 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                         await ParcoursModel(new_parcours).save();
                     }
                 }
-                if (absentArray){
-                if (absentArray.length > 0) {
-                    for (let index = 0; index < absentArray.length; index++) {
-                        var new_parcours = {
-                            cours: cours,
-                            groupe: group,
-                            date: date,
-                            heureStart: heurdebut,
-                            heureFin: heurfin,
-                            presence: false,
-                            user: absentArray[index]
-                        };
-                        await ParcoursModel(new_parcours).save();
-    
+                    if (absentArray.length > 0) {
+                        for (let index = 0; index < absentArray.length; index++) {
+                            var new_parcours = {
+                                cours: cours,
+                                groupe: group,
+                                date: date,
+                                heureStart: heurdebut,
+                                heureFin: heurfin,
+                                presence: false,
+                                user: absentArray[index]
+                            };
+                            await ParcoursModel(new_parcours).save();
+        
+                        }
                     }
-                }
-
-                }
                 res.send("success");
             }
         });
@@ -2211,6 +2209,8 @@ routeExp.route("/update_parcoursajax").post(async function (req, res) {
     var listeUserAbs = req.body.absent;
     var dateUpd = req.body.dateNewParcours;
 
+    console.log(req.body);
+
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2221,16 +2221,26 @@ routeExp.route("/update_parcoursajax").post(async function (req, res) {
         )
         .then(async () => {
 
-            for (let i = 0; i < listeUserPres.length; i++) {
-                await ParcoursModel.findOneAndUpdate({ _id: listeUserPres[i] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: true})
-                
+            try {
+                if(listeUserPres.length > 0)
+            {
+                for (let i = 0; i < listeUserPres.length; i++) {
+                    await ParcoursModel.findOneAndUpdate({ _id: listeUserPres[i] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: true})
+                    
+                }
             }
-            for (let j = 0; j < listeUserAbs.length; j++) {
-                await ParcoursModel.findOneAndUpdate({ _id: listeUserAbs[j] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: false})
-                
+            if(listeUserAbs.length > 0)
+            {
+                for (let j = 0; j < listeUserAbs.length; j++) {
+                    await ParcoursModel.findOneAndUpdate({ _id: listeUserAbs[j] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: false})
+                    
+                }
             }
             // await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
-            res.send("success");
+                res.send("success");
+            } catch (error) {
+                res.send(error);
+            }
         });
 })
 

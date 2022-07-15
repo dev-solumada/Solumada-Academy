@@ -1,11 +1,9 @@
-var currentUrl = window.location.href;
-var arg = currentUrl.split('/');
-var cour_name = $(arg).get(-1);
+var courNameTeacher = $("#courNameTeacher").text();
 
 
 var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
     {
-        "ajax": { "url": `/teacherTimeTable/${cour_name}`, "dataSrc": "" },
+        "ajax": { "url": `/teacherTimeTable/${courNameTeacher}`, "dataSrc": "" },
         "columns": [
             {'data': "_id"},
             {'data': 'jours'},
@@ -22,9 +20,9 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
         ],
     }
 );
+
+
 // teacherTimeTableDataTable.column(0).visible(false);
-
-
 function searchOnDatatable(datatable, value)
 {
     currentPage = datatable.page();
@@ -37,7 +35,7 @@ $("#saveTimeTable").on('click', function(){
         groupe: $('#select-gpe').val(),
         timeStart: $('#timeStart').val(),
         timeEnd: $('#timeEnd').val(),
-        cours: cour_name,
+        cours: courNameTeacher,
     }
     $.ajax({
         url: "/EmplTemp",

@@ -1,6 +1,4 @@
-var currentUrl = window.location.href;
-var arg = currentUrl.split('/');
-var coursName = $(arg).get(-1);
+var coursName = $("#courNameTeacher").text();
 var currentGroupName = "";
 var firstShow = true;
 

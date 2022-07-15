@@ -1,14 +1,11 @@
-var currentUrl = window.location.href;
-var arg = currentUrl.split('/');
-var cour_name = $(arg).get(-1);
-
+var coursNameTeacher = $("#courNameTeacher").text();
 var groupMemberList = [];
 var groupMemberPresentList = [];
 var groupMemberAbsentList = [];
 
 var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
-        "ajax": { "url": `/teacherParcours/${cour_name}`, "dataSrc": "" },
+        "ajax": { "url": `/teacherParcours/${coursNameTeacher}`, "dataSrc": "" },
         "columns": [
             {'data': 'date', 'render': function(date){ if(!date){ return ""; }else{ return date; } }},
             {'data': 'start_time', 'render': function(start_time){ if(!start_time){ return ""; }else{ return start_time; } }},
@@ -56,7 +53,7 @@ function searchOnDatatable(datatable, value)
 $("#groupParcours").on('change', function(){
     var groupMemberList = [];
     var groupName = $("#groupParcours").val();
-    var groupMemberData = { gpe: groupName, cours:cour_name };
+    var groupMemberData = { gpe: groupName, cours:coursNameTeacher };
     $.ajax({
         url: "/presence",
         data: groupMemberData,
@@ -93,49 +90,51 @@ $("#saveParcours").on('click', function()
         dateNewParcours: dateParcours,
         timestartAt: startAtParcours,
         timeEndAt: endAtParcours,
-        cours: cour_name,
+        cours: coursNameTeacher,
         groupParcoursName: groupNameParcours,
         present: presentParcours,
         absent: absentParcours
     }
 
-    $.ajax({
-        url: "/Teacheraddparcours",
-        method: "post",
-        data: parcoursData,
-        success: function(res) 
-        { 
-            if(res === "exist"){
-                Swal.fire(
-                    'Error',
-                    "this parcours already exist!",
-                    'info',
-                    {
-                    confirmButtonText: 'Ok',
-                });
+    alert(JSON.stringify(parcoursData));
+
+    // $.ajax({
+    //     url: "/Teacheraddparcours",
+    //     method: "post",
+    //     data: parcoursData,
+    //     success: function(res) 
+    //     { 
+    //         if(res === "exist"){
+    //             Swal.fire(
+    //                 'Error',
+    //                 "this parcours already exist!",
+    //                 'info',
+    //                 {
+    //                 confirmButtonText: 'Ok',
+    //             });
                 
-            }else{
-                $("#parcoursDatatable").DataTable().ajax.reload(null, false);
-                Swal.fire(
-                    'Parcours Saved',
-                    'New parcours saved successfully!',
-                    'success',
-                    {
-                    confirmButtonText: 'Ok',
-                });
-                clearParcoursForm('add');
-            }
-        },
-        error: function(err) { 
-            Swal.fire(
-                'Error',
-                `${err}`,
-                'error',
-                {
-                confirmButtonText: 'Ok',
-            })
-         }
-    });
+    //         }else{
+    //             $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+    //             Swal.fire(
+    //                 'Parcours Saved',
+    //                 'New parcours saved successfully!',
+    //                 'success',
+    //                 {
+    //                 confirmButtonText: 'Ok',
+    //             });
+    //             clearParcoursForm('add');
+    //         }
+    //     },
+    //     error: function(err) { 
+    //         Swal.fire(
+    //             'Error',
+    //             `${err}`,
+    //             'error',
+    //             {
+    //             confirmButtonText: 'Ok',
+    //         })
+    //      }
+    // });
 });
 
 // Update parcours
@@ -147,7 +146,7 @@ $(document).on('click', '.btnUpdateParcours', function(){
     var endTimeDelete = column.find('td:eq(2)').text();
     var groupNameDelete = column.find('td:eq(3)').text();
     parcoursUpdateData = {
-        cours: cour_name,
+        cours: coursNameTeacher,
         date: date,
         heureStart: startTimeDelete,
         heureFin: endTimeDelete,
@@ -290,7 +289,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
             // }
             date = date = date.split('/').reverse().join('-');
             parcoursDeleteData = {
-                cours: cour_name,
+                cours: coursNameTeacher,
                 date: date,
                 heureStart: startTimeDelete,
                 heureFin: endTimeDelete,
