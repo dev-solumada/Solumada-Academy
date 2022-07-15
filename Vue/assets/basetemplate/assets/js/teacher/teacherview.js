@@ -138,7 +138,13 @@ function setAddMemberList()
                         });
                     },
         error: function(err){
-            alert("error");
+            Swal.fire(
+                'Error',
+                `There is an error please try again later!`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            });
         }
      });
 }
@@ -354,7 +360,13 @@ $("#saveTimeTable").on('click', function(){
             },
         error: function(response)
             {
-                alert(response);
+                Swal.fire(
+                    'Error',
+                    `Error please report this error!`,
+                    'error',
+                    {
+                    confirmButtonText: 'Ok',
+                });
             }
     });
 });
@@ -497,7 +509,15 @@ $(document).on('click','.deleteTimeTable', function()
                 })
 
             },
-            error: function(res) { alert(JSON.stringify(res));}
+            error: function(res) { 
+                Swal.fire(
+                    'Error',
+                    `Error occured, please report this error!`,
+                    'error',
+                    {
+                    confirmButtonText: 'Ok',
+                });
+            }
     });
 });
 
@@ -587,9 +607,16 @@ $("#groupParcours").on('change', function(){
             });
             
         },
-        error: function(error){ alert(JSON.stringify(error)); }
+        error: function(error){ 
+            Swal.fire(
+                'Error',
+                `Error has occured, please report this error!`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            });
+         }
     });
-    alert(JSON.stringify(groupMember));
 
 });
 
@@ -749,8 +776,6 @@ $("#saveUpdateParcours").on('click', function(){
         present: presentParcours,
         absent: newAbslist
     }
-
-    alert(JSON.stringify(parcoursDataUpdate));
 
     $.ajax({
         url: "/update_parcoursajax",
