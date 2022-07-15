@@ -594,6 +594,66 @@ routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
 });
 
 
+// Parcours admin Ajax
+routeExp.route("/adminParcours/:cours").get(async function (req, res) {
+    var session = req.session;
+    var cours = req.params.cours;
+    if (session.occupation_prof == "Professeur" || session.occupation_adm == "adm") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                try {
+                    var ParcoursAbsent = await ParcoursModel.aggregate([
+                        { $match: { $or: [{ cours: cours }] } },
+                        {
+                            $group: {
+                                _id:
+                                    { weed: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
+                                tabl: { $push: { user: "$user", presence: "$presence", _id: "$_id" } }
+                            }
+                        }
+                    ]);
+                    data = [];
+
+                    ParcoursAbsent.forEach(parcours => {
+                        var coursName = parcours._id.cours;
+                        var groupName = parcours._id.groupe;
+                        var startTime = parcours._id.heureStart;
+                        var endTime = parcours._id.heureFin;
+                        var date = new Date(parcours._id.date);
+                        date = date.toLocaleDateString();
+                        var memberAbsence = parcours.tabl;
+                        var absents = [];
+                        var presents = [];
+
+                        memberAbsence.forEach(abs => {
+                            if (abs.presence == true) { presents.push(abs.user); }
+                            else { absents.push(abs.user); }
+                        });
+
+                        var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
+                        data.push(prcs);
+                    });
+                        console.log("data", data);
+                    res.send(JSON.stringify(data));
+                } catch (error) {
+                    console.log(error);
+                }
+
+            });
+    }
+    else {
+        res.redirect("/");
+    }
+});
+
 
 //Liste membre par groupe
 routeExp.route("/groupeTeacher").post(async function (req, res) {

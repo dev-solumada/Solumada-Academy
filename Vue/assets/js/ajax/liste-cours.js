@@ -12,7 +12,7 @@ console.log("cours", arg);
 
 var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
-        "ajax": { "url": `/teacherParcours/${arg}`, "dataSrc": "" },
+        "ajax": { "url": `/adminParcours/${arg}`, "dataSrc": "" },
         "columns": [
             { 'data': 'date' },
             { 'data': 'start_time' },
@@ -53,6 +53,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 
 $("#addParcours").on('click', function () {
     $("#dateParcours").val("");
+    clearParcoursForm()
 });
 
 $("#saveGroupe").on("click", function () {
@@ -671,7 +672,7 @@ $("#groupParcours").on("change", function () {
 
             response.forEach(element => {
                 groupMemberList.push(element.username);
-                $('#presentParcours').append(`<option value="${element.username}">${element.username}</option>`)
+                $('#presentParcours').append(`<option value="${element.username}">${element.name}</option>`)
             });
             $(document).ready(function () {
                 $("#presentParcours").chosen({
@@ -716,7 +717,7 @@ $("#saveParcoursCreate").on('click', function () {
             if (res === "exist") {
                 Swal.fire(
                     'Error',
-                    "this parcours already exist!",
+                    "this parcours already exist or complete the field!",
                     'info',
                     {
                         confirmButtonText: 'Ok',
@@ -731,7 +732,7 @@ $("#saveParcoursCreate").on('click', function () {
                     {
                         confirmButtonText: 'Ok',
                     });
-                clearParcoursForm('add');
+                clearParcoursForm();
             }
         },
         error: function (err) {
@@ -772,7 +773,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
                 heureFin: endTimeDelete,
                 groupe: groupNameDelete,
             }
-
+            console.log("parcoursDeleteData", parcoursDeleteData);
             $.ajax({
                 url: '/deleteParcours',
                 method: 'post',
@@ -904,6 +905,15 @@ $("#saveLevel").on('click', function(){
     
 });
 
-// function getid(id) {
-//     console.log("iddddd", id);
-// }
+function clearParcoursForm() {
+    
+    $("#dateParcours").empty();
+    document.getElementById("groupParcours").value = "";
+    document.getElementById("timeStartParcours").value = '';
+    document.getElementById("timeEndParcours").value = '';
+    //document.getElementById("groupParcours").value = "";
+    //$("#groupParcours").remove()
+    
+    $("#cancelAddParcours").click();
+}
+
