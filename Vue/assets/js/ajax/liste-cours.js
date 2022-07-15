@@ -39,12 +39,12 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
                 }
             },
             {
-                "defaultContent": "\
+                "defaultContent": `\
                                 <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcoursDataT' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                    <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateUserDataT'  type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#UpdateparcoursModal' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                     <button type='button'  class='btn px-2 btn-sm btn-danger btnDeleteParcours' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                 </div>\
-                                "
+                                `
             }
         ]
     }
@@ -104,22 +104,28 @@ $("#select-group").on("change", function () {
         var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
         $("#table-container").append(tableData);
         var url = `/groupemember/${arg}/${newGgroupeName}`;
+        //var username = ''
+        console.log();
         $("#tableGroupAdmin").DataTable({
-            "ajax": { "url": `${url}`, "dataSrc": "" },
+            "ajax": { "url": `${url}`, "dataSrc": ""  },
             "columns": [
                 { 'data': 'username' },
                 { 'data': 'mcode' },
-                { 'data': 'num_agent' },
+                { 'data': 'num_agent'},
                 { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {
-                    'defaultContent': "\
+                    'defaultContent': `\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
-                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
+                                            <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours'  type='button'  class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                             <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                         </div>\
-                                        "},
+                                        `},
 
-            ]
+            //console.log("username ", username)
+            ],
+            "success":function(res) {
+                console.log("JSON.stringify( d )", res);
+            },
         });
         currentGroupName = newGgroupeName;
         firstShow = false;
@@ -136,12 +142,12 @@ $("#select-group").on("change", function () {
                 { 'data': 'num_agent' },
                 { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
                 {
-                    'defaultContent': "\
+                    'defaultContent': `\
                                         <div class='btn-group d-flex justify-content-center' role='group' aria-label='Basic mixed styles example'>\
                                             <button type='button'  class='btn px-2 btn-sm btn-warning btnUpdateParcours' type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#editmember' data-bs-whatever='@getbootstrap'><i class='fa fa-edit'></i></button>\
                                             <button type='button'  class='btn px-2 btn-sm btn-danger removeToGroup' type='button' class='btn btn-sm btn-warning'><i class='fa fa-trash'></i></button>\
                                         </div>\
-                                        "},
+                                        `},
 
             ]
         });
@@ -152,19 +158,10 @@ $("#select-group").on("change", function () {
 
 });
 
+// function getusername(nom){
+//     console.log("nommm ", nom);
+// }
 
-
-
-// $('#select-group').change(function(){
-//     $.ajax({
-//         url: "/",
-//         dataType:"html",
-//         type: "post",
-//         success: function(data){
-//            $('#artist').append(data);
-//         }
-//     });
-// });
 function clearForm() {
     $('#groupeNew').val('');
     $('#cancelGroupe').click();
@@ -432,8 +429,8 @@ $(document).on('click', '.deleteTimeTable', function () {
 
 
 // Update parcours
-$(document).on('click', '.btnUpdateParcoursDataT', function () {
-
+$(document).on('click', '.btnUpdateUserDataT', function () {
+    
     var column = $(this).closest('tr');
     var date = column.find('td:eq(0)').text();
     var startTimeDelete = column.find('td:eq(1)').text();
@@ -857,17 +854,24 @@ $(document).on('click', ".removeToGroup", function(){
 });
 
 
+var userupdate = ""
+// Remove member group from current selected group on datatable
+$(document).on('click', ".btnUpdateParcours", function(){
+    var colon = $(this).closest('tr');
+    userupdate = colon.find('td:eq(0)').text()
+    console.log("userupdate", userupdate);
+});
 
-
+ 
 $("#saveLevel").on('click', function(){
-    var memberMail = col.find('td:eq(1)').text();
     var groupName = $("#select-group").val();
     var addLevelData = {
-        memberMail: memberMail,
+        user: userupdate,
         groupe: groupName,
-        level: $("#coursLevel").val()
+        level: $("#userLevel").val()
     }
-    
+        console.log("addLevelData", addLevelData);
+
     $.ajax({
         url: "/addLevelToMemberAdmin",
         method: "post",
@@ -880,9 +884,10 @@ $("#saveLevel").on('click', function(){
                 {
                 confirmButtonText: 'Ok',
             });
-            $("#coursLevel").val("");
+            $("#userLevel").val("");
             $("#cancelLevel").click();
-            $("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
+            refreshData()
+            //$("#GroupTeacherDatatable").DataTable().ajax.reload(null, false);
         },
         error: function(err){
             Swal.fire(
@@ -896,3 +901,7 @@ $("#saveLevel").on('click', function(){
     })
     
 });
+
+// function getid(id) {
+//     console.log("iddddd", id);
+// }
