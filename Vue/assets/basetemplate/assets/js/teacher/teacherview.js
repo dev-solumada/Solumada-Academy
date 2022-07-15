@@ -862,6 +862,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
                 method: 'post',
                 data: parcoursDeleteData,
                 success: function(res){
+                    if(res == "success");
                     $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                     responsetxt = "Parcours deleted successfully!";
                     Swal.fire({

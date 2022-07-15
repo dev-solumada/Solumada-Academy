@@ -2393,7 +2393,7 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
         });
 })
 
-
+// Thierry delete parcours ajax
 routeExp.route("/deleteParcoursajax").post(async function (req, res) {
     var cours = req.body.cours;
     var groupe = req.body.groupe;
