@@ -109,7 +109,7 @@ $("#select-group").on("change", function () {
         $("#tableGroupAdmin").DataTable({
             "ajax": { "url": `${url}`, "dataSrc": ""  },
             "columns": [
-                { 'data': 'username' },
+                { 'data': 'name' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent'},
                 { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
@@ -137,7 +137,7 @@ $("#select-group").on("change", function () {
         $("#tableGroupAdmin").DataTable({
             "ajax": { "url": `${url}`, "dataSrc": "" },
             "columns": [
-                { 'data': 'username' },
+                { 'data': 'name' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
                 { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
@@ -526,7 +526,7 @@ $("#saveNewMemberList").on('click', function () {
         newMemberList: newMbList,
     }
     $.ajax({
-        url: "/newmembreajax",
+        url: "/newmembreadmin",
         method: "post",
         data: newMemberData,
         success: function (res) {
@@ -576,7 +576,7 @@ function refreshData() {
         $("#tableGroupAdmin").DataTable({
             "ajax": { "url": `${url}`, "dataSrc": "" },
             "columns": [
-                { 'data': 'username' },
+                { 'data': 'name' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
                 { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
@@ -600,7 +600,7 @@ function refreshData() {
         $("#tableGroupAdmin").DataTable({
             "ajax": { "url": `${url}`, "dataSrc": "" },
             "columns": [
-                { 'data': 'username' },
+                { 'data': 'name' },
                 { 'data': 'mcode' },
                 { 'data': 'num_agent' },
                 { 'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
@@ -859,7 +859,9 @@ var userupdate = ""
 $(document).on('click', ".btnUpdateParcours", function(){
     var colon = $(this).closest('tr');
     userupdate = colon.find('td:eq(0)').text()
+    var niveau = colon.find('td:eq(3)').text()
     console.log("userupdate", userupdate);
+    $("#userLevel").val(niveau)
 });
 
  
