@@ -2530,8 +2530,9 @@ routeExp.route("/groupe/:cours/:groupe").get(async function (req, res) {
 
 // Thierry add Level
 routeExp.route("/addLevelToMemberAdmin").post(async function (req, res) {
-    var id = req.body.id;
-    var userLevel = req.body.level;
+    var user = req.body.user;
+    var groupe = req.body.groupe;
+    var level = req.body.level;
     console.log("req.body", req.body);
     mongoose
         .connect(
@@ -2542,7 +2543,7 @@ routeExp.route("/addLevelToMemberAdmin").post(async function (req, res) {
             }
         )
         .then(async () => {
-            //await CGNModel.findOneAndUpdate({ _id: id }, { niveau: userLevel });
+            await CGNModel.findOneAndUpdate({ username: user, groupe: groupe }, { niveau: level });
             
             res.send("success");
         })
