@@ -1705,21 +1705,22 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
     console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
-    try {
         mongoose
-            .connect(
-                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-                {
-                    useUnifiedTopology: true,
-                    UseNewUrlParser: true,
-                }
-            )
-            .then(async () => {
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
                 if ((await ParcoursModel.findOne({ $or: [{ cours: cours, groupe: group, date: date, heureStart: heurdebut, heureFin: heurfin }] })) || date == "" || group == "" || heurdebut == "" || heurfin == "" || cours == "") {
-
+                
                     console.log("errreur");
                     res.send("exist");
                 } else {
+                    
                     if (presentArray.length > 0) {
                         for (let index = 0; index < presentArray.length; index++) {
                             var new_parcours = {
@@ -1734,7 +1735,6 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                             await ParcoursModel(new_parcours).save();
                         }
                     }
-                    if (absentArray) {
                         if (absentArray.length > 0) {
                             for (let index = 0; index < absentArray.length; index++) {
                                 var new_parcours = {
@@ -1746,18 +1746,15 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                                     presence: false,
                                     user: absentArray[index]
                                 };
-                                await ParcoursModel(new_parcours).save();
-
+                                await ParcoursModel(new_parcours).save();        
                             }
                         }
-
-                    }
                     res.send("success");
                 }
-            });
-    } catch (error) {
-        res.send(error);
-    }
+            } catch (error) {
+                res.send(error);
+            }
+        });
 
 });
 
@@ -2358,6 +2355,33 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
     var date = req.body.date;
     console.log("cours ****** ", cours, groupe, heureStart, date);
     //console.log(req.body);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
+                res.send("success");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+        });
+})
+
+// Thierry delete parcours ajax
+routeExp.route("/deleteParcoursajax").post(async function (req, res) {
+    var cours = req.body.cours;
+    var groupe = req.body.groupe;
+    var heureStart = req.body.heureStart;
+    var heureFin = req.body.heureFin;
+    var date = req.body.date;
+    console.log(req.body);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",

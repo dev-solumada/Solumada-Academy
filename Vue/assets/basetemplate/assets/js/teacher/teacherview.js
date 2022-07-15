@@ -847,7 +847,8 @@ $(document).on('click', '.btnDeleteParcours', function(){
             //     });
             //     absentslistfiltered.splice(-1);
             // }
-            date = date = date.split('/').reverse().join('-');
+
+            date = date.split("/").reverse().join("-");
             parcoursDeleteData = {
                 cours: coursNameTeacher,
                 date: date,
@@ -857,10 +858,12 @@ $(document).on('click', '.btnDeleteParcours', function(){
             }
 
             $.ajax({
-                url: '/deleteParcours',
+                url: '/deleteParcoursajax',
                 method: 'post',
                 data: parcoursDeleteData,
                 success: function(res){
+                    if(res == "success");
+                    $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                     responsetxt = "Parcours deleted successfully!";
                     Swal.fire({
                         position: 'center',
@@ -868,7 +871,6 @@ $(document).on('click', '.btnDeleteParcours', function(){
                         title: responsetxt,
                         showConfirmButton: true,
                     });
-                    $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                 },
                 error: function(response){
                     Swal.fire({
