@@ -96,45 +96,45 @@ $("#saveParcours").on('click', function()
         absent: absentParcours
     }
 
-    alert(JSON.stringify(parcoursData));
+    // alert(JSON.stringify(parcoursData));
 
-    // $.ajax({
-    //     url: "/Teacheraddparcours",
-    //     method: "post",
-    //     data: parcoursData,
-    //     success: function(res) 
-    //     { 
-    //         if(res === "exist"){
-    //             Swal.fire(
-    //                 'Error',
-    //                 "this parcours already exist!",
-    //                 'info',
-    //                 {
-    //                 confirmButtonText: 'Ok',
-    //             });
+    $.ajax({
+        url: "/Teacheraddparcours",
+        method: "post",
+        data: parcoursData,
+        success: function(res) 
+        { 
+            if(res === "exist"){
+                Swal.fire(
+                    'Error',
+                    "this parcours already exist!",
+                    'info',
+                    {
+                    confirmButtonText: 'Ok',
+                });
                 
-    //         }else{
-    //             $("#parcoursDatatable").DataTable().ajax.reload(null, false);
-    //             Swal.fire(
-    //                 'Parcours Saved',
-    //                 'New parcours saved successfully!',
-    //                 'success',
-    //                 {
-    //                 confirmButtonText: 'Ok',
-    //             });
-    //             clearParcoursForm('add');
-    //         }
-    //     },
-    //     error: function(err) { 
-    //         Swal.fire(
-    //             'Error',
-    //             `${err}`,
-    //             'error',
-    //             {
-    //             confirmButtonText: 'Ok',
-    //         })
-    //      }
-    // });
+            }else{
+                $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+                Swal.fire(
+                    'Parcours Saved',
+                    'New parcours saved successfully!',
+                    'success',
+                    {
+                    confirmButtonText: 'Ok',
+                });
+                clearParcoursForm('add');
+            }
+        },
+        error: function(err) { 
+            Swal.fire(
+                'Error',
+                `${err}`,
+                'error',
+                {
+                confirmButtonText: 'Ok',
+            })
+         }
+    });
 });
 
 // Update parcours
@@ -297,7 +297,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
             }
 
             $.ajax({
-                url: '/deleteParcours',
+                url: '/deleteParcoursajax',
                 method: 'post',
                 data: parcoursDeleteData,
                 success: function(res){

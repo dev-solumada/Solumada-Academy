@@ -650,6 +650,8 @@ $("#saveParcours").on('click', function()
         absent: absentParcours
     }
 
+    alert(JSON.stringify(parcoursData));
+
     $.ajax({
         url: "/Teacheraddparcours",
         method: "post",
@@ -847,7 +849,9 @@ $(document).on('click', '.btnDeleteParcours', function(){
             //     });
             //     absentslistfiltered.splice(-1);
             // }
-            date = date = date.split('/').reverse().join('-');
+
+            date = date.split("/").reverse().join("-");
+            alert(date);
             parcoursDeleteData = {
                 cours: coursNameTeacher,
                 date: date,
@@ -857,10 +861,11 @@ $(document).on('click', '.btnDeleteParcours', function(){
             }
 
             $.ajax({
-                url: '/deleteParcours',
+                url: '/deleteParcoursajax',
                 method: 'post',
                 data: parcoursDeleteData,
                 success: function(res){
+                    $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                     responsetxt = "Parcours deleted successfully!";
                     Swal.fire({
                         position: 'center',
@@ -868,7 +873,6 @@ $(document).on('click', '.btnDeleteParcours', function(){
                         title: responsetxt,
                         showConfirmButton: true,
                     });
-                    $("#parcoursDatatable").DataTable().ajax.reload(null, false);
                 },
                 error: function(response){
                     Swal.fire({
