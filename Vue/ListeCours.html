@@ -421,11 +421,11 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">Update Member</h5>
                         </div>
-                        <div id="notif" class="col-sm-6 notification">
-
-                        </div>
                         <div class="modal-body">
                             <form id="updateUserLevel" method="post">
+                                    <div class="row form-group">
+                                            <input type="hidden"  id="idLevel" class="form-control">
+                                        </div>
                                 <div class="row mt-2 mb-3">
                                     <div class="col">
                                         <div class="">
@@ -444,8 +444,8 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" onclick="updateMembre()">Save Change</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelLevel">Close</button>
+                            <button type="button" class="btn btn-success" id="saveLevel">Save Change</button>
                         </div>
                     </div>
                 </div>
