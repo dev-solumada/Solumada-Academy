@@ -650,8 +650,6 @@ $("#saveParcours").on('click', function()
         absent: absentParcours
     }
 
-    alert(JSON.stringify(parcoursData));
-
     $.ajax({
         url: "/Teacheraddparcours",
         method: "post",
@@ -851,7 +849,6 @@ $(document).on('click', '.btnDeleteParcours', function(){
             // }
 
             date = date.split("/").reverse().join("-");
-            alert(date);
             parcoursDeleteData = {
                 cours: coursNameTeacher,
                 date: date,
