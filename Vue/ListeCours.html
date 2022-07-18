@@ -772,7 +772,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" id="cancelUpdateParcours" data-dismiss="modal">Cancel</button>
                         <button class="btn-submit btn btn-success" type="button"
-                            id="saveParcours">Save</button>
+                            id="saveParcoursUpdate">Save</button>
                     </div>
                 </div>
             </div>
@@ -912,7 +912,7 @@
                                         <div class="col col-md-3"><label for="present"
                                                 class=" form-control-label">Present</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control" multiple="multiple"></select>
+                                            <select name="presentMemeber" id="presentParcours" data-placeholder="Add present" class="form-control prensentSelect" multiple="multiple"></select>
                                         </div>
                                     </div>
                                 </form>
@@ -1030,13 +1030,13 @@
         // })
 
 
-        jQuery(document).ready(function () {
-            jQuery(".prensentSelect").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
-        });
+        // jQuery(document).ready(function () {
+        //     jQuery(".prensentSelect").chosen({
+        //         disable_search_threshold: 10,
+        //         no_results_text: "Oops, nothing found!",
+        //         width: "100%"
+        //     });
+        // });
         jQuery(document).ready(function () {
             jQuery(".prensentSelectUpd").chosen({
                 disable_search_threshold: 10,

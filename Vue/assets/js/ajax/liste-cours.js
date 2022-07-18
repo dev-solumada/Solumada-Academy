@@ -54,6 +54,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
 $("#addParcours").on('click', function () {
     $("#dateParcours").val("");
     clearParcoursForm()
+    
 });
 
 $("#saveGroupe").on("click", function () {
@@ -426,26 +427,29 @@ $(document).on('click', '.deleteTimeTable', function () {
 });
 
 
-
-
-
+//variable pour UDPATE Parcours
+var date_Parc = ""
+var startTimeUpdat = ""
+var endTimeUpdat = ""
+var groupNameUpdat = ""
+var users = []
 // Update parcours
 $(document).on('click', '.btnUpdateUserDataT', function () {
     
     var column = $(this).closest('tr');
-    var date = column.find('td:eq(0)').text();
-    var startTimeDelete = column.find('td:eq(1)').text();
-    var endTimeDelete = column.find('td:eq(2)').text();
-    var groupNameDelete = column.find('td:eq(3)').text();
+    date_Parc = column.find('td:eq(0)').text();
+    startTimeUpdat = column.find('td:eq(1)').text();
+    endTimeUpdat = column.find('td:eq(2)').text();
+    groupNameUpdat = column.find('td:eq(3)').text();
     parcoursUpdateData = {
         cours: arg,
-        date: date,
-        heureStart: startTimeDelete,
-        heureFin: endTimeDelete,
-        groupe: groupNameDelete,
+        date: date_Parc,
+        heureStart: startTimeUpdat,
+        heureFin: endTimeUpdat,
+        groupe: groupNameUpdat,
     }
 
-    console.log("parcoursUpdateData", date);
+    console.log("parcoursUpdateData", date_Parc);
     $.ajax({
         url: '/getParcours',
         method: 'post',
@@ -463,7 +467,7 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
             //$("#dateUpdateParcours").val(data[0]._id.date);
             $("#timeStartUpdateParcours").val(data[0]._id.heureStart);
             $("#timeEndUpdateParcours").val(data[0]._id.heureFin);
-            var users = data[0].tabl;
+            users = data[0].tabl;
 
             users.forEach(user => {
                 console.log("");
@@ -481,11 +485,7 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
                 no_results_text: "Oops, nothing found!",
                 width: "100%"
             });
-            $("#presentParcoursUpdate").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
+            selectVidUpd("#presentParcoursUpdate")
         },
         error: function (response) {
             Swal.fire({
@@ -657,7 +657,7 @@ function setAddMemberList() {
 
 
 $("#groupParcours").on("change", function () {
-
+    groupMemberList = []
     console.log("groupeee");
     //var groupMemberList = [];
     var groupName = $("#groupParcours").val();
@@ -671,7 +671,8 @@ $("#groupParcours").on("change", function () {
             $("#presentParcours").empty();
 
             response.forEach(element => {
-                groupMemberList.push(element.username);
+                groupMemberList.push({"mail": element.username, "name": element.name});
+                console.log("elemetn", element);
                 $('#presentParcours').append(`<option value="${element.username}">${element.name}</option>`)
             });
             $(document).ready(function () {
@@ -693,11 +694,24 @@ $("#saveParcoursCreate").on('click', function () {
     var startAtParcours = $("#timeStartParcours").val();
     var endAtParcours = $("#timeEndParcours").val();
     var groupNameParcours = $("#groupParcours").val();
-    var presentParcours = $("#presentParcours").val();
+    var present = $("#presentParcours").val();
+
     var absentParcours = [];
+    var presentParcours = [];
+
+
+    console.log("present ", present);
     groupMemberList.forEach(member => {
-        if (presentParcours.indexOf(member) === -1) { absentParcours.push(member); }
+        console.log("member ", member);
+        if (present.indexOf(member.mail) === -1) { 
+            absentParcours.push(member); 
+        }else{
+            presentParcours.push(member); 
+        }
     });
+
+    console.log("absentParcours ", absentParcours);
+    console.log("presentParcours ", presentParcours);
 
     var parcoursData = {
         dateNewParcours: dateParcours,
@@ -710,7 +724,7 @@ $("#saveParcoursCreate").on('click', function () {
     }
 
     $.ajax({
-        url: "/Teacheraddparcours",
+        url: "/Adminaddparcours",
         method: "post",
         data: parcoursData,
         success: function (res) {
@@ -905,15 +919,100 @@ $("#saveLevel").on('click', function(){
     
 });
 
+let inputs = document.querySelectorAll('input')
+
 function clearParcoursForm() {
-    
     $("#dateParcours").empty();
+    inputs.forEach(input => input.value='')
+    var presentDel = document.getElementById("presentParcours");
+    for (let index = 0; index < ('#presentParcours option').length; index++) {
+        const element = ('#presentParcours option')[index];
+        presentDel.remove(element);
+    }
     document.getElementById("groupParcours").value = "";
-    document.getElementById("timeStartParcours").value = '';
-    document.getElementById("timeEndParcours").value = '';
-    //document.getElementById("groupParcours").value = "";
-    //$("#groupParcours").remove()
-    
+    selectVidUpd(".prensentSelect")
+    selectVidUpd("#groupParcours")
     $("#cancelAddParcours").click();
 }
 
+function selectVidUpd(a) {
+    jQuery(document).ready(function () {
+        jQuery(a).trigger("chosen:updated");
+    });
+}
+
+
+
+$("#saveParcoursUpdate").on('click', function () {
+    //console.log("saveParcoursCreate", groupMemberList);
+
+    var presentUpd = []
+    var absentUpd = []
+    var dateParcours = $("#dateParcours").val();
+    var startAtParcours = $("#timeStartParcours").val();
+    var endAtParcours = $("#timeEndParcours").val();
+    var groupNameParcours = $("#groupParcours").val();
+    var presentParcours = $("#presentParcours").val();
+    var absentParcours = [];
+    // groupMemberList.forEach(member => {
+    //     if (presentParcours.indexOf(member) === -1) { absentParcours.push(member); }
+    // });
+    selectVidUpd("presentParcoursUpdate")
+
+    for (var option of document.getElementById('presentParcoursUpdate').options)
+    {
+        if (option.selected) {
+            presentUpd.push(option.value);
+        }else{
+            absentUpd.push(option.value);
+        }
+    }
+    // var parcoursDataUpd = {
+    //     dateNewParcours: date_Parc,
+    //     timestartAt: startTimeUpdat,
+    //     timeEndAt: endTimeUpdat,
+    //     cours: arg,
+    //     groupParcoursName: groupNameUpdat,
+    //     user : users
+    // }
+
+    console.log("saveParcoursUpdate ", presentUpd);
+    console.log("saveParcoursUpdate absent ", absentUpd);
+
+    // $.ajax({
+    //     url: "/Teacheraddparcours",
+    //     method: "post",
+    //     data: parcoursData,
+    //     success: function (res) {
+    //         if (res === "exist") {
+    //             Swal.fire(
+    //                 'Error',
+    //                 "this parcours already exist or complete the field!",
+    //                 'info',
+    //                 {
+    //                     confirmButtonText: 'Ok',
+    //                 });
+
+    //         } else {
+    //             $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+    //             Swal.fire(
+    //                 'Parcours Saved',
+    //                 'New parcours saved successfully!',
+    //                 'success',
+    //                 {
+    //                     confirmButtonText: 'Ok',
+    //                 });
+    //             clearParcoursForm();
+    //         }
+    //     },
+    //     error: function (err) {
+    //         Swal.fire(
+    //             'Error',
+    //             `${err}`,
+    //             'error',
+    //             {
+    //                 confirmButtonText: 'Ok',
+    //             })
+    //     }
+    // });
+});
