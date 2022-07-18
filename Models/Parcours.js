@@ -7,7 +7,8 @@ const Parcours = mongoose.Schema({
     heureFin: String,
     cours: String,
     presence: Boolean,
-    user: String
+    user: String,
+    name: String
 })
 
 module.exports = mongoose.model('Parcours', Parcours);
