@@ -616,7 +616,7 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                             $group: {
                                 _id:
                                     { weed: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
-                                tabl: { $push: { user: "$user", presence: "$presence", _id: "$_id" } }
+                                tabl: { $push: { user: "$user", presence: "$presence",name: "$name", _id: "$_id" } }
                             }
                         }
                     ]);
@@ -634,14 +634,21 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                         var presents = [];
 
                         memberAbsence.forEach(abs => {
-                            if (abs.presence == true) { presents.push(abs.user); }
-                            else { absents.push(abs.user); }
+                            if (abs.presence == true) {
+                                console.log("abs.presence ", abs); 
+                                presents.push({"name":abs.name, "email": abs.user}); 
+                            }
+                            else { 
+                                console.log("abs.absents ", abs); 
+                                absents.push({"name":abs.name, "email": abs.user}); 
+                            }
                         });
 
                         var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
                         data.push(prcs);
                     });
-                        console.log("data", data);
+                        console.log("present", data[0].present);
+                        console.log("absent", data[0].absent);
                     res.send(JSON.stringify(data));
                 } catch (error) {
                     console.log(error);
@@ -1754,7 +1761,7 @@ routeExp.route("/addparcours").post(async function (req, res) {
 
 });
 
-//Add parcours Thierry
+//Add parcours Admin
 routeExp.route("/Adminaddparcours").post(async function (req, res) {
     var date = req.body.dateNewParcours;
     var group = req.body.groupParcoursName;
@@ -1809,7 +1816,7 @@ routeExp.route("/Adminaddparcours").post(async function (req, res) {
                                     heureFin: heurfin,
                                     presence: false,
                                     user: absentArray[index].mail,
-                                    name: presentArray[index].name
+                                    name: absentArray[index].name
                                 };
                                 await ParcoursModel(new_parcours).save();        
                             }
@@ -2306,6 +2313,47 @@ routeExp.route("/update_parcours").post(async function (req, res) {
         })
 })
 
+
+
+//Update update_parcours admin
+routeExp.route("/update_parcours_admin").post(async function (req, res) {
+
+    //var week = req.body.week;
+    var timeSUpd = req.body.timeSUpd;
+    var timeEUpd = req.body.timeEUpd;
+    var groupe = req.body.groupe;
+    // var presentUpd = req.body.presentUpd;
+    // var absentUpd = req.body.absentUpd;
+    var dateUpd = req.body.dateUpd;
+
+    const listeUserPres = req.body.presentUpd;
+    const listeUserAbs = req.body.absentUpd;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+
+            for (let i = 0; i < listeUserPres.length; i++) {
+                console.log("listeUserPres[i]", listeUserPres[i]);
+                await ParcoursModel.findOneAndUpdate({ _id: listeUserPres[i] }, { date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: true })
+
+            }
+            for (let j = 0; j < listeUserAbs.length; j++) {
+                if (listeUserAbs[j] != "") {
+                    await ParcoursModel.findOneAndUpdate({ _id: listeUserAbs[j] }, {  date: dateUpd, groupe: groupe, heureStart: timeSUpd, heureFin: timeEUpd, presence: false })
+                }
+                
+            }
+            // await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
+            res.send("Parcours updated successfully");
+        })
+})
+
 // update parcours Thierry
 routeExp.route("/update_parcoursajax").post(async function (req, res) {
 
@@ -2421,7 +2469,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
                     $group: {
                         _id:
                             { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date },
-                        tabl: { $push: { user: "$user", presence: "$presence", id: "$_id" } }
+                        tabl: { $push: { user: "$user", presence: "$presence", name: "$name", id: "$_id" } }
                     }
                 }
 
