@@ -857,6 +857,8 @@ $(document).on('click', '.btnDeleteParcours', function(){
                 groupe: groupNameDelete,
             }
 
+
+
             $.ajax({
                 url: '/deleteParcoursajax',
                 method: 'post',
