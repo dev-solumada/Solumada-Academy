@@ -64,6 +64,7 @@ function refreshData()
             "columns": [
                 {'data': '_id'},
                 {'data': 'username'},
+                {'data': 'name'},
                 {'data': 'mcode'},
                 {'data': 'num_agent'},
                 {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
@@ -80,7 +81,7 @@ function refreshData()
         firstShow = false;
     }else if(newGgroupeName != currentGroupName && firstShow == false){
         $("#table-container").empty();
-        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Email</th><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
         $("#table-container").append(tableData);
         var url = `/groupemember/${coursNameTeacher}/${newGgroupeName}`;
         $("#GroupTeacherDatatable").DataTable({
@@ -88,6 +89,7 @@ function refreshData()
             "columns": [
                 {'data': '_id'},
                 {'data': 'username'},
+                {'data': 'name'},
                 {'data': 'mcode'},
                 {'data': 'num_agent'},
                 {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "" }else{ return niveau; }}},

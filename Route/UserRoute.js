@@ -162,7 +162,6 @@ routeExp.route("/resetPWD").get(async function (req, res) {
     } else {
         res.render("resetPwd.html", { err: "" });
     }//
-
 });
 
 
@@ -2356,16 +2355,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
                 }
 
             ]);
-<<<<<<< HEAD
-
             console.log(moment(date).format("DD-MM-YYYY"));
-        
-=======
-            console.log("here are the users>>>", ParcoursAbsent);
-            ParcoursAbsent.forEach(element => {
-                console.log("sans stringify ", element);
-            });
->>>>>>> ed17479ef2e323c3962193fe6465fd0309d94132
             res.send(ParcoursAbsent);
         });
 })
@@ -2387,14 +2377,8 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
                     useUnifiedTopology: true,
                     UseNewUrlParser: true,
                 }
-<<<<<<< HEAD
-            ]);
-
-=======
             )
             .then(async () => {
->>>>>>> ed17479ef2e323c3962193fe6465fd0309d94132
-
                 var ParcoursAbsent = await ParcoursModel.aggregate([
                     { $match: { $or: [{ cours: cours }, { groupe: groupe }, { heureStart: heureStart }, { heureFin: heureFin }, { date: date }] } },
                     {

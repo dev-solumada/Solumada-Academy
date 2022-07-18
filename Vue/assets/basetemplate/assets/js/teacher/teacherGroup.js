@@ -57,7 +57,8 @@ function refreshData()
             "ajax": {"url": `${url}`, "dataSrc":"" },
             "columns": [
                 {'data': '_id'},
-                {'data': 'username'},
+                {'data': 'email'},
+                {'data': 'name'},
                 {'data': 'mcode'},
                 {'data': 'num_agent'},
                 {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return ""; }else{ return niveau; }}},
@@ -82,6 +83,7 @@ function refreshData()
             "columns": [
                 {'data': '_id'},
                 {'data': 'username'},
+                {'data': 'name'},
                 {'data': 'mcode'},
                 {'data': 'num_agent'},
                 {'data': 'niveau', 'render': function(niveau){ if(!niveau){ return "" }else{ return niveau; }}},
