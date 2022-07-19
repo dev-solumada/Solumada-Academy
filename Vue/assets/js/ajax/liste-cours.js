@@ -908,12 +908,16 @@ $("#saveLevel").on('click', function(){
 function clearParcoursForm() {
     
     $("#dateParcours").empty();
-    document.getElementById("groupParcours").value = "";
+    //document.getElementById("groupParcours").value = "";
     document.getElementById("timeStartParcours").value = '';
     document.getElementById("timeEndParcours").value = '';
     //document.getElementById("groupParcours").value = "";
     //$("#groupParcours").remove()
-    
+        // $('#groupParcours option').prop('selected', function() {
+        //     return this.defaultSelected;
+        // });
+
+
     $("#cancelAddParcours").click();
 }
 
