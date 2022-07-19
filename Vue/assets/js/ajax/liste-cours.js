@@ -200,7 +200,7 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
     {
         "ajax": { "url": `/teacherTimeTable/${arg}`, "dataSrc": "" },
         "columns": [
-            { 'data': "_id" },
+            { 'data': 'date' , 'render': function(date){ if(!date){ return ""; }else{ return date; }}},
             { 'data': 'jours' },
             { 'data': 'groupe' },
             { 'data': 'heureStart' },
@@ -286,11 +286,15 @@ function resetTimeTableForm(action) {
 // Update Time Table
 $(document).on('click', '.UpdateTeacherTimeTable', function () {
     var column = $(this).closest('tr');
-    var id = column.find('td:eq(0)').text();
-    var updateTimeTableDataId = { id: id };
+    var date = column.find('td:eq(0)').text();
+    var day = column.find('td:eq(1)').text();
+    var group = column.find('td:eq(2)').text();
+    var startTim = column.find('td:eq(3)').text();
+    var endTim = column.find('td:eq(4)').text();
+    var updateTimeTableDataId = { date: date, day: day, group: group, startTim: startTim, endTim: endTim, cours: arg };
     $.ajax(
         {
-            url: "/gettime",
+            url: "/gettimeadmin",
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
@@ -357,11 +361,16 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
 // Delete Time Table
 $(document).on('click', '.deleteTimeTable', function () {
     var column = $(this).closest('tr');
-    var id = column.find('td:eq(0)').text();
-    var updateTimeTableDataId = { id: id };
+    var column = $(this).closest('tr');
+    var date = column.find('td:eq(0)').text();
+    var day = column.find('td:eq(1)').text();
+    var group = column.find('td:eq(2)').text();
+    var startTim = column.find('td:eq(3)').text();
+    var endTim = column.find('td:eq(4)').text();
+    var updateTimeTableDataId = { date: date, day: day, group: group, startTim: startTim, endTim: endTim, cours: arg };
     $.ajax(
         {
-            url: "/gettime",
+            url: "/gettimeadmin",
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
@@ -376,9 +385,9 @@ $(document).on('click', '.deleteTimeTable', function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '/deleteEmploi',
+                            url: '/deleteEmploiAdmin',
                             method: 'post',
-                            data: { id: res._id },
+                            data: { day: res.day, group: res.group, startTim: res.startTim, endTim: res.endTim, cours: res.arg },
                             success: function (response) {
 
                                 if (response == "success") {
