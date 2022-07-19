@@ -557,7 +557,7 @@ routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
                             $group: {
                                 _id:
                                     { weed: "$week", cours: "$cours", groupe: "$groupe", heureStart: "$heureStart", heureFin: "$heureFin", date: "$date" },
-                                tabl: { $push: { user: "$user", presence: "$presence", _id: "$_id" } }
+                                tabl: { $push: { user: "$user", presence: "$presence",name: "$name", _id: "$_id" } }
                             }
                         }
                     ]);
@@ -575,13 +575,14 @@ routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
                         var presents = [];
 
                         memberAbsence.forEach(abs => {
-                            if (abs.presence == true) { presents.push(abs.user); }
-                            else { absents.push(abs.user); }
+                            if (abs.presence == true) { presents.push({"name":abs.name, "email":abs.user}); }
+                            else { absents.push({"name":abs.name, "email": abs.user}); }
                         });
 
                         var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
                         data.push(prcs);
                     });
+                    console.log(data);
                     res.send(JSON.stringify(data));
                 } catch (error) {
                     console.log(error);
@@ -1644,7 +1645,7 @@ routeExp.route("/getMemberAndAllUserList").post(async function (req, res) {
                 var allUserList = [];
 
                 members.forEach(member => {
-                    memberList.push(member.username);
+                    memberList.push(member.name);
                 });
                 listUser.forEach(user => { allUserList.push(user.username); });
 
@@ -1869,7 +1870,8 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                                 heureStart: heurdebut,
                                 heureFin: heurfin,
                                 presence: true,
-                                user: presentArray[index],
+                                user: presentArray[index].email,
+                                name: presentArray[index].name
                             };
                             await ParcoursModel(new_parcours).save();
                         }
@@ -1883,7 +1885,8 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
                                     heureStart: heurdebut,
                                     heureFin: heurfin,
                                     presence: false,
-                                    user: absentArray[index]
+                                    user: absentArray[index].email,
+                                    name: absentArray[index].name
                                 };
                                 await ParcoursModel(new_parcours).save();        
                             }
@@ -2474,16 +2477,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
                 }
 
             ]);
-<<<<<<< HEAD
-
             console.log(moment(date).format("DD-MM-YYYY"));
-        
-=======
-            console.log("here are the users>>>", ParcoursAbsent);
-            ParcoursAbsent.forEach(element => {
-                console.log("sans stringify ", element);
-            });
->>>>>>> ed17479ef2e323c3962193fe6465fd0309d94132
             res.send(ParcoursAbsent);
         });
 })
@@ -2505,14 +2499,8 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
                     useUnifiedTopology: true,
                     UseNewUrlParser: true,
                 }
-<<<<<<< HEAD
-            ]);
-
-=======
             )
             .then(async () => {
->>>>>>> ed17479ef2e323c3962193fe6465fd0309d94132
-
                 var ParcoursAbsent = await ParcoursModel.aggregate([
                     { $match: { $or: [{ cours: cours }, { groupe: groupe }, { heureStart: heureStart }, { heureFin: heureFin }, { date: date }] } },
                     {
