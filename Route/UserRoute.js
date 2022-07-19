@@ -2215,6 +2215,28 @@ routeExp.route("/deleteMbAdmin").post(async function (req, res) {
             }
         });
 })
+//get time admin
+routeExp.route("/gettimeadmin").post(async function (req, res) {
+    var date = req.body.date;
+    var day = req.body.day;
+    var group = req.body.group;
+    var startTim = req.body.startTim;
+    var endTim = req.body.endTim;
+    var cours = req.body.cours;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            var temp = await EmplTemp.findOne({ jours: day, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours })
+            console.log("temp ", temp);
+            res.send(temp);
+        });
+})
 //get time
 routeExp.route("/gettime").post(async function (req, res) {
     var id = req.body.id;
@@ -2401,6 +2423,33 @@ routeExp.route("/gettimedelete").post(async function (req, res) {
         });
 })
 
+
+//delete emploi admin
+routeExp.route("/deleteEmploiAdmin").post(async function (req, res) {
+    //var id = req.body.id;
+    var day = req.body.day;
+    var group = req.body.group;
+    var startTim = req.body.startTim;
+    var endTim = req.body.endTim;
+    var cours = req.body.cours;
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                var delet = await EmplTemp.find({ jours: day})//, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours  });
+                console.log("successs", delet);
+                res.send("success");
+            } catch (err) {
+                res.send(err);
+            }
+        });
+})
 
 //delete emploi
 routeExp.route("/deleteEmploi").post(async function (req, res) {
