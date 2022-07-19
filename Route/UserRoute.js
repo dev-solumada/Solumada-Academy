@@ -1369,8 +1369,8 @@ routeExp.route("/listeCours/:cours").get(async function (req, res) {
 
                 ])
 
-                coursM = [{ professeur: "Rojovola" }]
-                res.render("ListeCours.html", { cours_prof: coursM, ParcoursAbsent: ParcoursAbsent, coursM: coursM, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
+                //coursM = [{ professeur: "Rojovola" }]
+                res.render("ListeCours.html", { cours_prof: coursM, ParcoursAbsent: ParcoursAbsent, cours: nomCours, parcours: parcours, time: time, membre: membre, cours: nomCours, listUser: listUser, listgroupe: listgroupe, listcourOblig: listcourOblig, listcourFac: listcourFac });
             });
     } else {
         res.redirect("/");
@@ -2427,11 +2427,13 @@ routeExp.route("/gettimedelete").post(async function (req, res) {
 //delete emploi admin
 routeExp.route("/deleteEmploiAdmin").post(async function (req, res) {
     //var id = req.body.id;
-    var day = req.body.day;
+    var date = req.body.date;
     var group = req.body.group;
     var startTim = req.body.startTim;
     var endTim = req.body.endTim;
     var cours = req.body.cours;
+    var jours = req.body.jour;
+    console.log("day, ", req.body);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2442,7 +2444,7 @@ routeExp.route("/deleteEmploiAdmin").post(async function (req, res) {
         )
         .then(async () => {
             try {
-                var delet = await EmplTemp.find({ jours: day})//, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours  });
+                var delet = await EmplTemp.findOneAndDelete({ date: date, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours, day: jours  });
                 console.log("successs", delet);
                 res.send("success");
             } catch (err) {

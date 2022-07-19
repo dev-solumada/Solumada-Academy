@@ -1,8 +1,9 @@
 getGroupeList()
+var arg = $("#courNameTeacher").text();
 
-var currentUrl = window.location.href;
-var arg = currentUrl.split('/');
-arg = $(arg).get(-1);
+// var currentUrl = window.location.href;
+// var arg = currentUrl.split('/');
+// arg = $(arg).get(-1);
 
 var groupMemberList = [];
 var currentGroupName = "";
@@ -298,7 +299,7 @@ $(document).on('click', '.UpdateTeacherTimeTable', function () {
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
-                $("#id-timetable-update").val(res._id);
+                //$("#id-timetable-update").val(res._id);
                 $("#select-jour-update").val(res.jours);
                 $("#timetablegroupupdate").val(res.groupe);
                 $("#timeStart-update").val(res.heureStart);
@@ -321,7 +322,7 @@ $(document).on('click', '.UpdateTeacherTimeTable', function () {
 $("#saveTeacherUpdateTimeTable").on('click', function () {
 
     var updateTimetableData = {
-        id: $("#id-timetable-update").val(),
+        //id: $("#id-timetable-update").val(),
         jours: $("#select-jour-update").val(),
         group: $('#select-groupe-update').val(),
         heurdebut: $('#timeStart-update').val(),
@@ -342,7 +343,7 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
                     timer: 1700
                 });
                 $("#teachertimeTable").DataTable().ajax.reload(null, false);
-                searchOnDatatable(teacherTimeTableDataTable, $("#id-timetable-update").val());
+                //searchOnDatatable(teacherTimeTableDataTable, $("#id-timetable-update").val());
                 resetTimeTableForm('update');
             } else {
                 Swal.fire({
@@ -374,6 +375,7 @@ $(document).on('click', '.deleteTimeTable', function () {
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
+                console.log("resss", res);
                 Swal.fire({
                     title: 'Delete TimeTable',
                     text: 'Are you sure to delete this?',
@@ -387,7 +389,7 @@ $(document).on('click', '.deleteTimeTable', function () {
                         $.ajax({
                             url: '/deleteEmploiAdmin',
                             method: 'post',
-                            data: { day: res.day, group: res.group, startTim: res.startTim, endTim: res.endTim, cours: res.arg },
+                            data: { date: res.date, group: res.groupe, startTim: res.heureStart, endTim: res.heureFin, cours: res.cours, jour: res.jours },
                             success: function (response) {
 
                                 if (response == "success") {
@@ -400,7 +402,7 @@ $(document).on('click', '.deleteTimeTable', function () {
                                         timer: 1700
                                     });
                                     $("#teachertimeTable").DataTable().ajax.reload(null, false);
-                                    teacherTimeTableDataTable.search('').draw();
+                                    //teacherTimeTableDataTable.search('').draw();
 
                                 } else {
                                     Swal.fire({
@@ -510,10 +512,10 @@ $("#addmbre").on('click', function () {
 
 
 // Envent listener on select group
-$("#select-gpe").on('change', function () {
-    $("#addmbre").css("display", "block");
-    refreshData();
-});
+// $("#select-gpe").on('change', function () {
+//     $("#addmbre").css("display", "block");
+//     refreshData();
+// });
 
 
 // Save new member to group
@@ -912,15 +914,16 @@ let inputs = document.querySelectorAll('input')
 
 function clearParcoursForm() {
     $("#dateParcours").empty();
-    inputs.forEach(input => input.value='')
-    var presentDel = document.getElementById("presentParcours");
-    for (let index = 0; index < ('#presentParcours option').length; index++) {
-        const element = ('#presentParcours option')[index];
-        presentDel.remove(element);
-    }
-    document.getElementById("groupParcours").value = "";
-    selectVidUpd(".prensentSelect")
-    selectVidUpd("#groupParcours")
+    //document.getElementById("groupParcours").value = "";
+    document.getElementById("timeStartParcours").value = '';
+    document.getElementById("timeEndParcours").value = '';
+    //document.getElementById("groupParcours").value = "";
+    //$("#groupParcours").remove()
+        // $('#groupParcours option').prop('selected', function() {
+        //     return this.defaultSelected;
+        // });
+
+
     $("#cancelAddParcours").click();
 }
 
