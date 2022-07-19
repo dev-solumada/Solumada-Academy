@@ -629,7 +629,7 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                         var startTime = parcours._id.heureStart;
                         var endTime = parcours._id.heureFin;
                         var date = new Date(parcours._id.date);
-                        date = date.toLocaleDateString();
+                        date = date.toLocaleDateString("fr");
                         var memberAbsence = parcours.tabl;
                         var absents = [];
                         var presents = [];
@@ -2555,6 +2555,7 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
         .then(async () => {
             try {
                 await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
+                console.log("ssssssssssssuccess");
                 res.send("success");
             } catch (err) {
                 console.log(err);
@@ -2783,19 +2784,19 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
 
 
 
-            var membre = await CGNModel.find({ $or: [{ cours:"Problem solving and decision making" }]})
+            var membre = await ParcoursModel.find({ $or: [{ cours:"Excel" }]})
             console.log("membre");
             for (let i = 0; i < liste[0].length; i++) {
                 var elementliste = liste[0][i];
                 for (let j = 0; j < membre.length; j++) {
                     const elementmb = membre[j];
                     //console.log(j, "elementmb", elementmb.name);
-                    if (elementmb.name == undefined && (elementliste.EMAIL == elementmb.username) ){
+                    if (elementmb.name == undefined && (elementliste.EMAIL == elementmb.user) ){
                             console.log("file name", elementliste.NOM);
                             console.log("file", elementliste.EMAIL);
-                            console.log('base de d', elementmb.username);
+                            console.log('base de d', elementmb.user);
                             //console.log(i , "===  ", elementmb);
-                            var cgn = await CGNModel.findOneAndUpdate({ username: elementmb.username, cours:"Problem solving and decision making"  }, { name:  elementliste.NOM})
+                            var cgn = await ParcoursModel.findOneAndUpdate({ user: elementmb.user, cours:"Excel"  }, { name:  elementliste.NOM}, { upsert: true } )
                             console.log("cccc", cgn);
                     // }else{
                     //     console.log(j, "elementmb", elementmb.name);
