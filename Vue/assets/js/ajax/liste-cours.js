@@ -22,7 +22,8 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
                 'data': 'present', 'render': function (present) {
                     var presenceOptionData = '';
                     present.forEach(element => {
-                        presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element}">${element}</option>`;
+                        console.log("presenceOptionData ", element);
+                        presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element.email}">${element.name}</option>`;
                     });
                     presentOptions = `<select data-placeholder="Choose One" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
                     return presentOptions;
@@ -32,7 +33,8 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
                 'data': 'absent', 'render': function (absent) {
                     var absentOptionData = '';
                     absent.forEach(element => {
-                        absentOptionData = absentOptionData + `<option value="${element}">${element}</option>`
+                        console.log("absentOptionData ", element);
+                        absentOptionData = absentOptionData + `<option value="${element.email}">${element.name}</option>`
                     });
                     absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
                     return absentOptions;
@@ -473,10 +475,10 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
                 console.log("");
                 console.log("userrrr ", user);
                 if (user.presence == true) {
-                    var option = `<option value="${user.user}" selected>${user.user}<option>`;
+                    var option = `<option value="${user.id}" selected>${user.name}<option>`;
                     $("#presentParcoursUpdate").append(option);
                 } else {
-                    var option = `<option value="${user.user}">${user.user}<option>`;
+                    var option = `<option value="${user.id}">${user.name}<option>`;
                     $("#presentParcoursUpdate").append(option);
                 }
             });
@@ -948,11 +950,11 @@ $("#saveParcoursUpdate").on('click', function () {
 
     var presentUpd = []
     var absentUpd = []
-    var dateParcours = $("#dateParcours").val();
-    var startAtParcours = $("#timeStartParcours").val();
-    var endAtParcours = $("#timeEndParcours").val();
-    var groupNameParcours = $("#groupParcours").val();
-    var presentParcours = $("#presentParcours").val();
+    var groupUpdateParcours = $("#groupUpdateParcours").val();
+    var dateUpdateParcours = $("#dateUpdateParcours").val();
+    var timeStartUpdateParcours = $("#timeStartUpdateParcours").val();
+    var timeEndUpdateParcours = $("#timeEndUpdateParcours").val();
+    var presentParcoursUpdate = $("#presentParcoursUpdate").val();
     var absentParcours = [];
     // groupMemberList.forEach(member => {
     //     if (presentParcours.indexOf(member) === -1) { absentParcours.push(member); }
@@ -967,52 +969,53 @@ $("#saveParcoursUpdate").on('click', function () {
             absentUpd.push(option.value);
         }
     }
-    // var parcoursDataUpd = {
-    //     dateNewParcours: date_Parc,
-    //     timestartAt: startTimeUpdat,
-    //     timeEndAt: endTimeUpdat,
-    //     cours: arg,
-    //     groupParcoursName: groupNameUpdat,
-    //     user : users
-    // }
+    var parcoursDataUpd = {
+        dateUpd: dateUpdateParcours,
+        timeSUpd: timeStartUpdateParcours,
+        timeEUpd: timeEndUpdateParcours,
+        cours: arg,
+        groupe: groupUpdateParcours,
+        presentUpd : presentUpd,
+        absentUpd : absentUpd,
+    }
 
     console.log("saveParcoursUpdate ", presentUpd);
     console.log("saveParcoursUpdate absent ", absentUpd);
 
-    // $.ajax({
-    //     url: "/Teacheraddparcours",
-    //     method: "post",
-    //     data: parcoursData,
-    //     success: function (res) {
-    //         if (res === "exist") {
-    //             Swal.fire(
-    //                 'Error',
-    //                 "this parcours already exist or complete the field!",
-    //                 'info',
-    //                 {
-    //                     confirmButtonText: 'Ok',
-    //                 });
+    $.ajax({
+        url: "/update_parcours_admin",
+        method: "post",
+        data: parcoursDataUpd,
+        success: function (res) {
+            if (res === "exist") {
+                Swal.fire(
+                    'Error',
+                    "this parcours already exist or complete the field!",
+                    'info',
+                    {
+                        confirmButtonText: 'Ok',
+                    });
 
-    //         } else {
-    //             $("#parcoursDatatable").DataTable().ajax.reload(null, false);
-    //             Swal.fire(
-    //                 'Parcours Saved',
-    //                 'New parcours saved successfully!',
-    //                 'success',
-    //                 {
-    //                     confirmButtonText: 'Ok',
-    //                 });
-    //             clearParcoursForm();
-    //         }
-    //     },
-    //     error: function (err) {
-    //         Swal.fire(
-    //             'Error',
-    //             `${err}`,
-    //             'error',
-    //             {
-    //                 confirmButtonText: 'Ok',
-    //             })
-    //     }
-    // });
+            } else {
+                $("#parcoursDatatable").DataTable().ajax.reload(null, false);
+                Swal.fire(
+                    'Parcours Saved',
+                    'New parcours saved successfully!',
+                    'success',
+                    {
+                        confirmButtonText: 'Ok',
+                    });
+                clearParcoursForm();
+            }
+        },
+        error: function (err) {
+            Swal.fire(
+                'Error',
+                `${err}`,
+                'error',
+                {
+                    confirmButtonText: 'Ok',
+                })
+        }
+    });
 });

@@ -81,7 +81,7 @@ function refreshData()
         firstShow = false;
     }else if(newGgroupeName != currentGroupName && firstShow == false){
         $("#table-container").empty();
-        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Email</th><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Email</th><th>Full Name</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
         $("#table-container").append(tableData);
         var url = `/groupemember/${coursNameTeacher}/${newGgroupeName}`;
         $("#GroupTeacherDatatable").DataTable({
@@ -553,7 +553,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
             {'data': 'present', 'render': function(present){
                         var presenceOptionData = '';
                         present.forEach(element => {
-                            presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element}">${element}</option>`;
+                            presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element.email}">${element.name}</option>`;
                         });
                         presentOptions = `<select data-placeholder="Choose One" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
                         return presentOptions;
@@ -563,7 +563,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
             {
                 var absentOptionData = '';
                 absent.forEach(element => {
-                    absentOptionData = absentOptionData + `<option value="${element}">${element}</option>`
+                    absentOptionData = absentOptionData + `<option value="${element.email}">${element.name}</option>`
                 });
                 absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
                 return absentOptions;
@@ -604,8 +604,8 @@ $("#groupParcours").on('change', function(){
             $("#presentParcours").empty();
             
             response.forEach(element => {
-                groupMemberList.push(element.username);
-                $('#presentParcours').append(`<option value="${element.username}">${element.username}</option>`);
+                groupMemberList.push({"mail": element.username, "name": element.name});
+                $('#presentParcours').append(`<option value="${element.username}">${element.name}</option>`);
             });
             
         },
@@ -635,11 +635,16 @@ $("#saveParcours").on('click', function()
     var startAtParcours = $("#timeStartParcours").val();
     var endAtParcours = $("#timeEndParcours").val();
     var groupNameParcours = $("#groupParcours").val();
-    var presentParcours = $("#presentParcours").val();
+    // var presentParcoursList = $("#presentParcours").val();
     var absentParcours = [];
-    var  groupMemberList = $("#presentParcours option").toArray().map(member => member.value);
-    groupMemberList.forEach(member => {
-        if (presentParcours.indexOf(member) === -1) {absentParcours.push(member);}
+    var  presentParcours = $("#presentParcours option:selected").toArray().map(member => {
+        var data={"username":member.value, "name":member.text};
+        return data;
+    });
+
+    var  absentParcours = $("#presentParcours option:not(:selected)").toArray().map(member => {
+        var data={"username":member.value, "name":member.text};
+        return data;
     });
 
     var parcoursData = {
@@ -858,8 +863,6 @@ $(document).on('click', '.btnDeleteParcours', function(){
                 heureFin: endTimeDelete,
                 groupe: groupNameDelete,
             }
-
-
 
             $.ajax({
                 url: '/deleteParcoursajax',
