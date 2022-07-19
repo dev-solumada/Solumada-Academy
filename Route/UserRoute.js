@@ -628,7 +628,7 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                         var startTime = parcours._id.heureStart;
                         var endTime = parcours._id.heureFin;
                         var date = new Date(parcours._id.date);
-                        date = date.toLocaleDateString();
+                        date = date.toLocaleDateString("fr");
                         var memberAbsence = parcours.tabl;
                         var absents = [];
                         var presents = [];
@@ -2544,6 +2544,7 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
         .then(async () => {
             try {
                 await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
+                console.log("ssssssssssssuccess");
                 res.send("success");
             } catch (err) {
                 console.log(err);
