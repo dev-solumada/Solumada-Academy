@@ -1,3 +1,4 @@
+const moment = require('moment'); 
 const express = require('express');
 const routeExp = express.Router();
 const mongoose = require('mongoose');
@@ -629,7 +630,7 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                         var startTime = parcours._id.heureStart;
                         var endTime = parcours._id.heureFin;
                         var date = new Date(parcours._id.date);
-                        date = date.toLocaleDateString();
+                        date = date.toLocaleDateString("fr");
                         var memberAbsence = parcours.tabl;
                         var absents = [];
                         var presents = [];
@@ -650,7 +651,6 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                     });
                         console.log("present", data[0].present);
                         console.log("absent", data[0].absent);
-                        console.log(JSON.stringify(data));
                     res.send(JSON.stringify(data));
                 } catch (error) {
                     console.log(error);
@@ -1836,13 +1836,14 @@ routeExp.route("/Adminaddparcours").post(async function (req, res) {
 
 //Add parcours Thierry
 routeExp.route("/Teacheraddparcours").post(async function (req, res) {
-    var date = req.body.dateNewParcours;
+    var date = moment(req.body.dateNewParcours).format("DD-MM-YYYY");
     var group = req.body.groupParcoursName;
     var cours = req.body.cours;
     var heurdebut = req.body.timestartAt;
     var heurfin = req.body.timeEndAt;
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
+
     console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
         mongoose
         .connect(
@@ -2369,8 +2370,6 @@ routeExp.route("/update_parcoursajax").post(async function (req, res) {
     var listeUserAbs = req.body.absent;
     var dateUpd = req.body.dateNewParcours;
 
-    console.log(req.body);
-
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2402,7 +2401,7 @@ routeExp.route("/update_parcoursajax").post(async function (req, res) {
                 res.send(error);
             }
         });
-})
+});
 
 //get membre
 routeExp.route("/gettimedelete").post(async function (req, res) {
@@ -2452,7 +2451,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
-    console.log("cours", cours, groupe, heureStart, heureFin);
+    console.log(date);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2478,10 +2477,7 @@ routeExp.route("/getParcours").post(async function (req, res) {
                 }
 
             ]);
-            console.log("here are the users>>>", ParcoursAbsent);
-            ParcoursAbsent.forEach(element => {
-                console.log("sans stringify ", element);
-            });
+            console.log(moment(date).format("DD-MM-YYYY"));
             res.send(ParcoursAbsent);
         });
 })
@@ -2505,7 +2501,6 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
                 }
             )
             .then(async () => {
-
                 var ParcoursAbsent = await ParcoursModel.aggregate([
                     { $match: { $or: [{ cours: cours }, { groupe: groupe }, { heureStart: heureStart }, { heureFin: heureFin }, { date: date }] } },
                     {
@@ -2548,6 +2543,7 @@ routeExp.route("/deleteParcours").post(async function (req, res) {
         .then(async () => {
             try {
                 await ParcoursModel.deleteMany({ cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin, date: date });
+                console.log("ssssssssssssuccess");
                 res.send("success");
             } catch (err) {
                 console.log(err);
@@ -2563,7 +2559,6 @@ routeExp.route("/deleteParcoursajax").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
-    console.log(req.body);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2777,19 +2772,19 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
 
 
 
-            var membre = await CGNModel.find({ $or: [{ cours:"Problem solving and decision making" }]})
+            var membre = await ParcoursModel.find({ $or: [{ cours:"Excel" }]})
             console.log("membre");
             for (let i = 0; i < liste[0].length; i++) {
                 var elementliste = liste[0][i];
                 for (let j = 0; j < membre.length; j++) {
                     const elementmb = membre[j];
                     //console.log(j, "elementmb", elementmb.name);
-                    if (elementmb.name == undefined && (elementliste.EMAIL == elementmb.username) ){
+                    if (elementmb.name == undefined && (elementliste.EMAIL == elementmb.user) ){
                             console.log("file name", elementliste.NOM);
                             console.log("file", elementliste.EMAIL);
-                            console.log('base de d', elementmb.username);
+                            console.log('base de d', elementmb.user);
                             //console.log(i , "===  ", elementmb);
-                            var cgn = await CGNModel.findOneAndUpdate({ username: elementmb.username, cours:"Problem solving and decision making"  }, { name:  elementliste.NOM})
+                            var cgn = await ParcoursModel.findOneAndUpdate({ user: elementmb.user, cours:"Excel"  }, { name:  elementliste.NOM}, { upsert: true } )
                             console.log("cccc", cgn);
                     // }else{
                     //     console.log(j, "elementmb", elementmb.name);
