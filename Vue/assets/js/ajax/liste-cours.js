@@ -13,7 +13,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
         "ajax": { "url": `/adminParcours/${arg}`, "dataSrc": "" },
         "columns": [
-            { 'data': 'date' },
+            { 'data': 'date'},//, render: function(date){console.log("date ", date)} },
             { 'data': 'start_time' },
             { 'data': 'end_time' },
             { 'data': 'group_name' },
@@ -282,7 +282,7 @@ function resetTimeTableForm(action) {
     }
 }
 
-
+var idToUpdate = ""
 // Update Time Table
 $(document).on('click', '.UpdateTeacherTimeTable', function () {
     var column = $(this).closest('tr');
@@ -298,7 +298,12 @@ $(document).on('click', '.UpdateTeacherTimeTable', function () {
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
-                $("#id-timetable-update").val(res._id);
+                //console.log("resss ", res);
+
+                idToUpdate = res._id
+                var date = res.date;
+                date = date.split("/").reverse().join("-");
+                $("#dateUpdateTimetable").val(date);
                 $("#select-jour-update").val(res.jours);
                 $("#timetablegroupupdate").val(res.groupe);
                 $("#timeStart-update").val(res.heureStart);
@@ -321,7 +326,9 @@ $(document).on('click', '.UpdateTeacherTimeTable', function () {
 $("#saveTeacherUpdateTimeTable").on('click', function () {
 
     var updateTimetableData = {
-        id: $("#id-timetable-update").val(),
+        id: idToUpdate,
+        cours: arg,
+        date: $("#dateUpdateTimetable").val(),
         jours: $("#select-jour-update").val(),
         group: $('#timetablegroupupdate').val(),
         heurdebut: $('#timeStart-update').val(),
@@ -330,7 +337,7 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
 
     //console.log("updateTimetableData ", updateTimetableData);
     $.ajax({
-        url: "/update_time",
+        url: "/update_timeadmin",
         method: "post",
         data: updateTimetableData,
         success: function (res) {
@@ -358,7 +365,7 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
     });
 });
 
-
+var idToDeleteTimeTable = ""
 // Delete Time Table
 $(document).on('click', '.deleteTimeTable', function () {
     var column = $(this).closest('tr');
@@ -375,6 +382,8 @@ $(document).on('click', '.deleteTimeTable', function () {
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
+
+                idToDeleteTimeTable = res._id
                 Swal.fire({
                     title: 'Delete TimeTable',
                     text: 'Are you sure to delete this?',
@@ -388,7 +397,7 @@ $(document).on('click', '.deleteTimeTable', function () {
                         $.ajax({
                             url: '/deleteEmploiAdmin',
                             method: 'post',
-                            data: { day: res.jours, group: res.groupe, startTim: res.heureStart, endTim: res.heureFin, cours: res.cours, date: res.date },
+                            data: { id: idToDeleteTimeTable, day: res.jours, group: res.groupe, startTim: res.heureStart, endTim: res.heureFin, cours: res.cours, date: res.date },
                             success: function (response) {
 
                                 if (response == "success") {
