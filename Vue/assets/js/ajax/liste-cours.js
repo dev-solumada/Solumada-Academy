@@ -200,7 +200,15 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
     {
         "ajax": { "url": `/teacherTimeTable/${arg}`, "dataSrc": "" },
         "columns": [
-            { 'data': 'date' , 'render': function(date){ if(!date){ return ""; }else{ return date; }}},
+            { 'data': 'date' , 'render': function(date){ 
+                if(!date){ 
+                    return ""; 
+                }else{ 
+                    var dateaffiche = new Date(date);
+                    dateaffiche = dateaffiche.toLocaleDateString("fr");
+                    return dateaffiche; 
+                }}
+            },
             { 'data': 'jours' },
             { 'data': 'groupe' },
             { 'data': 'heureStart' },
@@ -302,8 +310,10 @@ $(document).on('click', '.UpdateTeacherTimeTable', function () {
 
                 idToUpdate = res._id
                 var date = res.date;
-                date = date.split("/").reverse().join("-");
-                $("#dateUpdateTimetable").val(date);
+                if (res.date) {
+                    date = date.split("/").reverse().join("-");
+                    $("#dateUpdateTimetable").val(date);
+                }
                 $("#select-jour-update").val(res.jours);
                 $("#timetablegroupupdate").val(res.groupe);
                 $("#timeStart-update").val(res.heureStart);
