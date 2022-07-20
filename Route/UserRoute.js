@@ -2623,6 +2623,7 @@ routeExp.route("/getParcoursAdmin").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
+    console.log("date ", date);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2636,7 +2637,7 @@ routeExp.route("/getParcoursAdmin").post(async function (req, res) {
             var ParcoursAbsent = await ParcoursModel.aggregate([
 
                 {
-                    $match: { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin}
+                    $match: { date: date, cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin}
 
                 },
                 {
