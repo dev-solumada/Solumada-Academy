@@ -349,6 +349,7 @@
                                                             <tr>
                                                                 <th >ID</th>
                                                                 <th>Day</th>
+                                                                <th>Date</th>
                                                                 <th>Group</th>
                                                                 <th>Starting Time</th>
                                                                 <th>Ending Time</th>
@@ -573,7 +574,7 @@
                                             </div>
                                         </div>
                                         <div class="col col-md-3"><label for="weekday"
-                                                class="form-control-label">Date</label></div>
+                                                class="form-control-label">Jour</label></div>
                                         <div class="col-12 col-md-9">
                                             <select  class="form-control" id="select-jour"  tabindex="1">
                                                 <option value="" disabled selected>Choose Day</option>
@@ -583,6 +584,14 @@
                                                 <option value="jeudi">jeudi</option>
                                                 <option value="vendredi">vendredi</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label class="form-control-label" for="dateAddTimeTable">Date</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="date" id="dateAddTimeTable" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -606,7 +615,7 @@
                                         <div class="col col-md-3"><label for="groupName"
                                                 class="form-control-label">Start At</label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="time" id="timeStart" class="form-control">
+                                            <input type="time" id="timeStart" class="form-control" required>
                                             <small id="startTime_err"
                                                 style="color: red; font-size: smaller; display:none;">This field is
                                                 required</small>
@@ -657,9 +666,9 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="weekday"
-                                                class="form-control-label">Date</label></div>
+                                                class="form-control-label">Day</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select data-placeholder="Choose day" class="form-control" id="select-jour-update" tabindex="1">
+                                            <select data-placeholder="Choose day" class="form-control" id="select-jour-update" tabindex="1" required>
                                                 <option value="lundi">lundi</option>
                                                 <option value="mardi">mardi</option>
                                                 <option value="mercredi">mercredi</option>
@@ -669,12 +678,20 @@
                                         </div>
                                     </div>
                                     <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label class="form-control-label" for="dateUpdateTimeTable">Date</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="date" id="dateUpdateTimeTable" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
                                         <div class="col col-md-3"><label for="group_name"
                                                 class="form-control-label">Group Name</label>
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select data-placeholder="Choose Group" id="timetablegroupupdate"
-                                                class="form-control">
+                                                class="form-control" required>
                                                 <% listgroupe.forEach(function(listgroupe) { %>
                                                     <option value="<%= listgroupe.name_Groupe %>">
                                                         <%= listgroupe.name_Groupe %>

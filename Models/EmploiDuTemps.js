@@ -7,7 +7,7 @@ const EmplTemp = mongoose.Schema({
     heureFin: String,
     cours: String,
     date: Date
-})
+});
 
 module.exports = mongoose.model('EmplTemp', EmplTemp);
 

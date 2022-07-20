@@ -302,6 +302,7 @@ teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
         "columns": [
             {'data': "_id"},
             {'data': 'jours'},
+            {'data': 'date', 'render': function(date){if(!date){return '';}else{return new Date(date).toLocaleDateString("fr");}}},
             {'data': 'groupe'},
             {'data': 'heureStart'},
             {'data': 'heureFin'},
@@ -329,6 +330,7 @@ $("#saveTimeTable").on('click', function(){
         groupe: $('#select-gpe').val(),
         timeStart: $('#timeStart').val(),
         timeEnd: $('#timeEnd').val(),
+        date_time: $('#dateAddTimeTable').val(),
         cours: coursNameTeacher,
     }
     $.ajax({
@@ -390,6 +392,9 @@ $(document).on('click','.UpdateTeacherTimeTable', function()
                 $("#timetablegroupupdate").val(res.groupe);
                 $("#timeStart-update").val(res.heureStart);
                 $("#timeEnd-update").val(res.heureFin);
+                var date = new Date(res.date).toLocaleDateString("fr").split("/").reverse().join("-");
+                $("#dateUpdateTimeTable").val(date);
+
             },
             error: function(res) { 
                 Swal.fire({
@@ -411,7 +416,8 @@ $("#saveTeacherUpdateTimeTable").on('click', function()
         jours:  $("#select-jour-update").val(),
         group: $('#select-groupe-update').val(),
         heurdebut: $('#timeStart-update').val(),
-        heurfin: $('#timeEnd-update').val()
+        heurfin: $('#timeEnd-update').val(),
+        date: $('dateUpdateTimeTable').val()
     }
 
     $.ajax({
