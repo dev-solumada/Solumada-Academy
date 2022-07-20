@@ -206,7 +206,7 @@ var teacherTimeTableDataTable = $("#teachertimeTable").DataTable(
     {
         "ajax": { "url": `/teacherTimeTable/${arg}`, "dataSrc": "" },
         "columns": [
-            { 'data': "_id" },
+            { 'data': 'date' , 'render': function(date){ if(!date){ return ""; }else{ return date; }}},
             { 'data': 'jours' },
             { 'data': 'groupe' },
             { 'data': 'heureStart' },
@@ -292,11 +292,15 @@ function resetTimeTableForm(action) {
 // Update Time Table
 $(document).on('click', '.UpdateTeacherTimeTable', function () {
     var column = $(this).closest('tr');
-    var id = column.find('td:eq(0)').text();
-    var updateTimeTableDataId = { id: id };
+    var date = column.find('td:eq(0)').text();
+    var day = column.find('td:eq(1)').text();
+    var group = column.find('td:eq(2)').text();
+    var startTim = column.find('td:eq(3)').text();
+    var endTim = column.find('td:eq(4)').text();
+    var updateTimeTableDataId = { date: date, day: day, group: group, startTim: startTim, endTim: endTim, cours: arg };
     $.ajax(
         {
-            url: "/gettime",
+            url: "/gettimeadmin",
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
@@ -325,11 +329,12 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
     var updateTimetableData = {
         id: $("#id-timetable-update").val(),
         jours: $("#select-jour-update").val(),
-        group: $('#select-groupe-update').val(),
+        group: $('#timetablegroupupdate').val(),
         heurdebut: $('#timeStart-update').val(),
         heurfin: $('#timeEnd-update').val()
     }
 
+    //console.log("updateTimetableData ", updateTimetableData);
     $.ajax({
         url: "/update_time",
         method: "post",
@@ -344,7 +349,7 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
                     timer: 1700
                 });
                 $("#teachertimeTable").DataTable().ajax.reload(null, false);
-                searchOnDatatable(teacherTimeTableDataTable, $("#id-timetable-update").val());
+                //searchOnDatatable(teacherTimeTableDataTable, $("#id-timetable-update").val());
                 resetTimeTableForm('update');
             } else {
                 Swal.fire({
@@ -363,11 +368,16 @@ $("#saveTeacherUpdateTimeTable").on('click', function () {
 // Delete Time Table
 $(document).on('click', '.deleteTimeTable', function () {
     var column = $(this).closest('tr');
-    var id = column.find('td:eq(0)').text();
-    var updateTimeTableDataId = { id: id };
+    var column = $(this).closest('tr');
+    var date = column.find('td:eq(0)').text();
+    var day = column.find('td:eq(1)').text();
+    var group = column.find('td:eq(2)').text();
+    var startTim = column.find('td:eq(3)').text();
+    var endTim = column.find('td:eq(4)').text();
+    var updateTimeTableDataId = { date: date, day: day, group: group, startTim: startTim, endTim: endTim, cours: arg };
     $.ajax(
         {
-            url: "/gettime",
+            url: "/gettimeadmin",
             method: 'post',
             data: updateTimeTableDataId,
             success: function (res) {
@@ -382,9 +392,9 @@ $(document).on('click', '.deleteTimeTable', function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '/deleteEmploi',
+                            url: '/deleteEmploiAdmin',
                             method: 'post',
-                            data: { id: res._id },
+                            data: { day: res.jours, group: res.groupe, startTim: res.heureStart, endTim: res.heureFin, cours: res.cours, date: res.date },
                             success: function (response) {
 
                                 if (response == "success") {
@@ -453,7 +463,7 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
 
     console.log("parcoursUpdateData", date_Parc);
     $.ajax({
-        url: '/getParcours',
+        url: '/getParcoursAdmin',
         method: 'post',
         data: parcoursUpdateData,
         dataType: 'json',
@@ -512,10 +522,10 @@ $("#addmbre").on('click', function () {
 
 
 // Envent listener on select group
-$("#select-gpe").on('change', function () {
-    $("#addmbre").css("display", "block");
-    refreshData();
-});
+// $("#select-gpe").on('change', function () {
+//     $("#addmbre").css("display", "block");
+//     refreshData();
+// });
 
 
 // Save new member to group
@@ -921,6 +931,7 @@ $("#saveLevel").on('click', function(){
     
 });
 
+//Reset form parcours
 let inputs = document.querySelectorAll('input')
 
 function clearParcoursForm() {
@@ -1019,3 +1030,28 @@ $("#saveParcoursUpdate").on('click', function () {
         }
     });
 });
+
+
+let inputTime = document.querySelectorAll('input')
+
+$("#newtimetable").on('click', function () {
+    $("#date_time").empty();
+    inputTime.forEach(input => input.value='')
+    document.getElementById("select-jour").value = "";
+    document.getElementById("select-gpe").value = "";
+    selectVidUpd("#select-jour")
+    selectVidUpd("#select-gpe")
+    document.getElementById("timeStart").value = '';
+    document.getElementById("timeEnd").value = '';
+    //firstShow == false
+    $("#closetimeTableModal").click();
+})
+// $("#newtimetable").on('click', function () {
+//     //$("#dateParcours").empty();
+//     document.getElementById("date_time").value = '';
+//     document.getElementById("select-jour").value = '';
+//     document.getElementById("select-gpe").value = '';
+//     document.getElementById("timeStart").value = '';
+//     document.getElementById("timeEnd").value = '';
+//     $("#closetimeTableModal").click();
+// })
