@@ -522,17 +522,6 @@ routeExp.route("/teacherTimeTable/:cours").get(async function (req, res) {
     }
 });
 
-class Parcours {
-    constructor(cour_name, group_name, start_time, end_time, date, present, absent) {
-        this.cour_name = cour_name;
-        this.group_name = group_name;
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.date = date;
-        this.present = present;
-        this.absent = absent;
-    }
-}
 
 // Parcours Proffesseur Ajax
 routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
@@ -581,11 +570,6 @@ routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
                         var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
                         data.push(prcs);
                     });
-<<<<<<< HEAD
-                    // console.log(data);
-=======
-                    //console.log(data);
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
                     res.send(JSON.stringify(data));
                 } catch (error) {
                     console.log(error);
@@ -650,12 +634,6 @@ routeExp.route("/adminParcours/:cours").get(async function (req, res) {
                         var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
                         data.push(prcs);
                     });
-<<<<<<< HEAD
-                        console.log("present", data[0].present);
-                        console.log("absent", data[0].absent);
-                        console.log(JSON.stringify(data));
-=======
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
                     res.send(JSON.stringify(data));
                 } catch (error) {
                     console.log(error);
@@ -755,10 +733,6 @@ routeExp.route("/studentHome").get(async function (req, res) {
             var prof = ""
 
         }
-<<<<<<< HEAD
-        // console.log("prof", prof);
-=======
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
 
         res.render("./StudentView/studentHome.html", { prof: prof });
     }
@@ -988,10 +962,6 @@ routeExp.route("/allCoursLists").get(async function (req, res) {
                 var listcourFac = await CoursModel.find({ type: 'facultatif' }).select("name_Cours");
                 data = { listcourOblig: listcourOblig, listcourFac: listcourFac };
                 var data = JSON.stringify(data);
-<<<<<<< HEAD
-                // console.log("data ", data);
-=======
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
                 res.send(data);
             });
 
@@ -1778,12 +1748,6 @@ routeExp.route("/Adminaddparcours").post(async function (req, res) {
     var absentArray = req.body.absent;
 <<<<<<< HEAD
     date = date.toLocaleDateString("fr");
-    console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
-=======
-    //console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
-
-
     // console.log("absentArray ", JSON.stringify(absentArray));
     // console.log("presentArray ", JSON.stringify(presentArray));
         mongoose
@@ -1852,13 +1816,7 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
     var heurfin = req.body.timeEndAt;
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
-<<<<<<< HEAD
     // date = date.toLocaleDateString("fr");
-    console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
-=======
-
-    //console.log(`date: ${date}\n groupName: ${group} \n coursName: ${cours}\n startAt: ${heurdebut}\n EndAt: ${heurfin} \nPresents: ${presentArray}\n Absents: ${absentArray}`);
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
         mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2546,10 +2504,6 @@ routeExp.route("/getParcours").post(async function (req, res) {
                 }
 
             ]);
-<<<<<<< HEAD
-=======
-            //console.log(moment(date).format("DD-MM-YYYY"));
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
             res.send(ParcoursAbsent);
         });
 })
@@ -2836,10 +2790,6 @@ routeExp.route("/groupe/:cours/:groupe").get(async function (req, res) {
 
     var groupe = req.params.groupe
     var cours = req.params.cours
-<<<<<<< HEAD
-    // console.log("cours ", cours, groupe);
-=======
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
     //res.send("date")
     mongoose
         .connect(
@@ -2926,20 +2876,13 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
                 liste.push(element.data)
             });
 
-
-
-<<<<<<< HEAD
             var membre = await CGNModel.find({ $or: [{ cours:"Problem solving and decision making" }]})
             console.log("membre");
-=======
-            var membre = await ParcoursModel.find({ $or: [{ cours:"Excel" }]})
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
             for (let i = 0; i < liste[0].length; i++) {
                 var elementliste = liste[0][i];
                 for (let j = 0; j < membre.length; j++) {
                     const elementmb = membre[j];
                     //console.log(j, "elementmb", elementmb.name);
-<<<<<<< HEAD
                     if (elementmb.name == undefined && (elementliste.EMAIL == elementmb.username) ){
                             console.log("file name", elementliste.NOM);
                             console.log("file", elementliste.EMAIL);
@@ -2947,15 +2890,6 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
                             //console.log(i , "===  ", elementmb);
                             var cgn = await CGNModel.findOneAndUpdate({ username: elementmb.username, cours:"Problem solving and decision making"  }, { name:  elementliste.NOM})
                             console.log("cccc", cgn);
-=======
-                    if (elementmb.name == undefined && (elementliste.EMAIL == elementmb.user) ){
-                            // console.log("file name", elementliste.NOM);
-                            // console.log("file", elementliste.EMAIL);
-                            // console.log('base de d', elementmb.user);
-                            //console.log(i , "===  ", elementmb);
-                            var cgn = await ParcoursModel.findOneAndUpdate({ user: elementmb.user, cours:"Excel"  }, { name:  elementliste.NOM}, { upsert: true } )
-                            //console.log("cccc", cgn);
->>>>>>> 170cff23bfe5f02fba7e1ab5ecddb276fb4619ec
                     // }else{
                     //     console.log(j, "elementmb", elementmb.name);
 
