@@ -8,6 +8,7 @@ var groupMemberList = [];
 var currentGroupName = "";
 var firstShow = true;
 
+console.log("cours", arg);
 
 var parcoursDataTable = $('#parcoursDatatable').DataTable(
     {
@@ -21,6 +22,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
                 'data': 'present', 'render': function (present) {
                     var presenceOptionData = '';
                     present.forEach(element => {
+                        console.log("presenceOptionData ", element);
                         presenceOptionData = presenceOptionData + `<option class="presentMember" value="${element.email}">${element.name}</option>`;
                     });
                     presentOptions = `<select data-placeholder="Choose One" class="standartselect form-control" tabindex="1">${presenceOptionData}</select>`;
@@ -31,6 +33,7 @@ var parcoursDataTable = $('#parcoursDatatable').DataTable(
                 'data': 'absent', 'render': function (absent) {
                     var absentOptionData = '';
                     absent.forEach(element => {
+                        console.log("absentOptionData ", element);
                         absentOptionData = absentOptionData + `<option value="${element.email}">${element.name}</option>`
                     });
                     absentOptions = `<select data-placeholder="" class="standartselect form-control" tabindex="1">${absentOptionData}</select>`;
@@ -59,6 +62,7 @@ $("#addParcours").on('click', function () {
 $("#saveGroupe").on("click", function () {
     GroupData = { newgroupe: $('#groupeNew').val(), cours: $('#cours').val() }
 
+    console.log("save goupre");
     $("#select-gpe").append(new Option("Hello", "1"));
     $.ajax({
         url: '/addgroupe',
@@ -98,12 +102,14 @@ $(document).ready(function () {
 $("#select-group").on("change", function () {
     $("#addmbre").css("display", "block");
     var newGgroupeName = $("#select-group").val();
+    console.log("newGgroupeName ", newGgroupeName);
     if (newGgroupeName != currentGroupName && firstShow == true) {
         $("#table-container").empty();
         var tableData = `<table id="tableGroupAdmin" name="table" class="table table-striped table-bordered"><thead><tr><th>Username</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
         $("#table-container").append(tableData);
         var url = `/groupemember/${arg}/${newGgroupeName}`;
         //var username = ''
+        console.log();
         $("#tableGroupAdmin").DataTable({
             "ajax": { "url": `${url}`, "dataSrc": ""  },
             "columns": [
@@ -444,6 +450,8 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
         heureFin: endTimeUpdat,
         groupe: groupNameUpdat,
     }
+
+    console.log("parcoursUpdateData", date_Parc);
     $.ajax({
         url: '/getParcours',
         method: 'post',
@@ -451,6 +459,7 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
         dataType: 'json',
         success: function (res) {
             var data = JSON.parse(JSON.stringify(res));
+            console.log("data === ", data);
             $("#presentParcoursUpdate").find("option").remove().end();
             $("#groupUpdateParcours").val(data[0]._id.groupe);
             // alert(data[0]._id.date);
@@ -463,6 +472,8 @@ $(document).on('click', '.btnUpdateUserDataT', function () {
             users = data[0].tabl;
 
             users.forEach(user => {
+                console.log("");
+                console.log("userrrr ", user);
                 if (user.presence == true) {
                     var option = `<option value="${user.id}" selected>${user.name}<option>`;
                     $("#presentParcoursUpdate").append(option);
@@ -549,6 +560,7 @@ $("#saveNewMemberList").on('click', function () {
 // Reset add Member Form
 function resetTeacherAddMemberForm() {
     $(".closeAddMember").click();
+    console.log("close");
     $("#listUserToAddMember").prop("selected", false);
 }
 
@@ -648,6 +660,7 @@ function setAddMemberList() {
 
 $("#groupParcours").on("change", function () {
     groupMemberList = []
+    console.log("groupeee");
     //var groupMemberList = [];
     var groupName = $("#groupParcours").val();
     var groupMemberData = { gpe: groupName, cours: arg };
@@ -661,6 +674,7 @@ $("#groupParcours").on("change", function () {
 
             response.forEach(element => {
                 groupMemberList.push({"mail": element.username, "name": element.name});
+                console.log("elemetn", element);
                 $('#presentParcours').append(`<option value="${element.username}">${element.name}</option>`)
             });
             $(document).ready(function () {
@@ -677,6 +691,7 @@ $("#groupParcours").on("change", function () {
 });
 
 $("#saveParcoursCreate").on('click', function () {
+    console.log("saveParcoursCreate", groupMemberList);
     var dateParcours = $("#dateParcours").val();
     var startAtParcours = $("#timeStartParcours").val();
     var endAtParcours = $("#timeEndParcours").val();
@@ -687,7 +702,9 @@ $("#saveParcoursCreate").on('click', function () {
     var presentParcours = [];
 
 
+    console.log("present ", present);
     groupMemberList.forEach(member => {
+        console.log("member ", member);
         if (present.indexOf(member.mail) === -1) { 
             absentParcours.push(member); 
         }else{
@@ -695,6 +712,8 @@ $("#saveParcoursCreate").on('click', function () {
         }
     });
 
+    console.log("absentParcours ", absentParcours);
+    console.log("presentParcours ", presentParcours);
 
     var parcoursData = {
         dateNewParcours: dateParcours,
@@ -770,7 +789,7 @@ $(document).on('click', '.btnDeleteParcours', function(){
                 heureFin: endTimeDelete,
                 groupe: groupNameDelete,
             }
-
+            console.log("parcoursDeleteData", parcoursDeleteData);
             $.ajax({
                 url: '/deleteParcours',
                 method: 'post',
@@ -818,6 +837,7 @@ $(document).on('click', ".removeToGroup", function(){
     }).then((result) => {
             // var deletememberData = {id: idToDelete };
             var deletememberData = {id: memberMail, groupe: groupName };
+            console.log("deletememberData ", deletememberData);
             if (result.isConfirmed)
             {
                 $.ajax({
@@ -857,6 +877,7 @@ $(document).on('click', ".btnUpdateParcours", function(){
     var colon = $(this).closest('tr');
     userupdate = colon.find('td:eq(0)').text()
     var niveau = colon.find('td:eq(3)').text()
+    console.log("userupdate", userupdate);
     $("#userLevel").val(niveau)
 });
 
@@ -868,6 +889,7 @@ $("#saveLevel").on('click', function(){
         groupe: groupName,
         level: $("#userLevel").val()
     }
+        console.log("addLevelData", addLevelData);
 
     $.ajax({
         url: "/addLevelToMemberAdmin",
@@ -956,6 +978,9 @@ $("#saveParcoursUpdate").on('click', function () {
         presentUpd : presentUpd,
         absentUpd : absentUpd,
     }
+
+    console.log("saveParcoursUpdate ", presentUpd);
+    console.log("saveParcoursUpdate absent ", absentUpd);
 
     $.ajax({
         url: "/update_parcours_admin",

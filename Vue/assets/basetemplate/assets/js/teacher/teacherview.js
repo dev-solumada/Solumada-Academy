@@ -30,7 +30,7 @@ $("#saveNewGroup").on('click', function(){
         success: function(res){
             Swal.fire(
                 'Group created',
-                `Group ${$("#newgroupName").val()} saved successfuly`,
+                `Group ${gpn} saved successfuly`,
                 'success',
                 {
                 confirmButtonText: 'Ok',
@@ -81,7 +81,7 @@ function refreshData()
         firstShow = false;
     }else if(newGgroupeName != currentGroupName && firstShow == false){
         $("#table-container").empty();
-        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Email</th><th>Full Name</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
+        var tableData = `<table id="GroupTeacherDatatable" name="table" class="table table-striped table-bordered"><thead><tr><th>Id</th><th>Username</th><th>Full Name</th><th>M Code</th><th>Numbering</th><th>Level</th><th class="text-center">Actions</th></tr></thead><tbody></tbody></table>`;
         $("#table-container").append(tableData);
         var url = `/groupemember/${coursNameTeacher}/${newGgroupeName}`;
         $("#GroupTeacherDatatable").DataTable({
@@ -194,9 +194,9 @@ $("#saveNewMemberList").on('click', function(){
 // Add level
 $(document).on('click', ".addLevel", function(){
     var col = $(this).closest('tr');
-    var memberMail = col.find('td:eq(1)').text();
+    var memberName = col.find('td:eq(2)').text();
     var idToAddLevel = col.find('td:eq(0)').text();
-    $(".userNameLevel").text(`Add Level to ${memberMail}`);
+    $(".userNameLevel").text(`Add Level to ${memberName}`);
     $("#labelCourLevel").text(`${coursNameTeacher} Level`);
     $("#idLevel").val(idToAddLevel);
 });
@@ -243,11 +243,11 @@ $("#saveLevel").on('click', function(){
 $(document).on('click', ".removeToGroup", function(){
     var col = $(this).closest('tr');
     var idToDelete = col.find('td:eq(0)').text();
-    var memberMail = col.find('td:eq(1)').text();
+    var memberName = col.find('td:eq(2)').text();
     var groupName = $("#teacherSelectGroup").val();
     Swal.fire({
         title: 'Remove Group Member',
-        text: `Are you sure to remove ${memberMail} from ${groupName} ?`,
+        text: `Are you sure to remove ${memberName} from ${groupName} ?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'red',
@@ -264,7 +264,7 @@ $(document).on('click', ".removeToGroup", function(){
                     success: function(res){
                         refreshData();
                         resetTeacherAddMemberForm();
-                        responsetxt = `Member ${memberMail} removed from ${groupName} successfully`;
+                        responsetxt = `Member ${memberName} removed from ${groupName} successfully`;
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -713,32 +713,33 @@ $(document).on('click', '.btnUpdateParcours', function(){
     }
 
     $.ajax({
-        url: '/getParcours',
+        url: '/getParcoursAjax',
         method: 'post',
         data: parcoursUpdateData,
         dataType: 'json',
         success: function(res){
-            var data = JSON.parse(JSON.stringify(res));
             $("#presentParcoursUpdate").find("option").remove().end();
-            $("#groupUpdateParcours").val(data[0]._id.groupe);
-            var date = data[0]._id.date;
+            $("#groupUpdateParcours").val(res.groupe);
+            var date = res.date;
             date = date.split("/").reverse().join("-");
             $("#dateUpdateParcours").val(date);
-            $("#timeStartUpdateParcours").val(data[0]._id.heureStart);
-            $("#timeEndUpdateParcours").val(data[0]._id.heureFin);
-            var users = data[0].tabl;
+            $("#timeStartUpdateParcours").val(res.timeStart);
+            $("#timeEndUpdateParcours").val(res.timeEnd);
             
-            users.forEach(user =>{
+            for(let i=0; i < res.attendence.length; i++)
+            {
+                var user = res.attendence[i];
                 if(user.presence === true)
                 {
-                    var option = `<option value="${user.id}" selected>${user.user}<option>`;
+                    var option = `<option value="${user.id}" selected>${user.name}</option>`;
                     $("#presentParcoursUpdate").append(option);
                 }else{
-                    var option = `<option value="${user.id}">${user.user}<option>`;
+                    var option = `<option value="${user.id}">${user.name}</option>`;
                     $("#presentParcoursUpdate").append(option);
                 }
-            });
+            }
         },
+
         error: function(response){
             Swal.fire({
                 position: 'top-center',
@@ -830,31 +831,6 @@ $(document).on('click', '.btnDeleteParcours', function(){
             var startTimeDelete = column.find('td:eq(1)').text();
             var endTimeDelete = column.find('td:eq(2)').text();
             var groupNameDelete = column.find('td:eq(3)').text();
-            // var presentDelete = column.find('td:eq(4)').find("select").text();
-            // var absentDelete = column.find('td:eq(5)').find("select").text();
-            // var presentslistfiltered = [];
-            // var absentslistfiltered = [];
-            
-            // if (presentDelete != "")
-            // {
-            //     presentDelete = presentDelete.split(".com");
-            //     presentDelete.forEach(item =>{
-            //         var newItem = '' + item + '.com';
-            //         presentslistfiltered.push(newItem);
-            //     });
-            //     presentslistfiltered.splice(-1);
-            // }
-
-            // if (absentDelete != "")
-            // {
-            //     absentDelete = absentDelete.split(".com");
-            //     absentDelete.forEach(item =>{
-            //         var newItem = '' + item + '.com';
-            //         absentslistfiltered.push(newItem);
-            //     });
-            //     absentslistfiltered.splice(-1);
-            // }
-
             date = date.split("/").reverse().join("-");
             parcoursDeleteData = {
                 cours: coursNameTeacher,
@@ -863,8 +839,6 @@ $(document).on('click', '.btnDeleteParcours', function(){
                 heureFin: endTimeDelete,
                 groupe: groupNameDelete,
             }
-
-
 
             $.ajax({
                 url: '/deleteParcoursajax',
