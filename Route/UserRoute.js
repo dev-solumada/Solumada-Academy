@@ -523,6 +523,18 @@ routeExp.route("/teacherTimeTable/:cours").get(async function (req, res) {
 });
 
 
+
+class Parcours {
+    constructor(cour_name, group_name, start_time, end_time, date, present, absent) {
+        this.cour_name = cour_name;
+        this.group_name = group_name;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.date = date;
+        this.present = present;
+        this.absent = absent;
+    }
+}
 // Parcours Proffesseur Ajax
 routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
     var session = req.session;
@@ -570,7 +582,8 @@ routeExp.route("/teacherParcours/:cours").get(async function (req, res) {
                         var prcs = new Parcours(coursName, groupName, startTime, endTime, date, presents, absents);
                         data.push(prcs);
                     });
-                    res.send(JSON.stringify(data));
+                    console.log(JSON.stringify(data));
+                    res.send(data);
                 } catch (error) {
                     console.log(error);
                 }
@@ -1585,9 +1598,6 @@ routeExp.route("/groupemember/:cours/:groupe").get(async function (req, res) {
         .then(async () => {
             try {
                 var members = await CGNModel.find({ cours: cours, groupe: groupe })
-                // members.forEach(member =>{
-                // console.log(`username: ${member.username} mcode: ${member.mcode} numAgent: ${member.numAgent} level: ${member.niveau}`);
-                // });
                 res.send(members);
             } catch (error) {
                 console.log(error);
@@ -1658,7 +1668,7 @@ routeExp.route("/EmplTemp").post(async function (req, res) {
                 }
             )
             .then(async () => {
-                if ((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart: heurdebut, heureFin: heurfin }] })) || jours == "" || group == "" || heurdebut == "" || heurfin == "" || cours == "") {
+                if ((await EmplTemp.findOne({ $or: [{ cours: cours, groupe: group, jours: jours, heureStart: heurdebut, heureFin: heurfin, date_time: date_time }] })) || jours == "" || group == "" || heurdebut == "" || date_time=="" || heurfin == "" || cours == "") {
                     res.send("error");
                 } else {
                     var new_emploi = {
@@ -1815,7 +1825,6 @@ routeExp.route("/Teacheraddparcours").post(async function (req, res) {
     var heurfin = req.body.timeEndAt;
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
-    // date = date.toLocaleDateString("fr");
         mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2257,6 +2266,7 @@ routeExp.route("/gettime").post(async function (req, res) {
         )
         .then(async () => {
             var temp = await EmplTemp.findOne({ _id: id })
+            console.log(temp);
             res.send(temp);
         });
 })
@@ -2268,6 +2278,7 @@ routeExp.route("/update_time").post(async function (req, res) {
     var group = req.body.group;
     var heurdebut = req.body.heurdebut;
     var heurfin = req.body.heurfin;
+    var date = req.body.date;
 
     try {
         mongoose
@@ -2280,14 +2291,13 @@ routeExp.route("/update_time").post(async function (req, res) {
                 }
             )
             .then(async () => {
-                await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin });
+                await EmplTemp.findOneAndUpdate({ _id: id }, { jours: jours, groupe: group, heureStart: heurdebut, heureFin: heurfin, date:date });
                 res.send("success");
             });
     } catch (error) {
         console.log(error);
         res.send("error");
     }
-
 })
 
 //Update update_time
