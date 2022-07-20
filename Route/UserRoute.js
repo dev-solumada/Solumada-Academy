@@ -2233,7 +2233,6 @@ routeExp.route("/gettimeadmin").post(async function (req, res) {
         )
         .then(async () => {
             var temp = await EmplTemp.findOne({ jours: day, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours })
-            console.log("temp ", temp);
             res.send(temp);
         });
 })
@@ -2427,13 +2426,14 @@ routeExp.route("/gettimedelete").post(async function (req, res) {
 //delete emploi admin
 routeExp.route("/deleteEmploiAdmin").post(async function (req, res) {
     //var id = req.body.id;
-    var date = req.body.date;
+    var jours = req.body.day;
     var group = req.body.group;
     var startTim = req.body.startTim;
     var endTim = req.body.endTim;
     var cours = req.body.cours;
-    var jours = req.body.jour;
-    console.log("day, ", req.body);
+    var date = req.body.date;
+    console.log("day, ", date);
+    console.log("req.body, ", req.body);
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -2444,8 +2444,13 @@ routeExp.route("/deleteEmploiAdmin").post(async function (req, res) {
         )
         .then(async () => {
             try {
-                var delet = await EmplTemp.findOneAndDelete({ date: date, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours, day: jours  });
-                console.log("successs", delet);
+                var delet = []
+                if (date) {
+                    delet = await EmplTemp.findOneAndDelete({ date: date, groupe: group, heureStart: startTim, heureFin: endTim, cours: cours, day: jours  });
+                } else {
+                    delet = await EmplTemp.findOneAndDelete({ groupe: group, heureStart: startTim, heureFin: endTim, cours: cours, day: jours  });
+                }
+                
                 res.send("success");
             } catch (err) {
                 res.send(err);
@@ -2549,6 +2554,45 @@ routeExp.route("/getParcoursUpdate").post(async function (req, res) {
     } catch (error) {
         console.log(error);
     }
+})
+
+//get getParcours Admin
+routeExp.route("/getParcoursAdmin").post(async function (req, res) {
+    var cours = req.body.cours;
+    var groupe = req.body.groupe;
+    var heureStart = req.body.heureStart;
+    var heureFin = req.body.heureFin;
+    var date = req.body.date;
+    console.log("date ", Date.parse("2013-01-01T00:00:00.0Z"));
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+
+            var ParcoursAbsent = await ParcoursModel.aggregate([
+
+                {
+                    $match: { cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin}
+
+                },
+                {
+                    $group: {
+                        _id:
+                            { date: date, cours: cours, groupe: groupe,  heureStart: heureStart, heureFin: heureFin },
+                        tabl: { $push: { user: "$user", presence: "$presence", name: "$name", id: "$_id" } }
+                    }
+                }
+
+            ]);
+            //console.log(moment(date).format("DD-MM-YYYY"));
+            console.log("ParcoursAbsent ", ParcoursAbsent);
+            res.send(ParcoursAbsent);
+        });
 })
 
 
