@@ -1,9 +1,9 @@
 getGroupeList()
 
-var currentUrl = window.location.href;
-var arg = currentUrl.split('/');
-arg = $(arg).get(-1);
-
+// var currentUrl = window.location.href;
+// var arg = currentUrl.split('/');
+// arg = $(arg).get(-1);
+var arg = $("#courNameTeacher").text();
 var groupMemberList = [];
 var currentGroupName = "";
 var firstShow = true;
