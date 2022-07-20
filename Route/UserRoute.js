@@ -1746,7 +1746,6 @@ routeExp.route("/Adminaddparcours").post(async function (req, res) {
     var heurfin = req.body.timeEndAt;
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
-<<<<<<< HEAD
     date = date.toLocaleDateString("fr");
     // console.log("absentArray ", JSON.stringify(absentArray));
     // console.log("presentArray ", JSON.stringify(presentArray));
