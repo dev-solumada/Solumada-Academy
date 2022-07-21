@@ -3022,7 +3022,7 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
 //Liste cours student
 routeExp.route("/listeCoursStudent").get(async function (req, res) {
     var session = req.session;
-    if (session.occupation_particip == "Participant") {
+    //if (session.occupation_particip == "Participant") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -3035,23 +3035,37 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
 
                 console.log("session ", session);
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                var listcour = await CoursModel.aggregate([{
-                    $lookup: {
-                            from: "datacoursdemander",
+                var listcour = await CoursModel.aggregate([
+                    {
+                    //     $match: {
+                    //         type: 'facultatif',
+                    //     },
+                    // },
+                    // {
+
+                        $lookup: {
+                            from: "datacoursdemanders",
                             localField: "name_Cours",
                             foreignField: "cours",
-                            as: "cours"
+                            as: "demande"
                         }
-                }])
-                var user = session.m_code
+                        // $lookup: {
+                        //     from: "datacoursdemanders",
+                        //     localField: "name_Cours",
+                        //     foreignField: "cours",
+                        //     as: "demande"
+                        // }
+                    }
+                ])
+                //var user = session.m_code
                 //res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
-                res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
-                console.log("listcourFac ", listcourFac);
+                //res.render("./StudentView/backAllCours.html", {listcourFac, demand})//, user})
+                //console.log("listcourFac ", listcourFac);
                 console.log("listcour ", listcour);
             });
-    } else {
-        res.redirect("/");
-    }
+    // } else {
+    //     res.redirect("/");
+    // }
 });
 
 
