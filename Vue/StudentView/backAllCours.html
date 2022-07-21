@@ -42,16 +42,16 @@
 
 <body>
 
-    <input type="hidden" id="userId" value="<% user %> ">
+    <input type="hidden" id="userId" value="<%= user %> ">
     <% listcourFac.forEach(function(listcourFac) { %>
         <div class="card col-md-4" style="width: 18rem;">
-            <input type="hidden" id="userId" value="<% user %> ">
+            <input type="hidden" class="userId" value="<% user %> ">
             <h3 class="card-title" id="title"> <%= listcourFac.name_Cours %></h3>
             <div class="card-body">
               <h5 class="card-title"><%= listcourFac.name_Cours %></h5>
-              <input type="hidden" id="demande" value="<% demand %> ">
-              <p class="card-text" id="descript">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <button id="requet">
+              <input type="hidden" class="demande" value="<% demand %> ">
+              <p class="card-text" class="descript">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <button class="requet">
                   demander
               </button>
 

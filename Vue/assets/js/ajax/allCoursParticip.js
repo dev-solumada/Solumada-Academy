@@ -1,9 +1,12 @@
 var usermd = document.getElementById("userId").value
-$("#requet").on('click', function () {
-    //$("#requet").html("Button New Text");
-    var cours = document.getElementById("title").textContent
-    var dem = document.getElementById("demande").value
-    console.log("$(title) ", document.getElementById("title"));
+var cours = document.getElementById("title").textContent
+console.log("usermd", cours);
+
+$(".requet").on('click', function () {
+    var dem = document.getElementsByClassName("demande").value
+    console.log("$(title) ", document.getElementsByClassName("title"));
+
+    console.log("cours", cours);
     if (dem = "") {
         console.log("deeeemmande ", dem);
     } else {
@@ -17,39 +20,36 @@ $("#requet").on('click', function () {
     $.ajax({
         url: "/createDemand",
         method: "post",
-        //data: demandeCoursData,
-        // success: function (res) {
-        //     if (res === "exist") {
-        //         Swal.fire(
-        //             'Error',
-        //             "this parcours already exist or complete the field!",
-        //             'info',
-        //             {
-        //                 confirmButtonText: 'Ok',
-        //             });
+        data: demandeCoursData,
+        success: function (res) {
+            if (res === "exist") {
+                Swal.fire(
+                    'Error',
+                    "this parcours already exist or complete the field!",
+                    'info',
+                    {
+                        confirmButtonText: 'Ok',
+                    });
 
-        //     } else {
-        //         $("#parcoursDatatable").DataTable().ajax.reload(null, false);
-        //         Swal.fire(
-        //             'Parcours Saved',
-        //             'New parcours saved successfully!',
-        //             'success',
-        //             {
-        //                 confirmButtonText: 'Ok',
-        //             });
-        //         clearParcoursForm();
-        //     }
-        // },
-        // error: function (err) {
-        //     Swal.fire(
-        //         'Error',
-        //         `${err}`,
-        //         'error',
-        //         {
-        //             confirmButtonText: 'Ok',
-        //         })
-        // }
+            } else {
+                Swal.fire(
+                    'Parcours Saved',
+                    'New parcours saved successfully!',
+                    'success',
+                    {
+                        confirmButtonText: 'Ok',
+                    });
+            }
+        },
+        error: function (err) {
+            Swal.fire(
+                'Error',
+                `${err}`,
+                'error',
+                {
+                    confirmButtonText: 'Ok',
+                })
+        }
     });
     }
 });
-
