@@ -15,6 +15,7 @@ const ParcoursModel = require("../Models/Parcours");
 const session = require('express-session');
 const Point = require("../Models/Point");
 const Graduation = require("../Models/Graduation");
+const DemandCours = require("../Models/DemandeCours");
 
 var membre = [{
     cours: '',
@@ -2985,6 +2986,40 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
 
 var demand = ""
 //Liste cours student
+routeExp.route("/allCoursStudent").get(async function (req, res) {
+    var session = req.session;
+    if (session.occupation_particip == "Participant") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                console.log("session ", session);
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var listcour = await CoursModel.aggregate([{
+                    $lookup: {
+                            from: "datacoursdemander",
+                            localField: "name_Cours",
+                            foreignField: "cours",
+                            as: "cours"
+                        }
+                }])
+                var user = session.m_code
+                //res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user})
+                console.log("listcourFac ", listcourFac);
+                console.log("listcour ", listcour);
+            });
+    } else {
+        res.redirect("/");
+    }
+});
+//Liste cours student
 routeExp.route("/listeCoursStudent").get(async function (req, res) {
     var session = req.session;
     if (session.occupation_particip == "Participant") {
@@ -3008,7 +3043,9 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                             as: "cours"
                         }
                 }])
-                res.render("./StudentView/backAllCours.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                var user = session.m_code
+                //res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
                 console.log("listcourFac ", listcourFac);
                 console.log("listcour ", listcour);
             });
@@ -3016,3 +3053,54 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
         res.redirect("/");
     }
 });
+
+
+// Demande envoye
+routeExp.route("/createDemand").post(async function (req, res) {
+    var user = req.body.user;
+    var cours = req.body.cours;
+    var demand = req.body.demand;
+    console.log("req ", req.body);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            if (await UserSchema.findOne({ $or: [{ user: user }, { cours: cours }, { demand: demand }] })) {
+                res.send("error");
+            } else {
+            //await DemandCours.findOneAndUpdate({ username: user, groupe: groupe }, { niveau: level });
+            //if (demand == false) {
+                var new_demand = {
+                    cours: cours,
+                    user: user,
+                    demand: demand
+                }
+                var d = await DemandCours(new_demand).save();
+                console.log("d", d);
+                res.send("success");
+                
+            // } else {
+                
+            //     var new_demand = {
+            //         cours: cours,
+            //         user: user,
+            //         demand: demand
+            //     }
+            //     var d = await DemandCours.findOneAndUpdate(
+            //         { cours: cours,
+            //             user: user,
+            //             demand: false },
+            //         { new_demand }
+            //     );
+            //     //var d = await DemandCours.findOneAndDelete(new_demand);
+            //     console.log("d", d);
+            //     res.send("success");
+            // }
+            }
+        })
+})
