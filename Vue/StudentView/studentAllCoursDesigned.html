@@ -59,7 +59,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/listeCoursStudent">
                           <i class="menu-icon fa fa-book"></i>Cours
                         </a>
                     </li>
@@ -216,42 +216,18 @@
                                                 <div class="card-body rounded bg-light">
                                                     <div class="cours-container">
                                                         <div class="row pt-2">
+                                                            <input type="hidden" id="userId" value="<%= user %>">
+                                                            <% listcourFac.forEach(function(listcourFac) { %>
                                                             <div class="col-6 mb-5">
                                                                 <div class="card_container">
                                                                     <div class="card_tag"></div>
                                                                     <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
+                                                                    <p class="card_price"><%= listcourFac.name_Cours %></p>
+                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br><span><%= listcourFac.name_Cours %></span></p>
                                                                     <button class="buy_plan"><i class="fa fa-plus"></i></button>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_plan"><i class="fa fa-plus"></i></button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_plan"><i class="fa fa-plus"></i></button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_plan"><i class="fa fa-plus"></i></button>
-                                                                </div>
-                                                            </div>
+                                                            <% }); %>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -285,7 +261,6 @@
     <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="../assets/basetemplate/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
     <script src="../assets/basetemplate/assets/js/init-scripts/data-table/datatables-init.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 
 </body>
