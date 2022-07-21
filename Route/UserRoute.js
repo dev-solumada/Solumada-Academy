@@ -2821,6 +2821,7 @@ routeExp.route("/point_grad").get(async function (req, res) {
                     if (err) throw err;
                     //console.log("New data added");
                 });
+                console.log("finish backup");
             } catch (err) {
                 console.log(err);
                 res.send(data)
@@ -2979,3 +2980,39 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
             // console.log("fffiiiin");
         });
 })
+
+
+
+var demand = ""
+//Liste cours student
+routeExp.route("/listeCoursStudent").get(async function (req, res) {
+    var session = req.session;
+    if (session.occupation_particip == "Participant") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                console.log("session ", session);
+                var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                var listcour = await CoursModel.aggregate([{
+                    $lookup: {
+                            from: "datacoursdemander",
+                            localField: "name_Cours",
+                            foreignField: "cours",
+                            as: "cours"
+                        }
+                }])
+                res.render("./StudentView/backAllCours.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                console.log("listcourFac ", listcourFac);
+                console.log("listcour ", listcour);
+            });
+    } else {
+        res.redirect("/");
+    }
+});
