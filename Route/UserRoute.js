@@ -1756,7 +1756,7 @@ routeExp.route("/Adminaddparcours").post(async function (req, res) {
     var heurfin = req.body.timeEndAt;
     var presentArray = req.body.present;
     var absentArray = req.body.absent;
-    date = date.toLocaleDateString("fr");
+    //date = date.toLocaleDateString("fr");
     // console.log("absentArray ", JSON.stringify(absentArray));
     // console.log("presentArray ", JSON.stringify(presentArray));
         mongoose
@@ -2664,6 +2664,8 @@ routeExp.route("/getParcoursAdmin").post(async function (req, res) {
     var heureStart = req.body.heureStart;
     var heureFin = req.body.heureFin;
     var date = req.body.date;
+
+    date = date = date.split('/').reverse().join('-');
     console.log("date ", date);
     mongoose
         .connect(
@@ -2678,7 +2680,10 @@ routeExp.route("/getParcoursAdmin").post(async function (req, res) {
             var ParcoursAbsent = await ParcoursModel.aggregate([
 
                 {
-                    $match: { date: date, cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin}
+                    $match: {
+                        date: new Date(date), cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin
+                    }
+                    //$match: {  date: { $gte: ISODate("2022-02-03") } }//cours: cours, groupe: groupe, heureStart: heureStart, heureFin: heureFin}
 
                 },
                 {
