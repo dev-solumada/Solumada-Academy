@@ -3045,7 +3045,7 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                 }])
                 var user = session.m_code
                 //res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
-                res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
+                res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user})
                 console.log("listcourFac ", listcourFac);
                 console.log("listcour ", listcour);
             });
