@@ -3061,6 +3061,7 @@ routeExp.route("/createDemand").post(async function (req, res) {
     var cours = req.body.cours;
     var demand = req.body.demand;
     console.log("req ", req.body);
+    res.send("success");
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
