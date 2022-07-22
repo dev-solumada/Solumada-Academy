@@ -160,42 +160,17 @@
                                                 </div>
                                                 <div class="card-body rounded bg-light">
                                                     <div class="cours-container">
-                                                        <div class="row pt-2">
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
+                                                        <div class="col-6 mb-5">
+                                                            <div class="card_container">
+                                                                <div class="card_tag"></div>
+                                                                <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
+                                                                <div class="content-card">
                                                                     <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br> <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_planed" disabled><i class="fa fa-check"></i></button>
+                                                                    <p><i class="fas fa-user"></i><u>Teacher:</u><span> Rojovola</span></p>
+                                                                    <p><i class="fas fa-list"></i><u>Description:</u><span> Lorem ipsum dolor sit amet, consectetur adipscing elit</span></p>
+                                                                    <p><i class="fas fa-calendar"></i><u>Begin Date:</u><span> 12/02/2022</span></p>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br> <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_planed" disabled><i class="fa fa-check"></i></button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br> <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_planed" disabled><i class="fa fa-check"></i></button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6 mb-5">
-                                                                <div class="card_container">
-                                                                    <div class="card_tag"></div>
-                                                                    <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price">Cours Name</p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br> <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis neque non sapien consectetur ornare.</span></p>
-                                                                    <button class="buy_planed" disabled><i class="fa fa-check"></i></button>
-                                                                </div>
+                                                                <button class="buy_planed btnSendRequest"><i class="fa fa-check"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -222,8 +197,12 @@
                                                                 <div class="card_container">
                                                                     <div class="card_tag"></div>
                                                                     <div class="icons"> <i class="fas fa-graduation-cap"></i> </div>
-                                                                    <p class="card_price"><%= listcourFac.name_Cours %></p>
-                                                                    <p><i class="fas fa-notes"><u>Description:</u></i><br><span><%= listcourFac.name_Cours %></span></p>
+                                                                    <div class="content-card">
+                                                                        <p class="card_price"><%= listcourFac.name_Cours %></p>
+                                                                        <p><i class="fas fa-user"></i><u>Teacher:</u><span> Rojovola</span></p>
+                                                                        <p><i class="fas fa-list"></i><u>Description:</u><span> <%= listcourFac.name_Cours %></span></p>
+                                                                        <p><i class="fas fa-calendar"></i><u>Begin Date:</u><span> 12/02/2022</span></p>
+                                                                    </div>
                                                                     <button class="buy_plan btnSendRequest"><i class="fa fa-plus"></i></button>
                                                                 </div>
                                                             </div>
