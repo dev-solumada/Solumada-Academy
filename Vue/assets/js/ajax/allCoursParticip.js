@@ -1,11 +1,11 @@
 var usermd = document.getElementById("userId").value
 var cours = document.getElementById("title").textContent
+cours = cours.trim()
 console.log("usermd", cours);
-
 $(".requet").on('click', function () {
     var dem = document.getElementsByClassName("demande").value
-    console.log("$(title) ", document.getElementsByClassName("title"));
-
+    console.log("$(title) ", document.getElementsByClassName("cours"));
+    ///text.trim()
     console.log("cours", cours);
     if (dem = "") {
         console.log("deeeemmande ", dem);

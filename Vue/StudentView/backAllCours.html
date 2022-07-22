@@ -43,9 +43,11 @@
 <body>
 
     <input type="hidden" id="userId" value="<%= user %> ">
-    <% listcourFac.forEach(function(listcourFac) { %>
+    <% 
+    listcourFac.forEach(function(listcourFac) { %>
         <div class="card col-md-4" style="width: 18rem;">
             <input type="hidden" class="userId" value="<% user %> ">
+            <input type="hidden" class="cours" value="<% listcourFac.name_Cours %> ">
             <h3 class="card-title" id="title"> <%= listcourFac.name_Cours %></h3>
             <div class="card-body">
               <h5 class="card-title"><%= listcourFac.name_Cours %></h5>
