@@ -1,6 +1,3 @@
-
-
-
 $(document).on('click', ".btnSendRequest", function()
 {
     var askJoinData = {
