@@ -3022,7 +3022,7 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
 //Liste cours student
 routeExp.route("/listeCoursStudent").get(async function (req, res) {
     var session = req.session;
-    //if (session.occupation_particip == "Participant") {
+    if (session.occupation_particip == "Participant") {
         mongoose
             .connect(
                 "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -3035,37 +3035,32 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
 
                 console.log("session ", session);
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
+                
                 var listcour = await CoursModel.aggregate([
                     {
-                    //     $match: {
-                    //         type: 'facultatif',
-                    //     },
-                    // },
-                    // {
+                        $match: {
+                            type: 'facultatif',
+                        },
+                    },
+                    {
 
                         $lookup: {
-                            from: "datacoursdemanders",
+                            from: "coursdemands",
                             localField: "name_Cours",
-                            foreignField: "cours",
+                            foreignField: "coursd",
                             as: "demande"
                         }
-                        // $lookup: {
-                        //     from: "datacoursdemanders",
-                        //     localField: "name_Cours",
-                        //     foreignField: "cours",
-                        //     as: "demande"
-                        // }
                     }
                 ])
-                //var user = session.m_code
+                var user = session.m_code
                 //res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
-                //res.render("./StudentView/backAllCours.html", {listcourFac, demand})//, user})
+                res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
                 //console.log("listcourFac ", listcourFac);
                 console.log("listcour ", listcour);
             });
-    // } else {
-    //     res.redirect("/");
-    // }
+    } else {
+        res.redirect("/");
+    }
 });
 
 
@@ -3075,7 +3070,6 @@ routeExp.route("/createDemand").post(async function (req, res) {
     var cours = req.body.cours;
     var demand = req.body.demand;
     console.log("req ", req.body);
-    res.send("success");
     mongoose
         .connect(
             "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -3091,13 +3085,13 @@ routeExp.route("/createDemand").post(async function (req, res) {
             //await DemandCours.findOneAndUpdate({ username: user, groupe: groupe }, { niveau: level });
             //if (demand == false) {
                 var new_demand = {
-                    cours: cours,
+                    coursd: cours,
                     user: user,
                     demand: demand
                 }
                 var d = await DemandCours(new_demand).save();
                 console.log("d", d);
-                res.send("success");
+                //res.send("success");
                 
             // } else {
                 
