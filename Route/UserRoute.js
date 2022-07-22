@@ -130,7 +130,6 @@ routeExp.route("/logout").get(function (req, res) {
     session.m_code = ""
     session.num_agent = ""
     session.username = ""
-    console.log("session ", session);
     res.redirect("/");
 });
 
@@ -352,7 +351,6 @@ async function login(username, pwd, session, res) {
                 password: pwd,
             });
             if (logger) {
-                console.log("logger ******", logger);
                 if (logger.occupation.length > 1) {
                     for (let i = 0; i < logger.occupation.length; i++) {
                         const element = logger.occupation[i];
@@ -363,6 +361,11 @@ async function login(username, pwd, session, res) {
                             session.num_agent = logger.num_agent;
                         } else if (element == "Participant") {
                             session.occupation_particip = element;
+                            session.nomProf = logger.username;
+                            session.name = logger.name;
+                            session.username = logger.username;
+                            session.m_code = logger.m_code;
+                            session.num_agent = logger.num_agent;
                         }
                     }
                     res.redirect("/teacherHome")//, { prof_occ: prof_occ, part_occ: part_occ });
@@ -376,7 +379,7 @@ async function login(username, pwd, session, res) {
                     } else if (logger.type_util == "Participant") {
                         session.occupation_particip = logger.type_util;
                         session.name = logger.name,
-                            session.m_code = logger.m_code;
+                        session.m_code = logger.m_code;
                         session.num_agent = logger.num_agent;
                         session.username = logger.username;
                         res.redirect("/studentHome");
@@ -767,7 +770,9 @@ routeExp.route("/studentHome").get(async function (req, res) {
 // student Group
 routeExp.route("/studentGroup").get(async function (req, res) {
     var session = req.session;
+
     if (session.occupation_particip == "Participant") {
+        var name = session.name
         var groupeEt = await CGNModel.aggregate([
             { $match: { $or: [{ username: session.username }] } },
             {
@@ -778,7 +783,7 @@ routeExp.route("/studentGroup").get(async function (req, res) {
                 }
             }
         ])
-        res.render("./StudentView/studentGroup.html", { groupe: groupeEt });
+        res.render("./StudentView/studentGroup.html", { groupe: groupeEt, name });
     }
     else {
         res.redirect("/");
@@ -814,10 +819,12 @@ routeExp.route("/studentTimeTable").get(async function (req, res) {
 // student Info
 routeExp.route("/studentInfo").get(async function (req, res) {
     var session = req.session;
-    if (session.occupation_particip == "Participant") {
+    if (session.occupation_particip == "Participant" ) {
         var name = session.name;
         var m_code = session.m_code
         var user = await CGNModel.findOne({ $or: [{ mcode: m_code }] })
+
+        console.log("user", user);
         res.render("./StudentView/studentInfo.html", { user: user, name: name, m_code: m_code, num: session.num_agent });
     } else {
         res.redirect("/");
@@ -1128,7 +1135,7 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
                     var members = await CGNModel.aggregate([
                         {
                             $group: {
-                                _id: { username: "$username", firstname: "$firstname", m_code: "$mcode", num_agent: "$num_agent", point: "$point", graduation: "$graduation" },
+                                _id: { username: "$username", firstname: "$name", m_code: "$mcode", num_agent: "$num_agent", point: "$point", graduation: "$graduation" },
                                 tabl: { $push: { id: "$_id", niveau: "$niveau", cours: "$cours" } }
                             }
                         }
@@ -1139,7 +1146,8 @@ routeExp.route("/adminGlobalViewAjax").get(async function (req, res) {
 
                     var data = [];
                     members.forEach(member => {
-                        var member_email = member._id.username;
+                        console.log("member._id ", member._id);
+                        var member_email = member._id.firstname;
                         var member_m_code = member._id.m_code;
                         var member_number = member._id.num_agent;
                         var member_point = member._id.point;
@@ -1414,7 +1422,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         const element = user[i];
                         mcode = element.m_code
                         num_agent = element.num_agent
-                        firstname = element.firstname
+                        firstname = element.name
 
                         if (element.occupation.indexOf('Participant') === -1) {
                             await UserSchema.findOneAndUpdate({ m_code: mcode }, { $push: { occupation: "Participant" } })
@@ -1428,7 +1436,7 @@ routeExp.route("/newmembre").post(async function (req, res) {
                         username: listeUser[index],
                         num_agent: num_agent,
                         mcode: mcode,
-                        firstname: firstname,
+                        name: firstname,
                         professeur: getProf[0].professeur
                     };
 
@@ -3004,7 +3012,6 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
             )
             .then(async () => {
 
-                var listcourFac = await CoursModel.find({ type: 'facultatif' });
 
                 var listcour = await CoursModel.aggregate([
                     {
@@ -3081,7 +3088,7 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
                         autreCours.push(coursE)
                     }
                 });
-                res.render("./StudentView/backAllCours.html", { listcourFac, demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                res.render("./StudentView/backAllCours.html", {  demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
 
                 console.log("courSuivi", coursSuivi);
                 console.log("autreCours", autreCours);
@@ -3104,7 +3111,6 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
             )
             .then(async () => {
 
-                var listcourFac = await CoursModel.find({ type: 'facultatif' });
 
                 var listcour = await CoursModel.aggregate([
                     {
@@ -3179,12 +3185,11 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                         autreCours.push(coursE)
                     }
                 });
-                console.log("courSuivi", listcourFac);
                 console.log("autreCours", demand);
                 console.log("courSuivi", coursSuivi);
                 console.log("autreCours", coursSuivi);
                 console.log("courSuivi", session.m_code);
-                res.render("./StudentView/studentAllCoursDesigned.html", { listcourFac, demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                res.render("./StudentView/studentAllCoursDesigned.html", {  demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
 
                 
             });
@@ -3280,3 +3285,65 @@ routeExp.route("/validDemand").post(async function (req, res) {
             }
         })
 })
+
+
+
+
+//Liste demande de validation
+routeExp.route("/demandeValid").get(async function (req, res) {
+    var session = req.session;
+    //if (session.occupation_particip == "Participant") {
+        mongoose
+            .connect(
+                "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+                {
+                    useUnifiedTopology: true,
+                    UseNewUrlParser: true,
+                }
+            )
+            .then(async () => {
+
+                var membreDemand = await DemandCours.aggregate([
+                    { 
+                        $match: { 
+                            demand: false, 
+                            valid: false 
+                        }
+                    },
+                    {
+
+                        $lookup: {
+                            from: "datausers",
+                            localField: "user",
+                            foreignField: "m_code",
+                            as: "demande"
+                        }
+                    }, 
+                ])
+
+                var listeCoursD = []
+                //console.log("membre Demande", membreDemand);
+                membreDemand.forEach(element => {
+                    console.log("element ", element);
+                    var newData = {
+                        coursd: element.coursd,
+                        mcode: element.user,
+                        nameuser: element.demande[0].name,
+                        numuser: element.demande[0].num_agent
+                    }
+                    listeCoursD.push(newData)
+                });
+
+                console.log("new ", listeCoursD);
+
+
+
+
+
+
+                
+            });
+    // } else {
+    //     res.redirect("/");
+    // }
+});
