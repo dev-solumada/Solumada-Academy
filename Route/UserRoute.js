@@ -2985,6 +2985,7 @@ routeExp.route("/addnameCGN").get(async function (req, res) {
 var demand = ""
 //Liste cours student
 routeExp.route("/allCoursStudent").get(async function (req, res) {
+    
     var session = req.session;
     if (session.occupation_particip == "Participant") {
         mongoose
@@ -2997,21 +2998,77 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
             )
             .then(async () => {
 
-                console.log("session ", session);
                 var listcourFac = await CoursModel.find({ type: 'facultatif' });
-                var listcour = await CoursModel.aggregate([{
-                    $lookup: {
-                        from: "datacoursdemander",
-                        localField: "name_Cours",
-                        foreignField: "cours",
-                        as: "cours"
+
+                var listcour = await CoursModel.aggregate([
+                    {
+                        $match: {
+                            type: 'facultatif',
+                        },
+                    },
+                    {
+
+                        $lookup: {
+                            from: "coursdemands",
+                            localField: "name_Cours",
+                            foreignField: "coursd",
+                            as: "demande"
+                        }
                     }
-                }])
+                ])
                 var user = session.m_code
-                //res.render("./StudentView/studentAllCoursDesigned.html", {listcourFac, demand, user: session.m_code})//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
-                res.render("./StudentView/studentAllCoursDesigned.html", { listcourFac, demand, user })
-                console.log("listcourFac ", listcourFac);
-                console.log("listcour ", listcour);
+                //res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
+                var coursSuivi = []
+                var autreCours = []
+                listcour.forEach(element => {
+                   // console.log("element ", element);
+                    var list = element.demande
+                    //console.log("list ", list);
+                    if (list.length>0) {
+                        list.forEach(element1 => {
+                            var userelmt = element1.user
+                            // console.log("element1 ", userelmt.trim());
+                            // console.log("user ", user.trim());
+                            // console.log("element1.demand ", element1.demand);
+                            // console.log("************");
+                            if ((userelmt.trim() == user) && (element1.demand == true) && (element1.valid == true)) {
+                                //console.log("========element1 ", element);
+                                var coursS = {
+                                    name_Cours: element.name_Cours,
+                                    date_Commenc: element.date_Commenc,
+                                    professeur: element.professeur,
+                                    description: element.description
+                                }
+                                coursSuivi.push(coursS)
+                            } else if ((userelmt.trim() == user) && (element1.demand == false) && (element1.valid == false)) {
+                                var coursD = {
+                                    name_Cours: element.name_Cours,
+                                    date_Commenc: element.date_Commenc,
+                                    professeur: element.professeur,
+                                    description: element.description,
+                                    autrecours: true
+                                }
+                                autreCours.push(coursD)
+                            }
+
+                        });
+
+                    } else {
+                        //console.log("eeeeeeeeeeeeeeeellllllllllllllllllsssssssssssssse");
+                        var coursE = {
+                            name_Cours: element.name_Cours,
+                            date_Commenc: element.date_Commenc,
+                            professeur: element.professeur,
+                            description: element.description,
+                            autrecours: false
+                        }
+                        autreCours.push(coursE)
+                    }
+                });
+                res.render("./StudentView/backAllCours.html", { listcourFac, demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+
+                // console.log("courSuivi", coursSuivi);
+                // console.log("autreCours", autreCours);
             });
     } else {
         res.redirect("/");
@@ -3124,7 +3181,7 @@ routeExp.route("/createDemand").post(async function (req, res) {
             }
         )
         .then(async () => {
-            if (await DemandCours.findOne({ user: user, coursd: cours, demand: demand })) {
+            if (await DemandCours.findOne({ user: user, coursd: cours})) {
                 //console.log("errrro");
                 res.send("error");
             } else {
@@ -3140,23 +3197,32 @@ routeExp.route("/createDemand").post(async function (req, res) {
                 //res.send("success");
                 console.log("create", d);
 
-                // } else {
+            }
+        })
+})
 
-                //     var new_demand = {
-                //         cours: cours,
-                //         user: user,
-                //         demand: demand
-                //     }
-                //     var delet = await DemandCours.findOneAndDelete(
-                //         { coursd: cours,
-                //             user: user,
-                //             demand: false },
-                //         { new_demand }
-                //     );
-                //     //var d = await DemandCours.findOneAndDelete(new_demand);
-                //     console.log("delet", delet);
-                //     res.send("delet");
-                // }
+
+// Demande delete
+routeExp.route("/deleteDemand").post(async function (req, res) {
+    var user = req.body.user;
+    var cours = req.body.cours;
+    // var demand = req.body.demand;
+    console.log("req ", req.body);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await DemandCours.findOneAndDelete({ user: user, coursd: cours });
+                res.send("success");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
             }
         })
 })
