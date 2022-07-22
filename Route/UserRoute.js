@@ -126,6 +126,11 @@ routeExp.route("/logout").get(function (req, res) {
     session.occupation_prof = null
     session.occupation_particip = null
     session.occupation_adm = null
+    session.name = ""
+    session.m_code = ""
+    session.num_agent = ""
+    session.username = ""
+    console.log("session ", session);
     res.redirect("/");
 });
 
@@ -347,6 +352,7 @@ async function login(username, pwd, session, res) {
                 password: pwd,
             });
             if (logger) {
+                console.log("logger ******", logger);
                 if (logger.occupation.length > 1) {
                     for (let i = 0; i < logger.occupation.length; i++) {
                         const element = logger.occupation[i];
@@ -3014,15 +3020,24 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
                             foreignField: "coursd",
                             as: "demande"
                         }
-                    }
+                    }, 
+                    {
+                        $lookup: {
+                          from: "datausers",
+                          localField: "professeur",
+                          foreignField: "username",
+                          as: "profInfo"
+                        }
+                      },
                 ])
                 var user = session.m_code
                 //res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
                 var coursSuivi = []
                 var autreCours = []
                 listcour.forEach(element => {
-                   // console.log("element ", element);
+                   console.log("element ", element);
                     var list = element.demande
+
                     //console.log("list ", list);
                     if (list.length>0) {
                         list.forEach(element1 => {
@@ -3033,10 +3048,11 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
                             // console.log("************");
                             if ((userelmt.trim() == user) && (element1.demand == true) && (element1.valid == true)) {
                                 //console.log("========element1 ", element);
+                                
                                 var coursS = {
                                     name_Cours: element.name_Cours,
                                     date_Commenc: element.date_Commenc,
-                                    professeur: element.professeur,
+                                    professeur: element.profInfo[0].name,
                                     description: element.description
                                 }
                                 coursSuivi.push(coursS)
@@ -3044,7 +3060,7 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
                                 var coursD = {
                                     name_Cours: element.name_Cours,
                                     date_Commenc: element.date_Commenc,
-                                    professeur: element.professeur,
+                                    professeur: element.profInfo[0].name,
                                     description: element.description,
                                     autrecours: true
                                 }
@@ -3058,7 +3074,7 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
                         var coursE = {
                             name_Cours: element.name_Cours,
                             date_Commenc: element.date_Commenc,
-                            professeur: element.professeur,
+                            professeur: element.profInfo[0].name,
                             description: element.description,
                             autrecours: false
                         }
@@ -3067,8 +3083,8 @@ routeExp.route("/allCoursStudent").get(async function (req, res) {
                 });
                 res.render("./StudentView/backAllCours.html", { listcourFac, demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
 
-                // console.log("courSuivi", coursSuivi);
-                // console.log("autreCours", autreCours);
+                console.log("courSuivi", coursSuivi);
+                console.log("autreCours", autreCours);
             });
     } else {
         res.redirect("/");
@@ -3104,7 +3120,15 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                             foreignField: "coursd",
                             as: "demande"
                         }
-                    }
+                    }, 
+                    {
+                        $lookup: {
+                          from: "datausers",
+                          localField: "professeur",
+                          foreignField: "username",
+                          as: "profInfo"
+                        }
+                      },
                 ])
                 var user = session.m_code
                 //res.render("./StudentView/backAllCours.html", {listcourFac, demand, user})
@@ -3126,7 +3150,7 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                                 var coursS = {
                                     name_Cours: element.name_Cours,
                                     date_Commenc: element.date_Commenc,
-                                    professeur: element.professeur,
+                                    professeur: element.profInfo[0].name,
                                     description: element.description
                                 }
                                 coursSuivi.push(coursS)
@@ -3134,7 +3158,7 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                                 var coursD = {
                                     name_Cours: element.name_Cours,
                                     date_Commenc: element.date_Commenc,
-                                    professeur: element.professeur,
+                                    professeur: element.profInfo[0].name,
                                     description: element.description,
                                     autrecours: true
                                 }
@@ -3148,7 +3172,7 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                         var coursE = {
                             name_Cours: element.name_Cours,
                             date_Commenc: element.date_Commenc,
-                            professeur: element.professeur,
+                            professeur: element.profInfo[0].name,
                             description: element.description,
                             autrecours: false
                         }
@@ -3223,6 +3247,32 @@ routeExp.route("/deleteDemand").post(async function (req, res) {
         .then(async () => {
             try {
                 await DemandCours.findOneAndDelete({ user: user, coursd: cours });
+                res.send("success");
+            } catch (err) {
+                console.log(err);
+                res.send(err);
+            }
+        })
+})
+
+
+// Demande Accepté
+routeExp.route("/validDemand").post(async function (req, res) {
+    var user = req.body.user;
+    var cours = req.body.cours;
+    // var demand = req.body.demand;
+    console.log("req ", req.body);
+    mongoose
+        .connect(
+            "mongodb+srv://solumada-academy:academy123456@cluster0.xep87.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            {
+                useUnifiedTopology: true,
+                UseNewUrlParser: true,
+            }
+        )
+        .then(async () => {
+            try {
+                await DemandCours.findOneAndUpdate({ user: user, coursd: cours }, { demand: true, valid: true});
                 res.send("success");
             } catch (err) {
                 console.log(err);
