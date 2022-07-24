@@ -3189,7 +3189,7 @@ routeExp.route("/listeCoursStudent").get(async function (req, res) {
                 console.log("courSuivi", coursSuivi);
                 console.log("autreCours", coursSuivi);
                 console.log("courSuivi", session.m_code);
-                res.render("./StudentView/studentAllCoursDesigned.html", {  demand, user: session.m_code, coursSuivi, autreCours })//, { cours: cours, listuser: listUser, listcourOblig: listcourOblig, listcourFac: listcourFac, coursM: coursM })
+                res.render("./StudentView/studentAllCoursDesigned.html", {  demand, user: session.m_code, coursSuivi, autreCours })
 
                 
             });

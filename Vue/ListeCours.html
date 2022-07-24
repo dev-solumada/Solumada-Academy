@@ -691,17 +691,7 @@
                                     <div class="col col-md-3"><label for="group_name"
                                             class="form-control-label">Group Name</label></div>
                                     <div class="col-12 col-md-9">
-                                        <select data-placeholder="Choose Group" id="groupUpdateParcours" class="form-control">
-                                            <option value="">Choose groupe</option>
-                                            <% listgroupe.forEach(function(listgroupe) { %>
-                                                <option value="<%= listgroupe.name_Groupe %>">
-                                                    <%= listgroupe.name_Groupe %>
-                                                </option>
-                                                <% }); %>
-                                        </select>
-                                        <small id="cour_err"
-                                            style="color: red; font-size: smaller; display:none;">This field is
-                                            required</small>
+                                        <h3 class="form-control" id="groupUpdateParcours"></h3>
                                     </div>
                                 </div>
                                 <div class="row form-group">
